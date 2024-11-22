@@ -23,7 +23,6 @@ update-latest:
 	pnpm up --latest --interactive --filter ${filter}
 
 # CICD -- incorporate "affected" command
-
 cicd-lint:
 	pnpm nx run-many --target=lint --all
 

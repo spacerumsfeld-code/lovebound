@@ -8,5 +8,8 @@
         "typecheck": "tsc --noEmit",
         "preinstall": "npx only-allow pnpm"
     },
-    "dependencies": {}
+    "dependencies": {
+        "hono": "^4.6.11",
+        "superjson": "^2.2.1"
+    }
 }

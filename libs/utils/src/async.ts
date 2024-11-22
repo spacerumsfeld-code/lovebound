@@ -1,8 +1,8 @@
 import pLimit from 'p-limit'
 
-type Context<T> = T & { [key: string]: any }
-type AsyncFunction<T, U> = (context: Context<T>) => Promise<U>
-type SyncFunction<T, U> = (context: Context<T>) => U
+type PipeContext<T> = T & { [key: string]: any }
+type AsyncFunction<T, U> = (context: PipeContext<T>) => Promise<U>
+type SyncFunction<T, U> = (context: PipeContext<T>) => U
 type Operation<T, U> =
     | AsyncFunction<T, U>
     | SyncFunction<T, U>
@@ -32,10 +32,7 @@ class TimeoutError extends Error {
 }
 
 class RetryError extends Error {
-    constructor(
-        message: string,
-        public originalError: Error,
-    ) {
+    constructor(message: string, public originalError: Error) {
         super(message)
         this.name = 'RetryError'
     }
@@ -64,10 +61,7 @@ export const runWithConcurrency =
         })
 
         if (errors.length > 0) {
-            return [
-                null,
-                new AggregateError(errors, 'Some concurrent tasks failed'),
-            ]
+            return [null, new Error('Some concurrent tasks failed')]
         }
         return [successResults, null]
     }
@@ -89,47 +83,47 @@ interface Pipe {
     <A, B, C>(
         input: A,
         op1: Operation<A, B>,
-        op2: Operation<Context<Awaited<A> & Awaited<B>>, C>,
+        op2: Operation<PipeContext<Awaited<A> & Awaited<B>>, C>,
     ): Awaited<C>
     <A, B, C, D>(
         input: A,
         op1: Operation<A, B>,
-        op2: Operation<Context<Awaited<A> & Awaited<B>>, C>,
-        op3: Operation<Context<Awaited<A> & Awaited<B> & Awaited<C>>, D>,
+        op2: Operation<PipeContext<Awaited<A> & Awaited<B>>, C>,
+        op3: Operation<PipeContext<Awaited<A> & Awaited<B> & Awaited<C>>, D>,
     ): Awaited<D>
     <A, B, C, D, E>(
         input: A,
         op1: Operation<A, B>,
-        op2: Operation<Context<Awaited<A> & Awaited<B>>, C>,
-        op3: Operation<Context<Awaited<A> & Awaited<B> & Awaited<C>>, D>,
+        op2: Operation<PipeContext<Awaited<A> & Awaited<B>>, C>,
+        op3: Operation<PipeContext<Awaited<A> & Awaited<B> & Awaited<C>>, D>,
         op4: Operation<
-            Context<Awaited<A> & Awaited<B> & Awaited<C> & Awaited<D>>,
+            PipeContext<Awaited<A> & Awaited<B> & Awaited<C> & Awaited<D>>,
             E
         >,
     ): Awaited<E>
 }
 
-export const pipe: Pipe = (...operations: Operation<any, any>[]) => {
-    return async () => {
-        let context: Context<any> = {}
-        const retryConfig = operations.find((op) => op?._tag === 'Retry')
-        const timeoutConfig = operations.find((op) => op?._tag === 'Timeout')
+export const pipe: Pipe = async (...operations: Operation<any, any>[]) => {
+    let context: PipeContext<any> = {}
+    const retryConfig = operations.find((op) => op?._tag === 'Retry')
+    const timeoutConfig = operations.find((op) => op?._tag === 'Timeout')
 
-        for (const op of operations) {
-            if (typeof op === 'function') {
-                const wrappedFn = wrapWithRetryAndTimeout(
-                    op,
-                    retryConfig,
-                    timeoutConfig?.duration,
-                )
-                const [result, error] = await handleAsync(wrappedFn(context))
-                if (error) {
-                    throw error
-                }
-                context = { ...context, result }
-            } else {
-                context = { ...context, result: op }
+    for (const op of operations) {
+        if (typeof op === 'function') {
+            const wrappedFn = wrapWithRetryAndTimeout(
+                op,
+                retryConfig,
+                timeoutConfig?.duration,
+            )
+            const [result, error] = await handleAsync(wrappedFn(context))
+            if (error) {
+                throw error
             }
+            if (op === operations.at(-1)) return result
+            context = { ...context, ...(result as any) }
+        } else {
+            if (op === operations.at(-1)) return op
+            context = { ...context, ...op }
         }
     }
 }
@@ -174,7 +168,7 @@ const retry = <T, U>({
     while: shouldRetry = () => true,
 }: RetryConfig) => {
     return (fn: AsyncFunction<T, U>): AsyncFunction<T, U> => {
-        return async (context: Context<T>): Promise<U> => {
+        return async (context: PipeContext<T>): Promise<U> => {
             for (let attempt = 1; attempt <= times; attempt++) {
                 try {
                     return await fn(context)
@@ -203,7 +197,7 @@ const timeout = <T, U>(
     fn: AsyncFunction<T, U>,
     ms: number,
 ): AsyncFunction<T, U> => {
-    return async (context: Context<T>): Promise<U> => {
+    return async (context: PipeContext<T>): Promise<U> => {
         let timeoutId: NodeJS.Timeout | undefined
         const timeoutPromise = new Promise<never>((_, reject) => {
             timeoutId = setTimeout(

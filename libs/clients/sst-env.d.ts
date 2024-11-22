@@ -6,6 +6,11 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "Server": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
     "Web": {
       "type": "sst.aws.Nextjs"
       "url": string

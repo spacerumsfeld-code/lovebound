@@ -1,11 +1,13 @@
-// import { allSecrets } from "./secret";
+/// <reference path="../.sst/platform/config.d.ts" />
 
-// export const server = new sst.aws.Function("Server", {
-//   handler: "src/server/index.handler",
-//   link: [...allSecrets],
-//   url: true,
-// });
+// import { allSecrets } from './secret'
 
-// export const outputs = {
-//   server: server.url,
-// };
+export const server = new sst.aws.Function('Server', {
+    handler: 'apps/server/index.handler',
+    // link: [...allSecrets],
+    url: true,
+})
+
+export const outputs = {
+    server: server.url,
+}

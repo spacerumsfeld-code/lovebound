@@ -1,17 +1,17 @@
 /// <reference path="../.sst/platform/config.d.ts" />
 
-// import { server } from "./server";
+import { server } from './server'
 // import { allSecrets } from "./secret";
-import { type NextjsArgs } from "../.sst/platform/src/components/aws";
+import { type NextjsArgs } from '../.sst/platform/src/components/aws'
 
 const webConfig: NextjsArgs = {
-  //   link: [server, ...allSecrets],
-  path: "apps/web",
-  dev: {
-    autostart: true,
-    command: "pnpm run dev",
-  },
-};
+    link: [server],
+    path: 'apps/web',
+    dev: {
+        autostart: true,
+        command: 'pnpm run dev',
+    },
+}
 
 // if (process.env.PULUMI_NODEJS_STACK === "production") {
 //   webConfig.domain = {
@@ -20,8 +20,8 @@ const webConfig: NextjsArgs = {
 //   };
 // }
 
-const web = new sst.aws.Nextjs("Web", webConfig);
+const web = new sst.aws.Nextjs('Web', webConfig)
 
 export const outputs = {
-  webUrl: web.url,
-};
+    webUrl: web.url,
+}
