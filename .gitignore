@@ -7,3 +7,6 @@
 # dependencies
 node_modules
 pnpm-lock.yaml
+
+# environmnt
+.env.local
