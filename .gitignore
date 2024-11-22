@@ -1,0 +1,9 @@
+#nx
+.nx
+
+# sst
+.sst
+
+# dependencies
+node_modules
+pnpm-lock.yaml

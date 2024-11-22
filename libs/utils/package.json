@@ -1,0 +1,15 @@
+{
+    "name": "utils",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit",
+        "preinstall": "npx only-allow pnpm"
+    },
+    "dependencies": {
+        "nanoid": "^5.0.7",
+        "p-limit": "^6.1.0"
+    }
+}

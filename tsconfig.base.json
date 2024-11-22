@@ -1,0 +1,31 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": false,
+        "esModuleInterop": true,
+        "target": "es2015",
+        "strict": true,
+        "module": "es2015",
+        "lib": ["es2020", "dom"],
+        "jsx": "preserve",
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "useUnknownInCatchVariables": false,
+        "baseUrl": ".",
+        "paths": {
+            "@web/*": ["apps/web/*"],
+            "@server": ["apps/server/index.ts"],
+            "@core": ["libs/core/index.ts"],
+            "@clients": ["libs/clients/index.ts"],
+            "@utils": ["libs/utils/index.ts"]
+        }
+    },
+    "include": [],
+    "exclude": ["node_modules", ".sst"]
+}
