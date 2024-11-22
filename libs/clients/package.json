@@ -1,0 +1,12 @@
+{
+    "name": "clients",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit",
+        "preinstall": "npx only-allow pnpm"
+    },
+    "dependencies": {}
+}

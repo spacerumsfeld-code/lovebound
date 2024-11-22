@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.3",
+    "drizzle-orm": "^0.36.3",
     "nx": "^20.1.2",
     "sst": "3.3.27"
   },
