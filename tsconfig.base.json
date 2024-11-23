@@ -22,7 +22,7 @@
             "@web/*": ["apps/web/*"],
             "@server": ["apps/server/index.ts"],
             "@core": ["libs/core/index.ts"],
-            "@clients": ["libs/clients/index.ts"],
+            "@clients/*": ["libs/clients/src/*"],
             "@utils": ["libs/utils/index.ts"]
         }
     },

@@ -6,6 +6,19 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "AuthHandler": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "AuthHandlerSigningSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "DatabaseUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "Server": {
       "name": string
       "type": "sst.aws.Function"

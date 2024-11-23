@@ -9,6 +9,7 @@
         "preinstall": "npx only-allow pnpm"
     },
     "dependencies": {
+        "@neondatabase/serverless": "^0.10.3",
         "hono": "^4.6.11",
         "superjson": "^2.2.1"
     }

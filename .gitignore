@@ -8,7 +8,7 @@
 node_modules
 
 # environmnt
-.env.local
+.env
 
 # vscode
 .vscode

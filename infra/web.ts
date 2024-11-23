@@ -1,7 +1,6 @@
 /// <reference path="../.sst/platform/config.d.ts" />
 
 import { server } from './server'
-// import { allSecrets } from "./secret";
 import { type NextjsArgs } from '../.sst/platform/src/components/aws'
 
 const webConfig: NextjsArgs = {

@@ -103,28 +103,34 @@ interface Pipe {
     ): Awaited<E>
 }
 
-export const pipe: Pipe = async (...operations: Operation<any, any>[]) => {
-    let context: PipeContext<any> = {}
-    const retryConfig = operations.find((op) => op?._tag === 'Retry')
-    const timeoutConfig = operations.find((op) => op?._tag === 'Timeout')
+export const pipe: Pipe = (...operations: Operation<any, any>[]) => {
+    const handleOperations = async () => {
+        let context: PipeContext<any> = {}
+        // const retryConfig = operations.find((op) => op?._tag === 'Retry')
+        // const timeoutConfig = operations.find((op) => op?._tag === 'Timeout')
 
-    for (const op of operations) {
-        if (typeof op === 'function') {
-            const wrappedFn = wrapWithRetryAndTimeout(
-                op,
-                retryConfig,
-                timeoutConfig?.duration,
-            )
-            const [result, error] = await handleAsync(wrappedFn(context))
-            if (error) {
-                throw error
+        for (const op of operations) {
+            if (typeof op === 'function') {
+                // const wrappedFn = wrapWithRetryAndTimeout(
+                //     op,
+                //     retryConfig,
+                //     timeoutConfig?.duration,
+                // )
+                const [result, error] = await handleAsync(op(context))
+                if (error) {
+                    throw error
+                }
+                if (op === operations.at(-1)) return result
+                context = { ...context, ...(result as any) }
+            } else {
+                if (op === operations.at(-1)) return op
+                context = { ...context, ...op }
             }
-            if (op === operations.at(-1)) return result
-            context = { ...context, ...(result as any) }
-        } else {
-            if (op === operations.at(-1)) return op
-            context = { ...context, ...op }
         }
+    }
+
+    ;async () => {
+        await handleOperations()
     }
 }
 

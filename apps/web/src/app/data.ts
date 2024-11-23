@@ -1,6 +1,6 @@
 'use server'
 
-import { api } from '@clients'
+import { client as api } from '@clients/api.client'
 
 export const getUserById = async (id: number) => {
     const response = await api.user.getUserById.$get({ id })
