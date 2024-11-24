@@ -37,6 +37,7 @@ import {
     ToneEnum,
     TensionEnum,
     settingOptions,
+    toneOptions,
     SettingEnum,
 } from '@core-client'
 
@@ -226,7 +227,7 @@ export const CreateStoryPage = () => {
                         <TabsContent value="theme">
                             <Card>
                                 <CardContent className="pt-6">
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-2 gap-4">
                                         {Object.entries(ThemeEnum).map(
                                             ([key, value]) => (
                                                 <StyleCard
@@ -253,26 +254,22 @@ export const CreateStoryPage = () => {
                         <TabsContent value="tone">
                             <Card>
                                 <CardContent className="pt-6">
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                        {Object.entries(ToneEnum).map(
-                                            ([key, value]) => (
-                                                <StyleCard
-                                                    key={key}
-                                                    title={value}
-                                                    imageUrl={`/placeholder.svg?height=128&width=192&text=${encodeURIComponent(
-                                                        value,
-                                                    )}`}
-                                                    isSelected={
-                                                        selectedTone === value
-                                                    }
-                                                    onClick={() =>
-                                                        setSelectedTone(
-                                                            value as ToneEnum,
-                                                        )
-                                                    }
-                                                />
-                                            ),
-                                        )}
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {toneOptions.map(({ label, href }) => (
+                                            <StyleCard
+                                                key={label}
+                                                title={label}
+                                                imageUrl={href}
+                                                isSelected={
+                                                    selectedTone === label
+                                                }
+                                                onClick={() =>
+                                                    setSelectedTone(
+                                                        label as ToneEnum,
+                                                    )
+                                                }
+                                            />
+                                        ))}
                                     </div>
                                 </CardContent>
                             </Card>

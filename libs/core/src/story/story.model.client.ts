@@ -36,7 +36,7 @@ export enum SettingEnum {
     CarnivalAtNight = 'A carnival at night',
     BoatDockAtSunrise = 'A boat dock at sunrise',
     HighRiseOfficeAfterHours = 'A high-rise office after hours',
-    CollegeCampusLibrary = 'A college campus library',
+    NetflixAndChill = 'Netflix and chill',
     PublicGardenInBloom = 'A public garden in bloom',
     TrainCarOnLongJourney = 'A train car on a long journey',
     RainyLakesideCabin = 'A rainy lakeside cabin',
@@ -45,7 +45,6 @@ export enum SettingEnum {
     PrivatePlaneMidFlight = 'A private plane mid-flight',
     QuietFishingDock = 'A quiet fishing dock',
     BackyardBarbecue = 'A backyard barbecue',
-    BustlingOutdoorMarket = 'A bustling outdoor market',
     DimlyLitMovieTheater = 'A dimly lit movie theater',
     PicturesqueLighthouse = 'A picturesque lighthouse',
     HistoricalMansionOnStormyNight = 'A historical mansion on a stormy night',
@@ -86,109 +85,12 @@ export const settingOptions = [
     },
     {
         label: SettingEnum.QuietLibrary,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/2791cf666a111fa931ac092e069594cb7589ac32-1024x1024.webp',
     },
     {
         label: SettingEnum.CandlelitRooftopTerrace,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/7bbeccdb80bbeb9e19124bfd7b90803133212f96-1024x1024.webp',
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b6c91541b655e1382aa3c79ef9a924aecb94c374-1024x1024.webp',
     },
-    {
-        label: SettingEnum.RainyCityStreet,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.VintageBookshop,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.FlowerFilledMeadow,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d766d7da3337b913722ab9d1e85536d4c78ee0c2-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.MoonlitGarden,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/28a3883d216de96246ad1d3c534d6f79b1035aa4-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.QuaintBedAndBreakfast,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a9e9ec9936280618d1d85b62446fc937fcae009-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.CrowdedSubwayCar,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d55320d615e6665b79ade3e1593b856b7989c53d-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.LivelyFarmersMarket,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/7bbeccdb80bbeb9e19124bfd7b90803133212f96-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.ArtGalleryOpening,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.QuaintSeasidePier,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.VineyardAtHarvest,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.SmallFishingBoatOnLake,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d766d7da3337b913722ab9d1e85536d4c78ee0c2-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.ElegantBallroom,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/28a3883d216de96246ad1d3c534d6f79b1035aa4-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.BustlingTrainStation,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d55320d615e6665b79ade3e1593b856b7989c53d-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.SunnyCountrysideTrail,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/7bbeccdb80bbeb9e19124bfd7b90803133212f96-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.SkiLodgeByRoaringFire,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.CozyBookstoreCafe,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.MusicFestivalUnderStars,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.SereneForestClearing,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d766d7da3337b913722ab9d1e85536d4c78ee0c2-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.RooftopPoolAtCityHotel,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/28a3883d216de96246ad1d3c534d6f79b1035aa4-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.SunflowerFieldInSummer,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d55320d615e6665b79ade3e1593b856b7989c53d-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.DesertUnderStarlitSky,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/7bbeccdb80bbeb9e19124bfd7b90803133212f96-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.LocalGymDuringQuietEvening,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.CharmingVillageSquare,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: SettingEnum.CrowdedWeddingReception,
-        // href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {},
 ]
 
 export enum ThemeEnum {
@@ -216,6 +118,13 @@ export enum ToneEnum {
     Tender = 'Tender',
     Sultry = 'Sultry',
 }
+
+export const toneOptions = [
+    {
+        label: ToneEnum.Dreamy,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/8010ef3b5306dd179a71ec27ede03a52d7624e80-1024x1024.webp',
+    },
+]
 
 export enum TensionEnum {
     Low = 'Low',

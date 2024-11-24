@@ -24,10 +24,9 @@ export const publishStorySubmittedEvent = async (data: {
 }
 
 export const publishStoryCreatedEvent = async (data: {
+    userId: string
     title: string
     storyId: number
-    theme: ThemeEnum
-    setting: SettingEnum
 }) => {
     await sqs.send(
         new SendMessageCommand({

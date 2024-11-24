@@ -13,8 +13,8 @@ export {
 export { users } from './src/user/user.sql.ts'
 export { stories } from './src/story/story.sql.ts'
 
+// Schemas
+export { createStorySchema } from './src/story/story.model.ts'
+
 // Events
 export { StorySubmittedEvent } from './src/story/story.model.ts'
-
-// TEMP
-export { settingOptions } from './src/story/story.model.ts'

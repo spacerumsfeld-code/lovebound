@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export enum SettingEnum {
     CozyCoffeeShop = 'A cozy coffee shop',
     DimlyLitJazzBar = 'A dimly lit jazz bar',
@@ -96,4 +98,14 @@ export interface StorySubmittedEvent {
         tone: ToneEnum
         setting: string
     }
+}
+
+export const createStorySchema = {
+    userId: z.string(),
+    title: z.string(),
+    scenario: z.string().optional(),
+    tensionLevel: z.nativeEnum(TensionEnum),
+    theme: z.nativeEnum(ThemeEnum),
+    tone: z.nativeEnum(ToneEnum),
+    setting: z.nativeEnum(SettingEnum),
 }

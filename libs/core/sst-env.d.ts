@@ -31,6 +31,14 @@ declare module "sst" {
       "type": "sst.aws.Queue"
       "url": string
     }
+    "MyService": {
+      "service": string
+      "type": "sst.aws.Service"
+      "url": string
+    }
+    "MyVpc": {
+      "type": "sst.aws.Vpc"
+    }
     "OpenAIApiKey": {
       "type": "sst.sst.Secret"
       "value": string
