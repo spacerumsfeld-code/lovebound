@@ -6,6 +6,9 @@ dev:
 push-db:
 	npx drizzle-kit push
 
+pull-db:
+	npx drizzle-kit pull
+
 generate-migration:
 	npx drizzle-kit generate
 

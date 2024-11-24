@@ -1,0 +1,1 @@
+ALTER TABLE "stories" ALTER COLUMN "tension_level" SET DATA TYPE text;

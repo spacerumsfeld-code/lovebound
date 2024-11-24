@@ -1,6 +1,6 @@
-import { db } from '@clients/db.client'
+import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { users } from './user.model'
+import { users } from '@core'
 
 class UserService {
     private store

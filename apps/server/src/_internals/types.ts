@@ -1,6 +1,6 @@
 import { Context, TypedResponse } from 'hono'
 import { z } from 'zod'
-import { Variables } from 'hono/types'
+import { Bindings, Variables } from 'hono/types'
 
 export type Middleware<I> = ({
     ctx,

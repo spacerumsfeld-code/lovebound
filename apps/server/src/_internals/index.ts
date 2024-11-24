@@ -1,6 +1,6 @@
-import { Procedure } from "./procedure";
+import { Procedure } from './procedure.ts'
 
-const baseProcedure = new Procedure();
-// export const protectedProcedure = baseProcedure.use(authMiddleware);
+const baseProcedure = new Procedure()
+// const protectedProcedure = baseProcedure.use(authMiddleware)
 
-export { baseProcedure };
+export { baseProcedure }

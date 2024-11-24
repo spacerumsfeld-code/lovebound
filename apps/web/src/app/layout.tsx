@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { cn } from '../lib/utils'
-import { Navbar } from './_components/navbar'
-import { Footer } from './_components/footer'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -44,9 +42,7 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <Navbar />
                         {children}
-                        <Footer />
                     </ThemeProvider>
                 </ClerkProvider>
             </body>

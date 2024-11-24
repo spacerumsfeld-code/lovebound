@@ -1,0 +1,1 @@
+ALTER TABLE "stories" ADD COLUMN "tone" text NOT NULL;

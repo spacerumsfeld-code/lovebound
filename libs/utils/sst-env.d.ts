@@ -15,7 +15,35 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "Bucket": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
     "DatabaseUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "EventQueue": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
+    "EventQueueDLQ": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
+    "OpenAIApiKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "OpenAICoverPrompt": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "OpenAISystemPrompt": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "OpenAIWritingPrompt": {
       "type": "sst.sst.Secret"
       "value": string
     }

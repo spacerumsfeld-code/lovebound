@@ -4,7 +4,7 @@
  */
 
 import { MiddlewareHandler } from 'hono'
-import { parseSuperJSON } from './util'
+import { parseSuperJSON } from './util.ts'
 
 /**
  * Middleware to parse GET-request using SuperJSON

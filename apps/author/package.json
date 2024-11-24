@@ -1,0 +1,13 @@
+{
+    "name": "author",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "hono": "^4.6.11"
+    }
+}

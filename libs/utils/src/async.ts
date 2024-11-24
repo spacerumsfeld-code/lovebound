@@ -32,7 +32,10 @@ class TimeoutError extends Error {
 }
 
 class RetryError extends Error {
-    constructor(message: string, public originalError: Error) {
+    constructor(
+        message: string,
+        public originalError: Error,
+    ) {
         super(message)
         this.name = 'RetryError'
     }
@@ -66,7 +69,7 @@ export const runWithConcurrency =
         return [successResults, null]
     }
 
-const handleAsync = async <T>(
+export const handleAsync = async <T>(
     fn: Promise<T>,
 ): Promise<[T | null, null | Error]> => {
     try {
@@ -104,34 +107,33 @@ interface Pipe {
 }
 
 export const pipe: Pipe = (...operations: Operation<any, any>[]) => {
-    const handleOperations = async () => {
+    async function handleOperations() {
         let context: PipeContext<any> = {}
-        // const retryConfig = operations.find((op) => op?._tag === 'Retry')
-        // const timeoutConfig = operations.find((op) => op?._tag === 'Timeout')
 
-        for (const op of operations) {
-            if (typeof op === 'function') {
-                // const wrappedFn = wrapWithRetryAndTimeout(
-                //     op,
-                //     retryConfig,
-                //     timeoutConfig?.duration,
-                // )
-                const [result, error] = await handleAsync(op(context))
-                if (error) {
-                    throw error
+        const steps = operations.map((op) => {
+            return async () => {
+                if (typeof op === 'function') {
+                    const [result, error] = await handleAsync(op(context))
+                    if (error) {
+                        throw error
+                    }
+                    context = { ...context, ...(result as any) }
+                } else {
+                    context = { ...context, ...op }
                 }
-                if (op === operations.at(-1)) return result
-                context = { ...context, ...(result as any) }
-            } else {
-                if (op === operations.at(-1)) return op
-                context = { ...context, ...op }
             }
-        }
+        })
+
+        return steps
+            .reduce((chain, step) => {
+                return chain.then(step)
+            }, Promise.resolve())
+            .then(() => {
+                return Object.values(context).pop()
+            })
     }
 
-    ;async () => {
-        await handleOperations()
-    }
+    return handleOperations()
 }
 
 const wrapWithRetryAndTimeout = <T, U>(

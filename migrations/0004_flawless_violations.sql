@@ -1,1 +1,0 @@
-ALTER TABLE "users" ALTER COLUMN "birthday" SET DATA TYPE text;

@@ -2,60 +2,66 @@ import { cn } from '../../../lib/utils'
 import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs'
 import { FeaturedTestimonials } from './Testimonials'
 import { SITE_MAP } from '@web/src/constants'
+import { Navbar } from '../../_components/navbar'
+import { Footer } from '../../_components/footer'
 
 export function Login() {
     return (
-        <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 my-20">
-            <div className="align-center">
-                <SignedOut>
-                    <SignIn
-                        routing="hash"
-                        signUpForceRedirectUrl={SITE_MAP.DASHBOARD}
-                        forceRedirectUrl={SITE_MAP.DASHBOARD}
-                    />
-                </SignedOut>
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
-            </div>
-            <div className="relative w-full z-20 hidden md:flex border-l border-neutral-100 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900 items-center justify-center">
-                <div className="max-w-sm mx-auto">
-                    <FeaturedTestimonials />
-                    <p
-                        className={cn(
-                            'font-semibold text-xl text-center text-neutral-600 dark:text-neutral-400',
-                        )}
-                    >
-                        People love us
-                    </p>
-                    <p
-                        className={cn(
-                            'font-normal text-base text-center text-neutral-500 dark:text-neutral-400 mt-8',
-                        )}
-                    >
-                        DevStudio is loved by thousands of people across the
-                        world, be part of the community and join us.
-                    </p>
+        <>
+            <Navbar />
+            <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 my-20">
+                <div className="align-center">
+                    <SignedOut>
+                        <SignIn
+                            routing="hash"
+                            signUpForceRedirectUrl={SITE_MAP.DASHBOARD}
+                            forceRedirectUrl={SITE_MAP.DASHBOARD}
+                        />
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
                 </div>
+                <div className="relative w-full z-20 hidden md:flex border-l border-neutral-100 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900 items-center justify-center">
+                    <div className="max-w-sm mx-auto">
+                        <FeaturedTestimonials />
+                        <p
+                            className={cn(
+                                'font-semibold text-xl text-center text-neutral-600 dark:text-neutral-400',
+                            )}
+                        >
+                            People love us
+                        </p>
+                        <p
+                            className={cn(
+                                'font-normal text-base text-center text-neutral-500 dark:text-neutral-400 mt-8',
+                            )}
+                        >
+                            DevStudio is loved by thousands of people across the
+                            world, be part of the community and join us.
+                        </p>
+                    </div>
 
-                <GridLineHorizontal
-                    className="top-0  left-1/2 -translate-x-1/2"
-                    offset="-10px"
-                />
-                <GridLineHorizontal
-                    className="bottom-0 top-auto  left-1/2 -translate-x-1/2"
-                    offset="-10px"
-                />
-                <GridLineVertical
-                    className="left-10  top-1/2 -translate-y-1/2"
-                    offset="-10px"
-                />
-                <GridLineVertical
-                    className="right-10 left-auto top-1/2 -translate-y-1/2"
-                    offset="-10px"
-                />
+                    <GridLineHorizontal
+                        className="top-0  left-1/2 -translate-x-1/2"
+                        offset="-10px"
+                    />
+                    <GridLineHorizontal
+                        className="bottom-0 top-auto  left-1/2 -translate-x-1/2"
+                        offset="-10px"
+                    />
+                    <GridLineVertical
+                        className="left-10  top-1/2 -translate-y-1/2"
+                        offset="-10px"
+                    />
+                    <GridLineVertical
+                        className="right-10 left-auto top-1/2 -translate-y-1/2"
+                        offset="-10px"
+                    />
+                </div>
             </div>
-        </div>
+            <Footer />
+        </>
     )
 }
 

@@ -1,8 +1,3 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { DashboardPage } from './_components/Dashboard.page'
 
-export default async function Dashboard() {
-    const [authData, userData] = await Promise.all([auth(), currentUser()])
-    console.info('authData', authData, 'userData', userData)
-
-    return <div>Dashboard</div>
-}
+export default DashboardPage

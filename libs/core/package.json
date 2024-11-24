@@ -1,0 +1,14 @@
+{
+    "name": "core",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit",
+        "preinstall": "npx only-allow pnpm"
+    },
+    "dependencies": {
+        "zod": "^3.23.8"
+    }
+}

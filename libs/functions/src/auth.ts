@@ -1,5 +1,5 @@
 import { Webhook } from 'svix'
-import { pipe } from '@utils'
+import { handleAsync } from '@utils'
 import { Resource } from 'sst'
 import { User } from '@core'
 
@@ -56,23 +56,31 @@ export const handler = async (event: any) => {
 
     switch (type) {
         case 'user.created':
-            return pipe(
-                data,
-                (context) =>
-                    User.createUser({
-                        email: context.email_addresses.find(
-                            (email) =>
-                                email.id === context.primary_email_address_id,
-                        )!.email_address,
-                        birthday: context.birthday,
-                        firstName: context.first_name,
-                        lastName: context.last_name,
-                        gender: context.gender,
-                        clerkId: context.id,
-                        profileImageUrl: context.profile_image_url,
-                    }),
-                (_) => ({ status: 200, message: 'User created' }),
+            const [_, error] = await handleAsync(
+                User.createUser({
+                    email: data.email_addresses.find(
+                        (email) => email.id === data.primary_email_address_id,
+                    )!.email_address,
+                    birthday: data.birthday,
+                    firstName: data.first_name,
+                    lastName: data.last_name,
+                    gender: data.gender,
+                    clerkId: data.id,
+                    profileImageUrl: data.profile_image_url,
+                }),
             )
+            if (error) {
+                console.error('oops', error)
+                return
+            }
+
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    success: true,
+                    message: 'User created successfully',
+                }),
+            }
         case 'user.updated':
             console.log('Login webhook received')
             break

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { pipe } from '@utils'
-import { router } from '../_internals/router'
-import { baseProcedure } from '../_internals'
+import { router } from '../_internals/router.ts'
+import { baseProcedure } from '../_internals/index.ts'
 
 export const userRouter = router({
     getUserById: baseProcedure

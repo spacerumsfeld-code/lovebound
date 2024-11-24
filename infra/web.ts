@@ -14,8 +14,8 @@ const webConfig: NextjsArgs = {
 
 // if (process.env.PULUMI_NODEJS_STACK === "production") {
 //   webConfig.domain = {
-//     name: "topcak.es",
-//     redirects: ["www.topcak.es"],
+//     name: "tension.io",
+//     redirects: ["www.tension.io"],
 //   };
 // }
 
