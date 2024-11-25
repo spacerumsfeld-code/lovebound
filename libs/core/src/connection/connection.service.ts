@@ -1,16 +1,11 @@
-import { db } from '@clients/db.client.ts'
-import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { eq } from 'drizzle-orm/expressions'
-import { connections } from '@core'
+import { cacheClient } from '@clients/cache.client.ts'
 import { postToConnection } from '@clients/wss.client.ts'
 
-// @TODO: switch to redis for connection management. for now we want development velocity
-
 class ConnectionService {
-    private store
+    private client
 
-    constructor(store: NeonHttpDatabase) {
-        this.store = store
+    constructor(client: typeof cacheClient) {
+        this.client = client
     }
 
     public createConnection = async ({
@@ -20,33 +15,19 @@ class ConnectionService {
         userId: string
         connectionId: string
     }) => {
-        const newConnection = await this.store
-            .insert(connections)
-            .values({ userId, connectionId })
-            .returning({ id: connections.id })
+        await this.client.set(`ws:connection:${userId}`, connectionId)
 
-        return { success: true, id: newConnection[0].id }
+        return { success: true }
     }
 
     public getConnection = async ({ userId }: { userId: string }) => {
-        const connection = await this.store
-            .select({ connectionId: connections.connectionId })
-            .from(connections)
-            .where(eq(connections.userId, userId))
+        const connectionId = await this.client.get<string>(
+            `ws:connection:${userId}`,
+        )
 
-        return connection[0].connectionId
-    }
-
-    public deleteConnection = async ({
-        connectionId,
-    }: {
-        connectionId: string
-    }) => {
-        await this.store
-            .delete(connections)
-            .where(eq(connections.connectionId, connectionId))
-
-        return { success: true }
+        return {
+            connectionId,
+        }
     }
 
     public postToConnection = async ({
@@ -56,11 +37,11 @@ class ConnectionService {
         userId: string
         data: Record<string, any>
     }) => {
-        const connectionId = await this.getConnection({
+        const { connectionId } = await this.getConnection({
             userId,
         })
         await postToConnection({
-            id: connectionId,
+            id: connectionId!,
             data,
         })
 
@@ -68,4 +49,4 @@ class ConnectionService {
     }
 }
 
-export const connectionService = new ConnectionService(db)
+export const connectionService = new ConnectionService(cacheClient)

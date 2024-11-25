@@ -15,7 +15,6 @@ export {
 // SQL
 export { users } from './src/user/user.sql.ts'
 export { stories } from './src/story/story.sql.ts'
-export { connections } from './src/connection/connection.sql.ts'
 
 // Schemas
 export {

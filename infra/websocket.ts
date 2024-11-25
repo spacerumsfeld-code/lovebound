@@ -6,13 +6,5 @@ export const websocket = new sst.aws.ApiGatewayWebSocket('WebsocketApi')
 
 websocket.route('$connect', {
     handler: 'libs/functions/src/connect.handler',
-    link: [...allSecrets],
+    link: [...allSecrets, websocket],
 })
-websocket.route('$disconnect', {
-    handler: 'libs/functions/src/disconnect.handler',
-    link: [...allSecrets],
-})
-
-export const outputs = {
-    websocketUrl: websocket.url,
-}

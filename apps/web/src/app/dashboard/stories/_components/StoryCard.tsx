@@ -24,7 +24,10 @@ export const StoryCard = ({
         >
             <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
                 <Image
-                    src={imageUrl ?? ''}
+                    src={
+                        imageUrl ??
+                        process.env.NEXT_PUBLIC_PLACEHOLDER_COVER_URL!
+                    }
                     alt={title}
                     height={400}
                     width={300}

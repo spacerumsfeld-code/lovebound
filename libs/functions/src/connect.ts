@@ -1,8 +1,6 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
 import { Connection } from '@core'
 
-// @TODO: switch to redis for connection management. for now we want development velocity
-
 export const handler: APIGatewayProxyHandler = async (event) => {
     const userId = event.queryStringParameters?.userId
 

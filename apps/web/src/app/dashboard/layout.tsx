@@ -5,19 +5,12 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from '@web/src/components/ui/sidebar'
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from '@web/src/components/ui/breadcrumb'
 import { Button } from '@web/src/components/ui/button'
 import { ToastFromParams } from '@web/src/components/ui/toast-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '@web/src/components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
+import { Breadcrumbs } from './_components/crumbs'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -32,21 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                 orientation="vertical"
                                 className="mr-2 h-4"
                             />
-                            <Breadcrumb>
-                                <BreadcrumbList>
-                                    <BreadcrumbItem className="hidden md:block">
-                                        <BreadcrumbLink href="#">
-                                            Building Your Application
-                                        </BreadcrumbLink>
-                                    </BreadcrumbItem>
-                                    <BreadcrumbSeparator className="hidden md:block" />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage>
-                                            Data Fetching
-                                        </BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </BreadcrumbList>
-                            </Breadcrumb>
+                            <Breadcrumbs />
                         </div>
                         <Button>+ Create Story</Button>
                     </header>
@@ -58,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <ToastFromParams />
             </Suspense>
             <WebsocketWrapper />
-            <Toaster position="bottom-right" />
+            <Toaster position="bottom-right" richColors duration={10} />
         </>
     )
 }

@@ -4,5 +4,5 @@ export enum SITE_MAP {
     DASHBOARD = '/dashboard',
     STORIES = '/dashboard/stories',
     ADDONS = '/dashboard/addons',
-    CREATE = '/dashboard/create-story',
+    CREATE = '/dashboard/create',
 }

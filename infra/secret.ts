@@ -7,6 +7,7 @@ export const secret = {
     OpenAISystemPrompt: new sst.Secret('OpenAISystemPrompt'),
     OpenAIWritingPrompt: new sst.Secret('OpenAIWritingPrompt'),
     OpenAICoverPrompt: new sst.Secret('OpenAICoverPrompt'),
+    UpstashRedisToken: new sst.Secret('UpstashRedisToken'),
 }
 
 export const allSecrets = Object.values(secret)

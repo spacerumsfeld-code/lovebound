@@ -1,7 +1,8 @@
 import { ApiGatewayManagementApi } from '@aws-sdk/client-apigatewaymanagementapi'
+import { Resource } from 'sst'
 
 const client = new ApiGatewayManagementApi({
-    endpoint: 'https://6555250mv7..execute-api.us-east-1.amazonaws.com/dev',
+    endpoint: Resource.WebsocketApi.managementEndpoint,
 })
 
 export const postToConnection = async function ({

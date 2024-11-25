@@ -87,13 +87,19 @@ export const handler = async (event: SQSEvent) => {
             }
 
             // lets let the user know their story was created
-            await Connection.postToConnection({
-                userId: ownerId,
-                data: {
-                    type: 'storyCreated',
-                    storyId: createdStory!.id,
-                },
-            })
+            const [_, postToConnectionError] = await handleAsync(
+                Connection.postToConnection({
+                    userId: ownerId,
+                    data: {
+                        type: 'story.created',
+                        storyId: createdStory!.id,
+                    },
+                }),
+            )
+            if (postToConnectionError) {
+                console.error(postToConnectionError)
+                return
+            }
 
             const [__, publishError] = await handleAsync(
                 publishStoryCreatedEvent({

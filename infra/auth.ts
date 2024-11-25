@@ -7,7 +7,3 @@ export const authHandler = new sst.aws.Function('AuthHandler', {
     link: [...allSecrets],
     url: true,
 })
-
-export const outputs = {
-    server: authHandler.url,
-}
