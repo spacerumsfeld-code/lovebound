@@ -55,7 +55,7 @@ const CountdownToast: React.FC<CountdownToastProps> = ({
 
 export const showCountdownToast = (
     message: string,
-    duration: number = 30000,
+    duration: number = 15000,
 ) => {
     toast.custom(
         () => <CountdownToast message={message} duration={duration} />,

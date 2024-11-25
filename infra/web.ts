@@ -20,7 +20,7 @@ const webConfig: NextjsArgs = {
 //   };
 // }
 
-const web = new sst.aws.Nextjs('Web', webConfig)
+export const web = new sst.aws.Nextjs('Web', webConfig)
 
 export const outputs = {
     webUrl: web.url,

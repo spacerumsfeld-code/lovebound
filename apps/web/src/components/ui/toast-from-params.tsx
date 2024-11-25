@@ -14,7 +14,9 @@ export const ToastFromParams = () => {
     useEffect(() => {
         switch (message) {
             case 'story-submitted':
-                showCountdownToast('Story submitted successfully', 30000)
+                showCountdownToast(
+                    'Story submitted! This should take around 10 seconds.',
+                )
                 break
             default:
                 break

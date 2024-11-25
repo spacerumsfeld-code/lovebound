@@ -17,7 +17,7 @@ import { Button } from '@web/src/components/ui/button'
 import { ToastFromParams } from '@web/src/components/ui/toast-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '@web/src/components/ui/sonner'
-import { Websocket } from './_components/Websocket'
+import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -57,7 +57,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Suspense>
                 <ToastFromParams />
             </Suspense>
-            <Websocket />
+            <WebsocketWrapper />
             <Toaster position="bottom-right" />
         </>
     )

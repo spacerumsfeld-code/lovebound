@@ -1,21 +1,18 @@
-// import { ApiGatewayManagementApi } from 'aws-sdk'
+import { ApiGatewayManagementApi } from '@aws-sdk/client-apigatewaymanagementapi'
 
-// pickup: identify endpoint, use this client to post to connection when story created, when cover and/or voiceover generated
+const client = new ApiGatewayManagementApi({
+    endpoint: 'https://6555250mv7..execute-api.us-east-1.amazonaws.com/dev',
+})
 
-// adjust sst definitiom for this handler so we can bind websocket (and db and so on) to it.
-
-// api.route( "$connect", { handler: "lambda/handler.connect", link: [api] } );
-
-const postToConnection = async function ({
+export const postToConnection = async function ({
     id,
     data,
 }: {
     id: string
-    data: any
+    data: Record<string, any>
 }) {
-    const apiG = new ApiGatewayManagementApi({
-        endpoint:
-            'https://xxxxxxxxxxxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev',
+    await client.postToConnection({
+        ConnectionId: id,
+        Data: JSON.stringify(data),
     })
-    await apiG.postToConnection({ ConnectionId: id, Data: data }).promise()
 }

@@ -2,6 +2,7 @@ import {
     storySubmittedEventSchema,
     Story,
     storyCreatedEventSchema,
+    Connection,
 } from '@core'
 import { handleAsync, extractFulfilledValues } from '@utils'
 import { SQSEvent, SQSRecord } from 'aws-lambda'
@@ -84,6 +85,15 @@ export const handler = async (event: SQSEvent) => {
                 console.error('oops', createStoryError)
                 return
             }
+
+            // lets let the user know their story was created
+            await Connection.postToConnection({
+                userId: ownerId,
+                data: {
+                    type: 'storyCreated',
+                    storyId: createdStory!.id,
+                },
+            })
 
             const [__, publishError] = await handleAsync(
                 publishStoryCreatedEvent({

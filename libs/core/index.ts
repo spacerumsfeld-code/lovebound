@@ -1,5 +1,6 @@
 export { userService as User } from './src/user/user.service.ts'
 export { storyService as Story } from './src/story/story.service.ts'
+export { connectionService as Connection } from './src/connection/connection.service.ts'
 
 // Types
 export {
@@ -14,6 +15,7 @@ export {
 // SQL
 export { users } from './src/user/user.sql.ts'
 export { stories } from './src/story/story.sql.ts'
+export { connections } from './src/connection/connection.sql.ts'
 
 // Schemas
 export {
