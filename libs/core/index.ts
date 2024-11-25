@@ -7,6 +7,8 @@ export {
     ToneEnum,
     TensionEnum,
     SettingEnum,
+    TStory,
+    ZCreateStory,
 } from './src/story/story.model.ts'
 
 // SQL
@@ -14,7 +16,10 @@ export { users } from './src/user/user.sql.ts'
 export { stories } from './src/story/story.sql.ts'
 
 // Schemas
-export { createStorySchema } from './src/story/story.model.ts'
+export {
+    storySubmittedEventSchema,
+    storyCreatedEventSchema,
+} from './src/story/story.model.ts'
 
 // Events
 export { StorySubmittedEvent } from './src/story/story.model.ts'

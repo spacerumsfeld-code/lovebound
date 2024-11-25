@@ -9,7 +9,6 @@
         "preinstall": "npx only-allow pnpm"
     },
     "dependencies": {
-        "nanoid": "^5.0.7",
-        "p-limit": "^6.1.0"
+        "nanoid": "^5.0.7"
     }
 }

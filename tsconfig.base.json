@@ -23,7 +23,7 @@
         "paths": {
             "@web/*": ["apps/web/*"],
             "@server": ["apps/server/index.ts"],
-            "@core-client": ["libs/core/client.index.ts"],
+            "@client-types/*": ["libs/core/src/*"],
             "@core": ["libs/core/index.ts"],
             "@clients/*": ["libs/clients/src/*"],
             "@utils": ["libs/utils/index.ts"]

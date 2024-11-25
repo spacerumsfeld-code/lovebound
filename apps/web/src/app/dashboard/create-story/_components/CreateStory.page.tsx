@@ -39,9 +39,12 @@ import {
     settingOptions,
     toneOptions,
     SettingEnum,
-} from '@core-client'
-
-// @Ensure once "generate story" clicked, we are done and do not let another submission occur.
+    themeOptions,
+    LengthEnum,
+    ZCreateStoryClient,
+} from '@client-types/story/story.model'
+import { Switch } from '@web/src/components/ui/switch'
+import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
 
 const StyleCard = ({
     title,
@@ -76,33 +79,40 @@ export const CreateStoryPage = () => {
         null,
     )
     const [tension, setTension] = useState<TensionEnum | null>(null)
-    // const [characterOne, setCharacterOne] = useState('')
-    // const [characterTwo, setCharacterTwo] = useState('')
+    const [length, setLength] = useState<LengthEnum>(LengthEnum.Mini)
     const [storyTitle, setStoryTitle] = useState('')
-    // const [produceCover, setProduceCover] = useState(false)
-    // const [narration, setNarration] = useState(false)
-
-    console.info(
-        scenario,
-        selectedTheme,
-        selectedTone,
-        selectedSetting,
-        tension,
-        storyTitle,
-    )
+    const [includeNarration, setIncludeNarration] = useState<boolean>(false)
 
     // @Interactivity
     const handleSubmit = async () => {
-        console.info('0 handleSubmit')
-        const data = {
+        console.info(
+            'handleSubmit',
+            JSON.stringify({
+                scenario,
+                selectedTheme,
+                selectedTone,
+                selectedSetting,
+                tension,
+                storyTitle,
+                includeNarration,
+                length,
+            }),
+        )
+        const isValid = ZCreateStoryClient.safeParse({
             scenario,
             selectedTheme,
             selectedTone,
             selectedSetting,
             tension,
             storyTitle,
+            includeNarration,
+            length,
+        })
+        if (!isValid.success) {
+            console.error('Invalid story submission', isValid.error)
+            return
         }
-        await submitStory(data as any)
+        await submitStory(isValid.data)
     }
 
     return (
@@ -176,9 +186,7 @@ export const CreateStoryPage = () => {
                                 />
                             </div> */}
                             <div>
-                                <Label htmlFor="storyTitle">
-                                    Story Title (Optional)
-                                </Label>
+                                <Label htmlFor="storyTitle">Title</Label>
                                 <Input
                                     id="storyTitle"
                                     value={storyTitle}
@@ -187,26 +195,60 @@ export const CreateStoryPage = () => {
                                     }
                                 />
                             </div>
-                            {/* <div className="flex items-center space-x-2">
-                                <Switch
-                                    id="produceCover"
-                                    checked={produceCover}
-                                    onCheckedChange={setProduceCover}
-                                />
-                                <Label htmlFor="produceCover">
-                                    Produce a cover
-                                </Label>
-                            </div> */}
-                            {/* <div className="flex items-center space-x-2">
+                            <div>
+                                <Label>Story Length</Label>
+                                <RadioGroup
+                                    defaultValue={LengthEnum.Mini}
+                                    value={length}
+                                    onValueChange={(value) =>
+                                        setLength(value as LengthEnum)
+                                    }
+                                    className="flex flex-col space-y-1 mt-1"
+                                >
+                                    {Object.entries(LengthEnum).map(
+                                        ([key, value]) => (
+                                            <div
+                                                key={key}
+                                                className="flex items-center space-x-2"
+                                            >
+                                                <RadioGroupItem
+                                                    value={value}
+                                                    id={`length-${key}`}
+                                                    disabled={
+                                                        value !==
+                                                            LengthEnum.Mini &&
+                                                        value !==
+                                                            LengthEnum.Short
+                                                    }
+                                                />
+                                                <Label
+                                                    htmlFor={`length-${key}`}
+                                                >
+                                                    {value}
+                                                </Label>
+                                                {value !== LengthEnum.Mini &&
+                                                    value !==
+                                                        LengthEnum.Short && (
+                                                        <span className="text-sm text-muted-foreground">
+                                                            (Coming soon)
+                                                        </span>
+                                                    )}
+                                            </div>
+                                        ),
+                                    )}
+                                </RadioGroup>
+                            </div>
+                            <div className="flex items-center space-x-2">
                                 <Switch
                                     id="narration"
-                                    checked={narration}
-                                    onCheckedChange={setNarration}
+                                    checked={includeNarration}
+                                    onCheckedChange={setIncludeNarration}
+                                    disabled={length !== LengthEnum.Mini}
                                 />
                                 <Label htmlFor="narration">
                                     Enable narration
                                 </Label>
-                            </div> */}
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
@@ -228,25 +270,21 @@ export const CreateStoryPage = () => {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {Object.entries(ThemeEnum).map(
-                                            ([key, value]) => (
-                                                <StyleCard
-                                                    key={key}
-                                                    title={value}
-                                                    imageUrl={`/placeholder.svg?height=128&width=192&text=${encodeURIComponent(
-                                                        value,
-                                                    )}`}
-                                                    isSelected={
-                                                        selectedTheme === value
-                                                    }
-                                                    onClick={() =>
-                                                        setSelectedTheme(
-                                                            value as ThemeEnum,
-                                                        )
-                                                    }
-                                                />
-                                            ),
-                                        )}
+                                        {themeOptions.map(({ label, href }) => (
+                                            <StyleCard
+                                                key={label}
+                                                title={label}
+                                                imageUrl={href}
+                                                isSelected={
+                                                    selectedTheme === label
+                                                }
+                                                onClick={() =>
+                                                    setSelectedTheme(
+                                                        label as ThemeEnum,
+                                                    )
+                                                }
+                                            />
+                                        ))}
                                     </div>
                                 </CardContent>
                             </Card>

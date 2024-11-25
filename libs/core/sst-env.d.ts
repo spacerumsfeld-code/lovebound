@@ -31,14 +31,6 @@ declare module "sst" {
       "type": "sst.aws.Queue"
       "url": string
     }
-    "MyService": {
-      "service": string
-      "type": "sst.aws.Service"
-      "url": string
-    }
-    "MyVpc": {
-      "type": "sst.aws.Vpc"
-    }
     "OpenAIApiKey": {
       "type": "sst.sst.Secret"
       "value": string
@@ -62,6 +54,11 @@ declare module "sst" {
     }
     "Web": {
       "type": "sst.aws.Nextjs"
+      "url": string
+    }
+    "WebsocketApi": {
+      "managementEndpoint": string
+      "type": "sst.aws.ApiGatewayWebSocket"
       "url": string
     }
   }

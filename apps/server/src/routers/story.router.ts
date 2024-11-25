@@ -2,26 +2,18 @@ import { z } from 'zod'
 import { router } from '../_internals/router.ts'
 import { handleAsync } from '@utils'
 import { baseProcedure } from '../_internals/index.ts'
-import { Story, TensionEnum, ThemeEnum, ToneEnum } from '@core'
+import { Story, ZCreateStory } from '@core'
 import { publishStorySubmittedEvent } from '@clients/queue.client.ts'
 import { HTTPException } from 'hono/http-exception'
 
 export const storyRouter = router({
     submitStory: baseProcedure
-        .input(
-            z.object({
-                userId: z.string(),
-                scenario: z.string().nullable(),
-                selectedTheme: z.nativeEnum(ThemeEnum),
-                selectedTone: z.nativeEnum(ToneEnum),
-                selectedSetting: z.string(),
-                tension: z.nativeEnum(TensionEnum),
-                storyTitle: z.string(),
-            }),
-        )
+        .input(ZCreateStory)
         .mutation(async ({ c, input }) => {
             const [_, error] = await handleAsync(
                 publishStorySubmittedEvent({
+                    includeNarration: input.includeNarration,
+                    length: input.length,
                     ownerId: input.userId,
                     title: input.storyTitle,
                     scenario: input.scenario,

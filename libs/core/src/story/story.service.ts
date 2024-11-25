@@ -1,9 +1,17 @@
 import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { TensionEnum, ThemeEnum, ToneEnum } from './story.model.ts'
+import {
+    TensionEnum,
+    ThemeEnum,
+    ToneEnum,
+    SettingEnum,
+    LengthEnum,
+} from './story.model.ts'
 import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq } from 'drizzle-orm/expressions'
+
+// @TODO add "generateCover" method using aiClient
 
 class StoryService {
     private store
@@ -30,14 +38,15 @@ class StoryService {
         theme,
         tone,
         setting,
+        wordCount,
     }: {
-        userId: string
         title: string | null
         scenario: string | null
         tensionLevel: TensionEnum
         theme: ThemeEnum
         tone: ToneEnum
         setting: string
+        wordCount: string
     }) {
         const generatedStoryContent = await this.aiClient.generateCompletion({
             title,
@@ -46,6 +55,7 @@ class StoryService {
             theme,
             tone,
             setting,
+            wordCount: Number(wordCount),
         })
 
         return {
@@ -62,6 +72,7 @@ class StoryService {
         theme,
         tone,
         setting,
+        length,
     }: {
         ownerId: string
         content: string
@@ -70,18 +81,20 @@ class StoryService {
         tensionLevel: TensionEnum
         theme: ThemeEnum
         tone: ToneEnum
-        setting: string
+        length: LengthEnum
+        setting: SettingEnum
     }) {
         const newStory = await this.store
             .insert(stories)
             .values({
+                theme,
+                length,
                 content,
                 title,
-                scenario,
+                scenario: scenario ?? null,
                 tensionLevel,
-                theme,
                 tone,
-                setting,
+                setting: setting!,
                 ownerId,
             })
             .returning({ id: stories.id })
@@ -91,15 +104,18 @@ class StoryService {
 
     updateStory = async ({
         id,
-        coverImageUrl,
+        coverUrl,
+        narrationUrl,
     }: {
         id: number
-        coverImageUrl: string
+        coverUrl: string
+        narrationUrl: string | null
     }) => {
         await this.store
             .update(stories)
             .set({
-                coverUrl: coverImageUrl,
+                coverUrl,
+                narrationUrl,
             })
             .where(eq(stories.id, id))
 

@@ -1,6 +1,7 @@
 import { Resource } from 'sst'
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
 import { ThemeEnum, ToneEnum, TensionEnum, SettingEnum } from '@core'
+import { LengthEnum } from '@client-types/story/story.model.ts'
 
 const sqs = new SQSClient({})
 
@@ -12,6 +13,8 @@ export const publishStorySubmittedEvent = async (data: {
     theme: ThemeEnum
     tone: ToneEnum
     setting: string
+    length: LengthEnum
+    includeNarration: boolean
 }) => {
     await sqs.send(
         new SendMessageCommand({
@@ -24,9 +27,12 @@ export const publishStorySubmittedEvent = async (data: {
 }
 
 export const publishStoryCreatedEvent = async (data: {
-    userId: string
+    ownerId: string
     title: string
+    setting: SettingEnum
     storyId: number
+    content: string
+    includeNarration: boolean
 }) => {
     await sqs.send(
         new SendMessageCommand({

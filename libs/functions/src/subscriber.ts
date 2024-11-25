@@ -1,6 +1,20 @@
+import {
+    storySubmittedEventSchema,
+    Story,
+    storyCreatedEventSchema,
+} from '@core'
+import { handleAsync, extractFulfilledValues } from '@utils'
 import { SQSEvent, SQSRecord } from 'aws-lambda'
-
-// @todo: provide run-time validation of events. (zod probably)
+import { publishStoryCreatedEvent } from '@clients/queue.client.ts'
+import {
+    generateStoryCover,
+    generateStoryNarration,
+} from '@clients/openai.client.ts'
+import {
+    uploadAudioFromBuffer,
+    uploadImageFromUrl,
+} from '@clients/s3.client.ts'
+import { LengthToWordEnum } from '@client-types/story/story.model.ts'
 
 export const handler = async (event: SQSEvent) => {
     const records: SQSRecord[] = event.Records
@@ -8,7 +22,83 @@ export const handler = async (event: SQSEvent) => {
 
     switch (eventType) {
         case 'story.submitted':
-            // make request to author to begin creeating story.
+            console.info('Processing story submitted event')
+            const {
+                data: storySubmittedData,
+                success,
+                error: storySubmittedError,
+            } = storySubmittedEventSchema.safeParse(data)
+            if (!success) {
+                console.error(
+                    'Invalid story submitted event',
+                    storySubmittedError,
+                )
+                return
+            }
+
+            const {
+                ownerId,
+                title,
+                scenario,
+                tensionLevel,
+                theme,
+                tone,
+                setting,
+                length,
+                includeNarration,
+            } = storySubmittedData
+
+            const [generatedStoryContentResponse, generateContentError] =
+                await handleAsync(
+                    Story.generateStoryContent({
+                        title,
+                        scenario: scenario ?? null,
+                        tensionLevel,
+                        theme,
+                        tone,
+                        setting,
+                        wordCount: LengthToWordEnum[length],
+                    }),
+                )
+            if (generateContentError) {
+                console.error('oops', generateContentError)
+                return
+            }
+            const generatedStoryContent =
+                generatedStoryContentResponse!.content!
+
+            const [createdStory, createStoryError] = await handleAsync(
+                Story.createStory({
+                    length,
+                    ownerId,
+                    title,
+                    scenario: scenario ?? null,
+                    tensionLevel,
+                    theme,
+                    tone,
+                    setting,
+                    content: generatedStoryContent,
+                }),
+            )
+            if (createStoryError) {
+                console.error('oops', createStoryError)
+                return
+            }
+
+            const [__, publishError] = await handleAsync(
+                publishStoryCreatedEvent({
+                    includeNarration,
+                    ownerId,
+                    title,
+                    storyId: createdStory!.id,
+                    setting,
+                    content: generatedStoryContent,
+                }),
+            )
+            if (publishError) {
+                console.error('oops', publishError)
+                return
+            }
 
             return {
                 statusCode: 200,
@@ -19,27 +109,78 @@ export const handler = async (event: SQSEvent) => {
             }
         case 'story.created':
             console.info('Processing story created event')
+            // validate event
+            const {
+                data: storyCreatedData,
+                success: storyCreatedSuccess,
+                error,
+            } = storyCreatedEventSchema.safeParse(data)
 
-            // let user know via email and in-app notification their story is done.
-            // if image and or /voiceover, let them know it is actively being worked on.
-            // let them go to see their story in the meantime though.
-            // placeholder or cool skeleton of some kind or generic cover for time being.
+            if (!storyCreatedSuccess) {
+                console.error('Invalid story created event', error)
+                return
+            }
+
+            const {
+                includeNarration: gIncludeNarration,
+                ownerId: gOwnerId,
+                title: gTitle,
+                storyId,
+                setting: gSetting,
+                content,
+            } = storyCreatedData
+
+            const generationPromiseResults = await Promise.allSettled([
+                generateStoryCover({
+                    title: gTitle,
+                    setting: gSetting,
+                }),
+                gIncludeNarration
+                    ? generateStoryNarration({
+                          content,
+                      })
+                    : Promise.resolve(null),
+            ])
+            const { fulfilledValues, hasRejections } = extractFulfilledValues(
+                generationPromiseResults,
+            )
+            if (hasRejections) {
+                console.error('oops', generationPromiseResults)
+                return
+            }
+            const [coverImageData, narrationBuffer] = fulfilledValues
+
+            const uploadPromiseResults = await Promise.allSettled([
+                uploadImageFromUrl(coverImageData!),
+                uploadAudioFromBuffer(narrationBuffer!),
+            ])
+            const {
+                fulfilledValues: uploadFulfilledValues,
+                hasRejections: uploadHasRejections,
+            } = extractFulfilledValues(uploadPromiseResults)
+            if (uploadHasRejections) {
+                console.error('oops', uploadPromiseResults)
+                return
+            }
+            const [coverUrl, narrationUrl] = uploadFulfilledValues
+
+            const [___, updateStoryError] = await handleAsync(
+                Story.updateStory({
+                    id: storyId,
+                    coverUrl: coverUrl!,
+                    narrationUrl: narrationUrl!,
+                }),
+            )
+            if (updateStoryError) {
+                console.error('oops', updateStoryError)
+                return
+            }
 
             return {
                 statusCode: 200,
                 body: JSON.stringify({
                     success: true,
                     message: 'User informed of story creation',
-                }),
-            }
-        case 'story.cover.generated':
-            // let user know their cover story is ready!
-
-            return {
-                statusCode: 200,
-                body: JSON.stringify({
-                    success: true,
-                    message: 'User informed of cover story generation',
                 }),
             }
         default:

@@ -1,5 +1,5 @@
 {
-  "id": "7888c9bf-93d0-4dd9-b6d7-25a58f7d00e1",
+  "id": "2d1fcc85-1bcf-4fc8-b382-0536be428fc7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -22,7 +22,8 @@
         },
         "theme": {
           "name": "theme",
-          "type": "text",
+          "type": "theme",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -32,9 +33,17 @@
           "primaryKey": false,
           "notNull": true
         },
+        "tone": {
+          "name": "tone",
+          "type": "tone",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
         "tension_level": {
           "name": "tension_level",
-          "type": "integer",
+          "type": "tension",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -62,13 +71,20 @@
           "name": "scenario",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "setting": {
           "name": "setting",
-          "type": "text",
+          "type": "setting",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
+        },
+        "coverUrl": {
+          "name": "coverUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -171,7 +187,107 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.setting": {
+      "name": "setting",
+      "schema": "public",
+      "values": [
+        "A cozy coffee shop",
+        "A dimly lit jazz bar",
+        "A bustling city park",
+        "A secluded beach at sunset",
+        "A small-town diner",
+        "A lavish cocktail party",
+        "A rustic barn",
+        "A mountain cabin during a snowstorm",
+        "A quiet library",
+        "A candlelit rooftop terrace",
+        "A rainy city street",
+        "A vintage bookshop",
+        "A flower-filled meadow",
+        "A moonlit garden",
+        "A quaint bed-and-breakfast",
+        "A crowded subway car",
+        "A lively farmer's market",
+        "An art gallery opening",
+        "A quaint seaside pier",
+        "A vineyard at harvest",
+        "A small fishing boat on the lake",
+        "An elegant ballroom",
+        "A bustling train station",
+        "A sunny countryside trail",
+        "A ski lodge by a roaring fire",
+        "A cozy bookstore café",
+        "A music festival under the stars",
+        "A serene forest clearing",
+        "A rooftop pool at a city hotel",
+        "A sunflower field in summer",
+        "A desert under a starlit sky",
+        "A local gym during a quiet evening",
+        "A charming village square",
+        "A crowded wedding reception",
+        "A carnival at night",
+        "A boat dock at sunrise",
+        "A high-rise office after hours",
+        "A college campus library",
+        "A public garden in bloom",
+        "A train car on a long journey",
+        "A rainy lakeside cabin",
+        "A small chapel in the woods",
+        "A hidden speakeasy",
+        "A private plane mid-flight",
+        "A quiet fishing dock",
+        "A backyard barbecue",
+        "A bustling outdoor market",
+        "A dimly lit movie theater",
+        "A picturesque lighthouse",
+        "A historical mansion on a stormy night"
+      ]
+    },
+    "public.tension": {
+      "name": "tension",
+      "schema": "public",
+      "values": [
+        "Low",
+        "Medium",
+        "High",
+        "Intense",
+        "Max"
+      ]
+    },
+    "public.theme": {
+      "name": "theme",
+      "schema": "public",
+      "values": [
+        "Forbidden romance",
+        "Best friends to lovers",
+        "Strangers with instant chemistry",
+        "Second-chance romance",
+        "Enemies to lovers",
+        "Opposites attract",
+        "Workplace romance",
+        "A missed connection finally realized",
+        "Secret admirer revealed",
+        "Love rekindled after years apart"
+      ]
+    },
+    "public.tone": {
+      "name": "tone",
+      "schema": "public",
+      "values": [
+        "Dreamy",
+        "Intense",
+        "Playful",
+        "Passionate",
+        "Lighthearted",
+        "Mysterious",
+        "Whimsical",
+        "Emotional",
+        "Tender",
+        "Sultry"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

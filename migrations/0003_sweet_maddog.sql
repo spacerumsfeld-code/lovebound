@@ -1,1 +1,0 @@
-ALTER TABLE "stories" ALTER COLUMN "scenario" DROP NOT NULL;

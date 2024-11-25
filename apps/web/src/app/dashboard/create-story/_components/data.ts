@@ -1,29 +1,31 @@
 'use server'
 
 import { currentUser } from '@clerk/nextjs/server'
+import { LengthEnum } from '@client-types/story/story.model'
 import { client as api } from '@clients/api.client'
-import { TensionEnum, ThemeEnum, ToneEnum } from '@core'
+import { SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
+import { redirect } from 'next/navigation'
 
 export const submitStory = async (data: {
     scenario: string | null
     selectedTheme: ThemeEnum
     selectedTone: ToneEnum
-    selectedSetting: string
+    selectedSetting: SettingEnum
     tension: TensionEnum
-    storyTitle: string | null
+    storyTitle: string
+    includeNarration: boolean
+    length: LengthEnum
 }) => {
     try {
         const user = await currentUser()
-        console.info('1 submitStory')
 
-        const response = await api.story.submitStory.$post({
+        await api.story.submitStory.$post({
             ...data,
             userId: user!.id,
         })
-        console.info('response', response)
-
-        return response
     } catch (error) {
         console.error(error)
     }
+
+    return redirect('/dashboard?toast=story-submitted')
 }

@@ -1,14 +1,14 @@
+import { TStory } from '@client-types/story/story.model'
 import { StoryCard } from './StoryCard'
 
-export const StoryGrid = ({ stories }: { stories: any[] }) => {
+export const StoryGrid = ({ stories }: { stories: TStory[] }) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className=" p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {stories.map((story) => (
                 <StoryCard
                     key={story.id}
                     title={story.title}
-                    author={story.ownerId}
-                    // imageUrl={story.coverImageUrl}
+                    imageUrl={story.coverUrl ?? undefined}
                 />
             ))}
         </div>

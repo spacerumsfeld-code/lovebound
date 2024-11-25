@@ -2,6 +2,7 @@
 
 import { bucket } from './bucket'
 import { allSecrets } from './secret'
+import { websocket } from './websocket'
 
 export const dlq = new sst.aws.Queue('EventQueueDLQ')
 export const queue = new sst.aws.Queue('EventQueue', {
@@ -13,6 +14,6 @@ export const queue = new sst.aws.Queue('EventQueue', {
 
 queue.subscribe({
     handler: 'libs/functions/src/subscriber.handler',
-    link: [...allSecrets, bucket, queue],
-    timeout: '10 minutes',
+    link: [...allSecrets, bucket, queue, websocket],
+    timeout: '1 minute',
 })
