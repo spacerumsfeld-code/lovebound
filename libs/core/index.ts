@@ -1,3 +1,4 @@
+// Services
 export { userService as User } from './src/user/user.service.ts'
 export { storyService as Story } from './src/story/story.service.ts'
 export { connectionService as Connection } from './src/connection/connection.service.ts'
@@ -5,22 +6,20 @@ export { connectionService as Connection } from './src/connection/connection.ser
 // Types
 export {
     ThemeEnum,
-    ToneEnum,
-    TensionEnum,
-    SettingEnum,
+    GenreEnum,
+    LengthEnum,
     TStory,
     ZCreateStory,
 } from './src/story/story.model.ts'
 
+export {
+    ToneEnum,
+    SettingEnum,
+    TensionEnum,
+    ZScene,
+} from './src/scene/scene.model.ts'
+
 // SQL
 export { users } from './src/user/user.sql.ts'
 export { stories } from './src/story/story.sql.ts'
-
-// Schemas
-export {
-    storySubmittedEventSchema,
-    storyCreatedEventSchema,
-} from './src/story/story.model.ts'
-
-// Events
-export { StorySubmittedEvent } from './src/story/story.model.ts'
+export { scenes } from './src/scene/scene.sql.ts'

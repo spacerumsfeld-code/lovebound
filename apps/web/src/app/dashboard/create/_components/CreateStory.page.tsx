@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Card,
     CardContent,
@@ -15,7 +15,6 @@ import {
 } from '@web/src/components/ui/tabs'
 import { Label } from '@web/src/components/ui/label'
 import { Button } from '@web/src/components/ui/buttonTwo'
-import { Textarea } from '@web/src/components/ui/textarea'
 import { Input } from '@web/src/components/ui/input'
 import { ScrollArea } from '@web/src/components/ui/scroll-area'
 import {
@@ -30,31 +29,37 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@web/src/components/ui/select'
-import { cn } from '@web/src/lib/utils'
-import { submitStory } from './data'
-import {
-    ThemeEnum,
-    ToneEnum,
-    TensionEnum,
-    settingOptions,
-    toneOptions,
-    SettingEnum,
-    themeOptions,
-    LengthEnum,
-    ZCreateStoryClient,
-} from '@client-types/story/story.model'
 import { Switch } from '@web/src/components/ui/switch'
 import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
+import { cn } from '@web/src//lib/utils'
+import {
+    ThemeEnum,
+    LengthEnum,
+    GenreEnum,
+} from '@client-types/story/story.model'
+import { themeOptions } from '@client-types/story/story.object'
+import {
+    SettingEnum,
+    ToneEnum,
+    TensionEnum,
+} from '@client-types/scene/scene.model'
+import {
+    settingOptions,
+    tensionOptions,
+    toneOptions,
+} from '@client-types/scene/scene.object'
 
 const StyleCard = ({
-    title,
+    label,
     imageUrl,
     isSelected,
+    sceneNumber,
     onClick,
 }: {
-    title: string
+    label: string
     imageUrl: string
     isSelected: boolean
+    sceneNumber: number | null
     onClick: () => void
 }) => (
     <div
@@ -64,55 +69,153 @@ const StyleCard = ({
         )}
         onClick={onClick}
     >
-        <img src={imageUrl} alt={title} className="w-full h-32 object-cover" />
+        <img src={imageUrl} alt={label} className="w-full h-32 object-cover" />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-2 transition-opacity group-hover:bg-opacity-60">
-            <span className="text-white text-sm font-semibold">{title}</span>
+            <span className="text-white text-sm font-semibold">{label}</span>
         </div>
+        {sceneNumber !== null && sceneNumber >= 0 && (
+            <div className="absolute top-2 right-2 bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                {sceneNumber + 1}
+            </div>
+        )}
     </div>
 )
 
 export const CreateStoryPage = () => {
-    const [scenario, setScenario] = useState('')
-    const [selectedTheme, setSelectedTheme] = useState<ThemeEnum | null>(null)
-    const [selectedTone, setSelectedTone] = useState<ToneEnum | null>(null)
-    const [selectedSetting, setSelectedSetting] = useState<SettingEnum | null>(
-        null,
-    )
-    const [tension, setTension] = useState<TensionEnum | null>(null)
-    const [length, setLength] = useState<LengthEnum>(LengthEnum.Mini)
-    const [storyTitle, setStoryTitle] = useState('')
-    const [includeNarration, setIncludeNarration] = useState<boolean>(false)
+    const [storyData, setStoryData] = useState({
+        title: '',
+        theme: null as ThemeEnum | null,
+        genre: null as GenreEnum | null,
+        length: LengthEnum.Mini,
+        includeNarration: false,
+        scenes: [
+            {
+                content: '',
+                tone: null as ToneEnum | null,
+                setting: null as SettingEnum | null,
+                tensionLevel: null as TensionEnum | null,
+            },
+        ],
+    })
+    console.info('storyData', storyData)
 
-    // @Interactivity
-    const handleSubmit = async () => {
-        console.info(
-            'handleSubmit',
-            JSON.stringify({
-                scenario,
-                selectedTheme,
-                selectedTone,
-                selectedSetting,
-                tension,
-                storyTitle,
-                includeNarration,
-                length,
-            }),
-        )
-        const isValid = ZCreateStoryClient.safeParse({
-            scenario,
-            selectedTheme,
-            selectedTone,
-            selectedSetting,
-            tension,
-            storyTitle,
-            includeNarration,
-            length,
-        })
-        if (!isValid.success) {
-            console.error('Invalid story submission', isValid.error)
-            return
+    useEffect(() => {
+        if (
+            storyData.length === LengthEnum.Medium &&
+            storyData.scenes.length !== 3
+        ) {
+            setStoryData((prev) => ({
+                ...prev,
+                scenes: Array(3)
+                    .fill({})
+                    .map((_, i) => ({
+                        content: '',
+                        tone: null,
+                        setting: null,
+                        tensionLevel: null,
+                    })),
+            }))
+        } else if (
+            storyData.length !== LengthEnum.Medium &&
+            storyData.scenes.length !== 1
+        ) {
+            setStoryData((prev) => ({
+                ...prev,
+                scenes: [
+                    {
+                        content: '',
+                        tone: null,
+                        setting: null,
+                        tensionLevel: null,
+                    },
+                ],
+            }))
         }
-        await submitStory(isValid.data)
+    }, [storyData.length])
+
+    const handleInputChange = (field: string, value: any) => {
+        setStoryData((prev) => ({
+            ...prev,
+            [field]: value,
+        }))
+    }
+
+    const handleSceneChange = (
+        sceneIndex: number,
+        field: string,
+        value: any,
+    ) => {
+        setStoryData((prev) => ({
+            ...prev,
+            scenes: prev.scenes.map((scene, index) =>
+                index === sceneIndex ? { ...scene, [field]: value } : scene,
+            ),
+        }))
+    }
+
+    const getNextAvailableSceneIndex = (
+        category: 'tone' | 'setting' | 'tensionLevel',
+        value: any,
+    ): number => {
+        const currentIndex = storyData.scenes.findIndex(
+            (scene) => scene[category] === value,
+        )
+        if (currentIndex !== -1) {
+            return currentIndex
+        }
+        const emptyIndex = storyData.scenes.findIndex(
+            (scene) => scene[category] === null,
+        )
+        if (emptyIndex !== -1) {
+            return emptyIndex
+        }
+        return 0
+    }
+
+    const handleStyleCardClick = (
+        category: 'tone' | 'setting' | 'tensionLevel',
+        value: any,
+    ) => {
+        if (storyData.length === LengthEnum.Medium) {
+            const sceneIndex = getNextAvailableSceneIndex(category, value)
+            setStoryData((prev) => ({
+                ...prev,
+                scenes: prev.scenes.map((scene, index) =>
+                    index === sceneIndex
+                        ? {
+                              ...scene,
+                              [category]:
+                                  scene[category] === value ? null : value,
+                          }
+                        : scene,
+                ),
+            }))
+        } else {
+            handleSceneChange(
+                0,
+                category,
+                storyData.scenes[0][category] === value ? null : value,
+            )
+        }
+    }
+
+    const getSceneNumberForSelection = (
+        category: 'tone' | 'setting' | 'tensionLevel',
+        value: any,
+    ): number | null => {
+        if (storyData.length !== LengthEnum.Medium) return null
+        const index = storyData.scenes.findIndex(
+            (scene) => scene[category] === value,
+        )
+        return index !== -1 ? index : null
+    }
+
+    const handleSubmit = async () => {
+        console.log('Processed Story Data:', {
+            ...storyData,
+            genre: storyData.genre || storyData.theme,
+        })
+        // Here you would typically send this data to your API or state management system
     }
 
     return (
@@ -125,83 +228,55 @@ export const CreateStoryPage = () => {
                     <CardContent>
                         <div className="space-y-4">
                             <div>
-                                <Label htmlFor="scenario">
-                                    Scenario (Optional)
-                                </Label>
-                                <Textarea
-                                    id="scenario"
-                                    placeholder="Enter your story scenario here..."
-                                    value={scenario}
+                                <Label htmlFor="storyTitle">Title</Label>
+                                <Input
+                                    id="storyTitle"
+                                    value={storyData.title}
                                     onChange={(e) =>
-                                        setScenario(e.target.value)
+                                        handleInputChange(
+                                            'title',
+                                            e.target.value,
+                                        )
                                     }
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="tension">Tension Level</Label>
+                                <Label htmlFor="genre">Genre</Label>
                                 <Select
+                                    value={storyData.genre || ''}
                                     onValueChange={(value) =>
-                                        setTension(value as TensionEnum)
+                                        handleInputChange(
+                                            'genre',
+                                            value as GenreEnum,
+                                        )
                                     }
                                 >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select tension level" />
+                                    <SelectTrigger id="genre">
+                                        <SelectValue placeholder="Select Genre" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {Object.entries(TensionEnum).map(
-                                            ([key, value]) => (
+                                        {Object.values(GenreEnum).map(
+                                            (genre) => (
                                                 <SelectItem
-                                                    key={key}
-                                                    value={value}
+                                                    key={genre}
+                                                    value={genre}
                                                 >
-                                                    {value}
+                                                    {genre}
                                                 </SelectItem>
                                             ),
                                         )}
                                     </SelectContent>
                                 </Select>
                             </div>
-                            {/* <div> */}
-                            {/* <Label htmlFor="characterOne">
-                                    Character One Name (Optional)
-                                </Label>
-                                <Input
-                                    id="characterOne"
-                                    value={characterOne}
-                                    onChange={(e) =>
-                                        setCharacterOne(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor="characterTwo">
-                                    Character Two Name (Optional)
-                                </Label>
-                                <Input
-                                    id="characterTwo"
-                                    value={characterTwo}
-                                    onChange={(e) =>
-                                        setCharacterTwo(e.target.value)
-                                    }
-                                />
-                            </div> */}
-                            <div>
-                                <Label htmlFor="storyTitle">Title</Label>
-                                <Input
-                                    id="storyTitle"
-                                    value={storyTitle}
-                                    onChange={(e) =>
-                                        setStoryTitle(e.target.value)
-                                    }
-                                />
-                            </div>
                             <div>
                                 <Label>Story Length</Label>
                                 <RadioGroup
-                                    defaultValue={LengthEnum.Mini}
-                                    value={length}
+                                    value={storyData.length}
                                     onValueChange={(value) =>
-                                        setLength(value as LengthEnum)
+                                        handleInputChange(
+                                            'length',
+                                            value as LengthEnum,
+                                        )
                                     }
                                     className="flex flex-col space-y-1 mt-1"
                                 >
@@ -218,7 +293,9 @@ export const CreateStoryPage = () => {
                                                         value !==
                                                             LengthEnum.Mini &&
                                                         value !==
-                                                            LengthEnum.Short
+                                                            LengthEnum.Short &&
+                                                        value !==
+                                                            LengthEnum.Medium
                                                     }
                                                 />
                                                 <Label
@@ -241,9 +318,16 @@ export const CreateStoryPage = () => {
                             <div className="flex items-center space-x-2">
                                 <Switch
                                     id="narration"
-                                    checked={includeNarration}
-                                    onCheckedChange={setIncludeNarration}
-                                    disabled={length !== LengthEnum.Mini}
+                                    checked={storyData.includeNarration}
+                                    onCheckedChange={(checked) =>
+                                        handleInputChange(
+                                            'includeNarration',
+                                            checked,
+                                        )
+                                    }
+                                    disabled={
+                                        storyData.length !== LengthEnum.Mini
+                                    }
                                 />
                                 <Label htmlFor="narration">
                                     Enable narration
@@ -254,15 +338,18 @@ export const CreateStoryPage = () => {
                 </Card>
 
                 <Tabs defaultValue="theme">
-                    <TabsList className="grid w-full grid-cols-3 h-9">
+                    <TabsList className="grid w-full grid-cols-4 h-9">
                         <TabsTrigger value="theme" className="text-xs">
                             Theme
+                        </TabsTrigger>
+                        <TabsTrigger value="setting" className="text-xs">
+                            Setting
                         </TabsTrigger>
                         <TabsTrigger value="tone" className="text-xs">
                             Tone
                         </TabsTrigger>
-                        <TabsTrigger value="setting" className="text-xs">
-                            Setting
+                        <TabsTrigger value="tension" className="text-xs">
+                            Tension
                         </TabsTrigger>
                     </TabsList>
                     <ScrollArea className="h-[400px]">
@@ -270,40 +357,20 @@ export const CreateStoryPage = () => {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {themeOptions.map(({ label, href }) => (
+                                        {themeOptions.map((theme) => (
                                             <StyleCard
-                                                key={label}
-                                                title={label}
-                                                imageUrl={href}
+                                                key={theme.label}
+                                                label={theme.label}
+                                                imageUrl={theme.href}
                                                 isSelected={
-                                                    selectedTheme === label
+                                                    storyData.theme ===
+                                                    theme.label
                                                 }
+                                                sceneNumber={null}
                                                 onClick={() =>
-                                                    setSelectedTheme(
-                                                        label as ThemeEnum,
-                                                    )
-                                                }
-                                            />
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                        <TabsContent value="tone">
-                            <Card>
-                                <CardContent className="pt-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {toneOptions.map(({ label, href }) => (
-                                            <StyleCard
-                                                key={label}
-                                                title={label}
-                                                imageUrl={href}
-                                                isSelected={
-                                                    selectedTone === label
-                                                }
-                                                onClick={() =>
-                                                    setSelectedTone(
-                                                        label as ToneEnum,
+                                                    handleInputChange(
+                                                        'theme',
+                                                        theme.label,
                                                     )
                                                 }
                                             />
@@ -316,24 +383,88 @@ export const CreateStoryPage = () => {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {settingOptions.map(
-                                            ({ label, href }) => (
-                                                <StyleCard
-                                                    key={label}
-                                                    title={label}
-                                                    imageUrl={href}
-                                                    isSelected={
-                                                        selectedSetting ===
-                                                        label
-                                                    }
-                                                    onClick={() =>
-                                                        setSelectedSetting(
-                                                            label as SettingEnum,
-                                                        )
-                                                    }
-                                                />
-                                            ),
-                                        )}
+                                        {settingOptions.map((setting) => (
+                                            <StyleCard
+                                                key={setting.label}
+                                                label={setting.label}
+                                                imageUrl={setting.href}
+                                                isSelected={storyData.scenes.some(
+                                                    (scene) =>
+                                                        scene.setting ===
+                                                        setting.label,
+                                                )}
+                                                sceneNumber={getSceneNumberForSelection(
+                                                    'setting',
+                                                    setting.label,
+                                                )}
+                                                onClick={() =>
+                                                    handleStyleCardClick(
+                                                        'setting',
+                                                        setting.label,
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="tone">
+                            <Card>
+                                <CardContent className="pt-6">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {toneOptions.map((tone) => (
+                                            <StyleCard
+                                                key={tone.label}
+                                                label={tone.label}
+                                                imageUrl={tone.href}
+                                                isSelected={storyData.scenes.some(
+                                                    (scene) =>
+                                                        scene.tone ===
+                                                        tone.label,
+                                                )}
+                                                sceneNumber={getSceneNumberForSelection(
+                                                    'tone',
+                                                    tone.label,
+                                                )}
+                                                onClick={() =>
+                                                    handleStyleCardClick(
+                                                        'tone',
+                                                        tone.label,
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="tension">
+                            <Card>
+                                <CardContent className="pt-6">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {tensionOptions.map((tension) => (
+                                            <StyleCard
+                                                key={tension.label}
+                                                label={tension.label}
+                                                imageUrl={tension.href}
+                                                isSelected={storyData.scenes.some(
+                                                    (scene) =>
+                                                        scene.tensionLevel ===
+                                                        tension.label,
+                                                )}
+                                                sceneNumber={getSceneNumberForSelection(
+                                                    'tensionLevel',
+                                                    tension.label,
+                                                )}
+                                                onClick={() =>
+                                                    handleStyleCardClick(
+                                                        'tensionLevel',
+                                                        tension.label,
+                                                    )
+                                                }
+                                            />
+                                        ))}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -346,7 +477,7 @@ export const CreateStoryPage = () => {
                         <Button
                             size="lg"
                             className="rounded-full px-8 bg-purple-600 hover:bg-purple-700"
-                            onClick={() => handleSubmit()}
+                            onClick={handleSubmit}
                         >
                             Generate Story
                         </Button>
