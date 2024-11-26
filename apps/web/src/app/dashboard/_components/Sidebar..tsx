@@ -48,7 +48,7 @@ export const AppSidebar = ({
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <Logo noLabel />
+                <Logo />
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />

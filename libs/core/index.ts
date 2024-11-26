@@ -10,6 +10,7 @@ export {
     LengthEnum,
     TStory,
     ZCreateStory,
+    ZStoryCreatedEvent,
 } from './src/story/story.model.ts'
 
 export {

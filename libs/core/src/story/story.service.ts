@@ -1,17 +1,11 @@
 import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import {
-    TensionEnum,
-    ThemeEnum,
-    ToneEnum,
-    SettingEnum,
-    LengthEnum,
-} from './story.model.ts'
+import { ThemeEnum, GenreEnum, LengthEnum } from '../story/story.model.ts'
+import { ToneEnum, SettingEnum, TensionEnum } from '../scene/scene.model.ts'
 import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq } from 'drizzle-orm/expressions'
-
-// @TODO add "generateCover" method using aiClient
+import { scenes } from '@core'
 
 class StoryService {
     private store
@@ -24,38 +18,36 @@ class StoryService {
 
     public async getUserStories({ userId }: { userId: string }) {
         const userStories = await this.store
-            .select()
+            .select({
+                id: stories.id,
+                coverUrl: stories.coverUrl,
+                title: stories.title,
+            })
             .from(stories)
             .where(eq(stories.ownerId, userId))
 
         return userStories
     }
 
-    public async generateStoryContent({
-        title,
-        scenario,
+    public async generateMiniContent({
+        genre,
         tensionLevel,
         theme,
         tone,
         setting,
-        wordCount,
     }: {
-        title: string | null
-        scenario: string | null
+        genre: GenreEnum
         tensionLevel: TensionEnum
         theme: ThemeEnum
         tone: ToneEnum
-        setting: string
-        wordCount: string
+        setting: SettingEnum
     }) {
-        const generatedStoryContent = await this.aiClient.generateCompletion({
-            title,
-            scenario,
+        const generatedStoryContent = await this.aiClient.generateMiniContent({
             tensionLevel,
             theme,
+            genre,
             tone,
             setting,
-            wordCount: Number(wordCount),
         })
 
         return {
@@ -64,37 +56,25 @@ class StoryService {
     }
 
     public async createStory({
+        genre,
         ownerId,
-        content,
         title,
-        scenario,
-        tensionLevel,
         theme,
-        tone,
-        setting,
         length,
     }: {
+        genre: GenreEnum
         ownerId: string
-        content: string
         title: string
-        scenario: string | null
-        tensionLevel: TensionEnum
         theme: ThemeEnum
-        tone: ToneEnum
         length: LengthEnum
-        setting: SettingEnum
     }) {
         const newStory = await this.store
             .insert(stories)
             .values({
-                theme,
                 length,
-                content,
+                genre,
+                theme,
                 title,
-                scenario: scenario ?? null,
-                tensionLevel,
-                tone,
-                setting: setting!,
                 ownerId,
             })
             .returning({ id: stories.id })
@@ -102,22 +82,69 @@ class StoryService {
         return { success: true, id: newStory[0].id }
     }
 
+    public async createScene({
+        storyId,
+        content,
+        narrationUrl,
+        orderIndex = 0,
+        tone,
+        setting,
+        tensionLevel,
+    }: {
+        storyId: number
+        content: string
+        narrationUrl: string | null
+        orderIndex: number
+        tone: ToneEnum
+        setting: SettingEnum
+        tensionLevel: TensionEnum
+    }) {
+        const newScene = await this.store
+            .insert(scenes)
+            .values({
+                storyId,
+                content,
+                narrationUrl,
+                orderIndex,
+                tone,
+                setting,
+                tensionLevel,
+            })
+            .returning({ id: scenes.id })
+
+        return { success: true, id: newScene[0].id }
+    }
+
     updateStory = async ({
         id,
         coverUrl,
-        narrationUrl,
     }: {
         id: number
         coverUrl: string
-        narrationUrl: string | null
     }) => {
         await this.store
             .update(stories)
             .set({
                 coverUrl,
-                narrationUrl,
             })
             .where(eq(stories.id, id))
+
+        return { success: true }
+    }
+
+    public async updateScene({
+        id,
+        narrationUrl,
+    }: {
+        id: number
+        narrationUrl: string
+    }) {
+        await this.store
+            .update(scenes)
+            .set({
+                narrationUrl,
+            })
+            .where(eq(scenes.id, id))
 
         return { success: true }
     }

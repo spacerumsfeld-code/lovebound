@@ -1,12 +1,7 @@
-import {
-    storySubmittedEventSchema,
-    Story,
-    storyCreatedEventSchema,
-    Connection,
-} from '@core'
+import { Story, Connection, ZCreateStory, ZStoryCreatedEvent } from '@core'
 import { handleAsync, extractFulfilledValues } from '@utils'
-import { SQSEvent, SQSRecord } from 'aws-lambda'
 import { publishStoryCreatedEvent } from '@clients/queue.client.ts'
+import { SQSEvent, SQSRecord } from 'aws-lambda'
 import {
     generateStoryCover,
     generateStoryNarration,
@@ -15,7 +10,6 @@ import {
     uploadAudioFromBuffer,
     uploadImageFromUrl,
 } from '@clients/s3.client.ts'
-import { LengthToWordEnum } from '@client-types/story/story.model.ts'
 
 export const handler = async (event: SQSEvent) => {
     const records: SQSRecord[] = event.Records
@@ -24,41 +18,31 @@ export const handler = async (event: SQSEvent) => {
     switch (eventType) {
         case 'story.submitted':
             console.info('Processing story submitted event')
-            const {
-                data: storySubmittedData,
-                success,
-                error: storySubmittedError,
-            } = storySubmittedEventSchema.safeParse(data)
-            if (!success) {
-                console.error(
-                    'Invalid story submitted event',
-                    storySubmittedError,
-                )
-                return
+
+            const { data: storyData, error: validationError } =
+                ZCreateStory.safeParse(data)
+            if (validationError) {
+                console.error('Invalid story submitted event', validationError)
+                return {
+                    statusCode: 200,
+                    body: JSON.stringify({
+                        success: false,
+                        message: 'Invalid story submitted event',
+                    }),
+                }
             }
 
-            const {
-                ownerId,
-                title,
-                scenario,
-                tensionLevel,
-                theme,
-                tone,
-                setting,
-                length,
-                includeNarration,
-            } = storySubmittedData
+            const { ownerId, title, theme, scenes, length, genre } = storyData
+            const miniScene = scenes.pop()
 
             const [generatedStoryContentResponse, generateContentError] =
                 await handleAsync(
-                    Story.generateStoryContent({
-                        title,
-                        scenario: scenario ?? null,
-                        tensionLevel,
+                    Story.generateMiniContent({
+                        tensionLevel: miniScene!.tensionLevel,
                         theme,
-                        tone,
-                        setting,
-                        wordCount: LengthToWordEnum[length],
+                        tone: miniScene!.tone,
+                        setting: miniScene!.setting,
+                        genre,
                     }),
                 )
             if (generateContentError) {
@@ -73,16 +57,28 @@ export const handler = async (event: SQSEvent) => {
                     length,
                     ownerId,
                     title,
-                    scenario: scenario ?? null,
-                    tensionLevel,
                     theme,
-                    tone,
-                    setting,
-                    content: generatedStoryContent,
+                    genre,
                 }),
             )
             if (createStoryError) {
                 console.error('oops', createStoryError)
+                return
+            }
+
+            const [createdScene, createSceneError] = await handleAsync(
+                Story.createScene({
+                    storyId: createdStory!.id,
+                    content: generatedStoryContent,
+                    narrationUrl: null,
+                    orderIndex: 0,
+                    tone: miniScene!.tone,
+                    setting: miniScene!.setting,
+                    tensionLevel: miniScene!.tensionLevel,
+                }),
+            )
+            if (createSceneError) {
+                console.error('oops', createSceneError)
                 return
             }
 
@@ -101,12 +97,15 @@ export const handler = async (event: SQSEvent) => {
 
             const [__, publishError] = await handleAsync(
                 publishStoryCreatedEvent({
-                    includeNarration,
-                    ownerId,
-                    title,
+                    ...storyData,
                     storyId: createdStory!.id,
-                    setting,
-                    content: generatedStoryContent,
+                    scenes: [
+                        {
+                            id: createdScene!.id,
+                            ...miniScene!,
+                            content: generatedStoryContent,
+                        },
+                    ],
                 }),
             )
             if (publishError) {
@@ -123,13 +122,11 @@ export const handler = async (event: SQSEvent) => {
             }
         case 'story.created':
             console.info('Processing story created event')
-            // validate event
             const {
                 data: storyCreatedData,
                 success: storyCreatedSuccess,
                 error,
-            } = storyCreatedEventSchema.safeParse(data)
-
+            } = ZStoryCreatedEvent.safeParse(data)
             if (!storyCreatedSuccess) {
                 console.error('Invalid story created event', error)
                 return
@@ -137,21 +134,19 @@ export const handler = async (event: SQSEvent) => {
 
             const {
                 includeNarration: gIncludeNarration,
-                ownerId: gOwnerId,
-                title: gTitle,
                 storyId,
-                setting: gSetting,
-                content,
+                scenes: gScenes,
             } = storyCreatedData
+            const miniSceneAgain = gScenes.pop()
 
             const generationPromiseResults = await Promise.allSettled([
                 generateStoryCover({
-                    title: gTitle,
-                    setting: gSetting,
+                    title: storyCreatedData.title,
+                    setting: miniSceneAgain!.setting,
                 }),
                 gIncludeNarration
                     ? generateStoryNarration({
-                          content,
+                          content: miniSceneAgain!.content,
                       })
                     : Promise.resolve(null),
             ])
@@ -182,11 +177,21 @@ export const handler = async (event: SQSEvent) => {
                 Story.updateStory({
                     id: storyId,
                     coverUrl: coverUrl!,
-                    narrationUrl: narrationUrl!,
                 }),
             )
             if (updateStoryError) {
                 console.error('oops', updateStoryError)
+                return
+            }
+
+            const [____, updateSceneError] = await handleAsync(
+                Story.updateScene({
+                    id: miniSceneAgain!.id,
+                    narrationUrl: narrationUrl!,
+                }),
+            )
+            if (updateSceneError) {
+                console.error('oops', updateSceneError)
                 return
             }
 

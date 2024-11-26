@@ -1,21 +1,13 @@
 import { Resource } from 'sst'
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
-import { ThemeEnum, ToneEnum, TensionEnum, SettingEnum } from '@core'
-import { LengthEnum } from '@client-types/story/story.model.ts'
+import {
+    TCreateStory,
+    TStoryCreatedEvent,
+} from '@client-types/story/story.model.ts'
 
 const sqs = new SQSClient({})
 
-export const publishStorySubmittedEvent = async (data: {
-    ownerId: string
-    title: string
-    scenario: string | null
-    tensionLevel: TensionEnum
-    theme: ThemeEnum
-    tone: ToneEnum
-    setting: string
-    length: LengthEnum
-    includeNarration: boolean
-}) => {
+export const publishStorySubmittedEvent = async (data: TCreateStory) => {
     await sqs.send(
         new SendMessageCommand({
             QueueUrl: Resource.EventQueue.url,
@@ -26,14 +18,7 @@ export const publishStorySubmittedEvent = async (data: {
     return { success: true }
 }
 
-export const publishStoryCreatedEvent = async (data: {
-    ownerId: string
-    title: string
-    setting: SettingEnum
-    storyId: number
-    content: string
-    includeNarration: boolean
-}) => {
+export const publishStoryCreatedEvent = async (data: TStoryCreatedEvent) => {
     await sqs.send(
         new SendMessageCommand({
             QueueUrl: Resource.EventQueue.url,

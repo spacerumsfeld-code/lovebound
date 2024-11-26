@@ -1,19 +1,20 @@
-import { TStory } from '@client-types/story/story.model'
-import { StoryCard } from './StoryCard'
+import { StoryGridFilters } from './StoryGrid.filters'
+import { Suspense } from 'react'
+import { StoryGridAsync } from './StoryGrid.async'
 
-export const StoryGrid = ({ stories }: { stories: TStory[] }) => {
+export const StoryGrid = ({
+    args,
+}: {
+    args: {
+        userId: string
+    }
+}) => {
     return (
-        <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-            {stories.map((story) => (
-                <StoryCard
-                    key={story.id}
-                    title={story.title}
-                    imageUrl={
-                        story?.coverUrl ??
-                        process.env.NEXT_PUBLIC_PLACEHOLDER_COVER_URL!
-                    }
-                />
-            ))}
-        </div>
+        <main>
+            <StoryGridFilters />
+            <Suspense key={args.userId} fallback={<div>Loading...</div>}>
+                <StoryGridAsync args={args} />
+            </Suspense>
+        </main>
     )
 }

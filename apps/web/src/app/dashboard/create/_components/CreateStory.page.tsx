@@ -36,6 +36,7 @@ import {
     ThemeEnum,
     LengthEnum,
     GenreEnum,
+    ZCreateStoryClient,
 } from '@client-types/story/story.model'
 import { themeOptions } from '@client-types/story/story.object'
 import {
@@ -48,6 +49,8 @@ import {
     tensionOptions,
     toneOptions,
 } from '@client-types/scene/scene.object'
+import { submitStory } from './data'
+import { MagicButton } from '@web/src/components/ui/magic-button'
 
 const StyleCard = ({
     label,
@@ -90,7 +93,6 @@ export const CreateStoryPage = () => {
         includeNarration: false,
         scenes: [
             {
-                content: '',
                 tone: null as ToneEnum | null,
                 setting: null as SettingEnum | null,
                 tensionLevel: null as TensionEnum | null,
@@ -101,29 +103,27 @@ export const CreateStoryPage = () => {
 
     useEffect(() => {
         if (
-            storyData.length === LengthEnum.Medium &&
+            storyData.length === LengthEnum.Short &&
             storyData.scenes.length !== 3
         ) {
             setStoryData((prev) => ({
                 ...prev,
                 scenes: Array(3)
                     .fill({})
-                    .map((_, i) => ({
-                        content: '',
+                    .map(() => ({
                         tone: null,
                         setting: null,
                         tensionLevel: null,
                     })),
             }))
         } else if (
-            storyData.length !== LengthEnum.Medium &&
+            storyData.length !== LengthEnum.Short &&
             storyData.scenes.length !== 1
         ) {
             setStoryData((prev) => ({
                 ...prev,
                 scenes: [
                     {
-                        content: '',
                         tone: null,
                         setting: null,
                         tensionLevel: null,
@@ -176,7 +176,7 @@ export const CreateStoryPage = () => {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: any,
     ) => {
-        if (storyData.length === LengthEnum.Medium) {
+        if (storyData.length === LengthEnum.Short) {
             const sceneIndex = getNextAvailableSceneIndex(category, value)
             setStoryData((prev) => ({
                 ...prev,
@@ -203,7 +203,7 @@ export const CreateStoryPage = () => {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: any,
     ): number | null => {
-        if (storyData.length !== LengthEnum.Medium) return null
+        if (storyData.length !== LengthEnum.Short) return null
         const index = storyData.scenes.findIndex(
             (scene) => scene[category] === value,
         )
@@ -211,11 +211,12 @@ export const CreateStoryPage = () => {
     }
 
     const handleSubmit = async () => {
-        console.log('Processed Story Data:', {
-            ...storyData,
-            genre: storyData.genre || storyData.theme,
-        })
-        // Here you would typically send this data to your API or state management system
+        const { data, success, error } = ZCreateStoryClient.safeParse(storyData)
+        if (!success) {
+            console.error('Invalid story submission', error)
+            return
+        }
+        await submitStory(data)
     }
 
     return (
@@ -293,9 +294,7 @@ export const CreateStoryPage = () => {
                                                         value !==
                                                             LengthEnum.Mini &&
                                                         value !==
-                                                            LengthEnum.Short &&
-                                                        value !==
-                                                            LengthEnum.Medium
+                                                            LengthEnum.Short
                                                     }
                                                 />
                                                 <Label
@@ -473,15 +472,11 @@ export const CreateStoryPage = () => {
                 </Tabs>
 
                 <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                    <div className="backdrop-blur-sm bg-background/80 rounded-full px-1 py-1">
-                        <Button
-                            size="lg"
-                            className="rounded-full px-8 bg-purple-600 hover:bg-purple-700"
-                            onClick={handleSubmit}
-                        >
-                            Generate Story
-                        </Button>
-                    </div>
+                    {/* <div className="backdrop-blur-sm bg-background/80 rounded-full px-1 py-1"> */}
+                    <MagicButton onClick={() => handleSubmit()}>
+                        + Create Story
+                    </MagicButton>
+                    {/* </div> */}
                 </div>
             </div>
 

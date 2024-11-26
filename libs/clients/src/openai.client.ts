@@ -1,31 +1,35 @@
-import { SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
+import { GenreEnum, SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
 import OpenAI from 'openai'
 import { Resource } from 'sst'
+import { cacheClient } from './cache.client.ts'
 
 const openai = new OpenAI({
     apiKey: Resource.OpenAIApiKey.value,
 })
 
-export const generateCompletion = async (inputs: {
-    title: string | null
-    scenario: string | null
+export const generateMiniContent = async (inputs: {
     tensionLevel: TensionEnum
     theme: ThemeEnum
     tone: ToneEnum
+    genre: GenreEnum
     setting: string
-    wordCount: number
 }) => {
+    const basePrompt = await cacheClient.get<string>('prompt:base')
+    const systemPrompt = await cacheClient.get<string>('prompt:system')
+
     const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         n: 1,
         temperature: 0.8,
         stream: false,
         messages: [
-            { role: 'system', content: Resource.OpenAISystemPrompt.value },
+            {
+                role: 'system',
+                content: systemPrompt!,
+            },
             {
                 role: 'user',
-                content:
-                    Resource.OpenAIWritingPrompt.value + JSON.stringify(inputs),
+                content: basePrompt! + JSON.stringify(inputs),
             },
         ],
     })
@@ -33,7 +37,6 @@ export const generateCompletion = async (inputs: {
     return completion.choices[0].message.content
 }
 
-//@ TODO: fine tune prompt, long term add more inputs.
 export const generateStoryCover = async ({
     title,
     setting,
@@ -41,11 +44,11 @@ export const generateStoryCover = async ({
     title: string
     setting: SettingEnum
 }) => {
+    const coverPrompt = await cacheClient.get<string>('prompt:cover')
     const response = await openai.images.generate({
         model: 'dall-e-3',
         prompt: `I NEED to test how the tool works with extremely simple prompts. DO NOT add any detail, just use it AS-IS: ${
-            Resource.OpenAICoverPrompt.value +
-            `title: ${title}, setting: ${setting}`
+            coverPrompt! + `title: ${title}, setting: ${setting}`
         }`,
         n: 1,
         quality: 'standard',
@@ -72,7 +75,7 @@ export const generateStoryNarration = async ({
 }
 
 export const aiClient = {
-    generateCompletion,
+    generateMiniContent,
     generateStoryCover,
     generateStoryNarration,
 }

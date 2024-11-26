@@ -28,6 +28,8 @@ export const uploadImageFromUrl = async (url: string) => {
 }
 
 export const uploadAudioFromBuffer = async (buffer: Buffer) => {
+    if (!buffer) return null
+
     const key = `narration.mp3`
 
     const command = new PutObjectCommand({

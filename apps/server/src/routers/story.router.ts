@@ -10,21 +10,11 @@ export const storyRouter = router({
     submitStory: baseProcedure
         .input(ZCreateStory)
         .mutation(async ({ c, input }) => {
+            console.info('We are in the story router')
             const [_, error] = await handleAsync(
-                publishStorySubmittedEvent({
-                    includeNarration: input.includeNarration,
-                    length: input.length,
-                    ownerId: input.userId,
-                    title: input.storyTitle,
-                    scenario: input.scenario,
-                    tensionLevel: input.tension,
-                    theme: input.selectedTheme,
-                    tone: input.selectedTone,
-                    setting: input.selectedSetting,
-                }),
+                publishStorySubmittedEvent(input),
             )
             if (error) {
-                console.error(error)
                 throw new HTTPException(400, {
                     message: (error as Error).message,
                 })

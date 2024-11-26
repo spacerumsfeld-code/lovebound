@@ -35,18 +35,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "OpenAICoverPrompt": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "OpenAISystemPrompt": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "OpenAIWritingPrompt": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
     "Server": {
       "name": string
       "type": "sst.aws.Function"

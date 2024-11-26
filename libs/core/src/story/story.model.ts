@@ -49,9 +49,36 @@ export const ZStory = z.object({
 export type TStory = z.infer<typeof ZStory>
 
 export const ZCreateStory = ZStory.extend({
-    userId: z.string(),
+    ownerId: z.string(),
     includeNarration: z.boolean(),
-    scenes: z.array(ZScene),
-}).omit({ id: true })
+    scenes: z.array(
+        ZScene.omit({
+            id: true,
+            storyId: true,
+            orderIndex: true,
+            narrationUrl: true,
+            content: true,
+        }),
+    ),
+}).omit({ id: true, coverUrl: true })
+export type TCreateStory = z.infer<typeof ZCreateStory>
 
-export const ZCreateStoryClient = ZCreateStory.omit({ userId: true })
+export const ZCreateStoryClient = ZCreateStory.omit({
+    ownerId: true,
+})
+export type TCreateStoryClient = z.infer<typeof ZCreateStoryClient>
+
+export const ZStoryCreatedEvent = z.object({
+    title: z.string(),
+    ownerId: z.string(),
+    storyId: z.number(),
+    scenes: z.array(
+        ZScene.omit({
+            storyId: true,
+            narrationUrl: true,
+            orderIndex: true,
+        }),
+    ),
+    includeNarration: z.boolean(),
+})
+export type TStoryCreatedEvent = z.infer<typeof ZStoryCreatedEvent>
