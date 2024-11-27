@@ -15,5 +15,5 @@ export const queue = new sst.aws.Queue('EventQueue', {
 queue.subscribe({
     handler: 'libs/functions/src/subscriber.handler',
     link: [...allSecrets, bucket, queue, websocket],
-    timeout: '1 minute',
+    timeout: '30 seconds',
 })

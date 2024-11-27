@@ -6,14 +6,21 @@ import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq } from 'drizzle-orm/expressions'
 import { scenes } from '@core'
+import { cacheClient } from '@clients/cache.client.ts'
 
 class StoryService {
     private store
     private aiClient
+    private cache
 
-    constructor(store: NeonHttpDatabase, client: typeof aiClient) {
+    constructor(
+        store: NeonHttpDatabase,
+        client: typeof aiClient,
+        cache: typeof cacheClient,
+    ) {
         this.store = store
         this.aiClient = client
+        this.cache = cache
     }
 
     public async getUserStories({ userId }: { userId: string }) {
@@ -42,16 +49,25 @@ class StoryService {
         tone: ToneEnum
         setting: SettingEnum
     }) {
-        const generatedStoryContent = await this.aiClient.generateMiniContent({
-            tensionLevel,
-            theme,
-            genre,
-            tone,
-            setting,
-        })
+        const miniPrompt = await this.cache.get<string>('prompt:mini')
+        const finalPrompt =
+            miniPrompt +
+            JSON.stringify({ genre, tensionLevel, theme, tone, setting })
+
+        const generatedStoryContent =
+            await this.aiClient.generateContent(finalPrompt)
 
         return {
-            content: generatedStoryContent,
+            content: generatedStoryContent!,
+        }
+    }
+
+    public async generateSceneContent({ prompt }: { prompt: string }) {
+        const generatedSceneContent =
+            await this.aiClient.generateContent(prompt)
+
+        return {
+            content: generatedSceneContent!,
         }
     }
 
@@ -150,4 +166,4 @@ class StoryService {
     }
 }
 
-export const storyService = new StoryService(db, aiClient)
+export const storyService = new StoryService(db, aiClient, cacheClient)

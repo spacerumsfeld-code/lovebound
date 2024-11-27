@@ -99,7 +99,6 @@ export const CreateStoryPage = () => {
             },
         ],
     })
-    console.info('storyData', storyData)
 
     useEffect(() => {
         if (
@@ -472,11 +471,9 @@ export const CreateStoryPage = () => {
                 </Tabs>
 
                 <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                    {/* <div className="backdrop-blur-sm bg-background/80 rounded-full px-1 py-1"> */}
                     <MagicButton onClick={() => handleSubmit()}>
                         + Create Story
                     </MagicButton>
-                    {/* </div> */}
                 </div>
             </div>
 

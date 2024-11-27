@@ -15,6 +15,55 @@ import { Logo } from './logo'
 import { ModeToggle } from './mode-toggle'
 import { SITE_MAP } from '../../constants'
 
+interface RaasIconModernProps {
+    className?: string
+    size?: number
+}
+
+export const RaasIconSleek: React.FC<RaasIconModernProps> = ({
+    className = '',
+    size = 24,
+}) => {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <rect width="24" height="24" rx="6" fill="url(#sleekGradient)" />
+            <path d="M12 6L7 11H10V18H14V11H17L12 6Z" fill="white" />
+            <path
+                d="M7 14L12 19L17 14"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M12 6C9.79086 6 8 7.79086 8 10C8 13 12 15 12 15C12 15 16 13 16 10C16 7.79086 14.2091 6 12 6Z"
+                fill="white"
+                fillOpacity="0.6"
+            />
+            <defs>
+                <linearGradient
+                    id="sleekGradient"
+                    x1="0"
+                    y1="0"
+                    x2="24"
+                    y2="24"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop stopColor="#FF6B6B" />
+                    <stop offset="1" stopColor="#4ECDC4" />
+                </linearGradient>
+            </defs>
+        </svg>
+    )
+}
+
 interface NavbarProps {
     navItems: {
         name: string
@@ -91,7 +140,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                 visible && 'bg-white/80 dark:bg-neutral-950/80',
             )}
         >
-            <Logo />
+            <RaasIconSleek size={32} className="text-rose-gold" />
             <motion.div className="lg:flex flex-row flex-1 absolute inset-0 hidden items-center justify-center space-x-2 lg:space-x-2 text-sm text-zinc-600 font-medium hover:text-zinc-800 transition duration-200">
                 {navItems.map((navItem: any, idx: number) => (
                     <Link

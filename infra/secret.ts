@@ -5,6 +5,9 @@ export const secret = {
     AuthHandlerSigningSecret: new sst.Secret('AuthHandlerSigningSecret'),
     OpenAIApiKey: new sst.Secret('OpenAIApiKey'),
     UpstashRedisToken: new sst.Secret('UpstashRedisToken'),
+    InngestBranchId: new sst.Secret('InngestBranchId'),
+    InngestSigningKey: new sst.Secret('InngestSigningKey'),
+    InngestEventKey: new sst.Secret('InngestEventKey'),
 }
 
 export const allSecrets = Object.values(secret)

@@ -10,6 +10,9 @@ export const StoryGridView = ({
 }: {
     stories: Omit<TStory, 'theme' | 'genre' | 'ownerId' | 'length'>[]
 }) => {
+    if (!stories.length) {
+        return <div>No stories yet</div>
+    }
     return (
         <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {stories.map((story) => (

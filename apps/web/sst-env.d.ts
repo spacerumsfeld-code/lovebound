@@ -31,9 +31,26 @@ declare module "sst" {
       "type": "sst.aws.Queue"
       "url": string
     }
+    "InngestBranchId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "InngestEventKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "InngestSigningKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "OpenAIApiKey": {
       "type": "sst.sst.Secret"
       "value": string
+    }
+    "Orchestration": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
     }
     "Server": {
       "name": string

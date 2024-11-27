@@ -7,14 +7,7 @@ const openai = new OpenAI({
     apiKey: Resource.OpenAIApiKey.value,
 })
 
-export const generateMiniContent = async (inputs: {
-    tensionLevel: TensionEnum
-    theme: ThemeEnum
-    tone: ToneEnum
-    genre: GenreEnum
-    setting: string
-}) => {
-    const basePrompt = await cacheClient.get<string>('prompt:base')
+export const generateContent = async (prompt: string) => {
     const systemPrompt = await cacheClient.get<string>('prompt:system')
 
     const completion = await openai.chat.completions.create({
@@ -29,7 +22,7 @@ export const generateMiniContent = async (inputs: {
             },
             {
                 role: 'user',
-                content: basePrompt! + JSON.stringify(inputs),
+                content: prompt,
             },
         ],
     })
@@ -75,7 +68,7 @@ export const generateStoryNarration = async ({
 }
 
 export const aiClient = {
-    generateMiniContent,
+    generateContent,
     generateStoryCover,
     generateStoryNarration,
 }

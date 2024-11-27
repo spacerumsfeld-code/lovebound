@@ -1,6 +1,6 @@
 import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { users } from '@core'
+import { users } from './user.sql.ts'
 
 class UserService {
     private store
@@ -43,4 +43,5 @@ class UserService {
     }
 }
 
-export const userService = new UserService(db)
+const userService = new UserService(db)
+export const User = userService

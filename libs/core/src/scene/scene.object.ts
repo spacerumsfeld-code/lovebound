@@ -48,11 +48,63 @@ export const toneOptions = [
         label: ToneEnum.Dreamy,
         href: 'https://cdn.sanity.io/images/vjg0x5qe/production/8010ef3b5306dd179a71ec27ede03a52d7624e80-1024x1024.webp',
     },
+    {
+        label: ToneEnum.Intense,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Playful,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Passionate,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Lighthearted,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Mysterious,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Whimsical,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Emotional,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Tender,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: ToneEnum.Sultry,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
 ]
 
 export const tensionOptions = [
     {
         label: TensionEnum.Max,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: TensionEnum.Intense,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: TensionEnum.High,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: TensionEnum.Medium,
+        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+    },
+    {
+        label: TensionEnum.Low,
         href: 'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
     },
 ]

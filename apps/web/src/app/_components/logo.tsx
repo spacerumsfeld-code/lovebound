@@ -12,10 +12,11 @@ export const Logo = (props: {
             className="font-normal flex space-x-2 items-center text-sm text-black relative z-20"
         >
             <Image
-                src="/logo.png"
+                src="https://cdn.sanity.io/images/vjg0x5qe/production/8b9b8d889a2ffd45816eb6633872413469caa633-500x500.png"
                 alt="logo"
-                width={props.width ?? 50}
-                height={props.height ?? 50}
+                width={props.width ?? 60}
+                height={props.height ?? 60}
+                className="hover:scale-105 transition-transform duration-200 ease-in-out relative z-20"
             />
             {!props.noLabel && (
                 <span className="ml-4 font-medium text-black dark:text-white">

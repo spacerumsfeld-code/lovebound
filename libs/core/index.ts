@@ -1,5 +1,5 @@
 // Services
-export { userService as User } from './src/user/user.service.ts'
+export { User } from './src/user/user.service.ts'
 export { storyService as Story } from './src/story/story.service.ts'
 export { connectionService as Connection } from './src/connection/connection.service.ts'
 
