@@ -17,8 +17,6 @@ export const useWebsocket = (url: string, userId: string) => {
                 payload: Record<string, any>
             } = JSON.parse(event.data)
 
-            console.info('Received message via wss', message)
-
             switch (message.type) {
                 case 'scene.written':
                     console.info('Scene written in websocket!')

@@ -6,11 +6,12 @@ import {
     SidebarTrigger,
 } from '@web/src/components/ui/sidebar'
 import { Button } from '@web/src/components/ui/button'
-import { ToastFromParams } from '@web/src/components/ui/toast-from-params'
+import { ActionsFromParams } from '@web/src/components/ui/toast-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '@web/src/components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 import { Breadcrumbs } from './_components/crumbs'
+import { Modal } from './_components/modals/Modal'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -34,10 +35,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </SidebarInset>
             </SidebarProvider>
             <Suspense>
-                <ToastFromParams />
+                <ActionsFromParams />
             </Suspense>
             <WebsocketWrapper />
             <Toaster />
+            <Modal />
         </>
     )
 }

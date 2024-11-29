@@ -1,4 +1,3 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
 import { Button } from '@web/src/components/ui/buttonTwo'
 import {
     Card,
@@ -11,9 +10,7 @@ import { ArrowRight, Film, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { SITE_MAP } from '@web/src/constants'
 
-export const DashboardPage = async () => {
-    // const [authData, userData] = await Promise.all([auth(), currentUser()])
-
+export const DashboardPage = () => {
     return (
         <div className="flex-1 space-y-4 p-8 pt-6">
             <Card className="bg-purple-50">

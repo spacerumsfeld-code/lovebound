@@ -1,22 +1,26 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-// import { toast } from 'sonner'
 import { useEffect } from 'react'
+import { modalAtom, ModalType } from '@web/src/atoms/modal'
+import { useSetAtom } from 'jotai'
 
-export const ToastFromParams = () => {
+export const ActionsFromParams = () => {
     // @State
     const searchParams = useSearchParams()
-    const message = searchParams?.get('toast') ?? ''
+    const action = searchParams?.get('action') ?? ''
+    const setModalToRender = useSetAtom(modalAtom)
 
-    /** Interactivity */
+    // @Inertactivity
     useEffect(() => {
-        switch (message) {
+        switch (action) {
+            case 'modal.story.created':
+                setModalToRender(ModalType.StoryCreated)
             default:
                 break
         }
-    }, [message])
+    }, [action])
 
-    /** Render */
+    // @Render
     return <></>
 }
