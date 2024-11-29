@@ -1,6 +1,8 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { postToConnection } from '@clients/wss.client.ts'
 
+// @change to notification service
+
 class ConnectionService {
     private client
 
@@ -40,12 +42,13 @@ class ConnectionService {
         const { connectionId } = await this.getConnection({
             userId,
         })
+        console.info('postToConnection', connectionId)
         await postToConnection({
             id: connectionId!,
             data,
         })
 
-        return { success: true }
+        return { success: true, id: connectionId! }
     }
 }
 

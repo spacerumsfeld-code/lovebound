@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { pgEnum, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
+import {
+    boolean,
+    pgEnum,
+    pgTable,
+    serial,
+    text,
+    timestamp,
+} from 'drizzle-orm/pg-core'
 import { users } from '../user/user.sql.ts'
 import { GenreEnum, LengthEnum, ThemeEnum } from '../story/story.model.ts'
 
@@ -22,6 +29,7 @@ export const stories = pgTable('stories', {
     ownerId: text('owner_id').notNull(),
     title: text('title').notNull(),
     coverUrl: text('cover_url'),
+    inProgress: boolean('in_progress').notNull().default(true),
     // enums
     genre: genreEnum('genre').notNull().$type<GenreEnum>(),
     theme: themeEnum('theme').notNull().$type<ThemeEnum>(),

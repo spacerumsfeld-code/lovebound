@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <ToastFromParams />
             </Suspense>
             <WebsocketWrapper />
-            <Toaster position="bottom-right" richColors duration={10} />
+            <Toaster />
         </>
     )
 }

@@ -17,5 +17,5 @@ export const submitStory = async (data: TCreateStoryClient) => {
         console.error(error)
     }
 
-    // return redirect('/dashboard?toast=story-submitted')
+    return redirect('/dashboard?toast=story-submitted')
 }

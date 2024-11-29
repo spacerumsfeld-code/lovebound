@@ -3,7 +3,6 @@ import { router } from '../_internals/router.ts'
 import { handleAsync } from '@utils'
 import { baseProcedure } from '../_internals/index.ts'
 import { Story, ZCreateStory } from '@core'
-import { publishStorySubmittedEvent } from '@clients/queue.client.ts'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
 import { HTTPException } from 'hono/http-exception'
 
@@ -11,31 +10,36 @@ export const storyRouter = router({
     submitStory: baseProcedure
         .input(ZCreateStory)
         .mutation(async ({ c, input }) => {
-            // console.info(
-            //     `Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
-            // )
+            console.info(
+                `Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
+            )
+
+            const [createdStory, createStoryError] = await handleAsync(
+                Story.createStory({
+                    length: input.length,
+                    ownerId: input.ownerId,
+                    title: input.title,
+                    genre: input.genre,
+                    theme: input.theme,
+                }),
+            )
+            if (createStoryError) {
+                throw new HTTPException(400, {
+                    message: createStoryError.message,
+                })
+            }
 
             const [_, orchestrationError] = await handleAsync(
                 orchestrationClient.send({
                     name: 'start.short.story',
-                    data: input,
+                    data: { ...input, storyId: createdStory!.id },
                 }),
             )
             if (orchestrationError) {
-                console.error('oops', orchestrationError)
                 throw new HTTPException(400, {
-                    message: (orchestrationError as Error).message,
+                    message: orchestrationError.message,
                 })
             }
-
-            // const [_, error] = await handleAsync(
-            //     publishStorySubmittedEvent(input),
-            // )
-            // if (error) {
-            //     throw new HTTPException(400, {
-            //         message: (error as Error).message,
-            //     })
-            // }
 
             return c.superjson({
                 success: true,
@@ -62,9 +66,8 @@ export const storyRouter = router({
                     }),
                 )
             if (userStoriesError) {
-                console.error(userStoriesError)
                 throw new HTTPException(400, {
-                    message: (userStoriesError as Error).message,
+                    message: userStoriesError.message,
                 })
             }
 

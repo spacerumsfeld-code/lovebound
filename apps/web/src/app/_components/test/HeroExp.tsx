@@ -269,7 +269,7 @@ const HeartBeamCollision = React.forwardRef<
             >
                 <HeartBeam ref={beamRef} {...beamOptions} key={beamKey} />
             </svg>
-            <AnimatePresence>
+            {/* <AnimatePresence>
                 {collision.detected && collision.coordinates && (
                     <Explosion
                         key={`${collision.coordinates.x}-${collision.coordinates.y}`}
@@ -281,7 +281,7 @@ const HeartBeamCollision = React.forwardRef<
                         }}
                     />
                 )}
-            </AnimatePresence>
+            </AnimatePresence> */}
         </>
     )
 })

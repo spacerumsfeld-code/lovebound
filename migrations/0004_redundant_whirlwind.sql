@@ -1,0 +1,1 @@
+ALTER TABLE "stories" ALTER COLUMN "in_progress" SET DEFAULT true;

@@ -1,6 +1,6 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
-import { Story } from '@core'
+import { Connection, Story } from '@core'
 import { handleAsync } from '@utils'
 
 export const createScene = orchestrationClient.createFunction(
@@ -18,7 +18,7 @@ export const createScene = orchestrationClient.createFunction(
             `prompt:short:scene:${data.sceneNumber}`,
         )) as string
         const lastSceneSummary = await cacheClient.get<string>(
-            `short:scene:${data.sceneNumber - 1}:summary`,
+            `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
         )
         const scene = data.scenes.shift()!
         const { tone, setting, tensionLevel } = scene
@@ -71,6 +71,25 @@ export const createScene = orchestrationClient.createFunction(
             return
         }
 
+        const [__, postToConnectionError] = await step.run(
+            'Post to connection',
+            () =>
+                handleAsync(
+                    Connection.postToConnection({
+                        userId: data.ownerId,
+                        data: {
+                            type: 'scene.written',
+                            payload: {
+                                sceneNumber: data.sceneNumber,
+                            },
+                        },
+                    }),
+                ),
+        )
+        if (postToConnectionError) {
+            console.error(postToConnectionError)
+        }
+
         switch (data.sceneNumber === 3) {
             case true:
                 await orchestrationClient.send({
@@ -80,7 +99,7 @@ export const createScene = orchestrationClient.createFunction(
                 break
             case false:
                 await cacheClient.set(
-                    `short:scene:${data.sceneNumber}:summary`,
+                    `short:scene:${data.storyId}:${data.sceneNumber}:summary`,
                     summary,
                 )
                 await orchestrationClient.send({

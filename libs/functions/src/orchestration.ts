@@ -4,7 +4,7 @@ import {
     createScene,
     finishShortStory,
     startShortStory,
-} from './short-story/index.ts'
+} from './story/index.ts'
 import { Resource } from 'sst'
 
 process.env.INNGEST_SIGNING_KEY = Resource.InngestSigningKey.value

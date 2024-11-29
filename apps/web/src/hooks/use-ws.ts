@@ -1,49 +1,68 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { toast } from 'sonner'
+import { useEffect, useRef, useCallback } from 'react'
+import { useToast } from '@web/src/hooks/use-toast'
 import { SITE_MAP } from '../constants'
 
 export const useWebsocket = (url: string, userId: string) => {
     const router = useRouter()
+    const { showToast } = useToast()
+    const socketRef = useRef<WebSocket | null>(null)
 
-    useEffect(() => {
-        const socket = new WebSocket(`${url}?userId=${userId}`)
-
-        socket.onopen = () => {
-            console.log('Connected to websocket')
-        }
-
-        socket.onmessage = (event) => {
+    const handleMessage = useCallback(
+        (event: MessageEvent) => {
             const message: {
                 type: string
-                data: Record<string, any>
+                payload: Record<string, any>
             } = JSON.parse(event.data)
+
+            console.info('Received message via wss', message)
+
             switch (message.type) {
-                case 'story.created':
-                    toast.success('Your story has been created!', {
-                        action: {
-                            label: 'View Story',
-                            onClick: () => router.push(SITE_MAP.STORIES),
-                        },
-                    })
+                case 'scene.written':
+                    console.info('Scene written in websocket!')
+                    showToast(
+                        `Good news! Scene ${message.payload.sceneNumber} has been written. Your story is almost complete!`,
+                    )
                     break
-                case 'story.cover.generated':
-                    console.info('story.cover.generated', message)
+                case 'story.complete':
+                    showToast('Your story is complete!')
                     break
                 default:
                     console.info('Unknown event type', message)
                     break
             }
+        },
+        [router, showToast],
+    )
+
+    useEffect(() => {
+        if (!socketRef.current) {
+            socketRef.current = new WebSocket(`${url}?userId=${userId}`)
+
+            socketRef.current.onopen = () => {
+                console.log('WebSocket connection established')
+                showToast('WebSocket connected')
+            }
+
+            socketRef.current.onclose = () => {
+                console.log('WebSocket connection closed')
+                showToast('WebSocket disconnected', { type: 'error' })
+            }
+
+            socketRef.current.onerror = (error) => {
+                console.error('WebSocket error:', error)
+                showToast('WebSocket error occurred', { type: 'error' })
+            }
         }
 
-        socket.onclose = () => {
-            console.log('Disconnected from websocket')
-        }
+        socketRef.current.onmessage = handleMessage
 
         return () => {
-            socket.close()
+            if (socketRef.current) {
+                socketRef.current.close()
+            }
         }
-    }, [url])
+    }, [url, userId, handleMessage, showToast])
 }

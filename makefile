@@ -40,5 +40,3 @@ cicd-test:
 
 cicd-deploy:
 	npx sst deploy --stage production
-
-

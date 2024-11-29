@@ -134,14 +134,17 @@ class StoryService {
     updateStory = async ({
         id,
         coverUrl,
+        inProgress,
     }: {
         id: number
-        coverUrl: string
+        coverUrl?: string
+        inProgress?: boolean
     }) => {
         await this.store
             .update(stories)
             .set({
                 coverUrl,
+                inProgress,
             })
             .where(eq(stories.id, id))
 

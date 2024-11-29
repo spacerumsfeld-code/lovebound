@@ -1,5 +1,4 @@
 import crypto from 'crypto'
-// import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { Resource } from 'sst'
 

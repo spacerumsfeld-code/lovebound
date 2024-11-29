@@ -5,7 +5,7 @@ import { ZCreateStory } from '@client-types/story/story.model.ts'
 
 const ZStartShortStoryEvent = z.object({
     name: z.literal('start.short.story'),
-    data: ZCreateStory,
+    data: ZCreateStory.extend({ storyId: z.number() }),
 }) satisfies LiteralZodEventSchema
 
 const ZCreateSceneEvent = z.object({

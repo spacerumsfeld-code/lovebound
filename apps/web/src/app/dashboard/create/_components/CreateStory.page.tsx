@@ -51,6 +51,7 @@ import {
 } from '@client-types/scene/scene.object'
 import { submitStory } from './data'
 import { MagicButton } from '@web/src/components/ui/magic-button'
+import useLoading from '@web/src/hooks/use-loading'
 
 const StyleCard = ({
     label,
@@ -99,6 +100,8 @@ export const CreateStoryPage = () => {
             },
         ],
     })
+    console.info('storyData', storyData)
+    const { isLoading, startLoading, stopLoading } = useLoading()
 
     useEffect(() => {
         if (
@@ -210,12 +213,15 @@ export const CreateStoryPage = () => {
     }
 
     const handleSubmit = async () => {
+        console.info('wtf is going on', storyData)
         const { data, success, error } = ZCreateStoryClient.safeParse(storyData)
         if (!success) {
             console.error('Invalid story submission', error)
             return
         }
+        startLoading('submit.story')
         await submitStory(data)
+        stopLoading('submit.story')
     }
 
     return (
@@ -471,7 +477,10 @@ export const CreateStoryPage = () => {
                 </Tabs>
 
                 <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                    <MagicButton onClick={() => handleSubmit()}>
+                    <MagicButton
+                        disabled={isLoading('submit.story')}
+                        onClick={() => handleSubmit()}
+                    >
                         + Create Story
                     </MagicButton>
                 </div>
