@@ -1,4 +1,4 @@
-import { getUserStories } from './data'
+import { getStories } from './data'
 
 export const StoryGridAsync = async ({
     args,
@@ -7,7 +7,7 @@ export const StoryGridAsync = async ({
         userId: string
     }
 }) => {
-    const { component } = await getUserStories(args)
+    const { component } = await getStories({ userId: args.userId })
 
     return component
 }

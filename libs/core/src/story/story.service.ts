@@ -1,12 +1,18 @@
 import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { ThemeEnum, GenreEnum, LengthEnum } from '../story/story.model.ts'
+import {
+    ThemeEnum,
+    GenreEnum,
+    LengthEnum,
+    TStoryWithScenes,
+} from '../story/story.model.ts'
 import { ToneEnum, SettingEnum, TensionEnum } from '../scene/scene.model.ts'
 import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq } from 'drizzle-orm/expressions'
 import { scenes } from '@core'
 import { cacheClient } from '@clients/cache.client.ts'
+import { sql } from 'drizzle-orm'
 
 class StoryService {
     private store
@@ -23,17 +29,33 @@ class StoryService {
         this.cache = cache
     }
 
-    public async getUserStories({ userId }: { userId: string }) {
-        const userStories = await this.store
-            .select({
-                id: stories.id,
-                coverUrl: stories.coverUrl,
-                title: stories.title,
-            })
-            .from(stories)
-            .where(eq(stories.ownerId, userId))
+    public async getStories({ userId }: { userId: string }) {
+        const result = await this.store.execute(sql`
+              SELECT 
+                s.id AS story_id,
+                s.title,
+                s.genre,
+                s.theme,
+                s.length,
+                s.cover_url,
+                s.created_at,
+                s.updated_at,
+                JSON_AGG(
+                  JSON_BUILD_OBJECT(
+                    'id', sc.id,
+                    'content', sc.content,
+                    'order_index', sc.order_index
+                  )
+                ) AS scenes
+                 
+              FROM ${stories} s
+              LEFT JOIN ${scenes} sc ON s.id = sc.story_id
+              WHERE s.owner_id = ${userId}
+              GROUP BY s.id
+              ORDER BY s.created_at DESC
+            `)
 
-        return userStories
+        return { stories: result.rows as unknown as TStoryWithScenes[] }
     }
 
     public async generateMiniContent({

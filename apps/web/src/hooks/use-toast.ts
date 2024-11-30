@@ -6,7 +6,5 @@ export const useToast = () => {
         toast(message, options)
     }, [])
 
-    console.info('why the fuck arent we working?')
-
     return { showToast }
 }

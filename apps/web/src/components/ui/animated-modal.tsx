@@ -9,23 +9,41 @@ import React, {
     useContext,
     useEffect,
     useRef,
+    useState,
 } from 'react'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { modalAtom, ModalType } from '@web/src/atoms/modal'
 
 interface ModalContextType {
     open: boolean
-    setModalToRender: (modalToRender: ModalType) => void
+    setOpen: () => void
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
-    const [modalToRender, setModalToRender] = useAtom(modalAtom)
-    const open = modalToRender !== ModalType.None
+export const ModalProvider = ({
+    isGlobal,
+    children,
+}: {
+    isGlobal: boolean
+    children: ReactNode
+}) => {
+    // we have re-wired the modal to work both with local state (using the ModalTrigger)
+    // AND with global state (using the jotai atom)
+
+    const [localOpen, setLocalOpen] = useState(isGlobal)
+    const closeGlobalModal = useSetAtom(modalAtom)
+
+    const finalOpen = isGlobal ? true : localOpen
+
+    const finalOpenFunc = isGlobal
+        ? () => closeGlobalModal(ModalType.None)
+        : () => setLocalOpen((prev) => !prev)
 
     return (
-        <ModalContext.Provider value={{ open, setModalToRender }}>
+        <ModalContext.Provider
+            value={{ open: finalOpen, setOpen: finalOpenFunc }}
+        >
             {children}
         </ModalContext.Provider>
     )
@@ -39,8 +57,35 @@ export const useModal = () => {
     return context
 }
 
-export function Modal({ children }: { children: ReactNode }) {
-    return <ModalProvider>{children}</ModalProvider>
+export function Modal({
+    isGlobal = false,
+    children,
+}: {
+    isGlobal?: boolean
+    children: ReactNode
+}) {
+    return <ModalProvider isGlobal={isGlobal}>{children}</ModalProvider>
+}
+
+export const ModalTrigger = ({
+    children,
+    className,
+}: {
+    children: ReactNode
+    className?: string
+}) => {
+    const { setOpen } = useModal()
+    return (
+        <button
+            className={cn(
+                'px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden',
+                className,
+            )}
+            onClick={() => setOpen()}
+        >
+            {children}
+        </button>
+    )
 }
 
 export const ModalBody = ({
@@ -50,7 +95,7 @@ export const ModalBody = ({
     children: ReactNode
     className?: string
 }) => {
-    const { open } = useModal()
+    const { open, setOpen } = useModal()
 
     useEffect(() => {
         if (open) {
@@ -61,8 +106,7 @@ export const ModalBody = ({
     }, [open])
 
     const modalRef = useRef(null)
-    const { setModalToRender } = useModal()
-    useOutsideClick(modalRef, () => setModalToRender(ModalType.None))
+    useOutsideClick(modalRef, () => setOpen())
 
     return (
         <AnimatePresence>
@@ -174,10 +218,10 @@ const Overlay = ({ className }: { className?: string }) => {
 }
 
 const CloseIcon = () => {
-    const { setModalToRender } = useModal()
+    const { setOpen } = useModal()
     return (
         <button
-            onClick={() => setModalToRender(ModalType.None)}
+            onClick={() => setOpen()}
             className="absolute top-4 right-4 group"
         >
             <svg

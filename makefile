@@ -2,6 +2,12 @@
 dev:
 	npx sst dev
 
+lint:
+	pnpm nx run-many --target=lint --all
+
+typecheck:
+	pnpm nx run-many --target=typecheck --all
+
 # DATA MODELLING
 push-db:
 	npx drizzle-kit push
@@ -9,10 +15,10 @@ push-db:
 pull-db:
 	npx drizzle-kit pull
 
-generate-migration:
+migrate-generate:
 	npx drizzle-kit generate
 
-apply-migration:
+migrate-apply:
 	npx drizzle-kit migrate
 
 seed:

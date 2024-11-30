@@ -3,12 +3,16 @@
 import { client as api } from '@clients/api.client'
 import { StoryGridView } from './StoryGrid.view'
 
-export const getUserStories = async (args: { userId: string }) => {
-    const response = await api.story.getUserStories.$get({
+export const getStories = async (args: { userId: string }) => {
+    const response = await api.story.getStories.$get({
         userId: args.userId,
     })
-    const { stories } = await response.json()
+    const {
+        data: { stories },
+    } = await response.json()
+    console.info('storyData from server function', JSON.stringify(stories))
 
-    const component = <StoryGridView stories={stories} />
+    // make key=offset when we add that.
+    const component = <StoryGridView key={args.userId} storyData={stories} />
     return { component }
 }

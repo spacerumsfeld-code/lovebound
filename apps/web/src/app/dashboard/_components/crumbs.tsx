@@ -5,7 +5,6 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@web/src/components/ui/breadcrumb'
 
@@ -27,7 +26,7 @@ export const Breadcrumbs = () => {
                     {segments.length > 0 && (
                         <BreadcrumbSeparator className="hidden md:block" />
                     )}
-                    {segments.map((segment, _index) => (
+                    {segments.map((segment) => (
                         <React.Fragment key={segment}>
                             <BreadcrumbItem>
                                 <BreadcrumbLink href={`/dashboard/${segment}`}>
@@ -35,11 +34,6 @@ export const Breadcrumbs = () => {
                                         segment.slice(1)}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
-                            {/* {index < segments.length - 1 && (
-                                <BreadcrumbSeparator
-                                    key={`${segment}-separator`}
-                                />
-                            )} */}
                         </React.Fragment>
                     ))}
                 </BreadcrumbList>

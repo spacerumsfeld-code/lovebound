@@ -18,7 +18,6 @@ export const toneEnum = pgEnum(
     'tone',
     Object.values(ToneEnum) as [string, ...string[]],
 )
-
 export const settingEnum = pgEnum(
     'setting',
     Object.values(SettingEnum) as [string, ...string[]],

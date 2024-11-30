@@ -6,7 +6,7 @@ import {
     SidebarTrigger,
 } from '@web/src/components/ui/sidebar'
 import { Button } from '@web/src/components/ui/button'
-import { ActionsFromParams } from '@web/src/components/ui/toast-from-params'
+import { ActionsFromParams } from '@web/src/components/ui/actions-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '@web/src/components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'

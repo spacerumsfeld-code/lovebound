@@ -46,7 +46,7 @@ export const storyRouter = router({
                 message: 'Story submitted successfully',
             })
         }),
-    getUserStories: baseProcedure
+    getStories: baseProcedure
         .input(
             z.object({
                 userId: z.string(),
@@ -54,25 +54,24 @@ export const storyRouter = router({
         )
         .query(async ({ c, input }) => {
             console.info(
-                `Invoked storyRouter.getUserStories with data ${JSON.stringify(
+                `Invoked storyRouter.getStories with data ${JSON.stringify(
                     input,
                 )}`,
             )
 
-            const [getUserStoriesResponse, userStoriesError] =
-                await handleAsync(
-                    Story.getUserStories({
-                        userId: input.userId,
-                    }),
-                )
-            if (userStoriesError) {
+            const [getStories, getStoriesError] = await handleAsync(
+                Story.getStories({
+                    userId: input.userId,
+                }),
+            )
+            if (getStoriesError) {
                 throw new HTTPException(400, {
-                    message: userStoriesError.message,
+                    message: getStoriesError.message,
                 })
             }
 
             return c.superjson({
-                stories: getUserStoriesResponse!,
+                data: getStories!,
                 success: true,
             })
         }),

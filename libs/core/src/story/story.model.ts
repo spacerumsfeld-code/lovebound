@@ -1,4 +1,4 @@
-import { ZScene } from '../scene/scene.model.ts'
+import { TScene, ZScene } from '../scene/scene.model.ts'
 import { z } from 'zod'
 
 export enum GenreEnum {
@@ -82,3 +82,13 @@ export const ZStoryCreatedEvent = z.object({
     includeNarration: z.boolean(),
 })
 export type TStoryCreatedEvent = z.infer<typeof ZStoryCreatedEvent>
+
+export interface TStoryWithScenes {
+    id: number
+    title: string
+    genre: string
+    theme: string
+    length: string
+    cover_url: string
+    scenes: TScene[]
+}

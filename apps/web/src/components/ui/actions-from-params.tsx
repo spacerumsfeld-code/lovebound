@@ -11,7 +11,7 @@ export const ActionsFromParams = () => {
     const action = searchParams?.get('action') ?? ''
     const setModalToRender = useSetAtom(modalAtom)
 
-    // @Inertactivity
+    // @Ineractivity
     useEffect(() => {
         switch (action) {
             case 'modal.story.created':
