@@ -23,14 +23,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "EventQueue": {
-      "type": "sst.aws.Queue"
-      "url": string
-    }
-    "EventQueueDLQ": {
-      "type": "sst.aws.Queue"
-      "url": string
-    }
     "InngestBranchId": {
       "type": "sst.sst.Secret"
       "value": string

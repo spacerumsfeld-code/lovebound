@@ -25,7 +25,7 @@ export const StoryCard = (props: { story: TStoryWithScenes }) => {
                         alt={props.story.title}
                         height={400}
                         width={300}
-                        className="object-fit object-center h-full w-full object-cover"
+                        className="h-full w-full object-cover"
                     />
                     <div className="absolute bottom-0 p-6 text-white">
                         <h3 className="text-xl text-white font-semibold mb-2">

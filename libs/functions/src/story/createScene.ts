@@ -1,6 +1,6 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
-import { Connection, Story } from '@core'
+import { Connection, LengthEnum, Story } from '@core'
 import { handleAsync } from '@utils'
 
 export const createScene = orchestrationClient.createFunction(
@@ -14,9 +14,22 @@ export const createScene = orchestrationClient.createFunction(
         )
         const { data } = event
 
-        const prompt = (await cacheClient.get<string>(
-            `prompt:short:scene:${data.sceneNumber}`,
-        )) as string
+        let prompt: string
+        switch (data.length === LengthEnum.Mini) {
+            case true:
+                prompt = (await cacheClient.get<string>(
+                    `prompt:mini`,
+                )) as string
+                break
+            case false:
+                prompt = (await cacheClient.get<string>(
+                    `prompt:short:scene:${data.sceneNumber}`,
+                )) as string
+                break
+            default:
+                break
+        }
+
         const lastSceneSummary = await cacheClient.get<string>(
             `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
         )
@@ -24,7 +37,7 @@ export const createScene = orchestrationClient.createFunction(
         const { tone, setting, tensionLevel } = scene
         const { genre, theme, title } = data
         const finalPrompt =
-            prompt +
+            prompt! +
             JSON.stringify({
                 genre,
                 theme,
@@ -53,18 +66,20 @@ export const createScene = orchestrationClient.createFunction(
         const summary = parsedContent.pop()!
         const finalContent = parsedContent.pop()!
 
-        const [_, createSceneError] = await step.run('Create Scene in DB', () =>
-            handleAsync(
-                Story.createScene({
-                    storyId: data.storyId,
-                    content: finalContent,
-                    narrationUrl: null,
-                    orderIndex: data.sceneNumber,
-                    tone: scene.tone,
-                    setting: scene.setting,
-                    tensionLevel: scene.tensionLevel,
-                }),
-            ),
+        const [createdScene, createSceneError] = await step.run(
+            'Create Scene in DB',
+            () =>
+                handleAsync(
+                    Story.createScene({
+                        storyId: data.storyId,
+                        content: finalContent,
+                        narrationUrl: null,
+                        orderIndex: data.sceneNumber,
+                        tone: scene.tone,
+                        setting: scene.setting,
+                        tensionLevel: scene.tensionLevel,
+                    }),
+                ),
         )
         if (createSceneError) {
             console.error('oops', createSceneError)
@@ -90,14 +105,33 @@ export const createScene = orchestrationClient.createFunction(
             console.error(postToConnectionError)
         }
 
-        switch (data.sceneNumber === 3) {
+        switch (data.length === LengthEnum.Mini) {
             case true:
+                if (data.includeNarration) {
+                    await orchestrationClient.send({
+                        name: 'create.narration',
+                        data: {
+                            ownerId: data.ownerId,
+                            storyId: data.storyId,
+                            sceneId: createdScene!.id,
+                            content: finalContent,
+                        },
+                    })
+                }
+
                 await orchestrationClient.send({
-                    name: 'finish.short.story',
+                    name: 'finish.story',
                     data: { storyId: data.storyId, ownerId: data.ownerId },
                 })
                 break
             case false:
+                if (data.sceneNumber === 3) {
+                    await orchestrationClient.send({
+                        name: 'finish.story',
+                        data: { storyId: data.storyId, ownerId: data.ownerId },
+                    })
+                }
+
                 await cacheClient.set(
                     `short:scene:${data.storyId}:${data.sceneNumber}:summary`,
                     summary,

@@ -1,11 +1,11 @@
 import { orchestrationClient } from '@clients/orchestration.client.ts'
 
-export const startShortStory = orchestrationClient.createFunction(
-    { id: 'start.short.story' },
-    { event: 'start.short.story' },
+export const startStoryCreation = orchestrationClient.createFunction(
+    { id: 'start.story' },
+    { event: 'start.story' },
     async ({ event }) => {
         console.info(
-            `Invoked orchestration.startShortStoryCreation with data: ${JSON.stringify(
+            `Invoked orchestration.startStoryCreation with data: ${JSON.stringify(
                 event.data,
             )}`,
         )

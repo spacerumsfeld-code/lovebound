@@ -52,11 +52,7 @@ export const generateStoryCover = async ({
     return imageData
 }
 
-export const generateStoryNarration = async ({
-    content,
-}: {
-    content: string
-}) => {
+export const generateStoryNarration = async (content: string) => {
     const mp3 = await openai.audio.speech.create({
         model: 'tts-1',
         voice: 'nova',

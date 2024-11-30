@@ -2,19 +2,19 @@ import { orchestrationClient } from '@clients/orchestration.client.ts'
 import { Connection, Story } from '@core'
 import { handleAsync } from '@utils'
 
-export const finishShortStory = orchestrationClient.createFunction(
-    { id: 'finish.short.story' },
-    { event: 'finish.short.story' },
+export const finishStory = orchestrationClient.createFunction(
+    { id: 'finish.story' },
+    { event: 'finish.story' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.finishShortStory with data: ${JSON.stringify(
+            `Invoked orchestration.finishStory with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
         const { data } = event
 
         const [_, updateStoryError] = await step.run(
-            'Update Story as Complete in DB',
+            'Mark Story as Complete',
             () =>
                 handleAsync(
                     Story.updateStory({

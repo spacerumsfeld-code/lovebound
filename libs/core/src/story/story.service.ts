@@ -11,22 +11,31 @@ import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq } from 'drizzle-orm/expressions'
 import { scenes } from '@core'
-import { cacheClient } from '@clients/cache.client.ts'
-import { sql } from 'drizzle-orm'
+import { sql, desc } from 'drizzle-orm'
 
 class StoryService {
     private store
     private aiClient
-    private cache
 
-    constructor(
-        store: NeonHttpDatabase,
-        client: typeof aiClient,
-        cache: typeof cacheClient,
-    ) {
+    constructor(store: NeonHttpDatabase, client: typeof aiClient) {
         this.store = store
         this.aiClient = client
-        this.cache = cache
+    }
+
+    public async getRecentStories({ userId }: { userId: string }) {
+        const recentStories = await this.store
+            .select({
+                id: stories.id,
+                title: stories.title,
+                coverUrl: stories.coverUrl,
+                inProgress: stories.inProgress,
+            })
+            .from(stories)
+            .where(eq(stories.ownerId, userId))
+            .orderBy(desc(stories.createdAt))
+            .limit(5)
+
+        return { recentStories }
     }
 
     public async getStories({ userId }: { userId: string }) {
@@ -58,32 +67,6 @@ class StoryService {
         return { stories: result.rows as unknown as TStoryWithScenes[] }
     }
 
-    public async generateMiniContent({
-        genre,
-        tensionLevel,
-        theme,
-        tone,
-        setting,
-    }: {
-        genre: GenreEnum
-        tensionLevel: TensionEnum
-        theme: ThemeEnum
-        tone: ToneEnum
-        setting: SettingEnum
-    }) {
-        const miniPrompt = await this.cache.get<string>('prompt:mini')
-        const finalPrompt =
-            miniPrompt +
-            JSON.stringify({ genre, tensionLevel, theme, tone, setting })
-
-        const generatedStoryContent =
-            await this.aiClient.generateContent(finalPrompt)
-
-        return {
-            content: generatedStoryContent!,
-        }
-    }
-
     public async generateSceneContent({ prompt }: { prompt: string }) {
         const generatedSceneContent =
             await this.aiClient.generateContent(prompt)
@@ -93,18 +76,29 @@ class StoryService {
         }
     }
 
+    public async generateNarration({ content }: { content: string }) {
+        const narrationAudioBuffer =
+            await this.aiClient.generateStoryNarration(content)
+
+        return {
+            buffer: narrationAudioBuffer!,
+        }
+    }
+
     public async createStory({
         genre,
         ownerId,
         title,
         theme,
         length,
+        coverUrl,
     }: {
         genre: GenreEnum
         ownerId: string
         title: string
         theme: ThemeEnum
         length: LengthEnum
+        coverUrl: string
     }) {
         const newStory = await this.store
             .insert(stories)
@@ -114,6 +108,7 @@ class StoryService {
                 theme,
                 title,
                 ownerId,
+                coverUrl,
             })
             .returning({ id: stories.id })
 
@@ -191,4 +186,4 @@ class StoryService {
     }
 }
 
-export const storyService = new StoryService(db, aiClient, cacheClient)
+export const storyService = new StoryService(db, aiClient)

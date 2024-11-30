@@ -7,7 +7,6 @@ const client = new S3Client({})
 export const uploadImageFromUrl = async (url: string) => {
     const response = await fetch(url)
     if (!response.ok) {
-        console.error('Failed to fetch image:', response.statusText)
         throw new Error(`Failed to fetch image: ${response.statusText}`)
     }
     const imageBuffer = await response.arrayBuffer()

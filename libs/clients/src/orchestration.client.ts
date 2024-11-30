@@ -3,8 +3,10 @@ import { Resource } from 'sst'
 import { z } from 'zod'
 import { ZCreateStory } from '@client-types/story/story.model.ts'
 
-const ZStartShortStoryEvent = z.object({
-    name: z.literal('start.short.story'),
+process.env.INNGEST_EVENT_KEY = Resource.InngestEventKey.value
+
+const ZStartStoryEvent = z.object({
+    name: z.literal('start.story'),
     data: ZCreateStory.extend({ storyId: z.number() }),
 }) satisfies LiteralZodEventSchema
 
@@ -13,23 +15,32 @@ const ZCreateSceneEvent = z.object({
     data: ZCreateStory.extend({ sceneNumber: z.number(), storyId: z.number() }),
 }) satisfies LiteralZodEventSchema
 
-const ZFinishShortStoryEvent = z.object({
-    name: z.literal('finish.short.story'),
+const ZCreateNarrationEvent = z.object({
+    name: z.literal('create.narration'),
+    data: z.object({
+        ownerId: z.string(),
+        storyId: z.number(),
+        sceneId: z.number(),
+        content: z.string(),
+    }),
+}) satisfies LiteralZodEventSchema
+
+const ZFinishStoryEvent = z.object({
+    name: z.literal('finish.story'),
     data: z.object({
         storyId: z.number(),
         ownerId: z.string(),
     }),
 }) satisfies LiteralZodEventSchema
 
-process.env.INNGEST_EVENT_KEY = Resource.InngestEventKey.value
-
 export const orchestrationClient = new Inngest({
     name: 'Tension.io',
     id: 'tension-io',
     eventKey: process.env.INNGEST_EVENT_KEY!,
     schemas: new EventSchemas().fromZod([
-        ZStartShortStoryEvent,
+        ZStartStoryEvent,
         ZCreateSceneEvent,
-        ZFinishShortStoryEvent,
+        ZFinishStoryEvent,
+        ZCreateNarrationEvent,
     ]),
 })

@@ -1,3 +1,4 @@
-export { startShortStory } from './start.ts'
+export { startStoryCreation } from './start.ts'
 export { createScene } from './createScene.ts'
-export { finishShortStory } from './finish.ts'
+export { createNarration } from './createNarration.ts'
+export { finishStory } from './finish.ts'

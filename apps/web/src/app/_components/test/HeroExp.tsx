@@ -1,6 +1,7 @@
 'use client'
+
 import React, { useRef, useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { cn } from '@web/src/lib/utils'
 import Balancer from 'react-wrap-balancer'
@@ -80,6 +81,9 @@ export function Hero() {
             <div className="text-balance relative z-20 mx-auto mb-4 mt-4 max-w-4xl text-center text-3xl font-semibold tracking-tight text-gray-700 dark:text-neutral-300 md:text-7xl">
                 <Balancer>
                     <motion.h2>
+                        {/* <div className="cursor-pointer relative z-10 hover:bg-black/90 border border-transparent text-sm md:text-sm transition font-medium duration-200 rounded-full px-4 py-2 justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset] flex space-x-2 items-center bg-amber-400/10 border-none text-amber-400">
+                            🌟 Powered by ChatGPT
+                        </div> */}
                         {'Your Perfect Romance Stories, AI-Crafted'
                             .split(' ')
                             .map((word, index) => (
@@ -125,7 +129,6 @@ export function Hero() {
                 <Button as={Link} href="/login" variant="dark">
                     Create account
                 </Button>
-
                 <Button
                     as={Link}
                     href="/login"
@@ -194,7 +197,7 @@ const HeartBeamCollision = React.forwardRef<
             repeatDelay: number
         }
     }
->(({ parentRef, containerRef, beamOptions }, ref) => {
+>(({ parentRef, containerRef, beamOptions }, _ref) => {
     const beamRef = useRef<SVGPathElement>(null)
     const [collision, setCollision] = useState<{
         detected: boolean
@@ -269,65 +272,11 @@ const HeartBeamCollision = React.forwardRef<
             >
                 <HeartBeam ref={beamRef} {...beamOptions} key={beamKey} />
             </svg>
-            {/* <AnimatePresence>
-                {collision.detected && collision.coordinates && (
-                    <Explosion
-                        key={`${collision.coordinates.x}-${collision.coordinates.y}`}
-                        className=""
-                        style={{
-                            left: `${collision.coordinates.x + 20}px`,
-                            top: `${collision.coordinates.y}px`,
-                            transform: 'translate(-50%, -50%)',
-                        }}
-                    />
-                )}
-            </AnimatePresence> */}
         </>
     )
 })
 
 HeartBeamCollision.displayName = 'HeartBeamCollision'
-
-const Explosion = ({ ...props }: React.HTMLProps<HTMLDivElement>) => {
-    const spans = Array.from({ length: 20 }, (_, index) => ({
-        id: index,
-        initialX: 0,
-        initialY: 0,
-        directionX: Math.floor(Math.random() * 80 - 40),
-        directionY: Math.floor(Math.random() * -50 - 10),
-    }))
-
-    return (
-        <div
-            {...props}
-            className={cn('absolute z-50 h-2 w-2', props.className)}
-        >
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="absolute -inset-x-10 top-0 m-auto h-[4px] w-10 rounded-full bg-gradient-to-r from-transparent via-[#B76E79] to-transparent blur-sm"
-            ></motion.div>
-            {spans.map((span) => (
-                <motion.span
-                    key={span.id}
-                    initial={{ x: span.initialX, y: span.initialY, opacity: 1 }}
-                    animate={{
-                        x: span.directionX,
-                        y: span.directionY,
-                        opacity: 0,
-                    }}
-                    transition={{
-                        duration: Math.random() * 1.5 + 0.5,
-                        ease: 'easeOut',
-                    }}
-                    className="absolute h-1 w-1 rounded-full bg-gradient-to-b from-[#B76E79] to-[#C88591]"
-                />
-            ))}
-        </div>
-    )
-}
 
 const GridLineVertical = ({
     className,

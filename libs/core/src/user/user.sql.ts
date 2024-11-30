@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
+import {
+    integer,
+    pgTable,
+    text,
+    timestamp,
+    unique,
+    uuid,
+} from 'drizzle-orm/pg-core'
 
 export const users = pgTable(
     'users',
@@ -17,6 +24,7 @@ export const users = pgTable(
         lastName: text('last_name'),
         profileImageUrl: text('profile_image_url'),
         gender: text(),
+        credits: integer('credits').default(0).notNull().default(3),
     },
     (table) => {
         return {
