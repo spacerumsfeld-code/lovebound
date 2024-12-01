@@ -100,7 +100,6 @@ export const CreateStoryPage = () => {
             },
         ],
     })
-    console.info('storyData', storyData)
     const { isLoading, startLoading, stopLoading } = useLoading()
 
     useEffect(() => {
@@ -213,7 +212,6 @@ export const CreateStoryPage = () => {
     }
 
     const handleSubmit = async () => {
-        console.info('wtf is going on', storyData)
         const { data, success, error } = ZCreateStoryClient.safeParse(storyData)
         if (!success) {
             console.error('Invalid story submission', error)

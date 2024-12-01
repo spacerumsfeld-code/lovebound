@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     Modal,
     ModalBody,
@@ -9,7 +9,7 @@ import {
 } from '@web/src/components/ui/animated-modal'
 import { Button } from '@web/src/components/ui/buttonTwo'
 import { ScrollArea } from '@web/src/components/ui/scroll-area'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { Slider } from '@web/src/components/ui/slider'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TStoryWithScenes } from '@client-types/story/story.model'
@@ -18,12 +18,14 @@ export const EReaderModal = (props: {
     story: TStoryWithScenes
     children: React.ReactNode
 }) => {
+    // @State
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0)
     const [fontSize, setFontSize] = useState(16)
+    const totalScenes = props.story.scenes.length
+    const [isPlaying, setIsPlaying] = useState(false)
+    const audioRef = useRef<HTMLAudioElement>(null)
 
-    const { story } = props
-    const totalScenes = story.scenes.length
-
+    // @Interactivity
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'ArrowLeft') handlePrevScene()
@@ -45,8 +47,20 @@ export const EReaderModal = (props: {
         setFontSize(newSize[0])
     }
 
-    const currentScene = story.scenes[currentSceneIndex]
+    const togglePlayPause = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause()
+            } else {
+                audioRef.current.play()
+            }
+            setIsPlaying(!isPlaying)
+        }
+    }
 
+    const currentScene = props.story.scenes[currentSceneIndex]
+
+    // @Render
     return (
         <Modal>
             <ModalTrigger>{props.children}</ModalTrigger>
@@ -57,7 +71,7 @@ export const EReaderModal = (props: {
                     >
                         <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 className="text-2xl font-bold">
-                                {story.title}
+                                {props.story.title}
                             </h2>
                         </div>
                         <div className="flex-1 overflow-hidden relative">
@@ -145,6 +159,30 @@ export const EReaderModal = (props: {
                                                 <ChevronRight className="h-4 w-4 ml-2" />
                                             </Button>
                                         </div>
+                                        {currentScene.narrationUrl && (
+                                            <div className="flex justify-center items-center p-4 border-t border-gray-200 dark:border-gray-700">
+                                                <audio
+                                                    ref={audioRef}
+                                                    src={
+                                                        currentScene.narrationUrl
+                                                    }
+                                                    onEnded={() =>
+                                                        setIsPlaying(false)
+                                                    }
+                                                />
+                                                <Button
+                                                    onClick={togglePlayPause}
+                                                    variant="outline"
+                                                    size="icon"
+                                                >
+                                                    {isPlaying ? (
+                                                        <Pause className="h-4 w-4" />
+                                                    ) : (
+                                                        <Play className="h-4 w-4" />
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 </AnimatePresence>
                             </ScrollArea>

@@ -85,10 +85,11 @@ export type TStoryCreatedEvent = z.infer<typeof ZStoryCreatedEvent>
 
 export interface TStoryWithScenes {
     id: number
+    inProgress: boolean
     title: string
     genre: string
     theme: string
     length: string
-    cover_url: string
+    coverUrl: string
     scenes: TScene[]
 }

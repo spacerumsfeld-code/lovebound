@@ -33,38 +33,52 @@ class StoryService {
             .from(stories)
             .where(eq(stories.ownerId, userId))
             .orderBy(desc(stories.createdAt))
-            .limit(5)
+            .limit(10)
 
         return { recentStories }
     }
 
-    public async getStories({ userId }: { userId: string }) {
-        const result = await this.store.execute(sql`
-              SELECT 
-                s.id AS story_id,
-                s.title,
-                s.genre,
-                s.theme,
-                s.length,
-                s.cover_url,
-                s.created_at,
-                s.updated_at,
-                JSON_AGG(
-                  JSON_BUILD_OBJECT(
-                    'id', sc.id,
-                    'content', sc.content,
-                    'order_index', sc.order_index
-                  )
-                ) AS scenes
-                 
-              FROM ${stories} s
-              LEFT JOIN ${scenes} sc ON s.id = sc.story_id
-              WHERE s.owner_id = ${userId}
-              GROUP BY s.id
-              ORDER BY s.created_at DESC
-            `)
+    public async getStories({
+        userId,
+        limit,
+        offset,
+    }: {
+        userId: string
+        limit: number
+        offset: number
+    }) {
+        const result = await db
+            .select({
+                id: stories.id,
+                title: stories.title,
+                coverUrl: stories.coverUrl,
+                inProgress: stories.inProgress,
+                genre: stories.genre,
+                theme: stories.theme,
+                length: stories.length,
+                ownerId: stories.ownerId,
+                scenes: sql<string>`
+            JSON_AGG(
+              JSON_BUILD_OBJECT(
+                'id', ${scenes.id},
+                'content', ${scenes.content},
+                'order_index', ${scenes.orderIndex}
+              )
+            )`,
+            })
+            .from(stories)
+            .innerJoin(scenes, eq(stories.id, scenes.storyId))
+            .where(eq(stories.ownerId, userId))
+            .groupBy(stories.id)
+            .orderBy(desc(stories.createdAt))
+            .limit(limit)
+            .offset(offset)
 
-        return { stories: result.rows as unknown as TStoryWithScenes[] }
+        console.info('RESULT', JSON.stringify(result[0]))
+
+        return {
+            stories: result as unknown as TStoryWithScenes[],
+        }
     }
 
     public async generateSceneContent({ prompt }: { prompt: string }) {

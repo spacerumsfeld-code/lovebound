@@ -19,17 +19,21 @@ export const createNarration = orchestrationClient.createFunction(
                 Story.generateNarration({ content: data.content }),
             )
         if (generateNarrationContentError) {
-            console.error('oops', generateNarrationContentError)
+            console.error(
+                'generateNarrationContentError',
+                generateNarrationContentError,
+            )
             return
         }
         const { buffer } = generatedContentBuffer!
+        console.info(buffer)
 
         const [uploadUrl, uploadError] = await step.run(
             'Upload Narration to S3',
             () => handleAsync(uploadAudioFromBuffer(buffer)),
         )
         if (uploadError) {
-            console.error('oops', uploadError)
+            console.error('uploadUrlError', uploadError)
             return
         }
 
@@ -44,7 +48,7 @@ export const createNarration = orchestrationClient.createFunction(
                 ),
         )
         if (updateSceneError) {
-            console.error('oops', updateSceneError)
+            console.error('updateSceneError', updateSceneError)
             return
         }
 
@@ -64,7 +68,7 @@ export const createNarration = orchestrationClient.createFunction(
                 ),
         )
         if (postToConnectionError) {
-            console.error(postToConnectionError)
+            console.error('postToConnectionError', postToConnectionError)
         }
 
         await orchestrationClient.send({

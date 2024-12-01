@@ -1,7 +1,4 @@
-import { Card, CardContent, CardHeader } from '@web/src/components/ui/card'
 import { getRecentStories } from '../data'
-import { ScrollArea } from '@web/src/components/ui/scroll-area'
-import Image from 'next/image'
 
 export const RecentStoriesAsync = async () => {
     // @Data
@@ -13,23 +10,21 @@ export const RecentStoriesAsync = async () => {
     }
 
     return (
-        <div className="flex-1 overflow-hidden relative">
-            <ScrollArea className="overflow-hidden h-[300px] w-[700px]">
-                {recentStories.map((story) => (
-                    <Card className="h-[200px] w-full">
-                        <CardHeader>{story.title}</CardHeader>
-                        <CardContent>
-                            <Image
-                                src={story.coverUrl!}
-                                alt="Story Cover"
-                                height="200"
-                                width="600"
-                                className="object-fit object-center h-full w-full object-cover"
-                            />
-                        </CardContent>
-                    </Card>
-                ))}
-            </ScrollArea>
+        <div className="grid grid-cols-2 gap-4 p-8">
+            {recentStories.map((story) => (
+                <div className="relative rounded-lg overflow-hidden group cursor-pointer">
+                    <img
+                        src={story.coverUrl!}
+                        alt="Story Cover"
+                        className="w-full h-32 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-2 transition-opacity group-hover:bg-opacity-60">
+                        <span className="text-white text-sm font-semibold">
+                            {story.title}
+                        </span>
+                    </div>
+                </div>
+            ))}
         </div>
     )
 }

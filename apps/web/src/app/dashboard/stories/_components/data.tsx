@@ -2,17 +2,28 @@
 
 import { client as api } from '@clients/api.client'
 import { StoryGridView } from './StoryGrid.view'
+import { currentUser } from '@clerk/nextjs/server'
 
-export const getStories = async (args: { userId: string }) => {
+export const getStories = async ({
+    limit,
+    offset,
+}: {
+    limit: number
+    offset: number
+}) => {
+    const user = await currentUser()
+
     const response = await api.story.getStories.$get({
-        userId: args.userId,
+        limit,
+        offset,
+        userId: user!.id,
     })
     const {
         data: { stories },
+        // hasMore, nextOffset.
     } = await response.json()
-    console.info('storyData from server function', JSON.stringify(stories))
 
-    // make key=offset when we add that.
-    const component = <StoryGridView key={args.userId} storyData={stories} />
+    const component = <StoryGridView key={offset} storyData={stories} />
+
     return { component }
 }

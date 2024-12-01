@@ -8,6 +8,33 @@ import Image from 'next/image'
 import { EReaderModal } from '../../_components/modals/EReader.modal'
 
 export const StoryCard = (props: { story: TStoryWithScenes }) => {
+    // @Render
+    if (props.story.inProgress)
+        return (
+            <motion.div
+                whileHover={{ scale: 1.02 }}
+                className={cn(
+                    'h-[400px] w-[300px] relative group cursor-pointer',
+                )}
+            >
+                <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
+                    <Image
+                        src={props.story.coverUrl}
+                        alt={props.story.title}
+                        height={400}
+                        width={300}
+                        className="h-full w-full object-cover"
+                    />
+                    <div className="absolute bottom-0 p-6 text-white">
+                        <h3 className="text-xl text-white font-semibold mb-2">
+                            In Progress
+                        </h3>
+                    </div>
+                    <div className="absolute inset-0 bg-black/30" />
+                </Card>
+            </motion.div>
+        )
+
     return (
         <EReaderModal story={props.story}>
             <motion.div
@@ -18,16 +45,13 @@ export const StoryCard = (props: { story: TStoryWithScenes }) => {
             >
                 <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
                     <Image
-                        src={
-                            props.story.cover_url ??
-                            process.env.NEXT_PUBLIC_PLACEHOLDER_COVER_URL!
-                        }
+                        src={props.story.coverUrl}
                         alt={props.story.title}
                         height={400}
                         width={300}
                         className="h-full w-full object-cover"
                     />
-                    <div className="absolute bottom-0 p-6 text-white">
+                    <div className="absolute bottom-0 p-4 text-white">
                         <h3 className="text-xl text-white font-semibold mb-2">
                             {props.story.title}
                         </h3>

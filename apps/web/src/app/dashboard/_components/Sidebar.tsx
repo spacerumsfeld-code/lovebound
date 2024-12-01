@@ -13,6 +13,9 @@ import {
 } from '@web/src/components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
 import { Logo } from '../../_components/logo'
+import { Button } from '@web/src/components/ui/button'
+import { CreditDisplay } from './CreditDisplay'
+import { DashboardThemeToggle } from './DashboardModleToggle'
 
 const data = {
     navMain: [
@@ -50,8 +53,13 @@ export const AppSidebar = ({
             <SidebarHeader>
                 <Logo />
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className="p-2 justify-between">
                 <NavMain items={data.navMain} />
+                <div className="flex flex-col gap-8">
+                    <Button href="/dashboard/create">+ Create Story</Button>
+                    <CreditDisplay />
+                    <DashboardThemeToggle />
+                </div>
             </SidebarContent>
             <SidebarFooter>
                 <UserButton />

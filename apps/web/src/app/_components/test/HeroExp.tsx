@@ -9,8 +9,6 @@ import Link from 'next/link'
 import { Button } from '@web/src/components/ui/button'
 import { HeartBeam } from './HeartBeam'
 
-// @TODO play with repeatDelay to adjust heart beams.
-
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null)
     const parentRef = useRef<HTMLDivElement>(null)

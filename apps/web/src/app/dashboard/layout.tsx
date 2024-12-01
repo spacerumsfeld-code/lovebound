@@ -1,5 +1,5 @@
 import { Separator } from '@web/src/components/ui/separator'
-import { AppSidebar } from './_components/Sidebar.'
+import { AppSidebar } from './_components/Sidebar'
 import {
     SidebarInset,
     SidebarProvider,

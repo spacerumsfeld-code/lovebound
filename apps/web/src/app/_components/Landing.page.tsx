@@ -7,6 +7,7 @@ import { Navbar } from './navbar'
 import { Pricing } from './pricing'
 
 export const LandingPage = () => {
+    // @Render
     return (
         <main>
             <Navbar />

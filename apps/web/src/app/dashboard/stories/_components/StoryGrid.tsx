@@ -1,18 +1,23 @@
 import { StoryGridFilters } from './StoryGrid.filters'
 import { Suspense } from 'react'
 import { StoryGridAsync } from './StoryGrid.async'
+import { StoryGridSkeleton } from './StoryGrid.skeleton'
 
 export const StoryGrid = ({
     args,
 }: {
     args: {
-        userId: string
+        limit: number
+        offset: number
     }
 }) => {
     return (
         <main>
             <StoryGridFilters />
-            <Suspense key={args.userId} fallback={<div>Loading...</div>}>
+            <Suspense
+                key={args.offset}
+                fallback={<StoryGridSkeleton size={12} />}
+            >
                 <StoryGridAsync args={args} />
             </Suspense>
         </main>

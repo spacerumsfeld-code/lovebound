@@ -30,14 +30,19 @@ export const uploadAudioFromBuffer = async (buffer: Buffer) => {
 
     const key = `narration.mp3`
 
-    const command = new PutObjectCommand({
-        Bucket: Resource.Bucket.name,
-        Key: key,
-        Body: buffer,
-        ContentType: 'audio/mpeg',
-    })
-
-    await client.send(command)
+    try {
+        console.info(typeof buffer)
+        const command = new PutObjectCommand({
+            Bucket: Resource.Bucket.name,
+            Key: key,
+            Body: buffer,
+            ContentType: 'audio/mpeg',
+        })
+        const result = await client.send(command)
+        console.info(result)
+    } catch (error) {
+        console.error('wtf is going on', error)
+    }
 
     return `https://${Resource.Bucket.name}.s3.amazonaws.com/${key}`
 }

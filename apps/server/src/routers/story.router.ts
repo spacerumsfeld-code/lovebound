@@ -10,6 +10,8 @@ export const storyRouter = router({
     getStories: baseProcedure
         .input(
             z.object({
+                limit: z.number().int(),
+                offset: z.number().int(),
                 userId: z.string(),
             }),
         )
@@ -23,13 +25,18 @@ export const storyRouter = router({
             const [getStories, getStoriesError] = await handleAsync(
                 Story.getStories({
                     userId: input.userId,
+                    limit: input.limit,
+                    offset: input.offset,
                 }),
             )
             if (getStoriesError) {
+                console.error('ERROR', getStoriesError)
                 throw new HTTPException(400, {
                     message: getStoriesError.message,
                 })
             }
+
+            // hasMore, nextOffset, stories
 
             return c.superjson({
                 data: getStories!,

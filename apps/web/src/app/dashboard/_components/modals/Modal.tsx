@@ -6,10 +6,6 @@ import { StoryCreatedModal } from '@web/src/app/dashboard/_components/modals/Sto
 
 export const Modal = () => {
     const modalToRender = useAtomValue(modalAtom)
-    console.info(
-        'we should be responding to a new modalToRender value',
-        modalToRender,
-    )
 
     return (
         <>
