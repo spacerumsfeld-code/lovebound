@@ -12,6 +12,8 @@ export enum GenreEnum {
     Drama = 'Romantic Drama',
     Adventure = 'Romantic Adventure',
     Mystery = 'Romantic Mystery',
+    // solely for use in filtering on the client
+    None = 'None',
 }
 
 export enum ThemeEnum {
@@ -25,6 +27,8 @@ export enum ThemeEnum {
     MissedConnectionFinallyRealized = 'A missed connection finally realized',
     SecretAdmirerRevealed = 'Secret admirer revealed',
     LoveRekindledAfterYearsApart = 'Love rekindled after years apart',
+    // solely for use in filtering on the client
+    None = 'None',
 }
 
 export enum LengthEnum {

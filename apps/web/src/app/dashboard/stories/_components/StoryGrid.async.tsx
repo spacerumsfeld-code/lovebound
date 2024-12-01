@@ -1,3 +1,4 @@
+import { GenreEnum, ThemeEnum } from '@client-types/story/story.model'
 import { getStories } from './data'
 
 export const StoryGridAsync = async ({
@@ -6,6 +7,8 @@ export const StoryGridAsync = async ({
     args: {
         limit: number
         offset: number
+        genre: GenreEnum
+        theme: ThemeEnum
     }
 }) => {
     const { component } = await getStories(args)

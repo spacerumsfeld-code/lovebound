@@ -1,17 +1,16 @@
+import { GenreEnum, ThemeEnum } from '@client-types/story/story.model'
 import { StoryGrid } from './StoryGrid'
 
-export const StoriesPage = async ({
-    searchParams,
-}: {
-    [key: string]: string
+export const StoriesPage = async (props: {
+    searchParams: Record<string, string>
 }) => {
-    // @Data
     const args = {
         limit: 20,
         offset: 0,
+        genre: (props.searchParams?.genre as GenreEnum) ?? GenreEnum.None,
+        theme: (props.searchParams?.theme as ThemeEnum) ?? ThemeEnum.None,
     }
 
-    console.info(searchParams)
     // @Render
     return <StoryGrid args={args} />
 }

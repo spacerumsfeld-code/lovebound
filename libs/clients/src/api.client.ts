@@ -10,7 +10,6 @@ export const baseClient = hc<ApiSpec>(Resource.Server.url, {
         const response = await fetch(input, { ...init, cache: 'no-store' })
 
         if (!response.ok) {
-            console.error('YO YO YO', response)
             throw new HTTPException(response.status as StatusCode, {
                 message: response.statusText,
                 res: response,

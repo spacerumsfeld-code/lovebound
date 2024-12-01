@@ -9,7 +9,7 @@ import {
 import { ToneEnum, SettingEnum, TensionEnum } from '../scene/scene.model.ts'
 import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
-import { eq } from 'drizzle-orm/expressions'
+import { eq, and } from 'drizzle-orm/expressions'
 import { scenes } from '@core'
 import { sql, desc } from 'drizzle-orm'
 
@@ -42,12 +42,16 @@ class StoryService {
         userId,
         limit,
         offset,
+        genre,
+        theme,
     }: {
         userId: string
         limit: number
         offset: number
+        genre: GenreEnum
+        theme: ThemeEnum
     }) {
-        const result = await db
+        const query = db
             .select({
                 id: stories.id,
                 title: stories.title,
@@ -68,13 +72,34 @@ class StoryService {
             })
             .from(stories)
             .innerJoin(scenes, eq(stories.id, scenes.storyId))
-            .where(eq(stories.ownerId, userId))
             .groupBy(stories.id)
             .orderBy(desc(stories.createdAt))
             .limit(limit)
             .offset(offset)
 
-        console.info('RESULT', JSON.stringify(result[0]))
+        if (genre === GenreEnum.None && theme === ThemeEnum.None) {
+            query.where(eq(stories.ownerId, userId))
+        } else if (genre !== GenreEnum.None && theme === ThemeEnum.None) {
+            query.where(
+                and(eq(stories.ownerId, userId), eq(stories.genre, genre)),
+            )
+        } else if (genre === GenreEnum.None && theme !== ThemeEnum.None) {
+            query.where(
+                and(eq(stories.ownerId, userId), eq(stories.theme, theme)),
+            )
+        } else if (genre !== GenreEnum.None && theme !== ThemeEnum.None) {
+            query.where(
+                and(
+                    eq(stories.ownerId, userId),
+                    eq(stories.genre, genre),
+                    eq(stories.theme, theme),
+                ),
+            )
+        }
+
+        console.info('query', query)
+
+        const result = await query
 
         return {
             stories: result as unknown as TStoryWithScenes[],
