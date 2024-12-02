@@ -39,10 +39,15 @@ export const storyRouter = router({
                 })
             }
 
-            // hasMore, nextOffset, stories
+            const hasMore = !(getStories!.length < input.limit)
+            const nextOffset = hasMore ? input.offset + input.limit : 0
 
             return c.superjson({
-                data: getStories!,
+                data: {
+                    stories: getStories!,
+                    hasMore,
+                    nextOffset,
+                },
                 success: true,
             })
         }),

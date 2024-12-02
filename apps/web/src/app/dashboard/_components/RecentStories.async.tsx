@@ -11,8 +11,11 @@ export const RecentStoriesAsync = async () => {
 
     return (
         <div className="grid grid-cols-2 gap-4 p-8">
-            {recentStories.map((story) => (
-                <div className="relative rounded-lg overflow-hidden group cursor-pointer">
+            {recentStories.map((story, index) => (
+                <div
+                    key={`story.id_${index}`}
+                    className="relative rounded-lg overflow-hidden group cursor-pointer"
+                >
                     <img
                         src={story.coverUrl!}
                         alt="Story Cover"

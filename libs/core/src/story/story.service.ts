@@ -97,13 +97,8 @@ class StoryService {
             )
         }
 
-        console.info('query', query)
-
         const result = await query
-
-        return {
-            stories: result as unknown as TStoryWithScenes[],
-        }
+        return result as unknown as TStoryWithScenes[]
     }
 
     public async generateSceneContent({ prompt }: { prompt: string }) {

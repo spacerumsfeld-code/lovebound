@@ -18,11 +18,16 @@ export const getStories = async (args: {
         userId: user!.id,
     })
     const {
-        data: { stories },
+        data: { stories, hasMore, nextOffset },
     } = await response.json()
 
     const component = (
-        <StoryGridView key={JSON.stringify(args)} storyData={stories} />
+        <StoryGridView
+            key={JSON.stringify(args)}
+            storiesWithScenes={stories}
+            hasMore={hasMore}
+            nextOffset={nextOffset}
+        />
     )
 
     return { component }
