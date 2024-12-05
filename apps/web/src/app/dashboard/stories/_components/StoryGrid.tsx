@@ -13,6 +13,7 @@ export const StoryGrid = ({
         theme: number
     }
 }) => {
+    // @Render
     return (
         <main className="p-8">
             <StoryGridFilters genre={args.genre} theme={args.theme} />

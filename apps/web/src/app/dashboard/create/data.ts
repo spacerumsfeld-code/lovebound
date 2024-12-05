@@ -28,10 +28,10 @@ export const getAllItems = async () => {
             userId: user!.id,
         })
         const {
-            data: { genres, themes, lengths },
+            data: { genres, themes, lengths, tensionLevels, settings, tones },
         } = await response.json()
 
-        return { genres, themes, lengths }
+        return { genres, themes, lengths, tensionLevels, settings, tones }
     } catch (error) {
         throw new Error(`client.getAllItems failed with error: ${error}`)
     }

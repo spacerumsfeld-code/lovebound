@@ -13,7 +13,7 @@ export const StoryGridView = ({
     nextOffset: number
 }) => {
     if (!storiesWithScenes?.length) {
-        return <div>No stories yet</div>
+        return <div className="p-8">No stories yet</div>
     }
 
     return (

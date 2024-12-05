@@ -29,6 +29,6 @@
             "@utils": ["libs/utils/index.ts"]
         }
     },
-    "include": [],
+    "include": ["./sst-env.d.ts"],
     "exclude": ["node_modules", ".sst"]
 }

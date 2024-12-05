@@ -1,27 +1,7 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
-import { Connection, LengthEnum, Story } from '@core'
+import { Connection, Story } from '@core'
 import { handleAsync } from '@utils'
-
-/**
- * |  Invoke      Orchestration
-|  +3ms        Invoked orchestration.createScene with data: {"genre":"Romantic Comedy","includeNarration":true,"length":"Mini","ownerId":"user_2
-pHKLTYkXCggRhYhO1lrPfLFeJs","sceneNumber":1,"scenes":[{"setting":"A cozy coffee shop","tensionLevel":"Max","tone":"Intense"}],"storyId":88,"them
-e":"Forbidden romance","title":"Reverse It"}
-|  +219ms      oops {
-|  +220ms        code: '23502',
-|  +220ms        column: 'content',
-|  +220ms        detail: 'Failing row contains (67, 88, null, null, 1, Intense, A cozy coffee shop, Max, 2024-11-30 22:38:19.462227, 2024-11-30
-22:38:19.462227).',
-|  +220ms        file: 'execMain.c',
-|  +220ms        line: '2011',
-|  +220ms        name: 'NeonDbError',
-|  +220ms        routine: 'ExecConstraints',
-|  +220ms        schema: 'public',
-|  +220ms        severity: 'ERROR',
-|  +220ms        table: 'scenes'
-|  +220ms      }
- */
 
 export const createScene = orchestrationClient.createFunction(
     { id: 'create.scene' },
@@ -35,7 +15,7 @@ export const createScene = orchestrationClient.createFunction(
         const { data } = event
 
         let prompt: string
-        switch (data.length === LengthEnum.Mini) {
+        switch (data.length === 23) {
             case true:
                 prompt = (await cacheClient.get<string>(
                     `prompt:mini`,
@@ -125,7 +105,7 @@ export const createScene = orchestrationClient.createFunction(
             console.error(postToConnectionError)
         }
 
-        switch (data.length === LengthEnum.Mini) {
+        switch (data.length === 23) {
             case true:
                 if (data.includeNarration) {
                     await orchestrationClient.send({
@@ -150,16 +130,16 @@ export const createScene = orchestrationClient.createFunction(
                         name: 'finish.story',
                         data: { storyId: data.storyId, ownerId: data.ownerId },
                     })
+                } else {
+                    await cacheClient.set(
+                        `short:scene:${data.storyId}:${data.sceneNumber}:summary`,
+                        summary,
+                    )
+                    await orchestrationClient.send({
+                        name: 'create.scene',
+                        data: { ...data, sceneNumber: data.sceneNumber + 1 },
+                    })
                 }
-
-                await cacheClient.set(
-                    `short:scene:${data.storyId}:${data.sceneNumber}:summary`,
-                    summary,
-                )
-                await orchestrationClient.send({
-                    name: 'create.scene',
-                    data: { ...data, sceneNumber: data.sceneNumber + 1 },
-                })
                 break
             default:
                 break

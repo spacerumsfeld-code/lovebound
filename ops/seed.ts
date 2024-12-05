@@ -2,49 +2,7 @@ import { db } from '../libs/clients/src/db.client'
 import { ItemTypeEnum } from '../libs/core/src/item/item.model.ts'
 import { items } from '../libs/core/src/item/item.sql.ts'
 
-// seed setting items
-// seed tone items
-// tension items
-
-export enum LengthEnum {
-    Mini = 'Mini',
-    Short = 'Short',
-    Medium = 'Medium',
-    Long = 'Long',
-    Novella = 'Novella',
-}
-
-const lengthSeedItems = [
-    {
-        name: 'Mini',
-        description: 'A mini story.',
-        cost: 0,
-        isDefault: true,
-        imageUrl: null,
-        type: ItemTypeEnum.Length,
-    },
-]
-
-const seed = async () => {
-    await db.insert(items).values(lengthSeedItems)
-}
-
-;(async () => {
-    await seed()
-})()
-
-/**
- * export enum SettingEnum {
-    CozyCoffeeShop = 'A cozy coffee shop',
-    DimlyLitJazzBar = 'A dimly lit jazz bar',
-    BustlingCityPark = 'A bustling city park',
-    SecludedBeachAtSunset = 'A secluded beach at sunset',
-    SmallTownDiner = 'A small-town diner',
-    LavishCocktailParty = 'A lavish cocktail party',
-    RusticBarn = 'A rustic barn',
-    MountainCabinDuringSnowstorm = 'A mountain cabin during a snowstorm',
-    QuietLibrary = 'A quiet library',
-    CandlelitRooftopTerrace = 'A candlelit rooftop terrace',
+export enum SettingEnum {
     RainyCityStreet = 'A rainy city street',
     VintageBookshop = 'A vintage bookshop',
     FlowerFilledMeadow = 'A flower-filled meadow',
@@ -87,24 +45,22 @@ const seed = async () => {
     HistoricalMansionOnStormyNight = 'A historical mansion on a stormy night',
 }
 
-export enum ToneEnum {
-    Dreamy = 'Dreamy',
-    Intense = 'Intense',
-    Playful = 'Playful',
-    Passionate = 'Passionate',
-    Lighthearted = 'Lighthearted',
-    Mysterious = 'Mysterious',
-    Whimsical = 'Whimsical',
-    Emotional = 'Emotional',
-    Tender = 'Tender',
-    Sultry = 'Sultry',
+const tensionLevelSeedItems = [
+    {
+        name: 'Low',
+        description: 'Low tension',
+        cost: 0,
+        isDefault: true,
+        imageUrl:
+            'https://cdn.sanity.io/images/vjg0x5qe/production/b4a2630a4c3e0c7e17077a4e8b95d9e84aad9a08-1024x1024.webp',
+        type: ItemTypeEnum.TensionLevel,
+    },
+]
+
+const seed = async () => {
+    await db.insert(items).values(tensionLevelSeedItems)
 }
 
-export enum TensionEnum {
-    Low = 'Low',
-    Medium = 'Medium',
-    High = 'High',
-    Intense = 'Intense',
-    Max = 'Max',
-}
-*/
+;(async () => {
+    await seed()
+})()

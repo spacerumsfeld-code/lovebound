@@ -23,11 +23,21 @@ export const itemRouter = router({
                 Item.getAllGenres(),
                 Item.getAllThemes(),
                 Item.getAllLengths(),
+                Item.getAllTensionLevels(),
+                Item.getAllSettings(),
+                Item.getAllTones(),
             ]
             const itemResults = await Promise.allSettled(itemPromises)
 
             const {
-                values: [genres, themes, lengths],
+                values: [
+                    genres,
+                    themes,
+                    lengths,
+                    tensionLevels,
+                    settings,
+                    tones,
+                ],
                 hasRejections,
             } = extractFulfilledValues(itemResults)
             if (hasRejections) {
@@ -41,6 +51,9 @@ export const itemRouter = router({
                     genres: genres!,
                     themes: themes!,
                     lengths: lengths!,
+                    tensionLevels: tensionLevels!,
+                    settings: settings!,
+                    tones: tones!,
                 },
                 success: true,
             })

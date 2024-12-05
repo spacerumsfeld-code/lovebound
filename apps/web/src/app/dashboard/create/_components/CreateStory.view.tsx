@@ -33,16 +33,6 @@ import { Switch } from '@web/src/components/ui/switch'
 import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
 import { cn } from '@web/src//lib/utils'
 import { ZCreateStoryClient } from '@client-types/story/story.model'
-import {
-    SettingEnum,
-    ToneEnum,
-    TensionEnum,
-} from '@client-types/scene/scene.model'
-import {
-    settingOptions,
-    tensionOptions,
-    toneOptions,
-} from '@client-types/scene/scene.object'
 import { submitStory } from '../data'
 import { MagicButton } from '@web/src/components/ui/magic-button'
 import useLoading from '@web/src/hooks/use-loading'
@@ -82,34 +72,36 @@ const StyleCard = ({
 )
 
 export const CreateStoryView = (props: {
-    genres: TItem[]
-    themes: TItem[]
-    lengths: TItem[]
+    items: {
+        genres: TItem[]
+        themes: TItem[]
+        lengths: TItem[]
+        tensionLevels: TItem[]
+        settings: TItem[]
+        tones: TItem[]
+    }
 }) => {
     const [storyData, setStoryData] = useState({
         title: '',
         theme: null,
         genre: null,
-        length: null,
+        length: 23,
         includeNarration: false,
         scenes: [
             {
-                tone: null as ToneEnum | null,
-                setting: null as SettingEnum | null,
-                tensionLevel: null as TensionEnum | null,
+                tone: null,
+                setting: null,
+                tensionLevel: null,
             },
         ],
     })
-    console.info(storyData)
     const { isLoading, startLoading, stopLoading } = useLoading()
 
     useEffect(() => {
-        if (
-            storyData.length === ITEM_ID_MAP.get('Story.Length.Mini')! &&
-            storyData.scenes.length !== 3
-        ) {
+        if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
             setStoryData((prev) => ({
                 ...prev,
+                includeNarration: false,
                 scenes: Array(3)
                     .fill({})
                     .map(() => ({
@@ -118,10 +110,7 @@ export const CreateStoryView = (props: {
                         tensionLevel: null,
                     })),
             }))
-        } else if (
-            storyData.length !== 23 &&
-            ITEM_ID_MAP.get('Story.Length.Short')
-        ) {
+        } else if (ITEM_ID_MAP.get('Story.Length.Mini')) {
             setStoryData((prev) => ({
                 ...prev,
                 scenes: [
@@ -178,7 +167,7 @@ export const CreateStoryView = (props: {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: any,
     ) => {
-        if (storyData.length === 24) {
+        if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
             const sceneIndex = getNextAvailableSceneIndex(category, value)
             setStoryData((prev) => ({
                 ...prev,
@@ -203,9 +192,10 @@ export const CreateStoryView = (props: {
 
     const getSceneNumberForSelection = (
         category: 'tone' | 'setting' | 'tensionLevel',
-        value: any,
+        value: number,
     ): number | null => {
-        if (storyData.length !== 22) return null
+        if (storyData.length !== ITEM_ID_MAP.get('Story.Length.Short'))
+            return null
         const index = storyData.scenes.findIndex(
             (scene) => scene[category] === value,
         )
@@ -260,7 +250,7 @@ export const CreateStoryView = (props: {
                                         <SelectValue placeholder="Select Genre" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {props.genres.map((genre) => (
+                                        {props.items.genres.map((genre) => (
                                             <SelectItem
                                                 key={genre.id}
                                                 value={genre.id}
@@ -274,17 +264,13 @@ export const CreateStoryView = (props: {
                             <div>
                                 <Label>Length</Label>
                                 <RadioGroup
-                                    value={
-                                        props.lengths.find(
-                                            ({ id }) => id === storyData.length,
-                                        )?.id!
-                                    }
+                                    value={storyData.length}
                                     onValueChange={(value) =>
                                         handleInputChange('length', value)
                                     }
                                     className="flex flex-col space-y-1 mt-1"
                                 >
-                                    {props.lengths.map((length) => (
+                                    {props.items.lengths.map((length) => (
                                         <div
                                             key={length.name}
                                             className="flex items-center space-x-2"
@@ -305,12 +291,6 @@ export const CreateStoryView = (props: {
                                         </div>
                                     ))}
                                 </RadioGroup>
-                                {/* Lets "mock" data that is disabled buttons to this mapping. It looks better to preview the coming lengths than this generic ass message */}
-                                {
-                                    <div className="py-8">
-                                        More lengths coming soon!
-                                    </div>
-                                }
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Switch
@@ -355,11 +335,11 @@ export const CreateStoryView = (props: {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {props.themes.map((theme) => (
+                                        {props.items.themes.map((theme) => (
                                             <StyleCard
                                                 key={theme.id}
                                                 label={theme.name}
-                                                imageUrl={theme.imageUrl!}
+                                                imageUrl={theme.imageUrl || ''}
                                                 isSelected={
                                                     storyData.theme === theme.id
                                                 }
@@ -380,24 +360,26 @@ export const CreateStoryView = (props: {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {settingOptions.map((setting) => (
+                                        {props.items.settings.map((setting) => (
                                             <StyleCard
-                                                key={setting.label}
-                                                label={setting.label}
-                                                imageUrl={setting.href}
+                                                key={setting.id}
+                                                label={setting.name}
+                                                imageUrl={
+                                                    setting.imageUrl || ''
+                                                }
                                                 isSelected={storyData.scenes.some(
                                                     (scene) =>
                                                         scene.setting ===
-                                                        setting.label,
+                                                        setting.id,
                                                 )}
                                                 sceneNumber={getSceneNumberForSelection(
                                                     'setting',
-                                                    setting.label,
+                                                    setting.id,
                                                 )}
                                                 onClick={() =>
                                                     handleStyleCardClick(
                                                         'setting',
-                                                        setting.label,
+                                                        setting.id,
                                                     )
                                                 }
                                             />
@@ -410,24 +392,24 @@ export const CreateStoryView = (props: {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {toneOptions.map((tone) => (
+                                        {props.items.tones.map((tone) => (
                                             <StyleCard
-                                                key={tone.label}
-                                                label={tone.label}
-                                                imageUrl={tone.href}
+                                                key={tone.id}
+                                                label={tone.name}
+                                                imageUrl={tone.imageUrl || ''}
                                                 isSelected={storyData.scenes.some(
                                                     (scene) =>
                                                         scene.tone ===
-                                                        tone.label,
+                                                        tone.name,
                                                 )}
                                                 sceneNumber={getSceneNumberForSelection(
                                                     'tone',
-                                                    tone.label,
+                                                    tone.id,
                                                 )}
                                                 onClick={() =>
                                                     handleStyleCardClick(
                                                         'tone',
-                                                        tone.label,
+                                                        tone.id,
                                                     )
                                                 }
                                             />
@@ -440,28 +422,32 @@ export const CreateStoryView = (props: {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="grid grid-cols-2 gap-4">
-                                        {tensionOptions.map((tension) => (
-                                            <StyleCard
-                                                key={tension.label}
-                                                label={tension.label}
-                                                imageUrl={tension.href}
-                                                isSelected={storyData.scenes.some(
-                                                    (scene) =>
-                                                        scene.tensionLevel ===
-                                                        tension.label,
-                                                )}
-                                                sceneNumber={getSceneNumberForSelection(
-                                                    'tensionLevel',
-                                                    tension.label,
-                                                )}
-                                                onClick={() =>
-                                                    handleStyleCardClick(
+                                        {props.items.tensionLevels.map(
+                                            (tension) => (
+                                                <StyleCard
+                                                    key={tension.id}
+                                                    label={tension.name}
+                                                    imageUrl={
+                                                        tension.imageUrl || ''
+                                                    }
+                                                    isSelected={storyData.scenes.some(
+                                                        (scene) =>
+                                                            scene.tensionLevel ===
+                                                            tension.id,
+                                                    )}
+                                                    sceneNumber={getSceneNumberForSelection(
                                                         'tensionLevel',
-                                                        tension.label,
-                                                    )
-                                                }
-                                            />
-                                        ))}
+                                                        tension.id,
+                                                    )}
+                                                    onClick={() =>
+                                                        handleStyleCardClick(
+                                                            'tensionLevel',
+                                                            tension.id,
+                                                        )
+                                                    }
+                                                />
+                                            ),
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>

@@ -71,17 +71,17 @@ class StoryService {
             .limit(limit)
             .offset(offset)
 
-        if (genre === 11 && theme === 22) {
+        if (!genre && !theme) {
             query.where(eq(stories.ownerId, userId))
-        } else if (genre !== 11 && theme === 22) {
+        } else if (genre && !theme) {
             query.where(
                 and(eq(stories.ownerId, userId), eq(stories.genre, genre)),
             )
-        } else if (genre === 11 && theme !== 22) {
+        } else if (!genre && theme) {
             query.where(
                 and(eq(stories.ownerId, userId), eq(stories.theme, theme)),
             )
-        } else if (genre !== 11 && theme !== 22) {
+        } else if (genre && theme) {
             query.where(
                 and(
                     eq(stories.ownerId, userId),
