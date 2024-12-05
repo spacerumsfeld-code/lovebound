@@ -22,7 +22,7 @@ migrate-apply:
 	npx drizzle-kit migrate
 
 seed:
-	DATABASE_URL=[changeme] npx tsx ops/seed.ts
+	DATABASE_URL="postgresql://neondb_owner:3rDmNUvo9IqF@ep-wandering-tree-a5ykn0je-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require" npx sst shell tsx ops/seed.ts
 
 # DEPENDENCY MANAGEMENT
 update:

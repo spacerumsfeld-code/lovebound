@@ -1,4 +1,4 @@
-import { GenreEnum, SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
+import { SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
 import OpenAI from 'openai'
 import { Resource } from 'sst'
 import { cacheClient } from './cache.client.ts'

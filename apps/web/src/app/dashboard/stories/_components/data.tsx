@@ -3,32 +3,39 @@
 import { client as api } from '@clients/api.client'
 import { StoryGridView } from './StoryGrid.view'
 import { currentUser } from '@clerk/nextjs/server'
-import { GenreEnum, ThemeEnum } from '@client-types/story/story.model'
 
 export const getStories = async (args: {
     limit: number
     offset: number
-    genre: GenreEnum
-    theme: ThemeEnum
+    genre: number
+    theme: number
 }) => {
-    const user = await currentUser()
+    try {
+        console.info('lets look at our arguments,', args)
+        const user = await currentUser()
 
-    const response = await api.story.getStories.$get({
-        ...args,
-        userId: user!.id,
-    })
-    const {
-        data: { stories, hasMore, nextOffset },
-    } = await response.json()
+        const response = await api.story.getStories.$get({
+            ...args,
+            userId: user!.id,
+        })
+        const {
+            data: { stories, hasMore, nextOffset },
+        } = await response.json()
 
-    const component = (
-        <StoryGridView
-            key={JSON.stringify(args)}
-            storiesWithScenes={stories}
-            hasMore={hasMore}
-            nextOffset={nextOffset}
-        />
-    )
+        const component = (
+            <StoryGridView
+                key={JSON.stringify(args)}
+                storiesWithScenes={stories}
+                hasMore={hasMore}
+                nextOffset={nextOffset}
+            />
+        )
 
-    return { component }
+        return { component }
+    } catch (error) {
+        console.error(error)
+        throw new Error(
+            `client.getStories failed with ${JSON.stringify(error)}`,
+        )
+    }
 }

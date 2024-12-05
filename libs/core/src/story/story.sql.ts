@@ -1,27 +1,13 @@
-import { relations } from 'drizzle-orm'
 import {
     boolean,
+    integer,
     pgEnum,
     pgTable,
     serial,
     text,
     timestamp,
 } from 'drizzle-orm/pg-core'
-import { users } from '../user/user.sql.ts'
-import { GenreEnum, LengthEnum, ThemeEnum } from '../story/story.model.ts'
-
-export const genreEnum = pgEnum(
-    'genre',
-    Object.values(GenreEnum) as [string, ...string[]],
-)
-export const themeEnum = pgEnum(
-    'theme',
-    Object.values(ThemeEnum) as [string, ...string[]],
-)
-export const lengthEnum = pgEnum(
-    'length',
-    Object.values(LengthEnum) as [string, ...string[]],
-)
+import { items } from '../item/item.sql.ts'
 
 export const stories = pgTable('stories', {
     // core
@@ -31,9 +17,15 @@ export const stories = pgTable('stories', {
     coverUrl: text('cover_url'),
     inProgress: boolean('in_progress').notNull().default(true),
     // enums
-    genre: genreEnum('genre').notNull().$type<GenreEnum>(),
-    theme: themeEnum('theme').notNull().$type<ThemeEnum>(),
-    length: lengthEnum('length').notNull().$type<LengthEnum>(),
+    genre: integer('genre')
+        .notNull()
+        .references(() => items.id),
+    theme: integer('theme')
+        .notNull()
+        .references(() => items.id),
+    length: integer('length')
+        .notNull()
+        .references(() => items.id),
     // timestamps
     createdAt: timestamp('created_at', { mode: 'string' })
         .defaultNow()
@@ -42,10 +34,3 @@ export const stories = pgTable('stories', {
         .defaultNow()
         .notNull(),
 })
-
-export const storiesToUsersRelations = relations(stories, ({ one }) => ({
-    stories: one(users, {
-        fields: [stories.ownerId],
-        references: [users.clerkId],
-    }),
-}))

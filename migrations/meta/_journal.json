@@ -5,43 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1732479991914,
-      "tag": "0000_nappy_night_thrasher",
+      "when": 1733117016790,
+      "tag": "0000_hot_thunderbolts",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1732486383059,
-      "tag": "0001_solid_kulan_gath",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1732487409843,
-      "tag": "0002_tired_kat_farrell",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1732557015476,
-      "tag": "0003_shocking_paper_doll",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1732839046557,
-      "tag": "0004_redundant_whirlwind",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1732997095140,
-      "tag": "0005_neat_the_twelve",
+      "when": 1733346346872,
+      "tag": "0001_needy_shocker",
       "breakpoints": true
     }
   ]

@@ -14,8 +14,25 @@ export const submitStory = async (data: TCreateStoryClient) => {
             ownerId: user!.id,
         })
     } catch (error) {
-        console.error(error)
+        throw new Error(`client.submitStory failed with error: ${error}`)
     }
 
     return redirect('/dashboard?action=modal.story.created')
+}
+
+export const getAllItems = async () => {
+    try {
+        const user = await currentUser()
+
+        const response = await api.item.getAllItems.$get({
+            userId: user!.id,
+        })
+        const {
+            data: { genres, themes, lengths },
+        } = await response.json()
+
+        return { genres, themes, lengths }
+    } catch (error) {
+        throw new Error(`client.getAllItems failed with error: ${error}`)
+    }
 }

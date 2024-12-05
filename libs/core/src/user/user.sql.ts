@@ -1,11 +1,13 @@
 import {
     integer,
     pgTable,
+    serial,
     text,
     timestamp,
     unique,
     uuid,
 } from 'drizzle-orm/pg-core'
+import { items } from '../item/item.sql.ts'
 
 export const users = pgTable(
     'users',
@@ -35,3 +37,14 @@ export const users = pgTable(
         }
     },
 )
+
+export const userInventory = pgTable('user_inventory', {
+    id: serial('id').primaryKey(),
+    userId: text('user_id')
+        .notNull()
+        .references(() => users.clerkId),
+    itemId: integer('item_id')
+        .notNull()
+        .references(() => items.id),
+    purchasedAt: timestamp('purchased_at').defaultNow().notNull(),
+})

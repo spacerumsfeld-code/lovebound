@@ -1,11 +1,11 @@
 {
-  "id": "250d6122-28fe-4c6f-b3ec-b51457082d01",
-  "prevId": "2d1fcc85-1bcf-4fc8-b382-0536be428fc7",
+  "id": "723b806d-75ac-4f30-b809-e8f26e4924b9",
+  "prevId": "71ac507c-1df6-4334-9f24-a795a8666f1c",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.stories": {
-      "name": "stories",
+    "public.items": {
+      "name": "items",
       "schema": "",
       "columns": {
         "id": {
@@ -14,15 +14,41 @@
           "primaryKey": true,
           "notNull": true
         },
-        "owner_id": {
-          "name": "owner_id",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "content": {
-          "name": "content",
+        "description": {
+          "name": "description",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cost": {
+          "name": "cost",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_default": {
+          "name": "is_default",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "item_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -39,6 +65,159 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.scenes": {
+      "name": "scenes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "story_id": {
+          "name": "story_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "narration_url": {
+          "name": "narration_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "order_index": {
+          "name": "order_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tone": {
+          "name": "tone",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "setting": {
+          "name": "setting",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tension_level": {
+          "name": "tension_level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "scenes_story_id_stories_id_fk": {
+          "name": "scenes_story_id_stories_id_fk",
+          "tableFrom": "scenes",
+          "tableTo": "stories",
+          "columnsFrom": [
+            "story_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "scenes_tone_items_id_fk": {
+          "name": "scenes_tone_items_id_fk",
+          "tableFrom": "scenes",
+          "tableTo": "items",
+          "columnsFrom": [
+            "tone"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "scenes_setting_items_id_fk": {
+          "name": "scenes_setting_items_id_fk",
+          "tableFrom": "scenes",
+          "tableTo": "items",
+          "columnsFrom": [
+            "setting"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "scenes_tension_level_items_id_fk": {
+          "name": "scenes_tension_level_items_id_fk",
+          "tableFrom": "scenes",
+          "tableTo": "items",
+          "columnsFrom": [
+            "tension_level"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stories": {
+      "name": "stories",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "title": {
           "name": "title",
@@ -46,55 +225,159 @@
           "primaryKey": false,
           "notNull": true
         },
-        "scenario": {
-          "name": "scenario",
+        "cover_url": {
+          "name": "cover_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "in_progress": {
+          "name": "in_progress",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "genre": {
+          "name": "genre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         },
         "theme": {
           "name": "theme",
-          "type": "theme",
-          "typeSchema": "public",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "tone": {
-          "name": "tone",
-          "type": "tone",
-          "typeSchema": "public",
+        "length": {
+          "name": "length",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "tension_level": {
-          "name": "tension_level",
-          "type": "tension",
-          "typeSchema": "public",
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
-        "setting": {
-          "name": "setting",
-          "type": "setting",
-          "typeSchema": "public",
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
-        },
-        "coverUrl": {
-          "name": "coverUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "narrationUrl": {
-          "name": "narrationUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "stories_genre_items_id_fk": {
+          "name": "stories_genre_items_id_fk",
+          "tableFrom": "stories",
+          "tableTo": "items",
+          "columnsFrom": [
+            "genre"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "stories_theme_items_id_fk": {
+          "name": "stories_theme_items_id_fk",
+          "tableFrom": "stories",
+          "tableTo": "items",
+          "columnsFrom": [
+            "theme"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "stories_length_items_id_fk": {
+          "name": "stories_length_items_id_fk",
+          "tableFrom": "stories",
+          "tableTo": "items",
+          "columnsFrom": [
+            "length"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_inventory": {
+      "name": "user_inventory",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "item_id": {
+          "name": "item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "purchased_at": {
+          "name": "purchased_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_inventory_user_id_users_clerk_id_fk": {
+          "name": "user_inventory_user_id_users_clerk_id_fk",
+          "tableFrom": "user_inventory",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "clerk_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_inventory_item_id_items_id_fk": {
+          "name": "user_inventory_item_id_items_id_fk",
+          "tableFrom": "user_inventory",
+          "tableTo": "items",
+          "columnsFrom": [
+            "item_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -167,6 +450,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "credits": {
+          "name": "credits",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 3
         }
       },
       "indexes": {},
@@ -194,103 +484,16 @@
     }
   },
   "enums": {
-    "public.setting": {
-      "name": "setting",
+    "public.item_type": {
+      "name": "item_type",
       "schema": "public",
       "values": [
-        "A cozy coffee shop",
-        "A dimly lit jazz bar",
-        "A bustling city park",
-        "A secluded beach at sunset",
-        "A small-town diner",
-        "A lavish cocktail party",
-        "A rustic barn",
-        "A mountain cabin during a snowstorm",
-        "A quiet library",
-        "A candlelit rooftop terrace",
-        "A rainy city street",
-        "A vintage bookshop",
-        "A flower-filled meadow",
-        "A moonlit garden",
-        "A quaint bed-and-breakfast",
-        "A crowded subway car",
-        "A lively farmer's market",
-        "An art gallery opening",
-        "A quaint seaside pier",
-        "A vineyard at harvest",
-        "A small fishing boat on the lake",
-        "An elegant ballroom",
-        "A bustling train station",
-        "A sunny countryside trail",
-        "A ski lodge by a roaring fire",
-        "A cozy bookstore café",
-        "A music festival under the stars",
-        "A serene forest clearing",
-        "A rooftop pool at a city hotel",
-        "A sunflower field in summer",
-        "A desert under a starlit sky",
-        "A local gym during a quiet evening",
-        "A charming village square",
-        "A crowded wedding reception",
-        "A carnival at night",
-        "A boat dock at sunrise",
-        "A high-rise office after hours",
-        "A college campus library",
-        "A public garden in bloom",
-        "A train car on a long journey",
-        "A rainy lakeside cabin",
-        "A small chapel in the woods",
-        "A hidden speakeasy",
-        "A private plane mid-flight",
-        "A quiet fishing dock",
-        "A backyard barbecue",
-        "A bustling outdoor market",
-        "A dimly lit movie theater",
-        "A picturesque lighthouse",
-        "A historical mansion on a stormy night"
-      ]
-    },
-    "public.tension": {
-      "name": "tension",
-      "schema": "public",
-      "values": [
-        "Low",
-        "Medium",
-        "High",
-        "Intense",
-        "Max"
-      ]
-    },
-    "public.theme": {
-      "name": "theme",
-      "schema": "public",
-      "values": [
-        "Forbidden romance",
-        "Best friends to lovers",
-        "Strangers with instant chemistry",
-        "Second-chance romance",
-        "Enemies to lovers",
-        "Opposites attract",
-        "Workplace romance",
-        "A missed connection finally realized",
-        "Secret admirer revealed",
-        "Love rekindled after years apart"
-      ]
-    },
-    "public.tone": {
-      "name": "tone",
-      "schema": "public",
-      "values": [
-        "Dreamy",
-        "Intense",
-        "Playful",
-        "Passionate",
-        "Lighthearted",
-        "Mysterious",
-        "Whimsical",
-        "Emotional",
-        "Tender",
-        "Sultry"
+        "Genre",
+        "Theme",
+        "Character",
+        "Tone",
+        "Setting",
+        "Length"
       ]
     }
   },

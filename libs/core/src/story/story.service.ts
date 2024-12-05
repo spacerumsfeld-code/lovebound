@@ -1,12 +1,6 @@
 import { db } from '@clients/db.client.ts'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import {
-    ThemeEnum,
-    GenreEnum,
-    LengthEnum,
-    TStoryWithScenes,
-} from '../story/story.model.ts'
-import { ToneEnum, SettingEnum, TensionEnum } from '../scene/scene.model.ts'
+import { TStoryWithScenes } from '../story/story.model.ts'
 import { stories } from './story.sql.ts'
 import { aiClient } from '@clients/openai.client.ts'
 import { eq, and } from 'drizzle-orm/expressions'
@@ -48,8 +42,8 @@ class StoryService {
         userId: string
         limit: number
         offset: number
-        genre: GenreEnum
-        theme: ThemeEnum
+        genre: number
+        theme: number
     }) {
         const query = db
             .select({
@@ -77,17 +71,17 @@ class StoryService {
             .limit(limit)
             .offset(offset)
 
-        if (genre === GenreEnum.None && theme === ThemeEnum.None) {
+        if (genre === 11 && theme === 22) {
             query.where(eq(stories.ownerId, userId))
-        } else if (genre !== GenreEnum.None && theme === ThemeEnum.None) {
+        } else if (genre !== 11 && theme === 22) {
             query.where(
                 and(eq(stories.ownerId, userId), eq(stories.genre, genre)),
             )
-        } else if (genre === GenreEnum.None && theme !== ThemeEnum.None) {
+        } else if (genre === 11 && theme !== 22) {
             query.where(
                 and(eq(stories.ownerId, userId), eq(stories.theme, theme)),
             )
-        } else if (genre !== GenreEnum.None && theme !== ThemeEnum.None) {
+        } else if (genre !== 11 && theme !== 22) {
             query.where(
                 and(
                     eq(stories.ownerId, userId),
@@ -127,11 +121,11 @@ class StoryService {
         length,
         coverUrl,
     }: {
-        genre: GenreEnum
+        genre: number
         ownerId: string
         title: string
-        theme: ThemeEnum
-        length: LengthEnum
+        theme: number
+        length: number
         coverUrl: string
     }) {
         const newStory = await this.store
@@ -162,9 +156,9 @@ class StoryService {
         content: string
         narrationUrl: string | null
         orderIndex: number
-        tone: ToneEnum
-        setting: SettingEnum
-        tensionLevel: TensionEnum
+        tone: number
+        setting: number
+        tensionLevel: number
     }) {
         const newScene = await this.store
             .insert(scenes)

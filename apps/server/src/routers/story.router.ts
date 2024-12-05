@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { router } from '../_internals/router.ts'
 import { handleAsync } from '@utils'
 import { baseProcedure } from '../_internals/index.ts'
-import { GenreEnum, Story, ThemeEnum, ZCreateStory } from '@core'
+import { Story, ZCreateStory } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
 import { HTTPException } from 'hono/http-exception'
 
@@ -12,8 +12,8 @@ export const storyRouter = router({
             z.object({
                 limit: z.number().int(),
                 offset: z.number().int(),
-                genre: z.nativeEnum(GenreEnum),
-                theme: z.nativeEnum(ThemeEnum),
+                genre: z.number(),
+                theme: z.number(),
                 userId: z.string(),
             }),
         )

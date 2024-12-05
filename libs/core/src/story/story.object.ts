@@ -1,47 +1,4 @@
-import { ThemeEnum, GenreEnum } from './story.model.ts'
-
-export const genreOptions = [
-    {
-        label: GenreEnum.Contemporary,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Historical,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Fantasy,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a9e9ec9936280618d1d85b62446fc937fcae009-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.ScienceFiction,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Paranormal,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d766d7da3337b913722ab9d1e85536d4c78ee0c2-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Thriller,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/c991b0d4f0fa64b9d49d57f8a5a9de7a80019497-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Comedy,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a21d8deb0b303d10701527654dd927a0abafcf7-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Drama,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/1a9e9ec9936280618d1d85b62446fc937fcae009-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Adventure,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/699eeb94eea2c5c32f64bed2c88fe527c9f32d43-1024x1024.webp',
-    },
-    {
-        label: GenreEnum.Mystery,
-        href: 'https://cdn.sanity.io/images/vjg0x5qe/production/d766d7da3337b913722ab9d1e85536d4c78ee0c2-1024x1024.webp',
-    },
-]
+import { ThemeEnum } from '../item/item.model.ts'
 
 export const themeOptions = [
     {

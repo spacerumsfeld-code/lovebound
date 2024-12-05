@@ -42,7 +42,7 @@ class ConnectionService {
         const { connectionId } = await this.getConnection({
             userId,
         })
-        console.info('postToConnection', connectionId)
+
         await postToConnection({
             id: connectionId!,
             data,

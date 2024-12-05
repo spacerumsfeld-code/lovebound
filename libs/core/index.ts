@@ -2,11 +2,11 @@
 export { User } from './src/user/user.service.ts'
 export { storyService as Story } from './src/story/story.service.ts'
 export { connectionService as Connection } from './src/connection/connection.service.ts'
+export { Item } from './src/item/item.service.ts'
 
 // Types
 export {
     ThemeEnum,
-    GenreEnum,
     LengthEnum,
     TStory,
     ZCreateStory,

@@ -20,7 +20,7 @@ export const Logo = (props: {
             />
             {!props.noLabel && (
                 <span className="ml-4 font-medium text-black dark:text-white">
-                    Tension.io
+                    Lovebound
                 </span>
             )}
         </Link>

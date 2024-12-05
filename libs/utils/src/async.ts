@@ -16,17 +16,17 @@ type Settled<T> = Fulfilled<T> | Rejected
 export function extractFulfilledValues<T extends readonly any[]>(results: {
     [K in keyof T]: Settled<T[K]>
 }): {
-    fulfilledValues: { [K in keyof T]: T[K] | undefined }
+    values: { [K in keyof T]: T[K] | undefined }
     hasRejections: boolean
 } {
-    const fulfilledValues = results.map((result) =>
+    const values = results.map((result) =>
         result.status === 'fulfilled' ? result.value : undefined,
     ) as { [K in keyof T]: T[K] | undefined }
 
     const hasRejections = results.some((result) => result.status === 'rejected')
 
     return {
-        fulfilledValues,
+        values,
         hasRejections,
     }
 }

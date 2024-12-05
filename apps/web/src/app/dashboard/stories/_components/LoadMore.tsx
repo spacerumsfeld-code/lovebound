@@ -3,7 +3,6 @@
 import { Button } from '@web/src/components/ui/buttonTwo'
 import { useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
-import { GenreEnum, ThemeEnum } from '@client-types/story/story.model'
 import { useState } from 'react'
 import useLoading from '@web/src/hooks/use-loading'
 import { getStories } from './data'
@@ -12,13 +11,13 @@ export const LoadMore = (props: { nextOffset: number }) => {
     // @State
     const [component, setComponent] = useState<JSX.Element | null>(null)
     const params = useSearchParams()
-    const theme = params.get('theme') ?? (ThemeEnum.None as ThemeEnum)
-    const genre = params.get('genre') ?? (GenreEnum.None as GenreEnum)
+    const theme = Number(params.get('theme') ?? 0)
+    const genre = Number(params.get('genre') ?? 0)
     const args = {
         limit: 28,
         offset: props.nextOffset,
-        theme: theme as ThemeEnum,
-        genre: genre as GenreEnum,
+        theme,
+        genre,
     }
     const { isLoading, startLoading, stopLoading } = useLoading()
 

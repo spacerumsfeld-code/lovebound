@@ -141,8 +141,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
             )}
         >
             <div className="flex gap-x-4 justify-center items-center">
-                <RaasIconSleek size={32} className="text-rose-gold" />
-                <div>Spark.io</div>
+                <Logo />
             </div>
             <motion.div className="lg:flex flex-row flex-1 absolute inset-0 hidden items-center justify-center space-x-2 lg:space-x-2 text-sm text-zinc-600 font-medium hover:text-zinc-800 transition duration-200">
                 {navItems.map((navItem: any, idx: number) => (
