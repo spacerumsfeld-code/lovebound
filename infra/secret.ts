@@ -8,6 +8,9 @@ export const secret = {
     InngestBranchId: new sst.Secret('InngestBranchId'),
     InngestSigningKey: new sst.Secret('InngestSigningKey'),
     InngestEventKey: new sst.Secret('InngestEventKey'),
+    StripePublishableKey: new sst.Secret('StripePublishableKey'),
+    StripeSecretKey: new sst.Secret('StripeSecretKey'),
+    StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
 }
 
 export const allSecrets = Object.values(secret)

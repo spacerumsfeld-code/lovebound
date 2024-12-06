@@ -3,8 +3,9 @@ export enum SITE_MAP {
     LOGIN = '/login',
     DASHBOARD = '/dashboard',
     STORIES = '/dashboard/stories',
-    ADDONS = '/dashboard/addons',
+    SHOP = '/dashboard/shop',
     CREATE = '/dashboard/create',
+    UPGRADE = '/dashboard/upgrade',
 }
 
 export const ITEM_ID_MAP = new Map<string, number>([

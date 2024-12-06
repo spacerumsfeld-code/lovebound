@@ -14,6 +14,12 @@ export const ZStory = z.object({
 })
 export type TStory = z.infer<typeof ZStory>
 
+enum CoolEnum {
+    '✅' = 1,
+    '❌' = 2,
+}
+CoolEnum['✅']
+
 export const ZCreateStory = ZStory.extend({
     ownerId: z.string(),
     includeNarration: z.boolean(),

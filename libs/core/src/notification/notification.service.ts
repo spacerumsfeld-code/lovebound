@@ -1,9 +1,7 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { postToConnection } from '@clients/wss.client.ts'
 
-// @change to notification service
-
-class ConnectionService {
+class NotificationService {
     private client
 
     constructor(client: typeof cacheClient) {
@@ -52,4 +50,5 @@ class ConnectionService {
     }
 }
 
-export const connectionService = new ConnectionService(cacheClient)
+const notificationService = new NotificationService(cacheClient)
+export const Notification = notificationService

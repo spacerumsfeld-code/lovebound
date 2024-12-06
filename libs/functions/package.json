@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "inngest": "^3.26.3",
+        "stripe": "^17.4.0",
         "svix": "^1.41.0",
         "zod": "^3.23.8"
     }

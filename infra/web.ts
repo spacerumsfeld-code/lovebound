@@ -13,11 +13,11 @@ const webConfig: NextjsArgs = {
     },
 }
 
-// if (process.env.PULUMI_NODEJS_STACK === "production") {
-//   webConfig.domain = {
-//     name: "tension.io",
-//     redirects: ["www.tension.io"],
-//   };
+// if (process.env.PULUMI_NODEJS_STACK === 'production') {
+//     webConfig.domain = {
+//         name: 'lovebound.io',
+//         redirects: ['www.lovebound.io'],
+//     }
 // }
 
 export const web = new sst.aws.Nextjs('Web', webConfig)

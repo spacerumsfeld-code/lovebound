@@ -1,8 +1,9 @@
 // Services
 export { User } from './src/user/user.service.ts'
 export { storyService as Story } from './src/story/story.service.ts'
-export { connectionService as Connection } from './src/connection/connection.service.ts'
+export { Notification } from './src/notification/notification.service.ts'
 export { Item } from './src/item/item.service.ts'
+export { Payment } from './src/payment/payment.service.ts'
 
 // Types
 export {
@@ -10,6 +11,13 @@ export {
     ZCreateStory,
     ZStoryCreatedEvent,
 } from './src/story/story.model.ts'
+
+export {
+    ProductTypeEnum,
+    ProductIdEnum,
+    CreditCountEnum,
+    subscriptionSet,
+} from './src/payment/payment.model.ts'
 
 export { ZScene } from './src/scene/scene.model.ts'
 

@@ -130,7 +130,8 @@ export function Hero() {
                 <Button
                     as={Link}
                     href="/login"
-                    className="w-40 bg-[#B76E79] text-white hover:bg-[#C88591]"
+                    // className="w-40 bg-[#B76E79] text-white hover:bg-[#C88591]"
+                    className="w-40 bg-indigo-400 text-white"
                 >
                     Get Started
                 </Button>

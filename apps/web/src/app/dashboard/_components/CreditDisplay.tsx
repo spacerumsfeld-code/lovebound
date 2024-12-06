@@ -1,10 +1,13 @@
 import React from 'react'
 import { Button } from '@web/src/components/ui/button'
 import { Coins } from 'lucide-react'
+import Link from 'next/link'
 
 export const CreditDisplay = () => {
     // @Data
     // get user credit count
+    // .data method to "getUserBalance" which will be user service method.
+    // easy to keep count up to date due to continual refresh and purchases being redirects.
 
     // @Render
     return (
@@ -16,13 +19,15 @@ export const CreditDisplay = () => {
                         <span className="text-xl font-semibold">3</span>
                     </div>
                 </div>
-
-                {/* Separate component for use client functionality */}
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                     Credits available
                 </p>
                 <p className="mt-2 text-sm font-medium">Need more?</p>
-                <Button className="mt-3 w-full bg-purple-500 hover:bg-purple-600">
+                <Button
+                    as={Link}
+                    href="/dashboard/upgrade"
+                    className="mt-3 w-full text-white bg-indigo-500 hover:bg-indigo-400"
+                >
                     Purchase
                 </Button>
             </div>

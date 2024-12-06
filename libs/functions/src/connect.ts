@@ -1,11 +1,13 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
-import { Connection } from '@core'
+import { Notification } from '@core'
+
+// @TODO: authentication
 
 export const handler: APIGatewayProxyHandler = async (event) => {
     const userId = event.queryStringParameters?.userId
 
     console.info('Connecting', event.requestContext.connectionId)
-    await Connection.createConnection({
+    await Notification.createConnection({
         userId: userId!,
         connectionId: event.requestContext.connectionId!,
     })

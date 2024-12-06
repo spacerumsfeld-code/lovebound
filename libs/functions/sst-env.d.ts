@@ -49,6 +49,23 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "StripeHandler": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "StripePublishableKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "StripeSecretKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "StripeWebhookSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "UpstashRedisToken": {
       "type": "sst.sst.Secret"
       "value": string
