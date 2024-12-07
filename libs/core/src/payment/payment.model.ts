@@ -1,3 +1,6 @@
+import { LengthEnum } from '@client-types/item/item.model.ts'
+import { z } from 'zod'
+
 export enum ProductTypeEnum {
     Credits10Pack = 'Credits10Pack',
     Credits20Pack = 'Credits20Pack',
@@ -25,3 +28,13 @@ export enum ProductIdEnum {
     MiniSubscription = 'price_1QStaQLZGjrJKEOlBhU4C3BM',
     PremiumSubscription = 'price_1QStaQLZGjrJKEOlBhU4C3BM',
 }
+
+export const ZCheckoutCompleteMetadata = z.object({
+    userId: z.string(),
+    productType: z.nativeEnum(ProductTypeEnum),
+})
+
+export const StoryIdToCostMap = {
+    23: 1,
+    24: 2,
+} as { [key: number]: number }

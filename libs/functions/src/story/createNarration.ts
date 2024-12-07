@@ -1,6 +1,6 @@
 import { orchestrationClient } from '@clients/orchestration.client.ts'
 import { uploadAudioFromBuffer } from '@clients/s3.client.ts'
-import { Connection, Story } from '@core'
+import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
 export const createNarration = orchestrationClient.createFunction(
@@ -26,7 +26,6 @@ export const createNarration = orchestrationClient.createFunction(
             return
         }
         const { buffer } = generatedContentBuffer!
-        console.info(buffer)
 
         const [uploadUrl, uploadError] = await step.run(
             'Upload Narration to S3',
@@ -56,7 +55,7 @@ export const createNarration = orchestrationClient.createFunction(
             'Post to connection',
             () =>
                 handleAsync(
-                    Connection.postToConnection({
+                    Notification.postToConnection({
                         userId: data.ownerId,
                         data: {
                             type: 'story.complete',

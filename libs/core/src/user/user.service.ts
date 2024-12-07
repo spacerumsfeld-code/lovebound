@@ -41,6 +41,10 @@ class UserService {
 
         return { success: true, id: newUser[0].id }
     }
+
+    // update user
+
+    // delete user
 }
 
 const userService = new UserService(db)

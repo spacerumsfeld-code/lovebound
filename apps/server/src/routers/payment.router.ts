@@ -27,7 +27,6 @@ export const paymentRouter = router({
                 }),
             )
             if (error) {
-                console.error('oops', error)
                 throw new HTTPException(400, {
                     message: 'Failed to get checkout url',
                 })
@@ -36,6 +35,38 @@ export const paymentRouter = router({
             return c.superjson({
                 data: {
                     checkoutUrl: checkoutUrl!,
+                },
+                success: true,
+            })
+        }),
+    getCreditCount: baseProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+            }),
+        )
+        .query(async ({ c, input }) => {
+            console.info(
+                `Invoked paymentRouter.getCreditCount with data ${JSON.stringify(
+                    input,
+                )}`,
+            )
+
+            const [creditCount, error] = await handleAsync(
+                Payment.getCreditCount({
+                    userId: input.userId,
+                }),
+            )
+            if (error) {
+                console.error(`❌ paymentRouter.getCreditCount error:`, error)
+                throw new HTTPException(400, {
+                    message: 'Failed to get credit count',
+                })
+            }
+
+            return c.superjson({
+                data: {
+                    creditCount: creditCount!,
                 },
                 success: true,
             })

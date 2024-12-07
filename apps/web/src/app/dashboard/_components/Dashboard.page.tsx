@@ -8,9 +8,9 @@ import {
     CardTitle,
 } from '@web/src/components/ui/card'
 import { ArrowRight, Sparkles } from 'lucide-react'
-import Link from 'next/link'
+// import Link from 'next/link'
 
-import { SITE_MAP } from '@web/src/constants'
+// import { SITE_MAP } from '@web/src/constants'
 import { RecentStories } from './RecentStories'
 
 export const DashboardPage = () => {
@@ -37,12 +37,6 @@ export const DashboardPage = () => {
             </Card>
 
             <RecentStories />
-
-            <Link href={SITE_MAP.CREATE}>
-                <div className="flex justify-between items-center">
-                    <Button>+ Create Story</Button>
-                </div>
-            </Link>
         </div>
     )
 }

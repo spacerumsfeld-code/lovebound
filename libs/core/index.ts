@@ -16,6 +16,7 @@ export {
     ProductTypeEnum,
     ProductIdEnum,
     CreditCountEnum,
+    ZCheckoutCompleteMetadata,
     subscriptionSet,
 } from './src/payment/payment.model.ts'
 

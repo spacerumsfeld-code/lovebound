@@ -16,6 +16,13 @@ export const ActionsFromParams = () => {
         switch (action) {
             case 'modal.story.created':
                 setModalToRender(ModalType.StoryCreated)
+                break
+            case 'modal.topup.success':
+                setModalToRender(ModalType.ConfirmTopup)
+                break
+            case 'modal.subscription.success':
+                setModalToRender(ModalType.ConfirmSubscription)
+                break
             default:
                 break
         }

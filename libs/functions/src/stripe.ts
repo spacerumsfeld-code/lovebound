@@ -1,6 +1,10 @@
 import type { Stripe } from 'stripe'
 import { stripeClient } from '@clients/stripe.client.ts'
 import { Resource } from 'sst'
+import { Payment, ZCheckoutCompleteMetadata } from '@core'
+import { handleAsync } from '@utils'
+
+// @TODO: email and in-app notifications for checkout complete.
 
 export const handler = async (req: any) => {
     let event: Stripe.Event
@@ -17,38 +21,50 @@ export const handler = async (req: any) => {
         }
     }
 
-    const permittedEvents: string[] = [
-        'checkout.session.completed',
-        'payment_intent.succeeded',
-        'payment_intent.payment_failed',
-    ]
+    const permittedEvents = new Set<string>(['checkout.session.completed'])
 
-    if (permittedEvents.includes(event.type)) {
+    if (permittedEvents.has(event.type)) {
         let data
-
         try {
             switch (event.type) {
                 case 'checkout.session.completed':
                     data = event.data.object as Stripe.Checkout.Session
-
-                    // based on
                     console.log(
                         `💰 CheckoutSession status: ${data.payment_status}`,
                     )
-                    break
-                case 'payment_intent.payment_failed':
-                    data = event.data.object as Stripe.PaymentIntent
-                    console.log(
-                        `❌ Payment failed: ${data.last_payment_error?.message}`,
+
+                    const { data: parsedData, error } =
+                        ZCheckoutCompleteMetadata.safeParse(data.metadata)
+                    if (error) {
+                        console.error(
+                            `❌ stripe.checkoutComplete error:`,
+                            error,
+                        )
+                        return {
+                            status: 500,
+                            body: JSON.stringify({ error: error.message }),
+                        }
+                    }
+
+                    const [_, topupError] = await handleAsync(
+                        Payment.topUpCredits({
+                            userId: parsedData.userId,
+                            productType: parsedData.productType,
+                        }),
                     )
-                    break
-                case 'payment_intent.succeeded':
-                    data = event.data.object as Stripe.PaymentIntent
-                    console.log(`💰 PaymentIntent status: ${data.status}`)
+                    if (topupError) {
+                        console.error(
+                            `❌ stripe.checkoutComplete error:`,
+                            topupError,
+                        )
+                        return {
+                            status: 500,
+                            body: JSON.stringify({ error: topupError.message }),
+                        }
+                    }
                     break
                 default:
                     console.log('Unhandled event type:', event.type)
-                    // throw new Error(`Unhandled event: ${event.type}`)
                     break
             }
         } catch (error) {

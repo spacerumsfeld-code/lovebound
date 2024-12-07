@@ -1,6 +1,12 @@
 'use client'
 
-import { type LucideIcon } from 'lucide-react'
+import {
+    House,
+    Pencil,
+    Settings2,
+    SquareTerminal,
+    type LucideIcon,
+} from 'lucide-react'
 
 import {
     SidebarGroup,
@@ -10,20 +16,39 @@ import {
 } from '@web/src/components/ui/sidebar'
 import Link from 'next/link'
 
-export function NavMain({
-    items,
-}: {
-    items: {
-        title: string
-        url: string
-        icon?: LucideIcon
-        isActive?: boolean
-    }[]
-}) {
+const data = {
+    navMain: [
+        {
+            title: 'Dashboard',
+            url: '/dashboard',
+            icon: House,
+            isActive: true,
+        },
+        {
+            title: 'Stories',
+            url: '/dashboard/stories',
+            icon: Pencil,
+            isActive: true,
+        },
+        {
+            title: 'Addons',
+            url: '/dashboard/addons',
+            icon: SquareTerminal,
+            isActive: true,
+        },
+        {
+            title: 'Settings',
+            url: '/dashboard/settings',
+            icon: Settings2,
+        },
+    ],
+}
+
+export const NavMain = () => {
     return (
         <SidebarGroup>
             <SidebarMenu>
-                {items.map((item) => (
+                {data.navMain.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <Link href={item.url}>
                             <SidebarMenuButton tooltip={item.title}>

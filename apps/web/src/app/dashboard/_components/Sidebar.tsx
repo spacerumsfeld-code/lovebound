@@ -1,8 +1,3 @@
-'use client'
-
-import * as React from 'react'
-import { House, Pencil, Settings2, SquareTerminal } from 'lucide-react'
-
 import { NavMain } from '@web/src/app/dashboard/_components/nav-main'
 import {
     Sidebar,
@@ -14,36 +9,10 @@ import {
 import { UserButton } from '@clerk/nextjs'
 import { Logo } from '../../_components/logo'
 import { Button } from '@web/src/components/ui/button'
-import { CreditDisplay } from './CreditDisplay'
+import { CreditDisplay } from './credit-display/CreditDisplay'
 import { DashboardThemeToggle } from './DashboardModleToggle'
 
-const data = {
-    navMain: [
-        {
-            title: 'Dashboard',
-            url: '/dashboard',
-            icon: House,
-            isActive: true,
-        },
-        {
-            title: 'Stories',
-            url: '/dashboard/stories',
-            icon: Pencil,
-            isActive: true,
-        },
-        {
-            title: 'Addons',
-            url: '/dashboard/addons',
-            icon: SquareTerminal,
-            isActive: true,
-        },
-        {
-            title: 'Settings',
-            url: '/dashboard/settings',
-            icon: Settings2,
-        },
-    ],
-}
+// @TODO: Get UserButton to be suspended or something, as it causes a lot of layout shift (is not in initial render)
 
 export const AppSidebar = ({
     ...props
@@ -54,7 +23,7 @@ export const AppSidebar = ({
                 <Logo />
             </SidebarHeader>
             <SidebarContent className="p-2 justify-between">
-                <NavMain items={data.navMain} />
+                <NavMain />
                 <div className="flex flex-col gap-8">
                     <Button href="/dashboard/create">+ Create Story</Button>
                     <CreditDisplay />

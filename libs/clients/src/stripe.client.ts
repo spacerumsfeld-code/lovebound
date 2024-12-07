@@ -1,11 +1,6 @@
 import Stripe from 'stripe'
 import { Resource } from 'sst'
-import {
-    CreditCountEnum,
-    ProductIdEnum,
-    ProductTypeEnum,
-    subscriptionSet,
-} from '@core'
+import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {
     apiVersion: '2024-11-20.acacia',
@@ -47,13 +42,14 @@ export const createCheckoutSession = async ({
             },
         ],
         mode: isSubscription ? 'subscription' : 'payment',
-        success_url: 'http://localhost:3000/dashboard?action=checkout-success',
-        cancel_url: 'http://localhost:3000/dashboard?action=checkout-cancel',
+        success_url: isSubscription
+            ? 'http://localhost:3000/dashboard?action=modal.subscription.success'
+            : 'http://localhost:3000/dashboard?action=modal.topup.success',
+        cancel_url: 'http://localhost:3000/dashboard',
         customer_email: 'nickfin2014@gmail.com',
         metadata: {
             userId,
             productType,
-            credits: CreditCountEnum[productType],
         },
     })
 

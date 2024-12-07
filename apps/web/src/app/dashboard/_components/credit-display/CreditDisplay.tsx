@@ -1,14 +1,13 @@
-import React from 'react'
 import { Button } from '@web/src/components/ui/button'
 import { Coins } from 'lucide-react'
 import Link from 'next/link'
+import { CreditDisplayCount } from './CreditDisplayCount'
+import { Suspense } from 'react'
+import { Skeleton } from '@web/src/components/ui/skeleton'
+
+// @TODO: Fine-tune the credit skeleton to ensure no layout shift.
 
 export const CreditDisplay = () => {
-    // @Data
-    // get user credit count
-    // .data method to "getUserBalance" which will be user service method.
-    // easy to keep count up to date due to continual refresh and purchases being redirects.
-
     // @Render
     return (
         <div className="space-y-4">
@@ -16,7 +15,13 @@ export const CreditDisplay = () => {
                 <div className="flex items-center gap-2 mb-1">
                     <div className="flex items-center gap-1">
                         <Coins className="dark:from-purple-900/20 dark:to-purple-900/10" />
-                        <span className="text-xl font-semibold">3</span>
+                        <Suspense
+                            fallback={
+                                <Skeleton className="bg-indigo-300 h-6 w-4 text-xl font-semibold" />
+                            }
+                        >
+                            <CreditDisplayCount />
+                        </Suspense>
                     </div>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -26,7 +31,7 @@ export const CreditDisplay = () => {
                 <Button
                     as={Link}
                     href="/dashboard/upgrade"
-                    className="mt-3 w-full text-white bg-indigo-500 hover:bg-indigo-400"
+                    className="mt-3 w-full text-white bg-indigo-400 hover:bg-indigo-300"
                 >
                     Purchase
                 </Button>

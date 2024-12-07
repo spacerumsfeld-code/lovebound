@@ -32,12 +32,9 @@ import {
 import { Switch } from '@web/src/components/ui/switch'
 import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
 import { cn } from '@web/src//lib/utils'
-import { ZCreateStoryClient } from '@client-types/story/story.model'
-import { submitStory } from '../data'
-import { MagicButton } from '@web/src/components/ui/magic-button'
-import useLoading from '@web/src/hooks/use-loading'
 import { GenreEnum, TItem } from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '@web/src/constants'
+import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
 
 const StyleCard = ({
     label,
@@ -95,7 +92,6 @@ export const CreateStoryView = (props: {
             },
         ],
     })
-    const { isLoading, startLoading, stopLoading } = useLoading()
 
     useEffect(() => {
         if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
@@ -200,17 +196,6 @@ export const CreateStoryView = (props: {
             (scene) => scene[category] === value,
         )
         return index !== -1 ? index : null
-    }
-
-    const handleSubmit = async () => {
-        const { data, success, error } = ZCreateStoryClient.safeParse(storyData)
-        if (!success) {
-            console.error('Invalid story submission', error)
-            return
-        }
-        startLoading('submit.story')
-        await submitStory(data)
-        stopLoading('submit.story')
     }
 
     return (
@@ -456,12 +441,11 @@ export const CreateStoryView = (props: {
                 </Tabs>
 
                 <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                    <MagicButton
-                        disabled={isLoading('submit.story')}
-                        onClick={() => handleSubmit()}
-                    >
-                        + Create Story
-                    </MagicButton>
+                    <ConfirmCreateModal storyData={storyData as any}>
+                        <Button className="bg-indigo-400 text-white hover:bg-indigo-500">
+                            + Create Story
+                        </Button>
+                    </ConfirmCreateModal>
                 </div>
             </div>
 

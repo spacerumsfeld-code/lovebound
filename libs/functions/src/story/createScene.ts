@@ -1,6 +1,6 @@
 import { cacheClient } from '@clients/cache.client.ts'
 import { orchestrationClient } from '@clients/orchestration.client.ts'
-import { Connection, Story } from '@core'
+import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
 export const createScene = orchestrationClient.createFunction(
@@ -90,7 +90,7 @@ export const createScene = orchestrationClient.createFunction(
             'Post to connection',
             () =>
                 handleAsync(
-                    Connection.postToConnection({
+                    Notification.postToConnection({
                         userId: data.ownerId,
                         data: {
                             type: 'scene.written',

@@ -14,6 +14,25 @@ export const ZStory = z.object({
 })
 export type TStory = z.infer<typeof ZStory>
 
+export const mapCreateStoryZodErrorsToSentences = (
+    errors: z.ZodError,
+): string => {
+    switch (errors.issues.flatMap((issue) => issue.path)[0]) {
+        case 'title':
+            return "❌ Don't forget to name your story"
+        case 'genre':
+            return "❌ Don't forget to add a genre to your story."
+        case 'theme':
+            return "❌ Don't forget to add a theme to your story."
+        case 'length':
+            return "❌ Don't forget to add a length to your story."
+        case 'scenes':
+            return "❌ Don't forget to add scene details to your story."
+        default:
+            return '❌ Something went wrong. Please try again.'
+    }
+}
+
 enum CoolEnum {
     '✅' = 1,
     '❌' = 2,

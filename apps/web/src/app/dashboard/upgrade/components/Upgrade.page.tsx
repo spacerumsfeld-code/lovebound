@@ -13,6 +13,8 @@ import { Check, Sparkles } from 'lucide-react'
 import { createCheckoutSession } from '../data'
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
 
+// @todo: Needless to say, we need to adjust this copy
+
 export const UpgradePage = () => {
     // @Interactivity
     const handlePurchaseCredits = async (productType: ProductTypeEnum) => {
@@ -25,7 +27,7 @@ export const UpgradePage = () => {
     return (
         <div className="container max-w-6xl mx-auto px-4 py-8">
             <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-rose-gold to-teal bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-teal bg-clip-text text-transparent">
                     Choose Your Plan
                 </h1>
                 <p className="text-lg text-muted-foreground">
@@ -35,8 +37,8 @@ export const UpgradePage = () => {
             </div>
 
             <div className="grid gap-8 mb-12">
-                <Card className="relative overflow-hidden border-2 border-rose-gold/20">
-                    <div className="absolute top-0 right-0 px-4 py-2 bg-rose-gold text-white text-sm font-medium rounded-bl-lg">
+                <Card className="relative overflow-hidden border-2 border-indigo-400/20">
+                    <div className="absolute top-0 right-0 px-4 py-2 bg-indigo-300 text-white text-sm font-medium rounded-bl-lg">
                         Pay As You Go
                     </div>
                     <CardHeader>
@@ -123,8 +125,8 @@ export const UpgradePage = () => {
                                 </CardFooter>
                             </Card>
 
-                            <Card className="relative overflow-hidden border-2 border-rose-gold">
-                                <div className="absolute -top-4 -right-16 px-12 py-1 bg-rose-gold text-white text-sm font-medium rotate-45">
+                            <Card className="relative overflow-hidden border-2 border-indigo-400">
+                                <div className="absolute -top-4 -right-16 px-12 py-1 bg-indigo-400 text-white text-sm font-medium rotate-45">
                                     Best Value
                                 </div>
                                 <CardHeader>
@@ -214,14 +216,14 @@ export const UpgradePage = () => {
                         </CardFooter>
                     </Card>
 
-                    <Card className="relative overflow-hidden border-2 border-rose-gold">
-                        <div className="absolute top-0 right-0 px-4 py-2 bg-rose-gold text-white text-sm font-medium rounded-bl-lg">
+                    <Card className="relative overflow-hidden border-2 border-indigo-400">
+                        <div className="absolute top-0 right-0 px-4 py-2 bg-indigo-400 text-white text-sm font-medium rounded-bl-lg">
                             Most Popular
                         </div>
                         <CardHeader>
                             <div className="flex items-center gap-2">
                                 <CardTitle>Premium Subscription</CardTitle>
-                                <Sparkles className="h-5 w-5 text-rose-gold" />
+                                <Sparkles className="h-5 w-5 text-indigo-400" />
                             </div>
                             <CardDescription>For power users</CardDescription>
                         </CardHeader>
