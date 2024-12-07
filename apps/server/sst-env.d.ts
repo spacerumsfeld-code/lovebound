@@ -19,6 +19,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Bucket"
     }
+    "CrispWebsiteId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "DatabaseUrl": {
       "type": "sst.sst.Secret"
       "value": string

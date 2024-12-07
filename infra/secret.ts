@@ -11,6 +11,7 @@ export const secret = {
     StripePublishableKey: new sst.Secret('StripePublishableKey'),
     StripeSecretKey: new sst.Secret('StripeSecretKey'),
     StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
+    CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
 }
 
 export const allSecrets = Object.values(secret)

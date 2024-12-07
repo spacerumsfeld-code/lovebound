@@ -12,10 +12,25 @@ import { Toaster } from '@web/src/components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 import { Breadcrumbs } from './_components/crumbs'
 import { Modal } from './_components/modals/Modal'
+import { Resource } from 'sst'
+import Script from 'next/script'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
+            <Script strategy="afterInteractive" id="crisp-chat">
+                {`
+                window.$crisp=[];
+                window.CRISP_WEBSITE_ID="${Resource.CrispWebsiteId.value}";
+                (function() {
+                    d = document;
+                    s = d.createElement("script");
+                    s.src = "https://client.crisp.chat/l.js";
+                    s.async = 1;
+                    d.getElementsByTagName("head")[0].appendChild(s);
+                })();
+            `}
+            </Script>
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
