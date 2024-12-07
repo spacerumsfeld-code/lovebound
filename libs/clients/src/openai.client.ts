@@ -1,4 +1,3 @@
-import { SettingEnum, TensionEnum, ThemeEnum, ToneEnum } from '@core'
 import OpenAI from 'openai'
 import { Resource } from 'sst'
 import { cacheClient } from './cache.client.ts'
@@ -35,7 +34,7 @@ export const generateStoryCover = async ({
     setting,
 }: {
     title: string
-    setting: SettingEnum
+    setting: number
 }) => {
     const coverPrompt = await cacheClient.get<string>('prompt:cover')
     const response = await openai.images.generate({

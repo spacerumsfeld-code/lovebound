@@ -144,22 +144,32 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                 <Logo />
             </div>
             <motion.div className="lg:flex flex-row flex-1 absolute inset-0 hidden items-center justify-center space-x-2 lg:space-x-2 text-sm text-zinc-600 font-medium hover:text-zinc-800 transition duration-200">
-                {navItems.map((navItem: any, idx: number) => (
-                    <Link
-                        onMouseEnter={() => setHovered(idx)}
-                        className="text-neutral-600 dark:text-neutral-300 relative px-4 py-2"
-                        key={`link=${idx}`}
-                        href={navItem.link}
-                    >
-                        {hovered === idx && (
-                            <motion.div
-                                layoutId="hovered"
-                                className="w-full h-full absolute inset-0 bg-gray-100 dark:bg-neutral-800 rounded-full"
-                            />
-                        )}
-                        <span className="relative z-20">{navItem.name}</span>
-                    </Link>
-                ))}
+                {navItems.map(
+                    (
+                        navItem: {
+                            name: string
+                            link: string
+                        },
+                        idx: number,
+                    ) => (
+                        <Link
+                            onMouseEnter={() => setHovered(idx)}
+                            className="text-neutral-600 dark:text-neutral-300 relative px-4 py-2"
+                            key={`link=${idx}`}
+                            href={navItem.link}
+                        >
+                            {hovered === idx && (
+                                <motion.div
+                                    layoutId="hovered"
+                                    className="w-full h-full absolute inset-0 bg-gray-100 dark:bg-neutral-800 rounded-full"
+                                />
+                            )}
+                            <span className="relative z-20">
+                                {navItem.name}
+                            </span>
+                        </Link>
+                    ),
+                )}
             </motion.div>
             <div className="flex items-center gap-4">
                 <ModeToggle />
@@ -259,18 +269,23 @@ const MobileNav = ({ navItems, visible }: NavbarProps) => {
                             exit={{ opacity: 0 }}
                             className="flex rounded-lg absolute top-16 bg-white dark:bg-neutral-950 inset-x-0 z-50 flex-col items-start justify-start gap-4 w-full px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
                         >
-                            {navItems.map((navItem: any, idx: number) => (
-                                <Link
-                                    key={`link=${idx}`}
-                                    href={navItem.link}
-                                    onClick={() => setOpen(false)}
-                                    className="relative text-neutral-600 dark:text-neutral-300"
-                                >
-                                    <motion.span className="block">
-                                        {navItem.name}{' '}
-                                    </motion.span>
-                                </Link>
-                            ))}
+                            {navItems.map(
+                                (
+                                    navItem: { name: string; link: string },
+                                    idx: number,
+                                ) => (
+                                    <Link
+                                        key={`link=${idx}`}
+                                        href={navItem.link}
+                                        onClick={() => setOpen(false)}
+                                        className="relative text-neutral-600 dark:text-neutral-300"
+                                    >
+                                        <motion.span className="block">
+                                            {navItem.name}{' '}
+                                        </motion.span>
+                                    </Link>
+                                ),
+                            )}
                             <Button
                                 as={Link}
                                 onClick={() => setOpen(false)}

@@ -37,7 +37,7 @@ export const baseClient = hc<ApiSpec>(Resource.Server.url, {
     },
 })['api']
 
-function getHandler(obj: Object, ...keys: string[]) {
+function getHandler(obj: object, ...keys: string[]) {
     let current = obj
     for (const key of keys) {
         current = current[key as keyof typeof current]

@@ -1,4 +1,3 @@
-import { LengthEnum } from '@client-types/item/item.model.ts'
 import { z } from 'zod'
 
 export enum ProductTypeEnum {

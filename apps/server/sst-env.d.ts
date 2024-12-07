@@ -74,6 +74,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "UpstashRedisUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "Web": {
       "type": "sst.aws.Nextjs"
       "url": string

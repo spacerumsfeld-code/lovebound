@@ -10,7 +10,7 @@ export const postToConnection = async function ({
     data,
 }: {
     id: string
-    data: Record<string, any>
+    data: Record<string, object | string | number | boolean>
 }) {
     await client.postToConnection({
         ConnectionId: id,

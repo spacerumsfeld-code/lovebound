@@ -1,12 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useCallback } from 'react'
 import { useToast } from '@web/src/hooks/use-toast'
-import { SITE_MAP } from '../constants'
 
 export const useWebsocket = (url: string, userId: string) => {
-    const router = useRouter()
     const { showToast } = useToast()
     const socketRef = useRef<WebSocket | null>(null)
 
@@ -14,12 +11,11 @@ export const useWebsocket = (url: string, userId: string) => {
         (event: MessageEvent) => {
             const message: {
                 type: string
-                payload: Record<string, any>
+                payload: Record<string, object | string | boolean | number>
             } = JSON.parse(event.data)
 
             switch (message.type) {
                 case 'scene.written':
-                    console.info('Scene written in websocket!')
                     showToast(
                         `Good news! Scene ${message.payload.sceneNumber} has been written. Your story is almost complete!`,
                     )
@@ -32,7 +28,7 @@ export const useWebsocket = (url: string, userId: string) => {
                     break
             }
         },
-        [router, showToast],
+        [showToast],
     )
 
     useEffect(() => {
@@ -40,18 +36,15 @@ export const useWebsocket = (url: string, userId: string) => {
             socketRef.current = new WebSocket(`${url}?userId=${userId}`)
 
             socketRef.current.onopen = () => {
-                console.log('WebSocket connection established')
                 showToast('WebSocket connected')
             }
 
             socketRef.current.onclose = () => {
-                console.log('WebSocket connection closed')
-                showToast('WebSocket disconnected', { type: 'error' })
+                showToast('WebSocket disconnected')
             }
 
-            socketRef.current.onerror = (error) => {
-                console.error('WebSocket error:', error)
-                showToast('WebSocket error occurred', { type: 'error' })
+            socketRef.current.onerror = () => {
+                showToast('WebSocket error occurred')
             }
         }
 

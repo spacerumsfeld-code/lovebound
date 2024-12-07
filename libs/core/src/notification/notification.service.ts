@@ -35,7 +35,7 @@ class NotificationService {
         data,
     }: {
         userId: string
-        data: Record<string, any>
+        data: Record<string, object | string | number | boolean>
     }) => {
         const { connectionId } = await this.getConnection({
             userId,

@@ -26,7 +26,7 @@ export const ActionsFromParams = () => {
             default:
                 break
         }
-    }, [action])
+    }, [action, setModalToRender])
 
     // @Render
     return <></>

@@ -111,7 +111,7 @@ export function Pricing() {
                     'max-w-7xl mx-auto  md:grid-cols-2 xl:grid-cols-3',
                 )}
             >
-                {plans.map((tier, tierIdx) => {
+                {plans.map((tier) => {
                     return (
                         <Card
                             plan={tier}

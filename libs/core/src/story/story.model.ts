@@ -33,12 +33,6 @@ export const mapCreateStoryZodErrorsToSentences = (
     }
 }
 
-enum CoolEnum {
-    '✅' = 1,
-    '❌' = 2,
-}
-CoolEnum['✅']
-
 export const ZCreateStory = ZStory.extend({
     ownerId: z.string(),
     includeNarration: z.boolean(),

@@ -10,7 +10,7 @@ export const handleAsync = async <T>(
 }
 
 type Fulfilled<T> = { status: 'fulfilled'; value: T }
-type Rejected = { status: 'rejected'; reason: any }
+type Rejected = { status: 'rejected'; reason: string }
 type Settled<T> = Fulfilled<T> | Rejected
 
 export function extractFulfilledValues<T extends readonly any[]>(results: {
