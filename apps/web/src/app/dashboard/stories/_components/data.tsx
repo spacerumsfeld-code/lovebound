@@ -11,7 +11,6 @@ export const getStories = async (args: {
     theme: number
 }) => {
     try {
-        console.info('lets look at our arguments,', args)
         const user = await currentUser()
 
         const response = await api.story.getStories.$get({

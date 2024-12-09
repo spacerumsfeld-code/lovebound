@@ -6,6 +6,7 @@ import { aiClient } from '@clients/openai.client'
 import { eq, and } from 'drizzle-orm/expressions'
 import { scenes } from '@core'
 import { sql, desc } from 'drizzle-orm'
+import { TItemInput } from '@client-types/item/item.model'
 
 class StoryService {
     private store
@@ -121,19 +122,19 @@ class StoryService {
         length,
         coverUrl,
     }: {
-        genre: number
+        genre: TItemInput
         ownerId: string
         title: string
-        theme: number
-        length: number
+        theme: TItemInput
+        length: TItemInput
         coverUrl: string
     }) {
         const newStory = await this.store
             .insert(stories)
             .values({
-                length,
-                genre,
-                theme,
+                length: length.id,
+                genre: genre.id,
+                theme: theme.id,
                 title,
                 ownerId,
                 coverUrl,

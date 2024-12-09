@@ -1,3 +1,4 @@
+import { storyLengthMap } from '@client-types/item/item.model'
 import { cacheClient } from '@clients/cache.client'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
@@ -13,18 +14,17 @@ export const createScene = orchestrationClient.createFunction(
             )}`,
         )
         const { data } = event
+        const isMiniStory = data.length.id === storyLengthMap.get('Mini')!
 
         let prompt: string
-        switch (data.length === 23) {
+        switch (isMiniStory) {
             case true:
-                prompt = (await cacheClient.get<string>(
-                    `prompt:mini`,
-                )) as string
+                prompt = (await cacheClient.get<string>(`prompt:mini`))!
                 break
             case false:
                 prompt = (await cacheClient.get<string>(
                     `prompt:short:scene:${data.sceneNumber}`,
-                )) as string
+                ))!
                 break
             default:
                 break
@@ -39,12 +39,12 @@ export const createScene = orchestrationClient.createFunction(
         const finalPrompt =
             prompt! +
             JSON.stringify({
-                genre,
-                theme,
+                genre: genre.name,
+                theme: theme.name,
                 title,
-                tone,
-                setting,
-                tensionLevel,
+                tone: tone.name,
+                setting: setting.name,
+                tensionLevel: tensionLevel.name,
                 lastSceneSummary,
             })
 
@@ -75,9 +75,9 @@ export const createScene = orchestrationClient.createFunction(
                         content: finalContent,
                         narrationUrl: null,
                         orderIndex: data.sceneNumber,
-                        tone: scene.tone,
-                        setting: scene.setting,
-                        tensionLevel: scene.tensionLevel,
+                        tone: scene.tone.id,
+                        setting: scene.setting.id,
+                        tensionLevel: scene.tensionLevel.id,
                     }),
                 ),
         )
@@ -105,7 +105,7 @@ export const createScene = orchestrationClient.createFunction(
             console.error(postToConnectionError)
         }
 
-        switch (data.length === 23) {
+        switch (isMiniStory) {
             case true:
                 if (data.includeNarration) {
                     await orchestrationClient.send({

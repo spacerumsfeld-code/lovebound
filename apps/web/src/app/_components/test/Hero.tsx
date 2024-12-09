@@ -79,9 +79,9 @@ export function Hero() {
             <div className="text-balance relative z-20 mx-auto mb-4 mt-4 max-w-4xl text-center text-3xl font-semibold tracking-tight text-gray-700 dark:text-neutral-300 md:text-7xl">
                 <Balancer>
                     <motion.h2>
-                        {/* <div className="cursor-pointer relative z-10 hover:bg-black/90 border border-transparent text-sm md:text-sm transition font-medium duration-200 rounded-full px-4 py-2 justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset] flex space-x-2 items-center bg-amber-400/10 border-none text-amber-400">
+                        <div className="mx-auto mb-8 text-sm md:text-sm w-full sm:w-64 rounded-full px-4 py-2 justify-center shadow-md space-x-2 items-center bg-indigo-400 text-white">
                             🌟 Powered by ChatGPT
-                        </div> */}
+                        </div>
                         {'Your Perfect Romance Stories, AI-Crafted'
                             .split(' ')
                             .map((word, index) => (
@@ -195,7 +195,8 @@ const HeartBeamCollision = React.forwardRef<
             repeatDelay: number
         }
     }
->(({ parentRef, containerRef, beamOptions }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(({ parentRef, containerRef, beamOptions }, _ref) => {
     const beamRef = useRef<SVGPathElement>(null)
     const [collision, setCollision] = useState<{
         detected: boolean

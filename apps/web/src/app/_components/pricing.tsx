@@ -1,8 +1,8 @@
-'use client'
 import React from 'react'
 import { IconCheck, IconPlus } from '@tabler/icons-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../components/ui/button'
+import Link from 'next/link'
 
 export enum plan {
     hobby = 'hobby',
@@ -20,27 +20,23 @@ export type Plan = {
     featured?: boolean
     buttonText?: string
     additionalFeatures?: string[]
-    onClick: () => void
+    href: string
 }
 
 const plans: Array<Plan> = [
     {
         id: plan.hobby,
-        name: 'Hobby',
-        price: 99,
-        subText: '/month',
+        name: 'Pay as you go',
+        price: 1,
+        subText: '/credit',
         currency: '$',
         features: [
-            'Access to basic analytics reports',
-            'Up to 10,000 data points per month',
-            'Email support',
-            'Community forum access',
-            'Cancel anytime',
+            'Pay for credits when you need them',
+            'No obligation',
+            'Create your fantasies at your pace',
         ],
-        buttonText: 'Get Hobby',
-        onClick: () => {
-            console.log('Get Hobby')
-        },
+        buttonText: 'Get Started',
+        href: '/dashboard/create',
     },
     {
         id: plan.starter,
@@ -57,9 +53,7 @@ const plans: Array<Plan> = [
         ],
         buttonText: 'Get Starter',
         additionalFeatures: ['Everything in Hobby Plan'],
-        onClick: () => {
-            console.log('Get Starter')
-        },
+        href: '/dashboard/create',
     },
     {
         id: plan.pro,
@@ -79,9 +73,7 @@ const plans: Array<Plan> = [
             'Everything in Pro Plan',
         ],
         buttonText: 'Get Pro',
-        onClick: () => {
-            console.log('Get Pro')
-        },
+        href: '/dashboard/create',
     },
 ]
 
@@ -112,20 +104,14 @@ export function Pricing() {
                 )}
             >
                 {plans.map((tier) => {
-                    return (
-                        <Card
-                            plan={tier}
-                            key={tier.id}
-                            onClick={tier.onClick}
-                        />
-                    )
+                    return <Card plan={tier} key={tier.id} />
                 })}
             </div>
         </div>
     )
 }
 
-const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
+const Card = ({ plan }: { plan: Plan }) => {
     return (
         <div
             className={cn(
@@ -188,9 +174,10 @@ const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
                         </div>
                     </div>
                     <Button
+                        as={Link}
                         variant="gradient"
-                        className="w-full mt-10"
-                        onClick={onClick}
+                        className="w-full mt-10 bg-indigo-400"
+                        href={plan.href}
                     >
                         {plan.buttonText}
                     </Button>

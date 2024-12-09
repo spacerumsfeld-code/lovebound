@@ -1,3 +1,4 @@
+import { ZItemInput } from '@client-types/item/item.model'
 import { TScene, ZScene } from '../scene/scene.model'
 import { z } from 'zod'
 
@@ -33,9 +34,15 @@ export const mapCreateStoryZodErrorsToSentences = (
     }
 }
 
-export const ZCreateStory = ZStory.extend({
+export const ZCreateStory = z.object({
     ownerId: z.string(),
+    title: z.string().min(1),
+    coverUrl: z.string().nullable().optional(),
     includeNarration: z.boolean(),
+    // ItemIds
+    genre: ZItemInput,
+    theme: ZItemInput,
+    length: ZItemInput,
     scenes: z.array(
         ZScene.omit({
             id: true,
@@ -45,7 +52,7 @@ export const ZCreateStory = ZStory.extend({
             content: true,
         }),
     ),
-}).omit({ id: true, coverUrl: true })
+})
 export type TCreateStory = z.infer<typeof ZCreateStory>
 
 export const ZCreateStoryClient = ZCreateStory.omit({

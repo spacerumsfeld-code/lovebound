@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export enum ItemTypeEnum {
     Genre = 'Genre',
     Theme = 'Theme',
@@ -7,7 +9,7 @@ export enum ItemTypeEnum {
     Length = 'Length',
 }
 
-// Story-level Enums
+// Story-level
 export enum ThemeEnum {
     ForbiddenRomance = 'Forbidden romance',
     BestFriendsToLovers = 'Best friends to lovers',
@@ -63,8 +65,12 @@ export enum LengthEnum {
     Long = 'Long',
     Novella = 'Novella',
 }
+export const storyLengthMap = new Map<string, number>([
+    ['Mini', 23],
+    ['Short', 24],
+])
 
-// Scene-level Enums
+// Scene-level
 export enum TensionEnum {
     Low = 'Low',
     Medium = 'Medium',
@@ -148,3 +154,10 @@ export type TItem = {
     imageUrl: string | null
     type: ItemTypeEnum
 }
+
+export const ZItemInput = z.object({
+    id: z.number(),
+    name: z.string().min(1),
+    imageUrl: z.string().optional().nullable(),
+})
+export type TItemInput = z.infer<typeof ZItemInput>

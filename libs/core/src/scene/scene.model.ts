@@ -1,3 +1,4 @@
+import { ZItemInput } from '@client-types/item/item.model'
 import { z } from 'zod'
 
 export const ZScene = z.object({
@@ -8,8 +9,8 @@ export const ZScene = z.object({
     narrationUrl: z.string().nullable(),
     orderIndex: z.number().int(),
     // enums
-    tone: z.number(),
-    setting: z.number(),
-    tensionLevel: z.number(),
+    tone: ZItemInput,
+    setting: ZItemInput,
+    tensionLevel: ZItemInput,
 })
 export type TScene = z.infer<typeof ZScene>

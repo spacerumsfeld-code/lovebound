@@ -1,6 +1,6 @@
 'use client'
 
-import { House, Pencil, Settings2, SquareTerminal } from 'lucide-react'
+import { House, Pencil, SquareTerminal } from 'lucide-react'
 
 import {
     SidebarGroup,
@@ -9,32 +9,31 @@ import {
     SidebarMenuItem,
 } from '@web/src/components/ui/sidebar'
 import Link from 'next/link'
+import { SITE_MAP } from '@web/src/constants'
 
 const data = {
     navMain: [
         {
             title: 'Dashboard',
-            url: '/dashboard',
+            url: SITE_MAP.DASHBOARD,
             icon: House,
-            isActive: true,
+            // isActive: true,
         },
         {
             title: 'Stories',
-            url: '/dashboard/stories',
+            url: SITE_MAP.STORIES,
             icon: Pencil,
-            isActive: true,
         },
         {
-            title: 'Addons',
-            url: '/dashboard/addons',
+            title: 'Shop',
+            url: SITE_MAP.SHOP,
             icon: SquareTerminal,
-            isActive: true,
         },
-        {
-            title: 'Settings',
-            url: '/dashboard/settings',
-            icon: Settings2,
-        },
+        // {
+        //     title: 'Settings',
+        //     url: SITE_MAP.SETTINGS,
+        //     icon: Settings2,
+        // },
     ],
 }
 

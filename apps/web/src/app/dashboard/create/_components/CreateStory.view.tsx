@@ -32,7 +32,11 @@ import {
 import { Switch } from '@web/src/components/ui/switch'
 import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
 import { cn } from '@web/src//lib/utils'
-import { GenreEnum, TItem } from '@client-types/item/item.model'
+import {
+    GenreEnum,
+    storyLengthMap,
+    TItemInput,
+} from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '@web/src/constants'
 import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
 import Image from 'next/image'
@@ -78,19 +82,23 @@ const StyleCard = ({
 
 export const CreateStoryView = (props: {
     items: {
-        genres: TItem[]
-        themes: TItem[]
-        lengths: TItem[]
-        tensionLevels: TItem[]
-        settings: TItem[]
-        tones: TItem[]
+        genres: TItemInput[]
+        themes: TItemInput[]
+        lengths: TItemInput[]
+        tensionLevels: TItemInput[]
+        settings: TItemInput[]
+        tones: TItemInput[]
     }
 }) => {
     const [storyData, setStoryData] = useState({
         title: '',
-        theme: null,
+        theme: '{}',
         genre: null,
-        length: 23,
+        length: JSON.stringify(
+            props.items.lengths.find(
+                (length) => length.id === storyLengthMap.get('Mini')!,
+            ),
+        ),
         includeNarration: false,
         scenes: [
             {
@@ -102,7 +110,10 @@ export const CreateStoryView = (props: {
     })
 
     useEffect(() => {
-        if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
+        if (
+            JSON.parse(storyData.length).id ===
+            ITEM_ID_MAP.get('Story.Length.Short')
+        ) {
             setStoryData((prev) => ({
                 ...prev,
                 includeNarration: false,
@@ -114,7 +125,10 @@ export const CreateStoryView = (props: {
                         tensionLevel: null,
                     })),
             }))
-        } else if (ITEM_ID_MAP.get('Story.Length.Mini')) {
+        } else if (
+            JSON.parse(storyData.length).id ===
+            ITEM_ID_MAP.get('Story.Length.Mini')
+        ) {
             setStoryData((prev) => ({
                 ...prev,
                 scenes: [
@@ -128,10 +142,7 @@ export const CreateStoryView = (props: {
         }
     }, [storyData.length])
 
-    const handleInputChange = (
-        field: string,
-        value: string | number | boolean,
-    ) => {
+    const handleInputChange = (field: string, value: string | boolean) => {
         setStoryData((prev) => ({
             ...prev,
             [field]: value,
@@ -141,29 +152,33 @@ export const CreateStoryView = (props: {
     const handleSceneChange = (
         sceneIndex: number,
         field: string,
-        value: number | null,
+        value: TItemInput,
     ) => {
         setStoryData((prev) => ({
             ...prev,
             scenes: prev.scenes.map((scene, index) =>
-                index === sceneIndex ? { ...scene, [field]: value } : scene,
+                index === sceneIndex
+                    ? { ...scene, [field]: JSON.stringify(value) }
+                    : scene,
             ),
         }))
     }
 
     const getNextAvailableSceneIndex = (
         category: 'tone' | 'setting' | 'tensionLevel',
-        value: number | null,
+        value: TItemInput,
     ): number => {
         const currentIndex = storyData.scenes.findIndex(
-            (scene) => scene[category] === value,
+            (scene) => JSON.parse(scene[category] ?? '{}').id === value!.id,
         )
+
         if (currentIndex !== -1) {
             return currentIndex
         }
         const emptyIndex = storyData.scenes.findIndex(
             (scene) => scene[category] === null,
         )
+
         if (emptyIndex !== -1) {
             return emptyIndex
         }
@@ -172,10 +187,15 @@ export const CreateStoryView = (props: {
 
     const handleStyleCardClick = (
         category: 'tone' | 'setting' | 'tensionLevel',
-        value: number | null,
+        value: string | null,
     ) => {
-        if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
-            const sceneIndex = getNextAvailableSceneIndex(category, value)
+        const parsedValue = JSON.parse(value as string) as TItemInput
+
+        if (
+            JSON.parse(storyData.length).id ===
+            ITEM_ID_MAP.get('Story.Length.Short')
+        ) {
+            const sceneIndex = getNextAvailableSceneIndex(category, parsedValue)
             setStoryData((prev) => ({
                 ...prev,
                 scenes: prev.scenes.map((scene, index) =>
@@ -189,11 +209,7 @@ export const CreateStoryView = (props: {
                 ),
             }))
         } else {
-            handleSceneChange(
-                0,
-                category,
-                storyData.scenes[0][category] === value ? null : value,
-            )
+            handleSceneChange(0, category, parsedValue)
         }
     }
 
@@ -201,10 +217,13 @@ export const CreateStoryView = (props: {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: number,
     ): number | null => {
-        if (storyData.length !== ITEM_ID_MAP.get('Story.Length.Short'))
+        if (
+            JSON.parse(storyData.length).id !==
+            ITEM_ID_MAP.get('Story.Length.Short')
+        )
             return null
         const index = storyData.scenes.findIndex(
-            (scene) => scene[category] === value,
+            (scene) => JSON.parse(scene[category] ?? '{}').id === value,
         )
         return index !== -1 ? index : null
     }
@@ -249,7 +268,7 @@ export const CreateStoryView = (props: {
                                         {props.items.genres.map((genre) => (
                                             <SelectItem
                                                 key={genre.id}
-                                                value={String(genre.id)}
+                                                value={JSON.stringify(genre)}
                                             >
                                                 {genre.name}
                                             </SelectItem>
@@ -272,7 +291,7 @@ export const CreateStoryView = (props: {
                                             className="flex items-center space-x-2"
                                         >
                                             <RadioGroupItem
-                                                value={String(length.id)}
+                                                value={JSON.stringify(length)}
                                                 id={`length-${length.id}`}
                                                 disabled={
                                                     length.id !== 23 &&
@@ -299,7 +318,7 @@ export const CreateStoryView = (props: {
                                         )
                                     }
                                     disabled={
-                                        storyData.length !==
+                                        JSON.parse(storyData.length).id !==
                                         ITEM_ID_MAP.get('Story.Length.Mini')!
                                     }
                                 />
@@ -337,13 +356,16 @@ export const CreateStoryView = (props: {
                                                 label={theme.name}
                                                 imageUrl={theme.imageUrl || ''}
                                                 isSelected={
-                                                    storyData.theme === theme.id
+                                                    JSON.parse(
+                                                        storyData?.theme ??
+                                                            '{}',
+                                                    ).id === theme.id
                                                 }
                                                 sceneNumber={null}
                                                 onClick={() =>
                                                     handleInputChange(
                                                         'theme',
-                                                        theme.id,
+                                                        JSON.stringify(theme),
                                                     )
                                                 }
                                             />
@@ -365,8 +387,10 @@ export const CreateStoryView = (props: {
                                                 }
                                                 isSelected={storyData.scenes.some(
                                                     (scene) =>
-                                                        scene.setting ===
-                                                        setting.id,
+                                                        JSON.parse(
+                                                            scene?.setting ??
+                                                                '{}',
+                                                        ).id === setting.id,
                                                 )}
                                                 sceneNumber={getSceneNumberForSelection(
                                                     'setting',
@@ -375,7 +399,7 @@ export const CreateStoryView = (props: {
                                                 onClick={() =>
                                                     handleStyleCardClick(
                                                         'setting',
-                                                        setting.id,
+                                                        JSON.stringify(setting),
                                                     )
                                                 }
                                             />
@@ -395,8 +419,9 @@ export const CreateStoryView = (props: {
                                                 imageUrl={tone.imageUrl || ''}
                                                 isSelected={storyData.scenes.some(
                                                     (scene) =>
-                                                        scene.tone ===
-                                                        tone.name,
+                                                        JSON.parse(
+                                                            scene?.tone ?? '{}',
+                                                        ).id === tone.id,
                                                 )}
                                                 sceneNumber={getSceneNumberForSelection(
                                                     'tone',
@@ -405,7 +430,7 @@ export const CreateStoryView = (props: {
                                                 onClick={() =>
                                                     handleStyleCardClick(
                                                         'tone',
-                                                        tone.id,
+                                                        JSON.stringify(tone),
                                                     )
                                                 }
                                             />
@@ -428,8 +453,10 @@ export const CreateStoryView = (props: {
                                                     }
                                                     isSelected={storyData.scenes.some(
                                                         (scene) =>
-                                                            scene.tensionLevel ===
-                                                            tension.id,
+                                                            JSON.parse(
+                                                                scene?.tensionLevel ??
+                                                                    '{}',
+                                                            ).id === tension.id,
                                                     )}
                                                     sceneNumber={getSceneNumberForSelection(
                                                         'tensionLevel',
@@ -438,7 +465,9 @@ export const CreateStoryView = (props: {
                                                     onClick={() =>
                                                         handleStyleCardClick(
                                                             'tensionLevel',
-                                                            tension.id,
+                                                            JSON.stringify(
+                                                                tension,
+                                                            ),
                                                         )
                                                     }
                                                 />

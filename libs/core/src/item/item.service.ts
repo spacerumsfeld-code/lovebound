@@ -13,7 +13,11 @@ class ItemService {
 
     public async getAllGenres() {
         const genres = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
@@ -27,7 +31,11 @@ class ItemService {
 
     public async getAllThemes() {
         const themes = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
@@ -41,7 +49,11 @@ class ItemService {
 
     public async getAllLengths() {
         const lengths = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
@@ -55,7 +67,11 @@ class ItemService {
 
     public async getAllTensionLevels() {
         const tensionLevels = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
@@ -69,7 +85,11 @@ class ItemService {
 
     public async getAllSettings() {
         const settings = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
@@ -83,7 +103,11 @@ class ItemService {
 
     public async getAllTones() {
         const tones = await this.store
-            .select()
+            .select({
+                id: items.id,
+                name: items.name,
+                imageUrl: items.imageUrl,
+            })
             .from(items)
             .where(
                 and(
