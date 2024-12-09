@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import './env'
 
 const nextConfig: NextConfig = {
     images: {
@@ -14,10 +15,6 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'cdn.sanity.io',
-            },
-            {
-                protocol: 'https',
-                hostname: process.env.BUCKET_HOSTNAME!,
             },
         ],
     },

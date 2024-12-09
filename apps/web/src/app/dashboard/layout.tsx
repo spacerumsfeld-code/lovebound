@@ -12,16 +12,16 @@ import { Toaster } from '@web/src/components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 import { Breadcrumbs } from './_components/crumbs'
 import { Modal } from './_components/modals/Modal'
-import { Resource } from 'sst'
 import Script from 'next/script'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <Script strategy="lazyOnload" id="crisp-chat">
-                {`
+            {process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID! && (
+                <Script strategy="lazyOnload" id="crisp-chat">
+                    {`
                 window.$crisp=[];
-                window.CRISP_WEBSITE_ID="${Resource.CrispWebsiteId.value}";
+                window.CRISP_WEBSITE_ID="${process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID!}";
                 (function() {
                     d = document;
                     s = d.createElement("script");
@@ -30,7 +30,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     d.getElementsByTagName("head")[0].appendChild(s);
                 })();
             `}
-            </Script>
+                </Script>
+            )}
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>

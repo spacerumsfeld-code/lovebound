@@ -19,6 +19,14 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Bucket"
     }
+    "ClerkPublishableKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "ClerkSecretKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "CrispWebsiteId": {
       "type": "sst.sst.Secret"
       "value": string
@@ -81,6 +89,10 @@ declare module "sst" {
     "Web": {
       "type": "sst.aws.Nextjs"
       "url": string
+    }
+    "WebUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
     "WebsocketApi": {
       "managementEndpoint": string

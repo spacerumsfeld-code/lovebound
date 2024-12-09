@@ -486,9 +486,9 @@ export const CreateStoryView = (props: {
                             storyData as unknown as Required<TCreateStoryClient>
                         }
                     >
-                        <Button className="bg-indigo-400 text-white hover:bg-indigo-500">
+                        <div className="px-4 py-2 rounded-md bg-indigo-400  text-white text-sm font-bold relative cursor-pointer inline-block text-center">
                             + Create Story
-                        </Button>
+                        </div>
                     </ConfirmCreateModal>
                 </div>
             </div>

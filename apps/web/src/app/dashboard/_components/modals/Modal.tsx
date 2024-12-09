@@ -7,7 +7,6 @@ import { ConfirmTopupModal } from './ConfirmTopup.modal'
 
 export const Modal = () => {
     const modalToRender = useAtomValue(modalAtom)
-    console.info('modalToRender', modalToRender, ModalType.ConfirmTopup)
 
     return (
         <>

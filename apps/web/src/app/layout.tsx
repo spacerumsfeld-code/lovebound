@@ -4,6 +4,7 @@ import { cn } from '../lib/utils'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { ClerkProvider } from '@clerk/nextjs'
+// import '../../env'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -28,7 +29,7 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
                 className={cn(
                     `${geistSans.variable} ${geistMono.variable}`,

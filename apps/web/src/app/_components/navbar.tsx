@@ -198,7 +198,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                                 as={Link}
                                 href={'/login'}
                                 variant="secondary"
-                                className="hidden md:block "
+                                className="hidden md:block"
                             >
                                 Login
                             </Button>

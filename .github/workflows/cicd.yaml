@@ -10,6 +10,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set NX SHAs
+              uses: nrwl/nx-set-shas@v4
+            - run: |
+                echo "BASE: ${{ env.NX_BASE }}"
+                echo "HEAD: ${{ env.NX_HEAD }}"
 
             - name: Use Node.js
               uses: actions/setup-node@v4
@@ -37,7 +45,6 @@ jobs:
 
             - name: Install dependencies
               run: pnpm install
-              - uses: nrwl/nx-set-shas@v4
 
             - name: Run linting
               run: make cicd-lint
@@ -79,3 +86,6 @@ jobs:
             - name: Deploy
               if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
               run: make cicd-deploy
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

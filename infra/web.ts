@@ -1,12 +1,12 @@
 /// <reference path="../.sst/platform/config.d.ts" />
 
 import { server } from './server'
-import { secret } from './secret'
+import { allSecrets } from './secret'
 import { websocket } from './websocket'
 import { type NextjsArgs } from '../.sst/platform/src/components/aws'
 
 const webConfig: NextjsArgs = {
-    link: [server, websocket, secret.CrispWebsiteId],
+    link: [server, websocket, ...allSecrets],
     path: 'apps/web',
     dev: {
         autostart: true,
