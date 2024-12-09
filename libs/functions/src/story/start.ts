@@ -1,4 +1,4 @@
-import { orchestrationClient } from '@clients/orchestration.client.ts'
+import { orchestrationClient } from '@clients/orchestration.client'
 
 export const startStoryCreation = orchestrationClient.createFunction(
     { id: 'start.story' },

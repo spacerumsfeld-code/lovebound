@@ -2,18 +2,17 @@
     "compileOnSave": false,
     "compilerOptions": {
         "rootDir": ".",
+        "types": ["node"],
         "sourceMap": true,
         "declaration": false,
+        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
         "importHelpers": false,
         "esModuleInterop": true,
-        "moduleResolution": "nodenext",
-        "target": "ESNext",
+        "target": "es2015",
         "strict": true,
-        "module": "NodeNext",
+        "module": "es2015",
         "lib": ["es2020", "dom"],
         "jsx": "preserve",
         "skipLibCheck": true,
@@ -29,6 +28,26 @@
             "@utils": ["libs/utils/index.ts"]
         }
     },
-    "include": ["./sst-env.d.ts"],
-    "exclude": ["node_modules", ".sst"]
+    "references": [
+        {
+            "path": "./apps/server/tsconfig.json"
+        },
+        {
+            "path": "./apps/web/tsconfig.json"
+        },
+        {
+            "path": "./libs/clients/tsconfig.json"
+        },
+        {
+            "path": "./libs/core/tsconfig.json"
+        },
+        {
+            "path": "./libs/functions/tsconfig.json"
+        },
+        {
+            "path": "./libs/utils/tsconfig.json"
+        }
+    ],
+    "include": ["**/sst-env.d.ts"],
+    "exclude": ["node_modules"]
 }

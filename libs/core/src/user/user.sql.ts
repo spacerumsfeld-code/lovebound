@@ -7,7 +7,7 @@ import {
     unique,
     uuid,
 } from 'drizzle-orm/pg-core'
-import { items } from '../item/item.sql.ts'
+import { items } from '../item/item.sql'
 
 export const users = pgTable(
     'users',

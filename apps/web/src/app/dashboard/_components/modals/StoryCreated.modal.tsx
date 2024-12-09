@@ -62,8 +62,8 @@ export const StoryCreatedModal = () => {
                                 <p className="mt-8 text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
                                     Our AI authors are hard at work on your
                                     story, which usually takes about a minute.
-                                    Here's a little game to keep you entertained
-                                    until then.
+                                    Here&apos;s a little game to keep you
+                                    entertained until then.
                                 </p>
                                 <WordScrambleGame isOpen={true} />
                             </div>

@@ -1,12 +1,6 @@
 'use client'
 
-import {
-    House,
-    Pencil,
-    Settings2,
-    SquareTerminal,
-    type LucideIcon,
-} from 'lucide-react'
+import { House, Pencil, Settings2, SquareTerminal } from 'lucide-react'
 
 import {
     SidebarGroup,

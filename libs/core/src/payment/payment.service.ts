@@ -1,5 +1,5 @@
-import { db } from '@clients/db.client.ts'
-import { stripeClient } from '@clients/stripe.client.ts'
+import { db } from '@clients/db.client'
+import { stripeClient } from '@clients/stripe.client'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { ProductTypeEnum, users } from '@core'
 import { eq } from 'drizzle-orm/expressions'

@@ -1,4 +1,4 @@
-import { TScene, ZScene } from '../scene/scene.model.ts'
+import { TScene, ZScene } from '../scene/scene.model'
 import { z } from 'zod'
 
 export const ZStory = z.object({

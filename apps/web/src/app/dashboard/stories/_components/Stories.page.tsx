@@ -1,13 +1,16 @@
 import { StoryGrid } from './StoryGrid'
 
-export const StoriesPage = async (props: {
-    searchParams: Record<string, string>
+export const StoriesPage = async ({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) => {
+    const { genre, theme } = await searchParams
     const args = {
         limit: 16,
         offset: 0,
-        genre: Number(props.searchParams?.genre ?? 0),
-        theme: Number(props.searchParams?.theme ?? 0),
+        genre: genre ? Number(genre) : 0,
+        theme: theme ? Number(theme) : 0,
     }
 
     // @Render

@@ -1,7 +1,7 @@
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { db } from '@clients/db.client.ts'
-import { ItemTypeEnum } from './item.model.ts'
-import { items } from './item.sql.ts'
+import { db } from '@clients/db.client'
+import { ItemTypeEnum } from './item.model'
+import { items } from './item.sql'
 import { eq, and } from 'drizzle-orm/expressions'
 
 class ItemService {

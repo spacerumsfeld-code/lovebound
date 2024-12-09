@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
     Modal,
     ModalBody,
@@ -26,6 +26,18 @@ export const EReaderModal = (props: {
     const audioRef = useRef<HTMLAudioElement>(null)
 
     // @Interactivity
+    const handlePrevScene = () => {
+        setCurrentSceneIndex((prev) => Math.max(prev - 1, 0))
+    }
+
+    const handleNextScene = useCallback(() => {
+        setCurrentSceneIndex((prev) => Math.min(prev + 1, totalScenes - 1))
+    }, [totalScenes])
+
+    const handleFontSizeChange = (newSize: number[]) => {
+        setFontSize(newSize[0])
+    }
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'ArrowLeft') handlePrevScene()
@@ -33,19 +45,7 @@ export const EReaderModal = (props: {
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [currentSceneIndex])
-
-    const handlePrevScene = () => {
-        setCurrentSceneIndex((prev) => Math.max(prev - 1, 0))
-    }
-
-    const handleNextScene = () => {
-        setCurrentSceneIndex((prev) => Math.min(prev + 1, totalScenes - 1))
-    }
-
-    const handleFontSizeChange = (newSize: number[]) => {
-        setFontSize(newSize[0])
-    }
+    }, [currentSceneIndex, handleNextScene])
 
     const togglePlayPause = () => {
         if (audioRef.current) {

@@ -8,6 +8,12 @@ lint:
 typecheck:
 	pnpm nx run-many --target=typecheck --all
 
+typecheck-target:
+	pnpm nx run ${target}:typecheck
+
+build-web:
+	pnpm nx run web:build
+
 # DATA MODELLING
 push-db:
 	npx drizzle-kit push

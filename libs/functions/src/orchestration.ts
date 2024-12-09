@@ -1,11 +1,11 @@
 import { serve } from 'inngest/lambda'
-import { orchestrationClient } from '@clients/orchestration.client.ts'
+import { orchestrationClient } from '@clients/orchestration.client'
 import {
     createNarration,
     createScene,
     finishStory,
     startStoryCreation,
-} from './story/index.ts'
+} from './story/index'
 import { Resource } from 'sst'
 
 process.env.INNGEST_SIGNING_KEY = Resource.InngestSigningKey.value

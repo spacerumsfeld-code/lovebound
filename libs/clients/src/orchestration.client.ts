@@ -1,7 +1,7 @@
 import { EventSchemas, Inngest, LiteralZodEventSchema } from 'inngest'
 import { Resource } from 'sst'
 import { z } from 'zod'
-import { ZCreateStory } from '@client-types/story/story.model.ts'
+import { ZCreateStory } from '@client-types/story/story.model'
 
 process.env.INNGEST_EVENT_KEY = Resource.InngestEventKey.value
 

@@ -3,8 +3,8 @@ import { HTTPException } from 'hono/http-exception'
 import { MiddlewareHandler, Variables } from 'hono/types'
 import { StatusCode } from 'hono/utils/http-status'
 import { ZodError } from 'zod'
-import { bodyParsingMiddleware, queryParsingMiddleware } from './middleware.ts'
-import { MutationOperation, QueryOperation } from './types.ts'
+import { bodyParsingMiddleware, queryParsingMiddleware } from './middleware'
+import { MutationOperation, QueryOperation } from './types'
 
 type OperationType<I extends Record<string, unknown>, O> =
     | QueryOperation<I, O>

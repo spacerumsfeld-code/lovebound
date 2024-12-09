@@ -116,7 +116,7 @@ export function Hero() {
                 className="relative z-20 mx-auto mt-4 max-w-lg px-4 text-center text-base/6 text-gray-600 dark:text-gray-200"
             >
                 Choose your theme, set the tension, and let our AI create a
-                romance that's uniquely yours.
+                romance that&apos;s uniquely yours.
             </motion.p>
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -195,7 +195,7 @@ const HeartBeamCollision = React.forwardRef<
             repeatDelay: number
         }
     }
->(({ parentRef, containerRef, beamOptions }, _ref) => {
+>(({ parentRef, containerRef, beamOptions }) => {
     const beamRef = useRef<SVGPathElement>(null)
     const [collision, setCollision] = useState<{
         detected: boolean
@@ -243,7 +243,7 @@ const HeartBeamCollision = React.forwardRef<
         const animationInterval = setInterval(checkCollision, 50)
 
         return () => clearInterval(animationInterval)
-    }, [cycleCollisionDetected, containerRef])
+    }, [cycleCollisionDetected, containerRef, parentRef])
 
     useEffect(() => {
         if (collision.detected && collision.coordinates) {

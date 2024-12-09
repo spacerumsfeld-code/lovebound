@@ -1,4 +1,4 @@
-import { orchestrationClient } from '@clients/orchestration.client.ts'
+import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
@@ -13,7 +13,7 @@ export const finishStory = orchestrationClient.createFunction(
         )
         const { data } = event
 
-        const [_, updateStoryError] = await step.run(
+        const [, updateStoryError] = await step.run(
             'Mark Story as Complete',
             () =>
                 handleAsync(
@@ -28,7 +28,7 @@ export const finishStory = orchestrationClient.createFunction(
             return
         }
 
-        const [__, postToConnectionError] = await step.run(
+        const [, postToConnectionError] = await step.run(
             'Post to connection',
             () =>
                 handleAsync(

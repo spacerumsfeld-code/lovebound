@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Button } from '@web/src/components/ui/buttonTwo'
 import { Input } from '@web/src/components/ui/input'
 import { Check } from 'lucide-react'
@@ -26,6 +26,28 @@ export function WordScrambleGame({ isOpen }: { isOpen: boolean }) {
     const [timeLeft, setTimeLeft] = useState(60)
     const [gameOver, setGameOver] = useState(false)
 
+    const startNewRound = useCallback(() => {
+        const newWord = words[Math.floor(Math.random() * words.length)]
+        setCurrentWord(newWord)
+        setScrambledWord(scrambleWord(newWord))
+        setUserGuess('')
+    }, [])
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        if (userGuess.toUpperCase() === currentWord) {
+            setScore(score + 1)
+            startNewRound()
+        }
+    }
+
+    const resetGame = () => {
+        setScore(0)
+        setTimeLeft(60)
+        setGameOver(false)
+        startNewRound()
+    }
+
     useEffect(() => {
         if (isOpen && !gameOver) {
             const timer = setInterval(() => {
@@ -47,35 +69,13 @@ export function WordScrambleGame({ isOpen }: { isOpen: boolean }) {
         if (isOpen) {
             startNewRound()
         }
-    }, [isOpen])
+    }, [isOpen, startNewRound])
 
     const scrambleWord = (word: string) => {
         return word
             .split('')
             .sort(() => Math.random() - 0.5)
             .join('')
-    }
-
-    const startNewRound = () => {
-        const newWord = words[Math.floor(Math.random() * words.length)]
-        setCurrentWord(newWord)
-        setScrambledWord(scrambleWord(newWord))
-        setUserGuess('')
-    }
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (userGuess.toUpperCase() === currentWord) {
-            setScore(score + 1)
-            startNewRound()
-        }
-    }
-
-    const resetGame = () => {
-        setScore(0)
-        setTimeLeft(60)
-        setGameOver(false)
-        startNewRound()
     }
 
     return (

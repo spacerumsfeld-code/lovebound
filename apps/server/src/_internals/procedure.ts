@@ -1,6 +1,6 @@
 import { Context, TypedResponse } from 'hono'
 import { z } from 'zod'
-import { Middleware, MutationOperation, QueryOperation } from './types.ts'
+import { Middleware, MutationOperation, QueryOperation } from './types'
 import { StatusCode } from 'hono/utils/http-status'
 import superjson from 'superjson'
 

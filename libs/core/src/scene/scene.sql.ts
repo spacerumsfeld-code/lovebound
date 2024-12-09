@@ -1,6 +1,6 @@
-import { stories } from '../story/story.sql.ts'
+import { stories } from '../story/story.sql'
 import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
-import { items } from '../item/item.sql.ts'
+import { items } from '../item/item.sql'
 
 export const scenes = pgTable('scenes', {
     // core

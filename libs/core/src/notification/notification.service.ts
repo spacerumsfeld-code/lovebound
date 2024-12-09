@@ -1,5 +1,5 @@
-import { cacheClient } from '@clients/cache.client.ts'
-import { postToConnection } from '@clients/wss.client.ts'
+import { cacheClient } from '@clients/cache.client'
+import { postToConnection } from '@clients/wss.client'
 
 class NotificationService {
     private client

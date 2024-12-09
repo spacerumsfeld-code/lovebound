@@ -1,5 +1,5 @@
-import { getAllItems } from '../data.ts'
-import { CreateStoryView } from './CreateStory.view.tsx'
+import { getAllItems } from '../data'
+import { CreateStoryView } from './CreateStory.view'
 
 export const CreateStoryPage = async () => {
     const { genres, themes, lengths, tensionLevels, settings, tones } =

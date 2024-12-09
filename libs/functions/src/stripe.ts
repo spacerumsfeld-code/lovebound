@@ -1,5 +1,5 @@
 import type { Stripe } from 'stripe'
-import { stripeClient } from '@clients/stripe.client.ts'
+import { stripeClient } from '@clients/stripe.client'
 import { Resource } from 'sst'
 import { Payment, ZCheckoutCompleteMetadata } from '@core'
 import { handleAsync } from '@utils'
@@ -46,7 +46,7 @@ export const handler = async (req: any) => {
                         }
                     }
 
-                    const [_, topupError] = await handleAsync(
+                    const [, topupError] = await handleAsync(
                         Payment.topUpCredits({
                             userId: parsedData.userId,
                             productType: parsedData.productType,

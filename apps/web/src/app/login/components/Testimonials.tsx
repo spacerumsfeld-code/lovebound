@@ -51,7 +51,7 @@ export const FeaturedTestimonials = (props: {
                 )}
             >
                 <div className="flex flex-row items-center mb-4 sm:mb-0">
-                    {images.map((image, _idx) => (
+                    {images.map((image) => (
                         <div className="-mr-4  relative group" key={image.name}>
                             <div>
                                 <motion.div

@@ -1,5 +1,5 @@
-import { cacheClient } from '@clients/cache.client.ts'
-import { orchestrationClient } from '@clients/orchestration.client.ts'
+import { cacheClient } from '@clients/cache.client'
+import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
@@ -86,7 +86,7 @@ export const createScene = orchestrationClient.createFunction(
             return
         }
 
-        const [__, postToConnectionError] = await step.run(
+        const [, postToConnectionError] = await step.run(
             'Post to connection',
             () =>
                 handleAsync(

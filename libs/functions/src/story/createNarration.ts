@@ -1,5 +1,5 @@
-import { orchestrationClient } from '@clients/orchestration.client.ts'
-import { uploadAudioFromBuffer } from '@clients/s3.client.ts'
+import { orchestrationClient } from '@clients/orchestration.client'
+import { uploadAudioFromBuffer } from '@clients/s3.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
@@ -36,7 +36,7 @@ export const createNarration = orchestrationClient.createFunction(
             return
         }
 
-        const [_, updateSceneError] = await step.run(
+        const [, updateSceneError] = await step.run(
             'Update scene with narrationUrl',
             () =>
                 handleAsync(
@@ -51,7 +51,7 @@ export const createNarration = orchestrationClient.createFunction(
             return
         }
 
-        const [__, postToConnectionError] = await step.run(
+        const [, postToConnectionError] = await step.run(
             'Post to connection',
             () =>
                 handleAsync(

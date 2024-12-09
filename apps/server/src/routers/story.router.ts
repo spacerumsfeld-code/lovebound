@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { router } from '../_internals/router.ts'
+import { router } from '../_internals/router'
 import { handleAsync } from '@utils'
-import { baseProcedure } from '../_internals/index.ts'
+import { baseProcedure } from '../_internals/index'
 import { Payment, Story, ZCreateStory } from '@core'
-import { orchestrationClient } from '@clients/orchestration.client.ts'
+import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
 
 export const storyRouter = router({
@@ -100,7 +100,7 @@ export const storyRouter = router({
                 })
             }
 
-            const [__, deductCreditsError] = await handleAsync(
+            const [, deductCreditsError] = await handleAsync(
                 Payment.deductCredits({
                     userId: input.ownerId,
                     storyLength: input.length,
@@ -112,7 +112,7 @@ export const storyRouter = router({
                 })
             }
 
-            const [_, orchestrationError] = await handleAsync(
+            const [, orchestrationError] = await handleAsync(
                 orchestrationClient.send({
                     name: 'start.story',
                     data: { ...input, storyId: createdStory!.id },

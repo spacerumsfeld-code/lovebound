@@ -35,6 +35,8 @@ import { cn } from '@web/src//lib/utils'
 import { GenreEnum, TItem } from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '@web/src/constants'
 import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
+import Image from 'next/image'
+import { TCreateStoryClient } from '@client-types/story/story.model'
 
 const StyleCard = ({
     label,
@@ -56,7 +58,13 @@ const StyleCard = ({
         )}
         onClick={onClick}
     >
-        <img src={imageUrl} alt={label} className="w-full h-32 object-cover" />
+        <Image
+            src={imageUrl}
+            alt={label}
+            height={200}
+            width={400}
+            className="w-full h-32 object-cover"
+        />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-2 transition-opacity group-hover:bg-opacity-60">
             <span className="text-white text-sm font-semibold">{label}</span>
         </div>
@@ -120,7 +128,10 @@ export const CreateStoryView = (props: {
         }
     }, [storyData.length])
 
-    const handleInputChange = (field: string, value: any) => {
+    const handleInputChange = (
+        field: string,
+        value: string | number | boolean,
+    ) => {
         setStoryData((prev) => ({
             ...prev,
             [field]: value,
@@ -130,7 +141,7 @@ export const CreateStoryView = (props: {
     const handleSceneChange = (
         sceneIndex: number,
         field: string,
-        value: any,
+        value: number | null,
     ) => {
         setStoryData((prev) => ({
             ...prev,
@@ -142,7 +153,7 @@ export const CreateStoryView = (props: {
 
     const getNextAvailableSceneIndex = (
         category: 'tone' | 'setting' | 'tensionLevel',
-        value: any,
+        value: number | null,
     ): number => {
         const currentIndex = storyData.scenes.findIndex(
             (scene) => scene[category] === value,
@@ -161,7 +172,7 @@ export const CreateStoryView = (props: {
 
     const handleStyleCardClick = (
         category: 'tone' | 'setting' | 'tensionLevel',
-        value: any,
+        value: number | null,
     ) => {
         if (storyData.length === ITEM_ID_MAP.get('Story.Length.Short')) {
             const sceneIndex = getNextAvailableSceneIndex(category, value)
@@ -238,7 +249,7 @@ export const CreateStoryView = (props: {
                                         {props.items.genres.map((genre) => (
                                             <SelectItem
                                                 key={genre.id}
-                                                value={genre.id}
+                                                value={String(genre.id)}
                                             >
                                                 {genre.name}
                                             </SelectItem>
@@ -249,7 +260,7 @@ export const CreateStoryView = (props: {
                             <div>
                                 <Label>Length</Label>
                                 <RadioGroup
-                                    value={storyData.length}
+                                    value={String(storyData.length)}
                                     onValueChange={(value) =>
                                         handleInputChange('length', value)
                                     }
@@ -261,7 +272,7 @@ export const CreateStoryView = (props: {
                                             className="flex items-center space-x-2"
                                         >
                                             <RadioGroupItem
-                                                value={length.id}
+                                                value={String(length.id)}
                                                 id={`length-${length.id}`}
                                                 disabled={
                                                     length.id !== 23 &&
@@ -441,7 +452,11 @@ export const CreateStoryView = (props: {
                 </Tabs>
 
                 <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                    <ConfirmCreateModal storyData={storyData as any}>
+                    <ConfirmCreateModal
+                        storyData={
+                            storyData as unknown as Required<TCreateStoryClient>
+                        }
+                    >
                         <Button className="bg-indigo-400 text-white hover:bg-indigo-500">
                             + Create Story
                         </Button>

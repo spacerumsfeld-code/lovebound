@@ -1,2 +1,2 @@
-export { pipe, handleAsync, extractFulfilledValues } from './src/async.ts'
-export { generateId } from './src/id.ts'
+export { pipe, handleAsync, extractFulfilledValues } from './src/async'
+export { generateId } from './src/id'

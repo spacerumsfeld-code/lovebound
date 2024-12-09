@@ -1,4 +1,5 @@
 import { getRecentStories } from '../data'
+import Image from 'next/image'
 
 export const RecentStoriesAsync = async () => {
     // @Data
@@ -16,8 +17,10 @@ export const RecentStoriesAsync = async () => {
                     key={`story.id_${index}`}
                     className="relative rounded-lg overflow-hidden group cursor-pointer"
                 >
-                    <img
+                    <Image
                         src={story.coverUrl!}
+                        height={400}
+                        width={300}
                         alt="Story Cover"
                         className="w-full h-32 object-cover"
                     />

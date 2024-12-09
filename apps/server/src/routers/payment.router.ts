@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { router } from '../_internals/router.ts'
-import { baseProcedure } from '../_internals/index.ts'
+import { router } from '../_internals/router'
+import { baseProcedure } from '../_internals/index'
 import { HTTPException } from 'hono/http-exception'
 import { handleAsync } from '@utils'
 import { Payment, ProductTypeEnum } from '@core'

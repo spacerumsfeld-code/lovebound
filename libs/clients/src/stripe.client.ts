@@ -1,4 +1,4 @@
-import Stripe from 'stripe'
+import { Stripe } from 'stripe'
 import { Resource } from 'sst'
 import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
 

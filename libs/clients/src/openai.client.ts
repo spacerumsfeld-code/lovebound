@@ -1,6 +1,6 @@
 import OpenAI from 'openai'
 import { Resource } from 'sst'
-import { cacheClient } from './cache.client.ts'
+import { cacheClient } from './cache.client'
 
 const openai = new OpenAI({
     apiKey: Resource.OpenAIApiKey.value,

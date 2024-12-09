@@ -7,7 +7,7 @@ import {
     text,
     timestamp,
 } from 'drizzle-orm/pg-core'
-import { ItemTypeEnum } from './item.model.ts'
+import { ItemTypeEnum } from './item.model'
 
 export const itemType = pgEnum(
     'item_type',

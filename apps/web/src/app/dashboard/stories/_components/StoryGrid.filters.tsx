@@ -16,14 +16,14 @@ export const StoryGridFilters = (props: { genre: number; theme: number }) => {
 
     const handleGenreFilterChange = (filter: string) => {
         const genreId = Object.entries(GenreIdEnum).find(
-            ([_, value]) => value === filter,
+            ([, value]) => value === filter,
         )?.[0]
         router.push(`/dashboard/stories?theme=${props.theme}&genre=${genreId}`)
     }
 
     const handleThemeFilterChange = (filter: string) => {
         const themeId = Object.entries(ThemeIdEnum).find(
-            ([_, value]) => value === filter,
+            ([, value]) => value === filter,
         )?.[0]
         router.push(`/dashboard/stories?theme=${themeId}&genre=${props.genre}`)
     }

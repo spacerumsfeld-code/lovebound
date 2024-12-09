@@ -1,4 +1,4 @@
 {
     "extends": "../../tsconfig.base.json",
-    "include": ["src", "client.index.ts"]
+    "include": ["src", "sst-env.d.ts"]
 }
