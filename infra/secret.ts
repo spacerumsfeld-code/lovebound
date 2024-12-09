@@ -14,7 +14,6 @@ export const secret = {
     UpstashRedisUrl: new sst.Secret('UpstashRedisUrl'),
     UpstashRedisToken: new sst.Secret('UpstashRedisToken'),
     //
-    InngestBranchId: new sst.Secret('InngestBranchId'),
     InngestSigningKey: new sst.Secret('InngestSigningKey'),
     InngestEventKey: new sst.Secret('InngestEventKey'),
     StripePublishableKey: new sst.Secret('StripePublishableKey'),

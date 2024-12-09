@@ -18,7 +18,7 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-    title: 'Tension.io',
+    title: 'Lovebound',
     description:
         'Make your own romance stories and share them with your friends.',
 }
