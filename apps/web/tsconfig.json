@@ -8,6 +8,7 @@
         "incremental": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
+        "strict": false,
         "plugins": [
             {
                 "name": "next"
