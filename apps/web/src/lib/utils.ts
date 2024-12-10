@@ -1,5 +1,5 @@
-import { TItemInput } from '@client-types/item/item.model'
-import { TCreateStoryClient } from '@client-types/story/story.model'
+import { TItemInput } from '@libs/core/src/item/item.model'
+import { TCreateStoryClient } from '../../../../libs/core/src/story/story.model'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 

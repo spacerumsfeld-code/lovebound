@@ -46,7 +46,7 @@ cicd-typecheck:
 # 	pnpm nx run web:test
 
 cicd-deploy:
-	npx sst deploy --stage production
+	npx sst deploy --stage production --print-logs
 
 # DEPENDENCY MANAGEMENT
 update:
