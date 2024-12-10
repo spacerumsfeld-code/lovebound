@@ -1,6 +1,7 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+        "baseUrl": ".",
         "allowJs": true,
         "module": "esnext",
         "resolveJsonModule": true,
@@ -9,6 +10,14 @@
                 "name": "next"
             }
         ]
+    },
+    "paths": {
+        "@web/*": ["../..apps/web/*"],
+        "@server": ["../../apps/server/index.ts"],
+        "@client-types/*": ["../../libs/core/src/*"],
+        "@core": ["../../libs/core/index.ts"],
+        "@clients/*": ["../../libs/clients/src/*"],
+        "@utils": ["../../libs/utils/index.ts"]
     },
     "include": ["src", "next-env.d.ts", ".next/types/**/*.ts", "sst-env.d.ts"],
     "exclude": ["node_modules"]
