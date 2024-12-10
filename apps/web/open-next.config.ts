@@ -3,6 +3,9 @@ const config = {
         override: {
             wrapper: 'aws-lambda-streaming',
         },
+        middleware: {
+            external: true,
+        },
     },
 }
 

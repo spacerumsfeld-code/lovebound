@@ -1,6 +1,8 @@
+import { NextConfig } from 'next'
 import './env'
 
-const nextConfig = {
+const nextConfig: NextConfig = {
+    reactStrictMode: false,
     images: {
         remotePatterns: [
             {

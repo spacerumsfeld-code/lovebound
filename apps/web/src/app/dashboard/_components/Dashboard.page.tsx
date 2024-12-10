@@ -1,5 +1,4 @@
 import { Button } from '@web/src/components/ui/buttonTwo'
-
 import {
     Card,
     CardContent,
@@ -8,9 +7,6 @@ import {
     CardTitle,
 } from '@web/src/components/ui/card'
 import { ArrowRight, Sparkles } from 'lucide-react'
-// import Link from 'next/link'
-
-// import { SITE_MAP } from '@web/src/constants'
 import { RecentStories } from './RecentStories'
 
 export const DashboardPage = () => {
