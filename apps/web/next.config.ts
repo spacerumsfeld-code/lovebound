@@ -1,5 +1,4 @@
 import { NextConfig } from 'next'
-import './env'
 
 const nextConfig: NextConfig = {
     reactStrictMode: false,

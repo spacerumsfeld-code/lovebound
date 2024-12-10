@@ -2,7 +2,6 @@ import React from 'react'
 import { IconCheck, IconPlus } from '@tabler/icons-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../components/ui/button'
-import Link from 'next/link'
 
 export enum plan {
     hobby = 'hobby',
@@ -174,7 +173,6 @@ const Card = ({ plan }: { plan: Plan }) => {
                         </div>
                     </div>
                     <Button
-                        as={Link}
                         variant="gradient"
                         className="w-full mt-10 bg-indigo-400"
                         href={plan.href}

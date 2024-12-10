@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { cn } from '@web/src/lib/utils'
 import Balancer from 'react-wrap-balancer'
-import Link from 'next/link'
 import { Button } from '@web/src/components/ui/button'
 import { HeartBeam } from './HeartBeam'
+import Link from 'next/link'
 
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null)

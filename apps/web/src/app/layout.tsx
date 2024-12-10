@@ -4,7 +4,6 @@ import { cn } from '../lib/utils'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { ClerkProvider } from '@clerk/nextjs'
-// import '../../env'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -19,8 +18,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
     title: 'Lovebound',
-    description:
-        'Make your own romance stories and share them with your friends.',
+    description: 'Make your own romance stories.',
 }
 
 export default function RootLayout({

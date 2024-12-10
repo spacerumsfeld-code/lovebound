@@ -9,7 +9,6 @@ import {
 } from '@web/src/components/ui/animated-modal'
 import Image from 'next/image'
 import { Button } from '@web/src/components/ui/button'
-import Link from 'next/link'
 
 export const ConfirmTopupModal = () => {
     // @Render
@@ -35,11 +34,8 @@ export const ConfirmTopupModal = () => {
                         </p>
                     </ModalContent>
                     <ModalFooter className="flex gap-4">
-                        <Button as={Link} href="/dashboard/create">
-                            + Create Story
-                        </Button>
+                        <Button href="/dashboard/create">+ Create Story</Button>
                         <Button
-                            as={Link}
                             href="/dashboard/shop"
                             className="bg-indigo-400 text-white"
                         >

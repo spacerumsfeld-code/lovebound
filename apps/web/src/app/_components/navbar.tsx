@@ -15,55 +15,6 @@ import { Logo } from './logo'
 import { ModeToggle } from './mode-toggle'
 import { SITE_MAP } from '../../constants'
 
-interface RaasIconModernProps {
-    className?: string
-    size?: number
-}
-
-export const RaasIconSleek: React.FC<RaasIconModernProps> = ({
-    className = '',
-    size = 24,
-}) => {
-    return (
-        <svg
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={className}
-        >
-            <rect width="24" height="24" rx="6" fill="url(#sleekGradient)" />
-            <path d="M12 6L7 11H10V18H14V11H17L12 6Z" fill="white" />
-            <path
-                d="M7 14L12 19L17 14"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M12 6C9.79086 6 8 7.79086 8 10C8 13 12 15 12 15C12 15 16 13 16 10C16 7.79086 14.2091 6 12 6Z"
-                fill="white"
-                fillOpacity="0.6"
-            />
-            <defs>
-                <linearGradient
-                    id="sleekGradient"
-                    x1="0"
-                    y1="0"
-                    x2="24"
-                    y2="24"
-                    gradientUnits="userSpaceOnUse"
-                >
-                    <stop stopColor="#FF6B6B" />
-                    <stop offset="1" stopColor="#4ECDC4" />
-                </linearGradient>
-            </defs>
-        </svg>
-    )
-}
-
 interface NavbarProps {
     navItems: {
         name: string
@@ -195,7 +146,6 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                             }}
                         >
                             <Button
-                                as={Link}
                                 href={'/login'}
                                 variant="secondary"
                                 className="hidden md:block"
@@ -287,21 +237,12 @@ const MobileNav = ({ navItems, visible }: NavbarProps) => {
                                 ),
                             )}
                             <Button
-                                as={Link}
                                 onClick={() => setOpen(false)}
                                 href={SITE_MAP.LOGIN}
                                 variant="primary"
                                 className="block md:hidden w-full"
                             >
                                 Login
-                            </Button>
-                            <Button
-                                as="button"
-                                onClick={() => setOpen(false)}
-                                variant="primary"
-                                className="block md:hidden w-full"
-                            >
-                                Book a call
                             </Button>
                         </motion.div>
                     )}

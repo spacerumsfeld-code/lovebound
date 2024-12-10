@@ -31,7 +31,6 @@ export const uploadAudioFromBuffer = async (buffer: Buffer) => {
     const key = `narration.mp3`
 
     try {
-        console.info(typeof buffer)
         const command = new PutObjectCommand({
             Bucket: Resource.Bucket.name,
             Key: key,
@@ -39,7 +38,6 @@ export const uploadAudioFromBuffer = async (buffer: Buffer) => {
             ContentType: 'audio/mpeg',
         })
         const result = await client.send(command)
-        console.info(result)
     } catch (error) {
         console.error('wtf is going on', error)
     }

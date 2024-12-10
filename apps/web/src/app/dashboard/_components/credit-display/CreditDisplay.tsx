@@ -1,11 +1,8 @@
 import { Button } from '@web/src/components/ui/button'
 import { Coins } from 'lucide-react'
-import Link from 'next/link'
 import { CreditDisplayCount } from './CreditDisplayCount'
 import { Suspense } from 'react'
 import { Skeleton } from '@web/src/components/ui/skeleton'
-
-// @TODO: Fine-tune the credit skeleton to ensure no layout shift.
 
 export const CreditDisplay = () => {
     // @Render
@@ -29,7 +26,6 @@ export const CreditDisplay = () => {
                 </p>
                 <p className="mt-2 text-sm font-medium">Need more?</p>
                 <Button
-                    as={Link}
                     href="/dashboard/upgrade"
                     className="mt-3 w-full text-white bg-indigo-400 hover:bg-indigo-300"
                 >

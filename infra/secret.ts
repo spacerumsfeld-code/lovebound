@@ -1,12 +1,10 @@
 /// <reference path="../.sst/platform/config.d.ts" />
 
 export const secret = {
-    // Web secrets
     WebUrl: new sst.Secret('WebUrl'),
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
     ClerkPublishableKey: new sst.Secret('ClerkPublishableKey'),
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
-    //
     DatabaseUrl: new sst.Secret('DatabaseUrl'),
     AuthHandlerSigningSecret: new sst.Secret('AuthHandlerSigningSecret'),
     OpenAIApiKey: new sst.Secret('OpenAIApiKey'),
