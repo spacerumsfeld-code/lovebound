@@ -4,12 +4,14 @@
         "rootDir": ".",
         "types": ["node"],
         "sourceMap": true,
+        "noEmit": true,
         "declaration": false,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "importHelpers": false,
         "esModuleInterop": true,
+        "isolatedModules": true,
         "target": "es2015",
         "strict": true,
         "module": "es2015",
@@ -30,24 +32,24 @@
     },
     "references": [
         {
-            "path": "./apps/server/tsconfig.json"
+            "path": "./apps/server"
         },
         {
-            "path": "./apps/web/tsconfig.json"
+            "path": "./apps/web"
         },
         {
-            "path": "./libs/clients/tsconfig.json"
+            "path": "./libs/clients"
         },
         {
-            "path": "./libs/core/tsconfig.json"
+            "path": "./libs/core"
         },
         {
-            "path": "./libs/functions/tsconfig.json"
+            "path": "./libs/functions"
         },
         {
-            "path": "./libs/utils/tsconfig.json"
+            "path": "./libs/utils"
         }
     ],
     "include": ["**/sst-env.d.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["**/node_modules"]
 }
