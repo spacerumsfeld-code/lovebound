@@ -27,7 +27,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9.5
 
       # - name: Get pnpm store directory
       #   id: pnpm-cache
@@ -52,23 +52,17 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Output TS Config
-        run: npx tsc --showConfig
-
-      - name: List packages
-        run: pnpm list
-
-      - name: Check versions
+      - name: Run type checking
         run: |
           node --version
           pnpm --version
-
-      - name: Run type checking
-        run: make cicd-typecheck
+          pnpm list
+          npx tsc --showConfig
+          make cicd-typecheck
         env:
+          DEBUG: "*"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DEBUG: "*"
 
       #       - name: Configure AWS credentials
       # uses: aws-actions/configure-aws-credentials@v4
