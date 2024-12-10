@@ -27,7 +27,9 @@
         "next-env.d.ts",
         "src",
         "src/app/data.ts",
-        ".next/types/**/*.ts"
+        ".next/types/**/*.ts",
+        "next.config.ts",
+        "env.ts"
     ],
     "exclude": ["node_modules"]
 }

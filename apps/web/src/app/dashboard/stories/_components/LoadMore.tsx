@@ -3,7 +3,7 @@
 import { Button } from '@web/src/components/ui/buttonTwo'
 import { useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 import useLoading from '@web/src/hooks/use-loading'
 import { getStories } from './data'
 

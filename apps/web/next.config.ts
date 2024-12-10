@@ -1,7 +1,6 @@
-import type { NextConfig } from 'next'
 import './env'
 
-const nextConfig: NextConfig = {
+const nextConfig = {
     images: {
         remotePatterns: [
             {
