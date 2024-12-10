@@ -1,14 +1,14 @@
-import { Separator } from '@web/src/components/ui/separator'
+import { Separator } from '../../components/ui/separator'
 import { AppSidebar } from './_components/Sidebar'
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
-} from '@web/src/components/ui/sidebar'
-import { Button } from '@web/src/components/ui/button'
-import { ActionsFromParams } from '@web/src/components/ui/actions-from-params'
+} from '../../components/ui/sidebar'
+import { Button } from '../../components/ui/button'
+import { ActionsFromParams } from '../../components/ui/actions-from-params'
 import { Suspense } from 'react'
-import { Toaster } from '@web/src/components/ui/sonner'
+import { Toaster } from '../../components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 import { Breadcrumbs } from './_components/crumbs'
 import { Modal } from './_components/modals/Modal'

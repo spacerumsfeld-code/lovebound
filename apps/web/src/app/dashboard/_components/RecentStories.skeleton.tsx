@@ -1,4 +1,4 @@
-import { Skeleton } from '@web/src/components/ui/skeleton'
+import { Skeleton } from '../../../components/ui/skeleton'
 
 export const RecentStoriesSkeleton = (props: { size: number }) => {
     // @Render

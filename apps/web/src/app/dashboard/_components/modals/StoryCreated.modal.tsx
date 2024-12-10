@@ -5,7 +5,7 @@ import {
     Modal,
     ModalBody,
     ModalContent,
-} from '@web/src/components/ui/animated-modal'
+} from '../../../../components/ui/animated-modal'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { WordScrambleGame } from '../WordScramble'

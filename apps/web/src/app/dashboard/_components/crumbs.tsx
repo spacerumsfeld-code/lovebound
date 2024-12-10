@@ -6,8 +6,7 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
-} from '@web/src/components/ui/breadcrumb'
-
+} from '../../../components/ui/breadcrumb'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import React from 'react'
 

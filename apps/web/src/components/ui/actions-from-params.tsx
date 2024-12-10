@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { modalAtom, ModalType } from '@web/src/atoms/modal'
+import { modalAtom, ModalType } from '../../atoms/modal'
 import { useSetAtom } from 'jotai'
 
 export const ActionsFromParams = () => {

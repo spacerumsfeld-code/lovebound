@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Button } from '@web/src/components/ui/buttonTwo'
-import { Input } from '@web/src/components/ui/input'
+import { Button } from '../../../components/ui/buttonTwo'
+import { Input } from '../../../components/ui/input'
 import { Check } from 'lucide-react'
 
 const words = [

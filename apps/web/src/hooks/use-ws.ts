@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useCallback } from 'react'
-import { useToast } from '@web/src/hooks/use-toast'
+import { useToast } from '../hooks/use-toast'
 
 export const useWebsocket = (url: string, userId: string) => {
     const { showToast } = useToast()

@@ -6,7 +6,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@web/src/components/ui/select'
+} from '../../../../components/ui/select'
 import { useRouter } from 'next/navigation'
 import { ThemeIdEnum, GenreIdEnum } from '@client-types/item/item.model'
 

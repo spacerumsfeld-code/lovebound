@@ -1,7 +1,7 @@
 import { cn } from '../../../lib/utils'
 import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs'
 import { FeaturedTestimonials } from './Testimonials'
-import { SITE_MAP } from '@web/src/constants'
+import { SITE_MAP } from '../../../constants'
 
 export const Login = () => {
     return (

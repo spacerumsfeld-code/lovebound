@@ -1,8 +1,8 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
-import { modalAtom, ModalType } from '@web/src/atoms/modal'
-import { StoryCreatedModal } from '@web/src/app/dashboard/_components/modals/StoryCreated.modal'
+import { modalAtom, ModalType } from '../../../../atoms/modal'
+import { StoryCreatedModal } from './StoryCreated.modal'
 import { ConfirmTopupModal } from './ConfirmTopup.modal'
 
 export const Modal = () => {

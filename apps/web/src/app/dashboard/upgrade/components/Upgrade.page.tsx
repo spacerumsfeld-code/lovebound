@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@web/src/components/ui/buttonTwo'
+import { Button } from '../../../../components/ui/buttonTwo'
 import {
     Card,
     CardContent,
@@ -8,7 +8,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@web/src/components/ui/card'
+} from '../../../../components/ui/card'
 import { Check, Sparkles } from 'lucide-react'
 import { createCheckoutSession } from '../data'
 import { ProductTypeEnum } from '@client-types/payment/payment.model'

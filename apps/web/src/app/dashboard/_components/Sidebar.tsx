@@ -1,14 +1,14 @@
-import { NavMain } from '@web/src/app/dashboard/_components/nav-main'
+import { NavMain } from '../../../app/dashboard/_components/nav-main'
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
     SidebarRail,
-} from '@web/src/components/ui/sidebar'
+} from '../../../components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
 import { Logo } from '../../_components/logo'
-import { Button } from '@web/src/components/ui/button'
+import { Button } from '../../..//components/ui/button'
 import { CreditDisplay } from './credit-display/CreditDisplay'
 import { DashboardThemeToggle } from './DashboardModleToggle'
 

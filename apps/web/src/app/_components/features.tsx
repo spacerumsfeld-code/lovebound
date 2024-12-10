@@ -1,4 +1,4 @@
-import { cn } from '@web/src/lib/utils'
+import { cn } from '../../lib/utils'
 
 export const Features = () => {
     const features = [

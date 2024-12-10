@@ -1,8 +1,8 @@
-import { Button } from '@web/src/components/ui/button'
+import { Button } from '../../../../components/ui/button'
 import { Coins } from 'lucide-react'
 import { CreditDisplayCount } from './CreditDisplayCount'
 import { Suspense } from 'react'
-import { Skeleton } from '@web/src/components/ui/skeleton'
+import { Skeleton } from '../../../../components/ui/skeleton'
 
 export const CreditDisplay = () => {
     // @Render

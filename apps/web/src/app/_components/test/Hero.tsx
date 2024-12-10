@@ -3,9 +3,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { cn } from '@web/src/lib/utils'
+import { cn } from '../../../lib/utils'
 import Balancer from 'react-wrap-balancer'
-import { Button } from '@web/src/components/ui/button'
+import { Button } from '../../../components/ui/button'
 import { HeartBeam } from './HeartBeam'
 
 export function Hero() {

@@ -1,6 +1,6 @@
 'use client'
-import { cn } from '@web/src//lib/utils'
-import { Logo } from '@web/src/app/_components/logo'
+import { cn } from '../../lib/utils'
+import { Logo } from '../../app/_components/logo'
 import { motion, MotionValue } from 'framer-motion'
 import React from 'react'
 

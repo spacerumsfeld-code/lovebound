@@ -6,38 +6,41 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-} from '@web/src/components/ui/card'
+} from '../../../../components/ui/card'
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '@web/src/components/ui/tabs'
-import { Label } from '@web/src/components/ui/label'
-import { Button } from '@web/src/components/ui/buttonTwo'
-import { Input } from '@web/src/components/ui/input'
-import { ScrollArea } from '@web/src/components/ui/scroll-area'
+} from '../../../../components/ui/tabs'
+import { Label } from '../../../../components/ui/label'
+import { Button } from '../../../../components/ui/buttonTwo'
+import { Input } from '../../../../components/ui/input'
+import { ScrollArea } from '../../../../components/ui/scroll-area'
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@web/src/components/ui/avatar'
+} from '../../../../components/ui/avatar'
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@web/src/components/ui/select'
-import { Switch } from '@web/src/components/ui/switch'
-import { RadioGroup, RadioGroupItem } from '@web/src/components/ui/radio-group'
-import { cn } from '@web/src//lib/utils'
+} from '../../../../components/ui/select'
+import { Switch } from '../../../../components/ui/switch'
+import {
+    RadioGroup,
+    RadioGroupItem,
+} from '../../../../components/ui/radio-group'
+import { cn } from '../../../..//lib/utils'
 import {
     GenreEnum,
     storyLengthMap,
     TItemInput,
 } from '@client-types/item/item.model'
-import { ITEM_ID_MAP } from '@web/src/constants'
+import { ITEM_ID_MAP } from '../../../../constants'
 import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
 import Image from 'next/image'
 import { TCreateStoryClient } from '@client-types/story/story.model'

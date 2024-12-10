@@ -1,14 +1,13 @@
 'use client'
 
-import React from 'react'
 import {
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
-} from '@web/src/components/ui/animated-modal'
+} from '../../../../components/ui/animated-modal'
 import Image from 'next/image'
-import { Button } from '@web/src/components/ui/button'
+import { Button } from '../../../../components/ui/button'
 
 export const ConfirmTopupModal = () => {
     // @Render

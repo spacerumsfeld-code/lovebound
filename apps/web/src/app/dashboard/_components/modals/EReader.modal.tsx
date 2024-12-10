@@ -1,22 +1,28 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    ReactNode,
+} from 'react'
 import {
     Modal,
     ModalBody,
     ModalContent,
     ModalTrigger,
-} from '@web/src/components/ui/animated-modal'
-import { Button } from '@web/src/components/ui/buttonTwo'
-import { ScrollArea } from '@web/src/components/ui/scroll-area'
+} from '../../../../components/ui/animated-modal'
+import { Button } from '../../../../components/ui/buttonTwo'
+import { ScrollArea } from '../../../../components/ui/scroll-area'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
-import { Slider } from '@web/src/components/ui/slider'
+import { Slider } from '../../../../components/ui/slider'
 import { motion, AnimatePresence } from 'framer-motion'
-import { TStoryWithScenes } from '@client-types/story/story.model'
+import { TStoryWithScenes } from '../../../../../../../libs/core/src/story/story.model'
 
 export const EReaderModal = (props: {
     story: TStoryWithScenes
-    children: React.ReactNode
+    children: ReactNode
 }) => {
     // @State
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0)

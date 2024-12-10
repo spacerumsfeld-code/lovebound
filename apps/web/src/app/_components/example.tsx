@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react'
 import { motion, useAnimation, AnimationControls } from 'framer-motion'
-import { cn } from '@web/src/lib/utils'
-import { Card, CardContent, CardHeader } from '@web/src/components/ui/card'
-import { Separator } from '@web/src/components/ui/separator'
+import { cn } from '../../lib/utils'
+import { Card, CardContent, CardHeader } from '../../components/ui/card'
+import { Separator } from '../../components/ui/separator'
 import Image from 'next/image'
 import { Logo } from './logo'
 

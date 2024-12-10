@@ -7,9 +7,9 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from '@web/src/components/ui/sidebar'
+} from '../../../components/ui/sidebar'
 import Link from 'next/link'
-import { SITE_MAP } from '@web/src/constants'
+import { SITE_MAP } from '../../../constants'
 
 const data = {
     navMain: [

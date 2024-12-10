@@ -1,11 +1,11 @@
-import { Button } from '@web/src/components/ui/buttonTwo'
+import { Button } from '../../../components/ui/buttonTwo'
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@web/src/components/ui/card'
+} from '../../../components/ui/card'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { RecentStories } from './RecentStories'
 

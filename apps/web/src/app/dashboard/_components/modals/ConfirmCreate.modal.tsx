@@ -6,19 +6,19 @@ import {
     ModalContent,
     ModalFooter,
     ModalTrigger,
-} from '@web/src/components/ui/animated-modal'
-import { Button } from '@web/src/components/ui/buttonTwo'
+} from '../../../../components/ui/animated-modal'
+import { Button } from '../../../../components/ui/buttonTwo'
 import { Pause } from 'lucide-react'
 import { submitStory } from '../../create/data'
 import {
     TCreateStoryClient,
     ZCreateStoryClient,
     mapCreateStoryZodErrorsToSentences,
-} from '@client-types/story/story.model'
-import useLoading from '@web/src/hooks/use-loading'
+} from '../../../../../../../libs/core/src/story/story.model'
+import useLoading from '../../../../hooks/use-loading'
 import { toast } from 'sonner'
 import { StoryIdToCostMap } from '@client-types/payment/payment.model'
-import { cleanseCreateStoryParams } from '@web/src/lib/utils'
+import { cleanseCreateStoryParams } from '../../../../lib/utils'
 
 export const ConfirmCreateModal = (props: {
     children: React.ReactNode

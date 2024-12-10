@@ -1,7 +1,7 @@
 'use client'
 
-import { useOutsideClick } from '@web/src/hooks/use-on-click-outside'
-import { cn } from '@web/src/lib/utils'
+import { useOutsideClick } from '../../hooks/use-on-click-outside'
+import { cn } from '../../lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, {
     ReactNode,
@@ -12,7 +12,7 @@ import React, {
     useState,
 } from 'react'
 import { useSetAtom } from 'jotai'
-import { modalAtom, ModalType } from '@web/src/atoms/modal'
+import { modalAtom, ModalType } from '../../atoms/modal'
 
 interface ModalContextType {
     open: boolean

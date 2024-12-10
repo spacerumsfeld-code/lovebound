@@ -1,9 +1,9 @@
-import { Button } from '@web/src/components/ui/buttonTwo'
-import { Card, CardHeader, CardTitle } from '@web/src/components/ui/card'
+import { Button } from '../../../components/ui/buttonTwo'
+import { Card, CardHeader, CardTitle } from '../../../components/ui/card'
 import { ArrowRight, Book } from 'lucide-react'
 import { Suspense } from 'react'
 import { RecentStoriesAsync } from './RecentStories.async'
-import { ScrollArea } from '@web/src/components/ui/scroll-area'
+import { ScrollArea } from '../../../components/ui/scroll-area'
 import { RecentStoriesSkeleton } from './RecentStories.skeleton'
 
 export const RecentStories = () => {

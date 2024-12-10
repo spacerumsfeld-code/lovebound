@@ -1,10 +1,10 @@
 'use client'
 
-import { Button } from '@web/src/components/ui/buttonTwo'
+import { Button } from '../../../../components/ui/buttonTwo'
 import { useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { JSX, useState } from 'react'
-import useLoading from '@web/src/hooks/use-loading'
+import useLoading from '../../../../hooks/use-loading'
 import { getStories } from './data'
 
 export const LoadMore = (props: { nextOffset: number }) => {

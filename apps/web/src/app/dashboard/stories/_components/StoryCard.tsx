@@ -1,8 +1,8 @@
 'use client'
 
 import { TStoryWithScenes } from '@client-types/story/story.model'
-import { Card } from '@web/src/components/ui/card'
-import { cn } from '@web/src/lib/utils'
+import { Card } from '../../../../components/ui/card'
+import { cn } from '../../../../lib/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { EReaderModal } from '../../_components/modals/EReader.modal'

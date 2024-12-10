@@ -1,7 +1,7 @@
 'use client'
 
-import { Label } from '@web/src/components/ui/label'
-import { Switch } from '@web/src/components/ui/switch'
+import { Label } from '../../../components/ui/label'
+import { Switch } from '../../../components/ui/switch'
 import { Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
