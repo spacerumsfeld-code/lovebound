@@ -157,6 +157,12 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      eslint:
+        specifier: ^8
+        version: 8.57.1
+      eslint-config-next:
+        specifier: 15.0.3
+        version: 15.0.3(eslint@8.57.1)(typescript@5.7.2)
       framer-motion:
         specifier: 12.0.0-alpha.1
         version: 12.0.0-alpha.1(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -197,12 +203,6 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
     devDependencies:
-      eslint:
-        specifier: ^8
-        version: 8.57.1
-      eslint-config-next:
-        specifier: 15.0.3
-        version: 15.0.3(eslint@8.57.1)(typescript@5.7.2)
       postcss:
         specifier: ^8
         version: 8.4.49

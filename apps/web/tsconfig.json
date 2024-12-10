@@ -1,24 +1,58 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "allowJs": true,
-        "module": "esnext",
-        "resolveJsonModule": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ]
-    },
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    // "strict": false,
+    // "noEmit": true,
+    // "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-        "@web/*": ["../..apps/web/*"],
-        "@server": ["../../apps/server/index.ts"],
-        "@client-types/*": ["../../libs/core/src/*"],
-        "@core": ["../../libs/core/index.ts"],
-        "@clients/*": ["../../libs/clients/src/*"],
-        "@utils": ["../../libs/utils/index.ts"]
+      "@web/*": [
+        "./src/*"
+      ],
+      "@server": [
+        "../../apps/server/index.ts"
+      ],
+      "@client-types/*": [
+        "../../libs/core/src/*"
+      ],
+      "@core": [
+        "../../libs/core/index.ts"
+      ],
+      "@clients/*": [
+        "../../libs/clients/src/*"
+      ],
+      "@utils": [
+        "../../libs/utils/index.ts"
+      ]
     },
-    "include": ["src", "next-env.d.ts", ".next/types/**/*.ts", "sst-env.d.ts"],
-    "exclude": ["node_modules"]
+    "noEmit": true,
+    "incremental": true,
+    "strict": false
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
