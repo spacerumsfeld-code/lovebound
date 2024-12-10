@@ -7,8 +7,7 @@
     "start": "next start",
     "build": "npx sst shell next build",
     "typecheck": "tsc --noEmit --showConfig",
-    "lint": "eslint .",
-    "preinstall": "npx only-allow pnpm"
+    "lint": "npx sst shell next lint --print-logs --stage nickpapadakis"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.8.3",
