@@ -52,6 +52,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Check for global TypeScript
+        run: which tsc
+
       - name: Run type checking
         run: make cicd-typecheck
         env:
