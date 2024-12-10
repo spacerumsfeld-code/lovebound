@@ -9,6 +9,7 @@
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "incremental": true,
         "importHelpers": false,
         "esModuleInterop": true,
         "isolatedModules": true,

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "start": "next start",
     "build": "npx sst shell next build",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npx sst shell tsc",
     "lint": "npx sst shell next lint --print-logs --stage nickpapadakis"
   },
   "dependencies": {

@@ -1,94 +1,94 @@
 name: CI/CD
 
 on:
-    push:
-        branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-    ci-cd:
-        name: CI/CD Process
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+  ci-cd:
+    name: CI/CD Process
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-            - name: Set NX SHAs
-              uses: nrwl/nx-set-shas@v4
-            - run: |
-                echo "BASE: ${{ env.NX_BASE }}"
-                echo "HEAD: ${{ env.NX_HEAD }}"
+      - name: Set NX SHAs
+        uses: nrwl/nx-set-shas@v4
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
 
-            - name: Use Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '20'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-            - name: Install pnpm
-              uses: pnpm/action-setup@v2
-              with:
-                  version: 8
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-            - name: Get pnpm store directory
-              id: pnpm-cache
-              shell: bash
-              run: |
-                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
-            - uses: actions/cache@v3
-              name: Setup pnpm cache
-              with:
-                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pnpm-store-
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Run linting
-              run: make cicd-lint
-              env:
-                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Run linting
+        run: make cicd-lint
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-            - name: Run type checking
-              run: make cicd-typecheck
+      - name: Run type checking
+        run: make cicd-typecheck
 
-            #       - name: Configure AWS credentials
-            # uses: aws-actions/configure-aws-credentials@v4
-            # with:
-            # role-to-assume: <role>
-            # role-duration-seconds: 1800 #adjust as needed for your
+      #       - name: Configure AWS credentials
+      # uses: aws-actions/configure-aws-credentials@v4
+      # with:
+      # role-to-assume: <role>
+      # role-duration-seconds: 1800 #adjust as needed for your
 
-            # Test
-            # - name: Install Playwright browsers
-            #   run: pnpm exec playwright install --with-deps
+      # Test
+      # - name: Install Playwright browsers
+      #   run: pnpm exec playwright install --with-deps
 
-            # - name: Deploy Code to Test Infrastructure
-            #   run: make cicd-deploy-test-infra
-            #   env:
-            #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            #       NEXT_PUBLIC_THIRD_WEB_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID }}
+      # - name: Deploy Code to Test Infrastructure
+      #   run: make cicd-deploy-test-infra
+      #   env:
+      #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #       NEXT_PUBLIC_THIRD_WEB_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID }}
 
-            # - name: Run Playwright tests
-            #   run: make cicd-test
-            #   env:
-            #       WEB_URL: ${{ secrets.WEB_URL }}
-            #       CI: true
+      # - name: Run Playwright tests
+      #   run: make cicd-test
+      #   env:
+      #       WEB_URL: ${{ secrets.WEB_URL }}
+      #       CI: true
 
-            # - uses: actions/upload-artifact@v4
-            #   if: always()
-            #   with:
-            #       name: playwright-report
-            #       path: playwright-report/
-            #       retention-days: 7
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #       name: playwright-report
+      #       path: playwright-report/
+      #       retention-days: 7
 
-            # Deploy
-            - name: Deploy
-              if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
-              run: make cicd-deploy
-              env:
-                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # Deploy
+      - name: Deploy
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
+        run: make cicd-deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
