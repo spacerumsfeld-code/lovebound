@@ -16,6 +16,7 @@ export const getCreditCount = async () => {
 
         return { creditCount }
     } catch (error) {
+        console.error('❌ client.getCreditCount error:', error)
         throw new Error(`❌ client.getCreditCount error:`, error)
     }
 }

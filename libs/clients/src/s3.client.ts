@@ -37,7 +37,7 @@ export const uploadAudioFromBuffer = async (buffer: Buffer) => {
             Body: buffer,
             ContentType: 'audio/mpeg',
         })
-        const result = await client.send(command)
+        await client.send(command)
     } catch (error) {
         console.error('wtf is going on', error)
     }

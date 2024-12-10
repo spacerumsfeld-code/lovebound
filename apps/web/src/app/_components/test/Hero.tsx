@@ -7,7 +7,6 @@ import { cn } from '@web/src/lib/utils'
 import Balancer from 'react-wrap-balancer'
 import { Button } from '@web/src/components/ui/button'
 import { HeartBeam } from './HeartBeam'
-import Link from 'next/link'
 
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -121,14 +120,10 @@ export function Hero() {
                 transition={{ duration: 0.2, delay: 0.7 }}
                 className="mb-10 mt-8 flex w-full flex-col items-center justify-center gap-4 px-8 sm:flex-row md:mb-20"
             >
-                <Button as={Link} href="/login" variant="dark">
+                <Button href="/login" variant="dark">
                     Create account
                 </Button>
-                <Button
-                    as={Link}
-                    href="/login"
-                    className="w-40 bg-indigo-400 text-white"
-                >
+                <Button href="/login" className="w-40 bg-indigo-400 text-white">
                     Get Started
                 </Button>
             </motion.div>

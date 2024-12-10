@@ -8,32 +8,6 @@ import { Separator } from '@web/src/components/ui/separator'
 import Image from 'next/image'
 import { Logo } from './logo'
 
-/**
- * 
- * const BackgroundGrids = () => {
-    return (
-        <div className="pointer-events-none absolute inset-0 z-0 grid h-full w-full -rotate-45 transform select-none grid-cols-2 gap-10 md:grid-cols-4">
-            <div className="relative h-full w-full">
-                <GridLineVertical className="left-0" />
-                <GridLineVertical className="left-auto right-0" />
-            </div>
-            <div className="relative h-full w-full">
-                <GridLineVertical className="left-0" />
-                <GridLineVertical className="left-auto right-0" />
-            </div>
-            <div className="relative h-full w-full bg-gradient-to-b from-transparent via-neutral-100 to-transparent dark:via-neutral-800">
-                <GridLineVertical className="left-0" />
-                <GridLineVertical className="left-auto right-0" />
-            </div>
-            <div className="relative h-full w-full">
-                <GridLineVertical className="left-0" />
-                <GridLineVertical className="left-auto right-0" />
-            </div>
-        </div>
-    )
-}
- */
-
 const transition = {
     duration: 3,
     ease: 'easeInOut',
@@ -194,6 +168,92 @@ export const GeminiFlowEffect = ({ className }: { className?: string }) => {
                     controls={controlsOutput}
                 />
             </svg>
+            <GridLineHorizontal
+                className="top-0 left-1/2 -translate-x-1/2"
+                offset="-10px"
+            />
+            <GridLineHorizontal
+                className="bottom-0 top-auto  left-1/2 -translate-x-1/2"
+                offset="-10px"
+            />
+            <GridLineVertical
+                className="left-10  top-1/2 -translate-y-1/2"
+                offset="-10px"
+            />
+            <GridLineVertical
+                className="right-10 left-auto top-1/2 -translate-y-1/2"
+                offset="-10px"
+            />
         </div>
+    )
+}
+
+const GridLineHorizontal = ({
+    className,
+    offset,
+}: {
+    className?: string
+    offset?: string
+}) => {
+    return (
+        <div
+            style={
+                {
+                    '--background': '#ffffff',
+                    '--color': 'rgba(0, 0, 0, 0.2)',
+                    '--height': '1px',
+                    '--width': '5px',
+                    '--fade-stop': '90%',
+                    '--offset': offset || '200px', //-100px if you want to keep the line inside
+                    '--color-dark': 'rgba(255, 255, 255, 0.2)',
+                    maskComposite: 'exclude',
+                } as React.CSSProperties
+            }
+            className={cn(
+                'absolute w-[calc(100%+var(--offset))] h-[var(--height)] left-[calc(var(--offset)/2*-1)]',
+                'bg-[linear-gradient(to_right,var(--color),var(--color)_50%,transparent_0,transparent)]',
+                '[background-size:var(--width)_var(--height)]',
+                '[mask:linear-gradient(to_left,var(--background)_var(--fade-stop),transparent),_linear-gradient(to_right,var(--background)_var(--fade-stop),transparent),_linear-gradient(black,black)]',
+                '[mask-composite:exclude]',
+                'z-30',
+                'dark:bg-[linear-gradient(to_right,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]',
+                className,
+            )}
+        ></div>
+    )
+}
+
+const GridLineVertical = ({
+    className,
+    offset,
+}: {
+    className?: string
+    offset?: string
+}) => {
+    return (
+        <div
+            style={
+                {
+                    '--background': '#ffffff',
+                    '--color': 'rgba(0, 0, 0, 0.2)',
+                    '--height': '5px',
+                    '--width': '1px',
+                    '--fade-stop': '90%',
+                    '--offset': offset || '150px', //-100px if you want to keep the line inside
+                    '--color-dark': 'rgba(255, 255, 255, 0.2)',
+                    maskComposite: 'exclude',
+                } as React.CSSProperties
+            }
+            className={cn(
+                'absolute h-[calc(100%+var(--offset))] w-[var(--width)] top-[calc(var(--offset)/2*-1)]',
+                'bg-[linear-gradient(to_bottom,var(--color),var(--color)_50%,transparent_0,transparent)]',
+                '[background-size:var(--width)_var(--height)]',
+                '[mask:linear-gradient(to_top,var(--background)_var(--fade-stop),transparent),_linear-gradient(to_bottom,var(--background)_var(--fade-stop),transparent),_linear-gradient(black,black)]',
+                '[mask-composite:exclude]',
+                'z-30',
+                'dark:bg-[linear-gradient(to_bottom,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]',
+                className,
+            )}
+        ></div>
     )
 }

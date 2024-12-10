@@ -155,11 +155,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <Button
-                    as="button"
-                    variant="primary"
-                    className="hidden md:block "
-                >
+                <Button variant="primary" className="hidden md:block">
                     Claim Free Story
                 </Button>
             </div>

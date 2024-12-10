@@ -1,4 +1,4 @@
-import { HiArrowRight } from 'react-icons/hi2'
+import { ArrowRight } from 'lucide-react'
 
 export const CTA = () => {
     return (
@@ -27,7 +27,7 @@ export const CTA = () => {
 
                     <button className="mt-8 flex space-x-2 items-center group text-base px-4 py-2 rounded-lg bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]">
                         <span>Get Started</span>
-                        <HiArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
+                        <ArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
                     </button>
                 </div>
             </div>
