@@ -32,10 +32,12 @@ seed:
 
 # CICD
 cicd-lint:
-	pnpm nx affected -t lint
+# pnpm nx affected -t lint
+	npx nx run-many --target=lint --all
 
 cicd-typecheck:
-	pnpm nx affected -t typecheck
+# pnpm nx affected -t typecheck
+	pnpm nx run-many --target=typecheck --all
 
 # cicd-deploy-test-infra:
 # 	npx sst deploy --stage test

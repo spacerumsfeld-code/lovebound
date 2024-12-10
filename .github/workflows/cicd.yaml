@@ -13,11 +13,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set NX SHAs
-        uses: nrwl/nx-set-shas@v4
-      - run: |
-          echo "BASE: ${{ env.NX_BASE }}"
-          echo "HEAD: ${{ env.NX_HEAD }}"
+      # - name: Set NX SHAs
+      #   uses: nrwl/nx-set-shas@v4
+      # - run: |
+      #     echo "BASE: ${{ env.NX_BASE }}"
+      #     echo "HEAD: ${{ env.NX_HEAD }}"
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -57,7 +57,6 @@ jobs:
           node --version
           pnpm --version
           pnpm list
-          npx tsc --showConfig
           make cicd-typecheck
         env:
           DEBUG: "*"

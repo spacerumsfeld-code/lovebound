@@ -43,7 +43,7 @@ importers:
         specifier: 8.10.145
         version: 8.10.145
       '@types/node':
-        specifier: ^20.17.6
+        specifier: ^20
         version: 20.17.6
       tsx:
         specifier: ^4.19.2
