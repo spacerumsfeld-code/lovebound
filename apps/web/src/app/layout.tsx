@@ -3,7 +3,7 @@ import './globals.css'
 import { cn } from '../lib/utils'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
-import { ClerkProvider } from '@clerk/nextjs'
+import { AuthProvider } from 'src/providers/ClerkProvider'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -34,7 +34,7 @@ export default function RootLayout({
                     'antialiased dark:bg-black bg-white',
                 )}
             >
-                <ClerkProvider>
+                <AuthProvider>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
@@ -43,7 +43,7 @@ export default function RootLayout({
                     >
                         {children}
                     </ThemeProvider>
-                </ClerkProvider>
+                </AuthProvider>
             </body>
         </html>
     )
