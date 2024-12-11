@@ -22,6 +22,12 @@
             "@utils": ["../../libs/utils/index.ts"]
         }
     },
-    "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        "next-env.d.ts",
+        ".next/types/**/*.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "next.config.mjs"
+    ],
     "exclude": ["node_modules"]
 }

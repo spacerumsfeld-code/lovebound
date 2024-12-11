@@ -21,9 +21,7 @@ class NotificationService {
     }
 
     public getConnection = async ({ userId }: { userId: string }) => {
-        const connectionId = await this.client.get<string>(
-            `ws:connection:${userId}`,
-        )
+        const connectionId = await this.client.get(`ws:connection:${userId}`)
 
         return {
             connectionId,
@@ -42,7 +40,7 @@ class NotificationService {
         })
 
         await postToConnection({
-            id: connectionId!,
+            id: connectionId as string,
             data,
         })
 
