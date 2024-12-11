@@ -187,7 +187,6 @@ const HeartBeamCollision = React.forwardRef<
             repeatDelay: number
         }
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(({ parentRef, containerRef, beamOptions }, _ref) => {
     const beamRef = useRef<SVGPathElement>(null)
     const [collision, setCollision] = useState<{
