@@ -8,6 +8,9 @@ jobs:
   ci-cd:
     name: CI/CD Process
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,33 +62,6 @@ jobs:
 
       - name: Run type checking
         run: make cicd-typecheck
-
-      # Test
-      # - name: Install Playwright browsers
-      #   run: pnpm exec playwright install --with-deps
-
-      # - name: Deploy Code to Test Infrastructure
-      #   run: make cicd-deploy-test-infra
-      #   env:
-      #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #       NEXT_PUBLIC_THIRD_WEB_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID }}
-
-      # - name: Run Playwright tests
-      #   run: make cicd-test
-      #   env:
-      #       WEB_URL: ${{ secrets.WEB_URL }}
-      #       CI: true
-
-      # - uses: actions/upload-artifact@v4
-      #   if: always()
-      #   with:
-      #       name: playwright-report
-      #       path: playwright-report/
-      #       retention-days: 7
-
-      # - name: Refresh Pulumi Prod State
-      #   run: npx sst refresh --stage production
 
       # Deploy
       - name: Deploy
