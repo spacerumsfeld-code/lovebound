@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "npx sst shell next build",
+    "build": "next build",
     "typecheck": "tsc --noEmit",
     "lint": "npx sst shell next lint --stage nickpapadakis"
   },
