@@ -82,10 +82,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "Web": {
-      "type": "sst.aws.Nextjs"
-      "url": string
-    }
     "WebUrl": {
       "type": "sst.sst.Secret"
       "value": string
