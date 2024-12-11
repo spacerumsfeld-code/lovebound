@@ -15,7 +15,6 @@
             }
         ],
         "paths": {
-            "@web/*": ["./src/*"],
             "@server": ["../../apps/server/index.ts"],
             "@client-types/*": ["../../libs/core/src/*"],
             "@core": ["../../libs/core/index.ts"],
