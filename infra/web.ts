@@ -4,6 +4,7 @@ import { server } from './server'
 import { allSecrets, secret } from './secret'
 import { websocket } from './websocket'
 import { type NextjsArgs } from '../.sst/platform/src/components/aws'
+import { isProduction } from './stage'
 
 const webConfig: NextjsArgs = {
     link: [server, websocket, ...allSecrets],
@@ -26,7 +27,7 @@ const webConfig: NextjsArgs = {
     },
 }
 
-if (process.env.PULUMI_NODEJS_STACK === 'production') {
+if (isProduction) {
     webConfig.domain = {
         name: 'lovebound.io',
         redirects: ['www.lovebound.io'],
