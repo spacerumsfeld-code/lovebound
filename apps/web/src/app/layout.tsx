@@ -3,7 +3,7 @@ import './globals.css'
 import { cn } from '../lib/utils'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
-import { AuthProvider } from 'src/providers/ClerkProvider'
+import { AuthProvider } from 'src/providers/AuthProvider'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     title: 'Lovebound',
     description: 'Make your own romance stories.',
 }
+
+console.info('root layour Process.env', process.env)
 
 export default function RootLayout({
     children,
