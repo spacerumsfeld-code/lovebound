@@ -91,6 +91,9 @@ jobs:
       #       path: playwright-report/
       #       retention-days: 7
 
+      - name: Refresh Pulumi Prod State
+        run: npx sst refresh --stage production
+
       # Deploy
       - name: Deploy
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
