@@ -51,6 +51,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::720174059271:role/tension-io-production-github
+          region: us-east-1
           role-duration-seconds: 600
 
       - name: Run linting
