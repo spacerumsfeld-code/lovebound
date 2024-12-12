@@ -47,8 +47,7 @@ export const useWebsocket = (url: string, userId: string) => {
                 showToast('WebSocket disconnected')
             }
 
-            socketRef.current.onerror = (error) => {
-                console.error('WebSocket error occurred', error)
+            socketRef.current.onerror = () => {
                 showToast('WebSocket error occurred')
             }
         }

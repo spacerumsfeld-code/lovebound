@@ -31,7 +31,7 @@ export default function RootLayout({
             <body
                 className={cn(
                     `${geistSans.variable} ${geistMono.variable}`,
-                    'antialiased dark:bg-black bg-white',
+                    'antialiased dark:bg-neutral-900 bg-white',
                 )}
             >
                 <AuthProvider>

@@ -1,5 +1,5 @@
 import { CTA } from './cta'
-import { GeminiFlowEffect } from './example'
+import { Demonstration } from './Demonstration'
 import { Features } from './features'
 import { Footer } from './footer'
 import { Hero } from './test/Hero'
@@ -12,8 +12,8 @@ export const LandingPage = () => {
         <main>
             <Navbar />
             <Hero />
-            <GeminiFlowEffect />
             <Features />
+            <Demonstration />
             <Pricing />
             <CTA />
             <Footer />

@@ -4,8 +4,6 @@ import { Resource } from 'sst'
 import { Payment, ZCheckoutCompleteMetadata } from '@core'
 import { handleAsync } from '@utils'
 
-// @TODO: email and in-app notifications for checkout complete.
-
 export const handler = async (req: any) => {
     let event: Stripe.Event
     try {
@@ -29,7 +27,7 @@ export const handler = async (req: any) => {
             switch (event.type) {
                 case 'checkout.session.completed':
                     data = event.data.object as Stripe.Checkout.Session
-                    console.log(
+                    console.info(
                         `💰 CheckoutSession status: ${data.payment_status}`,
                     )
 
@@ -62,9 +60,6 @@ export const handler = async (req: any) => {
                             body: JSON.stringify({ error: topupError.message }),
                         }
                     }
-                    break
-                default:
-                    console.log('Unhandled event type:', event.type)
                     break
             }
         } catch (error) {

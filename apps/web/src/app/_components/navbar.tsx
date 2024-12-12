@@ -34,8 +34,8 @@ export const Navbar = () => {
             link: '/#pricing',
         },
         {
-            name: 'Contact',
-            link: '/#contact',
+            name: 'Free',
+            link: '/#free',
         },
     ]
 
@@ -155,7 +155,11 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <Button variant="primary" className="hidden md:block">
+                <Button
+                    href="/login"
+                    variant="primary"
+                    className="hidden md:block"
+                >
                     Claim Free Story
                 </Button>
             </div>

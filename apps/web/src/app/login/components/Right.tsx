@@ -1,12 +1,10 @@
 import { cn } from 'src/lib/utils'
-import { FeaturedTestimonials } from './Testimonials'
 
 export const LoginRight = () => {
     // @Render
     return (
         <div className="w-full relative w-full z-20 hidden md:flex border-l border-neutral-100 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900 items-center justify-center">
             <div className="max-w-sm mx-auto">
-                <FeaturedTestimonials />
                 <p
                     className={cn(
                         'font-semibold text-xl text-center text-neutral-600 dark:text-neutral-400',

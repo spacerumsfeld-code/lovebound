@@ -10,13 +10,14 @@ export const getCreditCount = async () => {
         const response = await api.payment.getCreditCount.$get({
             userId: user.id,
         })
-
-        const {
-            data: { creditCount },
-        } = await response.json()
+        console.info(`💰 getCreditCount response:`, response)
+        const data = await response.json()
+        console.info(`💰 getCreditCount data:`, data)
+        const { creditCount } = data.data
 
         return { creditCount }
     } catch (error) {
+        console.error(`❌ client.getCreditCount error:`, error)
         throw new Error(
             `❌ client.getCreditCount error: ${JSON.stringify(error)}`,
         )

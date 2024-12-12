@@ -3,12 +3,6 @@ import { IconCheck, IconPlus } from '@tabler/icons-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../components/ui/button'
 
-export enum plan {
-    hobby = 'hobby',
-    starter = 'starter',
-    pro = 'pro',
-}
-
 export type Plan = {
     id: string
     name: string
@@ -24,54 +18,48 @@ export type Plan = {
 
 const plans: Array<Plan> = [
     {
-        id: plan.hobby,
+        id: 'Plan.PayAsYouGo',
         name: 'Pay as you go',
         price: 1,
         subText: '/credit',
         currency: '$',
         features: [
-            'Pay for credits when you need them',
+            'Pay for credits to create stories at your own pace',
             'No obligation',
-            'Create your fantasies at your pace',
         ],
         buttonText: 'Get Started',
         href: '/dashboard/create',
     },
     {
-        id: plan.starter,
-        name: 'Starter',
-        price: 299,
+        id: 'Plan.Mini',
+        name: 'Mini',
+        price: 8.95,
         subText: '/month',
         currency: '$',
         featured: true,
         features: [
-            'Advanced analytics dashboard',
-            'Customizable reports and charts',
-            'Real-time data tracking',
-            'Integration with third-party tools',
+            'Fullfill your fantasies for the price of a Starbucks mocha/month',
+            '10 credits/month for 10% off',
+            'Audio narration for mini stories',
+            'Personalized email and chat support',
         ],
-        buttonText: 'Get Starter',
-        additionalFeatures: ['Everything in Hobby Plan'],
+        buttonText: 'Get Mini',
         href: '/dashboard/create',
     },
     {
-        id: plan.pro,
-        name: 'Pro',
-        price: 1490,
+        id: 'Plan.Premium',
+        name: 'Premium',
+        price: 25,
         subText: '/month',
         currency: '$',
         features: [
-            'Unlimited data storage',
-            'Customizable dashboards',
-            'Advanced data segmentation',
-            'Real-time data processing',
-            'AI-powered insights and recommendations',
+            '30 credits a month',
+            'Novella-length stories',
+            'Suggest features and we will work to enhance your experience',
+            '+1 Free addon pack each month for even more settings, themes, and genres',
         ],
-        additionalFeatures: [
-            'Everything in Hobby Plan',
-            'Everything in Pro Plan',
-        ],
-        buttonText: 'Get Pro',
+        additionalFeatures: ['Everything in Mini Plan'],
+        buttonText: 'Get Started',
         href: '/dashboard/create',
     },
 ]
@@ -88,11 +76,11 @@ export function Pricing() {
             ></div>
             <>
                 <h2 className="pt-4 font-bold text-lg md:text-4xl text-center text-neutral-800 dark:text-neutral-100">
-                    Simple pricing for advanced people
+                    Simple and flexible pricing
                 </h2>
                 <p className="max-w-md mx-auto text-base text-center text-neutral-600 dark:text-neutral-300 mt-4">
-                    Our pricing is designed for advanced people who need more
-                    features and more flexibility.
+                    Our pricing is designed to be flexible and simple. All plans
+                    can be cancelled at any time.
                 </p>
             </>
 
@@ -173,8 +161,7 @@ const Card = ({ plan }: { plan: Plan }) => {
                         </div>
                     </div>
                     <Button
-                        variant="gradient"
-                        className="w-full mt-10 bg-indigo-400"
+                        className="w-full mt-10 bg-indigo-400 text-white"
                         href={plan.href}
                     >
                         {plan.buttonText}
