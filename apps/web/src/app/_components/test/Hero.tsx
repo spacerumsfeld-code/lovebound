@@ -133,7 +133,7 @@ export const Hero = () => {
             >
                 <div className="rounded-[24px] border border-neutral-200 bg-white p-2 dark:border-neutral-700 dark:bg-black">
                     <Image
-                        src="https://cdn.sanity.io/images/vjg0x5qe/production/8aa82b2d009793e39b6f357ce09404df39edde8e-3024x1964.png"
+                        src="https://cdn.sanity.io/images/vjg0x5qe/production/e4f2c267d56e042817bba93434a32df05aaeb77e-3024x1964.png"
                         alt="Romance As a Service preview"
                         width={1920}
                         height={1080}
