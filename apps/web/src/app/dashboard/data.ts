@@ -8,13 +8,11 @@ export const getRecentStories = async () => {
         const response = await api.story.getRecentStories.$get({
             userId: user!.id,
         })
-        const {
-            data: { recentStories },
-        } = await response.json()
+        const data = await response.json()
+        const { recentStories } = data.data
 
         return { recentStories }
     } catch (error) {
-        console.error(error)
         throw new Error(`client.getRecentStories failed with error: ${error}`)
     }
 }

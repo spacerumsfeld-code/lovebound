@@ -9,7 +9,6 @@ export default clerkMiddleware(async (auth, req) => {
                 unauthenticatedUrl: `${process.env.WEB_URL}/login`,
             })
         } catch (error) {
-            console.info('anything wrong?')
             console.error(error)
         }
     }

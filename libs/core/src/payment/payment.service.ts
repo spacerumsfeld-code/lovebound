@@ -37,7 +37,12 @@ class PaymentService {
             .from(users)
             .where(eq(users.clerkId, userId))
 
-        return user[0].credits
+        /**
+         * @gotcha
+         * We coalesce to '3' because the only occasion where we've made it this far
+         * and there is no user is on initial sign up (the clerk webhook moves slow).
+         */
+        return user?.[0]?.credits ?? 3
     }
 
     public async topUpCredits({

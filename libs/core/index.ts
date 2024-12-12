@@ -20,6 +20,12 @@ export {
     subscriptionSet,
 } from './src/payment/payment.model'
 
+export {
+    type ClerkUserEvent,
+    type UserCreatedOrUpdatedData,
+    type UserDeletedData,
+} from './src/user/user.model'
+
 export { ZScene } from './src/scene/scene.model'
 
 // SQL

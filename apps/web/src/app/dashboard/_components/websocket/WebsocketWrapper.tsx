@@ -6,5 +6,5 @@ export const WebsocketWrapper = async () => {
     const user = await currentUser()
 
     // @Render
-    return <Websocket userId={user!.id} />
+    return <Websocket userId={user?.id ?? ''} />
 }

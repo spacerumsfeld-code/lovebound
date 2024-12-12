@@ -8,15 +8,17 @@ export const getCreditCount = async () => {
         const user = await currentUser()
 
         const response = await api.payment.getCreditCount.$get({
-            userId: user!.id,
+            userId: user.id,
         })
+
         const {
             data: { creditCount },
         } = await response.json()
 
         return { creditCount }
     } catch (error) {
-        console.error('❌ client.getCreditCount error:', error)
-        throw new Error(`❌ client.getCreditCount error: ${error}`)
+        throw new Error(
+            `❌ client.getCreditCount error: ${JSON.stringify(error)}`,
+        )
     }
 }

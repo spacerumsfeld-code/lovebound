@@ -32,6 +32,10 @@ export const useWebsocket = (url: string, userId: string) => {
     )
 
     useEffect(() => {
+        if (!userId) {
+            return
+        }
+
         if (!socketRef.current) {
             socketRef.current = new WebSocket(`${url}?userId=${userId}`)
 
@@ -43,7 +47,8 @@ export const useWebsocket = (url: string, userId: string) => {
                 showToast('WebSocket disconnected')
             }
 
-            socketRef.current.onerror = () => {
+            socketRef.current.onerror = (error) => {
+                console.error('WebSocket error occurred', error)
                 showToast('WebSocket error occurred')
             }
         }

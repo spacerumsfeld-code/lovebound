@@ -1,6 +1,7 @@
 import { db } from '@clients/db.client'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { users } from './user.sql'
+import { eq } from 'drizzle-orm'
 
 class UserService {
     private store
@@ -42,9 +43,31 @@ class UserService {
         return { success: true, id: newUser[0].id }
     }
 
-    // update user
+    public async updateUser({
+        clerkId,
+        email,
+        profileImageUrl,
+    }: {
+        clerkId: string
+        email: string
+        profileImageUrl: string
+    }) {
+        await this.store
+            .update(users)
+            .set({ email, profileImageUrl })
+            .where(eq(users.clerkId, clerkId))
+    }
 
-    // delete user
+    public async markUserDeleted({ clerkId }: { clerkId: string }) {
+        await this.store
+            .update(users)
+            .set({
+                deleted: true,
+            })
+            .where(eq(users.clerkId, clerkId))
+
+        return { success: true }
+    }
 }
 
 const userService = new UserService(db)

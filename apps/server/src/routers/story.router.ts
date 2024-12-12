@@ -90,7 +90,6 @@ export const storyRouter = router({
                     title: input.title,
                     genre: input.genre,
                     theme: input.theme,
-                    // @TODO: cacheClient@coverUrl based on inputs.
                     coverUrl:
                         'https://cdn.sanity.io/images/vjg0x5qe/production/a9cbbb5462d4138c55fc70f9ed9686fc58e40c4a-1024x1024.webp',
                 }),

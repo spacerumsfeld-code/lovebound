@@ -1,4 +1,5 @@
 import {
+    boolean,
     integer,
     pgTable,
     serial,
@@ -13,6 +14,7 @@ export const users = pgTable(
     'users',
     {
         id: uuid().defaultRandom().primaryKey().notNull(),
+        deleted: boolean('deleted').default(false),
         clerkId: text('clerk_id').notNull(),
         email: text().notNull(),
         createdAt: timestamp('created_at', { mode: 'string' })

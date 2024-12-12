@@ -1,94 +1,119 @@
 import { Webhook } from 'svix'
 import { handleAsync } from '@utils'
 import { Resource } from 'sst'
-import { User } from '@core'
+import { UserCreatedOrUpdatedData, User, ClerkUserEvent } from '@core'
+import { Handler, APIGatewayEvent } from 'aws-lambda'
+import { UserDeletedData } from '@client-types/user/user.model'
 
-interface ClerkUserData {
-    birthday: string
-    created_at: number
-    email_addresses: {
-        email_address: string
-        id: string
-        linked_to: string[]
-        object: 'email_address'
-        verification: {
-            status: 'verified'
-            strategy: 'ticket'
+export const handler: Handler = async (req: APIGatewayEvent) => {
+    try {
+        const wh = new Webhook(Resource.AuthHandlerSigningSecret.value)
+        const svix_id = req.headers['svix-id']
+        const svix_timestamp = req.headers['svix-timestamp']
+        const svix_signature = req.headers['svix-signature']
+
+        wh.verify(req.body!, {
+            'svix-id': svix_id!,
+            'svix-timestamp': svix_timestamp!,
+            'svix-signature': svix_signature!,
+        })
+    } catch (error) {
+        return {
+            status: 500,
+            body: JSON.stringify({ error: error.message }),
         }
-    }[]
-    external_accounts: string[]
-    external_id: string
-    first_name: string
-    gender: string
-    id: string
-    image_url: string
-    last_name: string
-    last_sign_in_at: number
-    object: 'user'
-    password_enabled: boolean
-    phone_numbers: string[]
-    primary_email_address_id: string
-    primary_phone_number_id: string
-    primary_web3_wallet_id: string
-    private_metadata: Record<string, string>
-    profile_image_url: string
-    public_metadata: Record<string, string>
-    two_factor_enabled: boolean
-    unsafe_metadata: Record<string, string>
-    updated_at: number
-    username: string
-}
+    }
 
-export const handler = async (event: any) => {
-    const wh = new Webhook(Resource.AuthHandlerSigningSecret.value)
-    const svix_id = event.headers['svix-id']
-    const svix_timestamp = event.headers['svix-timestamp']
-    const svix_signature = event.headers['svix-signature']
+    const allowedEvents = new Set<string>([
+        'user.created',
+        'user.updated',
+        'user.deleted',
+    ])
+    const eventData = JSON.parse(req.body!) as ClerkUserEvent
 
-    wh.verify(event.body, {
-        'svix-id': svix_id,
-        'svix-timestamp': svix_timestamp,
-        'svix-signature': svix_signature,
-    })
-    const eventData = JSON.parse(event.body)
-    const type = eventData.type
-    const data: ClerkUserData = eventData.data
+    if (allowedEvents.has(eventData.type)) {
+        switch (eventData.type) {
+            case 'user.created':
+                const createData = eventData.data as UserCreatedOrUpdatedData
+                console.info(
+                    '👤 Handling user.created event for clerkId:',
+                    JSON.stringify(createData.id),
+                )
 
-    switch (type) {
-        case 'user.created':
-            const [_, error] = await handleAsync(
-                User.createUser({
-                    email: data.email_addresses.find(
-                        (email) => email.id === data.primary_email_address_id,
-                    )!.email_address,
-                    birthday: data.birthday,
-                    firstName: data.first_name,
-                    lastName: data.last_name,
-                    gender: data.gender,
-                    clerkId: data.id,
-                    profileImageUrl: data.profile_image_url,
-                }),
-            )
-            if (error) {
-                console.error('oops', error)
-                return
-            }
+                const [, createUserError] = await handleAsync(
+                    User.createUser({
+                        email: createData.email_addresses.find(
+                            (email) =>
+                                email.id ===
+                                createData!.primary_email_address_id,
+                        )!.email_address,
+                        birthday: createData.birthday,
+                        firstName: createData.first_name,
+                        lastName: createData.last_name ?? '',
+                        gender: createData.gender,
+                        clerkId: createData.id,
+                        profileImageUrl: createData.profile_image_url,
+                    }),
+                )
+                if (createUserError) {
+                    return {
+                        status: 500,
+                        body: JSON.stringify({
+                            error: createUserError.message,
+                        }),
+                    }
+                }
 
-            return {
-                statusCode: 200,
-                body: JSON.stringify({
-                    success: true,
-                    message: 'User created successfully',
-                }),
-            }
-        case 'user.updated':
-            console.log('Login webhook received')
-            break
-        case 'user.deleted':
-            console.log('Logout webhook received')
-            break
-        default:
-            console.log('Unknown webhook received')
-            break
+                break
+            case 'user.updated':
+                const updateData = eventData.data as UserCreatedOrUpdatedData
+                console.info(
+                    '👤 Handling user.updated event for clerkId:',
+                    JSON.stringify(updateData.id),
+                )
+
+                const [, updateUserError] = await handleAsync(
+                    User.updateUser({
+                        clerkId: updateData.id,
+                        email: updateData.email_addresses.find(
+                            (email) =>
+                                email.id ===
+                                updateData!.primary_email_address_id,
+                        )!.email_address,
+                        profileImageUrl: updateData.profile_image_url,
+                    }),
+                )
+                if (updateUserError) {
+                    return {
+                        status: 500,
+                        body: JSON.stringify({
+                            error: updateUserError.message,
+                        }),
+                    }
+                }
+
+                break
+            case 'user.deleted':
+                const deleteData = eventData.data as UserDeletedData
+                console.info(
+                    '👤 Handling user.deleted event for email:',
+                    JSON.stringify(deleteData.id),
+                )
+
+                const [, markUserDeletedError] = await handleAsync(
+                    User.markUserDeleted({
+                        clerkId: deleteData.id,
+                    }),
+                )
+                if (markUserDeletedError) {
+                    return {
+                        status: 5000,
+                        message: JSON.stringify({
+                            error: markUserDeletedError.message,
+                        }),
+                    }
+                }
+                break
+        }
     }
 }

@@ -21,8 +21,6 @@ export const metadata: Metadata = {
     description: 'Make your own romance stories.',
 }
 
-console.info('root layour Process.env', process.env)
-
 export default function RootLayout({
     children,
 }: Readonly<{

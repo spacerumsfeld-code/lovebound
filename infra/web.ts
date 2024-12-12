@@ -23,6 +23,7 @@ const webConfig: NextjsArgs = {
         WEB_URL: secret.WebUrl.value,
         NEXT_PUBLIC_CRISP_WEBSITE_ID: secret.CrispWebsiteId.value,
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: secret.ClerkPublishableKey.value,
+        NEXT_PUBLIC_WEBSOCKET_URL: websocket.url,
         CLERK_SECRET_KEY: secret.ClerkSecretKey.value,
     },
 }
