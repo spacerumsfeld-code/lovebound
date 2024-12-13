@@ -19,6 +19,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Bucket"
     }
+    "ClerkEncryptionKey": {
+      "type": "sst.sst.Secret"
+      "value": any
+    }
     "ClerkPublishableKey": {
       "type": "sst.sst.Secret"
       "value": string

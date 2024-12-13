@@ -32,13 +32,11 @@ export interface UserEmailAddress {
 }
 
 export interface UserCreatedOrUpdatedData {
-    birthday: string
     created_at: number
     email_addresses: UserEmailAddress[]
     external_accounts: unknown[]
     external_id: string | null
     first_name: string
-    gender: string
     id: string
     image_url: string
     last_name: string | null

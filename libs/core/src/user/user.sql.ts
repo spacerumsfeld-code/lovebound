@@ -23,11 +23,9 @@ export const users = pgTable(
         updatedAt: timestamp('updated_at', { mode: 'string' })
             .defaultNow()
             .notNull(),
-        birthday: text(),
         firstName: text('first_name'),
         lastName: text('last_name'),
         profileImageUrl: text('profile_image_url'),
-        gender: text(),
         credits: integer('credits').default(0).notNull().default(3),
     },
     (table) => {

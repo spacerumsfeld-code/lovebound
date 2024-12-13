@@ -13,30 +13,24 @@ class UserService {
     public async createUser({
         clerkId,
         email,
-        gender,
         firstName,
         lastName,
         profileImageUrl,
-        birthday,
     }: {
         clerkId: string
         email: string
-        gender: string
         firstName: string
         lastName: string
         profileImageUrl: string
-        birthday: string
     }) {
         const newUser = await this.store
             .insert(users)
             .values({
                 clerkId,
                 email,
-                gender,
                 firstName,
                 lastName,
                 profileImageUrl,
-                birthday,
             })
             .returning({ id: users.id })
 
