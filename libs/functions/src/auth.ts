@@ -56,6 +56,10 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }),
                 )
                 if (createUserError) {
+                    console.error(`
+                        👤❌ createUser error:
+                        ${JSON.stringify(createUserError)}
+                    `)
                     return {
                         status: 500,
                         body: JSON.stringify({
@@ -84,6 +88,10 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }),
                 )
                 if (updateUserError) {
+                    console.error(`
+                        👤❌ updateUser error:
+                        ${JSON.stringify(updateUserError)}
+                    `)
                     return {
                         status: 500,
                         body: JSON.stringify({
