@@ -23,6 +23,8 @@ class UserService {
         lastName: string
         profileImageUrl: string
     }) {
+        console.info('👤 Creating user...')
+        console.info(clerkId, email, firstName, lastName, profileImageUrl)
         const newUser = await this.store
             .insert(users)
             .values({

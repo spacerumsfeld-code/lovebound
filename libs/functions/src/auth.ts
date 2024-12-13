@@ -40,7 +40,6 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     JSON.stringify(createData.id),
                 )
 
-                console.info(JSON.stringify(createData))
                 const [, createUserError] = await handleAsync(
                     User.createUser({
                         email: createData.email_addresses.find(
@@ -48,10 +47,10 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                                 email.id ===
                                 createData.primary_email_address_id,
                         )!.email_address,
-                        firstName: createData.first_name,
+                        firstName: createData.first_name ?? '',
                         lastName: createData.last_name ?? '',
                         clerkId: createData.id,
-                        profileImageUrl: createData.profile_image_url,
+                        profileImageUrl: createData.profile_image_url ?? '',
                     }),
                 )
                 if (createUserError) {
