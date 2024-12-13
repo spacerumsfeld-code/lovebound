@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1733117016790,
-      "tag": "0000_hot_thunderbolts",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1733346346872,
-      "tag": "0001_needy_shocker",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1733426186619,
-      "tag": "0002_light_mystique",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1733946218114,
-      "tag": "0003_greedy_masked_marvel",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1734057758208,
-      "tag": "0004_sticky_nighthawk",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1734057953005,
-      "tag": "0005_dazzling_falcon",
+      "when": 1734060114033,
+      "tag": "0000_round_true_believers",
       "breakpoints": true
     }
   ]

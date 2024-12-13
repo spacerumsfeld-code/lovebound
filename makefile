@@ -16,10 +16,10 @@ build-web:
 
 # DATA MODELLING
 push-db:
-	npx drizzle-kit push
+	npx sst shell drizzle-kit push
 
 pull-db:
-	npx drizzle-kit pull
+	npx sst shell drizzle-kit pull
 
 migrate-generate:
 	npx sst shell drizzle-kit generate
