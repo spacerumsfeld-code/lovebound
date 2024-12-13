@@ -19,7 +19,7 @@ export const storyRouter = router({
         )
         .query(async ({ c, input }) => {
             console.info(
-                `Invoked storyRouter.getStories with data ${JSON.stringify(
+                `💻 Invoked storyRouter.getStories with data ${JSON.stringify(
                     input,
                 )}`,
             )
@@ -34,6 +34,7 @@ export const storyRouter = router({
                 }),
             )
             if (getStoriesError) {
+                console.error(`❌ getStories error:`, getStoriesError)
                 throw new HTTPException(400, {
                     message: getStoriesError.message,
                 })
@@ -59,13 +60,17 @@ export const storyRouter = router({
         )
         .query(async ({ c, input }) => {
             console.info(
-                `Invoked storyRouter.getRecentStories with data: ${JSON.stringify(input)}`,
+                `💻 Invoked storyRouter.getRecentStories with data: ${JSON.stringify(input)}`,
             )
 
             const [recentStories, getRecentStoriesError] = await handleAsync(
                 Story.getRecentStories({ userId: input.userId }),
             )
             if (getRecentStoriesError) {
+                console.error(
+                    `❌ getRecentStories error:`,
+                    getRecentStoriesError,
+                )
                 throw new HTTPException(400, {
                     message: getRecentStoriesError.message,
                 })
@@ -80,7 +85,7 @@ export const storyRouter = router({
         .input(ZCreateStory)
         .mutation(async ({ c, input }) => {
             console.info(
-                `Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
+                `💻 Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
             )
 
             const [createdStory, createStoryError] = await handleAsync(
@@ -95,6 +100,7 @@ export const storyRouter = router({
                 }),
             )
             if (createStoryError) {
+                console.error(`❌ createStory error:`, createStoryError)
                 throw new HTTPException(400, {
                     message: createStoryError.message,
                 })
@@ -107,6 +113,7 @@ export const storyRouter = router({
                 }),
             )
             if (deductCreditsError) {
+                console.error(`❌ deductCredits error:`, deductCreditsError)
                 throw new HTTPException(400, {
                     message: deductCreditsError.message,
                 })
@@ -119,6 +126,7 @@ export const storyRouter = router({
                 }),
             )
             if (orchestrationError) {
+                console.error(`❌ orchestration error:`, orchestrationError)
                 throw new HTTPException(400, {
                     message: orchestrationError.message,
                 })

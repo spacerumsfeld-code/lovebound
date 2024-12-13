@@ -14,7 +14,7 @@ export const itemRouter = router({
         )
         .query(async ({ c, input }) => {
             console.info(
-                `Invoked itemRouter.getAllItems with data ${JSON.stringify(
+                `💻 Invoked itemRouter.getAllItems with data ${JSON.stringify(
                     input,
                 )}`,
             )
@@ -41,6 +41,7 @@ export const itemRouter = router({
                 hasRejections,
             } = extractFulfilledValues(itemResults)
             if (hasRejections) {
+                console.error(`❌ getAllItems error:`, itemResults)
                 throw new HTTPException(400, {
                     message: 'Failed to get all items',
                 })

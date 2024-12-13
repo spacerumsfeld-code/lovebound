@@ -5,6 +5,7 @@ export const secret = {
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
     ClerkPublishableKey: new sst.Secret('ClerkPublishableKey'),
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
+    ClerkEncryptionKey: new sst.Secret('ClerkEncryptionKey'),
     DatabaseUrl: new sst.Secret('DatabaseUrl'),
     AuthHandlerSigningSecret: new sst.Secret('AuthHandlerSigningSecret'),
     OpenAIApiKey: new sst.Secret('OpenAIApiKey'),

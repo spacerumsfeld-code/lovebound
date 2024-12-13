@@ -25,6 +25,7 @@ const webConfig: NextjsArgs = {
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: secret.ClerkPublishableKey.value,
         NEXT_PUBLIC_WEBSOCKET_URL: websocket.url,
         CLERK_SECRET_KEY: secret.ClerkSecretKey.value,
+        CLERK_ENCRYPTION_KEY: secret.ClerkEncryptionKey.value,
     },
 }
 
