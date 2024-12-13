@@ -1,4 +1,4 @@
-import { pgTable, serial, text, real, unique, uuid, timestamp, integer, boolean, foreignKey, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, serial, text, boolean, integer, timestamp, unique, uuid, real, pgEnum } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const genre = pgEnum("genre", ['Contemporary Romance', 'Historical Romance', 'Fantasy Romance', 'Science Fiction Romance', 'Paranormal Romance', 'Romantic Thriller', 'Romantic Comedy', 'Romantic Drama', 'Romantic Adventure', 'Romantic Mystery'])
@@ -9,30 +9,6 @@ export const tension = pgEnum("tension", ['Low', 'Medium', 'High', 'Intense', 'M
 export const theme = pgEnum("theme", ['Forbidden romance', 'Best friends to lovers', 'Strangers with instant chemistry', 'Second-chance romance', 'Enemies to lovers', 'Opposites attract', 'Workplace romance', 'A missed connection finally realized', 'Secret admirer revealed', 'Love rekindled after years apart'])
 export const tone = pgEnum("tone", ['Dreamy', 'Intense', 'Playful', 'Passionate', 'Lighthearted', 'Mysterious', 'Whimsical', 'Emotional', 'Tender', 'Sultry'])
 
-
-export const playingWithNeon = pgTable("playing_with_neon", {
-	id: serial().primaryKey().notNull(),
-	name: text().notNull(),
-	value: real(),
-});
-
-export const users = pgTable("users", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	clerkId: text("clerk_id").notNull(),
-	email: text().notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
-	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().notNull(),
-	firstName: text("first_name"),
-	lastName: text("last_name"),
-	profileImageUrl: text("profile_image_url"),
-	credits: integer().default(3).notNull(),
-	deleted: boolean().default(false),
-}, (table) => {
-	return {
-		usersClerkIdUnique: unique("users_clerk_id_unique").on(table.clerkId),
-		usersEmailUnique: unique("users_email_unique").on(table.email),
-	}
-});
 
 export const stories = pgTable("stories", {
 	id: serial().primaryKey().notNull(),
@@ -101,6 +77,35 @@ export const scenes = pgTable("scenes", {
 	}
 });
 
+export const items = pgTable("items", {
+	id: serial().primaryKey().notNull(),
+	name: text().notNull(),
+	description: text().notNull(),
+	cost: integer().notNull(),
+	isDefault: boolean("is_default").default(false).notNull(),
+	imageUrl: text("image_url"),
+	type: itemType().notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().notNull(),
+});
+
+export const users = pgTable("users", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	clerkId: text("clerk_id").notNull(),
+	email: text().notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().notNull(),
+	firstName: text("first_name"),
+	lastName: text("last_name"),
+	profileImageUrl: text("profile_image_url"),
+	credits: integer().default(3).notNull(),
+}, (table) => {
+	return {
+		usersClerkIdUnique: unique("users_clerk_id_unique").on(table.clerkId),
+		usersEmailUnique: unique("users_email_unique").on(table.email),
+	}
+});
+
 export const userInventory = pgTable("user_inventory", {
 	id: serial().primaryKey().notNull(),
 	userId: text("user_id").notNull(),
@@ -121,14 +126,8 @@ export const userInventory = pgTable("user_inventory", {
 	}
 });
 
-export const items = pgTable("items", {
+export const playingWithNeon = pgTable("playing_with_neon", {
 	id: serial().primaryKey().notNull(),
 	name: text().notNull(),
-	description: text().notNull(),
-	cost: integer().notNull(),
-	isDefault: boolean("is_default").default(false).notNull(),
-	imageUrl: text("image_url"),
-	type: itemType().notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
-	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().notNull(),
+	value: real(),
 });
