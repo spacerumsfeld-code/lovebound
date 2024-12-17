@@ -9,7 +9,7 @@ import {
 } from 'src/components/ui/card'
 import { PurchaseButton } from './PurchaseButton'
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
-import { getFeature } from '@utils'
+import { getFeature } from '../../../../../../../libs/utils/src/feature'
 import { Tooltip, TooltipContent } from 'src/components/ui/tooltip'
 import { TooltipTrigger } from '@radix-ui/react-tooltip'
 
