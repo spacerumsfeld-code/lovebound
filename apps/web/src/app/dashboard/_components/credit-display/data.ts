@@ -10,9 +10,7 @@ export const getCreditCount = async () => {
         const response = await api.payment.getCreditCount.$get({
             userId: user.id,
         })
-        console.info(`💰 getCreditCount response:`, response)
         const data = await response.json()
-        console.info(`💰 getCreditCount data:`, data)
         const { creditCount } = data.data
 
         return { creditCount }

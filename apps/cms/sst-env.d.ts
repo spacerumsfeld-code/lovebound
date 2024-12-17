@@ -21,7 +21,7 @@ declare module "sst" {
     }
     "ClerkEncryptionKey": {
       "type": "sst.sst.Secret"
-      "value": any
+      "value": string
     }
     "ClerkPublishableKey": {
       "type": "sst.sst.Secret"
@@ -36,6 +36,10 @@ declare module "sst" {
       "value": string
     }
     "DatabaseUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "FeatureSubscriptions": {
       "type": "sst.sst.Secret"
       "value": string
     }
