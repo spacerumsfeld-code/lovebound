@@ -39,7 +39,7 @@ export const uploadAudioFromBuffer = async (buffer: Buffer) => {
         })
         await client.send(command)
     } catch (error) {
-        console.error('wtf is going on', error)
+        console.error('uploadAudioFromBuffer error', error)
     }
 
     return `https://${Resource.Bucket.name}.s3.amazonaws.com/${key}`

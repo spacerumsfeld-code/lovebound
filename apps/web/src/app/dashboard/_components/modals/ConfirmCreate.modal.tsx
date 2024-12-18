@@ -25,7 +25,7 @@ export const ConfirmCreateModal = (props: {
     storyData: TCreateStoryClient
 }) => {
     // @State
-    const { startLoading, stopLoading, isLoading } = useLoading()
+    const { startLoading, isLoading } = useLoading()
     const parsedData = cleanseCreateStoryParams(props.storyData)
 
     // @Interactivity
@@ -38,7 +38,6 @@ export const ConfirmCreateModal = (props: {
         }
         startLoading('submit.story')
         await submitStory(data)
-        stopLoading('submit.story')
     }
 
     // @Render

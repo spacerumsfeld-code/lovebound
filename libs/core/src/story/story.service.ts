@@ -61,6 +61,7 @@ class StoryService {
               JSON_BUILD_OBJECT(
                 'id', ${scenes.id},
                 'content', ${scenes.content},
+                'narrationUrl', ${scenes.narrationUrl},
                 'order_index', ${scenes.orderIndex}
               )
             )`,

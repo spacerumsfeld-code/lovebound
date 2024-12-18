@@ -12,8 +12,6 @@ import { Button } from '../../..//components/ui/button'
 import { CreditDisplay } from './credit-display/CreditDisplay'
 import { DashboardThemeToggle } from './DashboardModleToggle'
 
-// @TODO: Get UserButton to be suspended or something, as it causes a lot of layout shift (is not in initial render)
-
 export const AppSidebar = ({
     ...props
 }: React.ComponentProps<typeof Sidebar>) => {

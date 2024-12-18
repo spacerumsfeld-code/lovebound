@@ -29,11 +29,6 @@ const data = {
             url: SITE_MAP.SHOP,
             icon: SquareTerminal,
         },
-        // {
-        //     title: 'Settings',
-        //     url: SITE_MAP.SETTINGS,
-        //     icon: Settings2,
-        // },
     ],
 }
 

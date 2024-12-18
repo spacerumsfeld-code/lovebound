@@ -4,6 +4,8 @@ import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
+// @TODO: Deduce why we are invoking 3-4 times on story creation from UI. Dedupe.
+
 export const createScene = orchestrationClient.createFunction(
     { id: 'create.scene' },
     { event: 'create.scene' },
@@ -117,12 +119,12 @@ export const createScene = orchestrationClient.createFunction(
                             content: finalContent,
                         },
                     })
+                } else {
+                    await orchestrationClient.send({
+                        name: 'finish.story',
+                        data: { storyId: data.storyId, ownerId: data.ownerId },
+                    })
                 }
-
-                await orchestrationClient.send({
-                    name: 'finish.story',
-                    data: { storyId: data.storyId, ownerId: data.ownerId },
-                })
                 break
             case false:
                 if (data.sceneNumber === 3) {

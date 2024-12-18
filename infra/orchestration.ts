@@ -2,10 +2,11 @@
 
 import { allSecrets } from './secret'
 import { websocket } from './websocket'
+import { bucket } from './bucket'
 
 export const orchestration = new sst.aws.Function('Orchestration', {
     handler: 'libs/functions/src/orchestration.handler',
-    link: [...allSecrets, websocket],
+    link: [...allSecrets, websocket, bucket],
     timeout: '5 minutes',
     url: true,
 })
