@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export const cleanseCreateStoryParams = (params: TCreateStoryClient) => {
+export const formatCreateStoryParams = (params: TCreateStoryClient) => {
     const { length, genre, theme, scenes, ...rest } = params
     return {
         ...rest,

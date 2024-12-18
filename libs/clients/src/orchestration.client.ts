@@ -2,6 +2,7 @@ import { EventSchemas, Inngest, LiteralZodEventSchema } from 'inngest'
 import { Resource } from 'sst'
 import { z } from 'zod'
 import { ZCreateStory } from '@client-types/story/story.model'
+import { NarrationVoiceEnum } from '@client-types/scene/scene.model'
 
 process.env.INNGEST_EVENT_KEY = Resource.InngestEventKey.value
 
@@ -22,6 +23,7 @@ const ZCreateNarrationEvent = z.object({
         storyId: z.number(),
         sceneId: z.number(),
         content: z.string(),
+        voice: z.nativeEnum(NarrationVoiceEnum),
     }),
 }) satisfies LiteralZodEventSchema
 

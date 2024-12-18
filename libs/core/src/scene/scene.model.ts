@@ -14,3 +14,11 @@ export const ZScene = z.object({
     tensionLevel: ZItemInput,
 })
 export type TScene = z.infer<typeof ZScene>
+
+export enum NarrationVoiceEnum {
+    Nova = 'nova',
+    Echo = 'echo',
+    Fable = 'fable',
+    Onyx = 'onyx',
+    Alloy = 'alloy',
+}

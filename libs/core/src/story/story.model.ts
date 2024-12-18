@@ -1,5 +1,5 @@
 import { ZItemInput } from '@client-types/item/item.model'
-import { TScene, ZScene } from '../scene/scene.model'
+import { NarrationVoiceEnum, TScene, ZScene } from '../scene/scene.model'
 import { z } from 'zod'
 
 export const ZStory = z.object({
@@ -29,6 +29,8 @@ export const mapCreateStoryZodErrorsToSentences = (
             return "❌ Don't forget to add a length to your story."
         case 'scenes':
             return "❌ Don't forget to add scene details to your story."
+        case 'narrationVoice':
+            return "❌ Don't forget to select a narration voice."
         default:
             return '❌ Something went wrong. Please try again.'
     }
@@ -39,6 +41,7 @@ export const ZCreateStory = z.object({
     title: z.string().min(1),
     coverUrl: z.string().nullable().optional(),
     includeNarration: z.boolean(),
+    narrationVoice: z.nativeEnum(NarrationVoiceEnum).nullable(),
     // ItemIds
     genre: ZItemInput,
     theme: ZItemInput,
@@ -72,6 +75,7 @@ export const ZStoryCreatedEvent = z.object({
         }),
     ),
     includeNarration: z.boolean(),
+    narrationVoice: z.nativeEnum(NarrationVoiceEnum),
 })
 export type TStoryCreatedEvent = z.infer<typeof ZStoryCreatedEvent>
 

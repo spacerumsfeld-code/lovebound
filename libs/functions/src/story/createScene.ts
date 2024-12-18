@@ -117,6 +117,7 @@ export const createScene = orchestrationClient.createFunction(
                             storyId: data.storyId,
                             sceneId: createdScene!.id,
                             content: finalContent,
+                            voice: data.narrationVoice!,
                         },
                     })
                 } else {

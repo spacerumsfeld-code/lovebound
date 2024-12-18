@@ -18,7 +18,7 @@ import {
 import useLoading from '../../../../hooks/use-loading'
 import { toast } from 'sonner'
 import { StoryIdToCostMap } from '@client-types/payment/payment.model'
-import { cleanseCreateStoryParams } from '../../../../lib/utils'
+import { formatCreateStoryParams } from '../../../../lib/utils'
 
 export const ConfirmCreateModal = (props: {
     children: React.ReactNode
@@ -26,12 +26,12 @@ export const ConfirmCreateModal = (props: {
 }) => {
     // @State
     const { startLoading, isLoading } = useLoading()
-    const parsedData = cleanseCreateStoryParams(props.storyData)
+    const formattedData = formatCreateStoryParams(props.storyData)
 
     // @Interactivity
     const handleSubmit = async () => {
         const { data, success, error } =
-            ZCreateStoryClient.safeParse(parsedData)
+            ZCreateStoryClient.safeParse(formattedData)
         if (!success) {
             toast(mapCreateStoryZodErrorsToSentences(error))
             return
@@ -50,19 +50,20 @@ export const ConfirmCreateModal = (props: {
                         Almost there! Please confirm your story details.
                     </h4>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Title: {parsedData?.title}
+                        Title: {formattedData?.title}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Genre: {parsedData?.genre?.name}
+                        Genre: {formattedData?.genre?.name}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Theme: {parsedData?.theme?.name}
+                        Theme: {formattedData?.theme?.name}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Length: {parsedData?.length?.name}
+                        Length: {formattedData?.length?.name}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Cost: {StoryIdToCostMap[parsedData?.length?.id]} credits
+                        Cost: {StoryIdToCostMap[formattedData?.length?.id]}{' '}
+                        credits
                     </p>
                 </ModalContent>
                 <ModalFooter className="flex gap-y-4">

@@ -5,6 +5,7 @@ import { storyLengthMap, TItemInput } from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '../../../../constants'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
+import { NarrationVoiceEnum } from '@client-types/scene/scene.model'
 
 export const CreateStoryView = (props: {
     items: {
@@ -26,6 +27,7 @@ export const CreateStoryView = (props: {
             ),
         ),
         includeNarration: false,
+        narrationVoice: null,
         scenes: [
             {
                 tone: null,
@@ -164,7 +166,11 @@ export const CreateStoryView = (props: {
                 handleSceneChange={handleSceneChange}
                 getSceneNumberForSelection={getSceneNumberForSelection}
             />
-            <NarrationOptions />
+            <NarrationOptions
+                selectedVoice={storyData.narrationVoice}
+                narrationEnabled={storyData.includeNarration}
+                handleInputChange={handleInputChange}
+            />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'src/components/ui/avatar'
+import { NarrationVoiceEnum } from '@client-types/scene/scene.model'
 import { Button } from 'src/components/ui/buttonTwo'
 import {
     Card,
@@ -10,8 +10,15 @@ import {
 } from 'src/components/ui/card'
 import { Label } from 'src/components/ui/label'
 import { ScrollArea } from 'src/components/ui/scroll-area'
+import { cn } from 'src/lib/utils'
 
-export const NarrationOptions = () => {
+// @TODO: need a sample of each voice. maybe we manually call the API and build and host the audio file.
+
+export const NarrationOptions = (props: {
+    selectedVoice: NarrationVoiceEnum
+    narrationEnabled: boolean
+    handleInputChange: (field: string, value: string | boolean) => void
+}) => {
     return (
         <Card className="w-80">
             <CardHeader>
@@ -21,43 +28,43 @@ export const NarrationOptions = () => {
                 <ScrollArea className="h-[500px] pr-4">
                     <div className="space-y-4">
                         <Label>Voice Selection</Label>
-                        {[
-                            'Alloy',
-                            'Echo',
-                            'Fable',
-                            'Onyx',
-                            'Nova',
-                            'Shimmer',
-                        ].map((voice) => (
-                            <div
-                                key={voice}
-                                className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg"
-                            >
-                                <div className="flex items-center space-x-3">
-                                    <Avatar>
-                                        <AvatarImage
-                                            src={`/placeholder.svg?height=40&width=40&text=${encodeURIComponent(
-                                                voice[0],
-                                            )}`}
-                                        />
-                                        <AvatarFallback>
-                                            {voice[0]}
-                                        </AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <div className="font-medium">
-                                            {voice}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            AI Voice
+                        {Object.entries(NarrationVoiceEnum).map(
+                            ([key, value]) => (
+                                <div
+                                    key={value}
+                                    className={cn(
+                                        'flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg',
+                                        props.narrationEnabled &&
+                                            props.selectedVoice === value &&
+                                            'border-indigo-400 border outline',
+                                    )}
+                                >
+                                    <div className="flex items-center space-x-3">
+                                        <div>
+                                            <div className="font-medium">
+                                                {key}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                AI Voice
+                                            </div>
                                         </div>
                                     </div>
+                                    <Button
+                                        disabled={!props.narrationEnabled}
+                                        onClick={() =>
+                                            props.handleInputChange(
+                                                'narrationVoice',
+                                                value,
+                                            )
+                                        }
+                                        variant="outline"
+                                        size="sm"
+                                    >
+                                        Select
+                                    </Button>
                                 </div>
-                                <Button variant="outline" size="sm">
-                                    Select
-                                </Button>
-                            </div>
-                        ))}
+                            ),
+                        )}
                     </div>
                 </ScrollArea>
             </CardContent>

@@ -16,7 +16,10 @@ export const createNarration = orchestrationClient.createFunction(
 
         const [generatedContentBuffer, generateNarrationContentError] =
             await handleAsync(
-                Story.generateNarration({ content: data.content }),
+                Story.generateNarration({
+                    content: data.content,
+                    voice: data.voice,
+                }),
             )
         if (generateNarrationContentError) {
             console.error(

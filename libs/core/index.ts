@@ -26,7 +26,7 @@ export {
     type UserDeletedData,
 } from './src/user/user.model'
 
-export { ZScene } from './src/scene/scene.model'
+export { ZScene, type NarrationVoiceEnum } from './src/scene/scene.model'
 
 // SQL
 export { users } from './src/user/user.sql'

@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { Resource } from 'sst'
 import { cacheClient } from './cache.client'
+import { NarrationVoiceEnum } from '@client-types/scene/scene.model'
 
 const openai = new OpenAI({
     apiKey: Resource.OpenAIApiKey.value,
@@ -51,10 +52,13 @@ export const generateStoryCover = async ({
     return imageData
 }
 
-export const generateStoryNarration = async (content: string) => {
+export const generateStoryNarration = async (
+    content: string,
+    voice: NarrationVoiceEnum,
+) => {
     const mp3 = await openai.audio.speech.create({
         model: 'tts-1',
-        voice: 'nova',
+        voice,
         input: content,
     })
 

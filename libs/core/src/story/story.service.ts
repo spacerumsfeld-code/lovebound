@@ -4,7 +4,7 @@ import { TStoryWithScenes } from '../story/story.model'
 import { stories } from './story.sql'
 import { aiClient } from '@clients/openai.client'
 import { eq, and } from 'drizzle-orm/expressions'
-import { scenes } from '@core'
+import { NarrationVoiceEnum, scenes } from '@core'
 import { sql, desc } from 'drizzle-orm'
 import { TItemInput } from '@client-types/item/item.model'
 
@@ -106,9 +106,17 @@ class StoryService {
         }
     }
 
-    public async generateNarration({ content }: { content: string }) {
-        const narrationAudioBuffer =
-            await this.aiClient.generateStoryNarration(content)
+    public async generateNarration({
+        content,
+        voice,
+    }: {
+        content: string
+        voice: NarrationVoiceEnum
+    }) {
+        const narrationAudioBuffer = await this.aiClient.generateStoryNarration(
+            content,
+            voice,
+        )
 
         return {
             buffer: narrationAudioBuffer!,
