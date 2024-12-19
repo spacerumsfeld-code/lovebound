@@ -18,7 +18,7 @@ export const getCurrentUser = dedupe(async () => {
  * We make this a distinct method from the other as certain User object fields are not serializable,
  * and thus cannot be used in the AnalyticsProvider.
  */
-export const getCurrentUserId = dedupe(async () => {
+export const getCurrentUserId = async () => {
     try {
         const user = await currentUser()
 
@@ -26,4 +26,4 @@ export const getCurrentUserId = dedupe(async () => {
     } catch (error) {
         throw new Error(`❌ client.getUserId failed with error: ${error}`)
     }
-})
+}
