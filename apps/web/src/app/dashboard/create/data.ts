@@ -1,13 +1,13 @@
 'use server'
 
-import { currentUser } from '@clerk/nextjs/server'
 import { TCreateStoryClient } from '@client-types/story/story.model'
 import { client as api } from '@clients/api.client'
 import { redirect } from 'next/navigation'
+import { getCurrentUser } from 'src/app/data'
 
 export const submitStory = async (data: TCreateStoryClient) => {
     try {
-        const user = await currentUser()
+        const { user } = await getCurrentUser()
 
         await api.story.submitStory.$post({
             ...data,
@@ -22,7 +22,7 @@ export const submitStory = async (data: TCreateStoryClient) => {
 
 export const getAllItems = async () => {
     try {
-        const user = await currentUser()
+        const { user } = await getCurrentUser()
 
         const response = await api.item.getAllItems.$get({
             userId: user!.id,

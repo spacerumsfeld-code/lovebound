@@ -18,6 +18,7 @@ export const secret = {
     StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
     // Feature Flags
     FeatureSubscriptions: new sst.Secret('FeatureSubscriptions'),
+    FeatureSelectVoice: new sst.Secret('FeatureSelectVoice'),
 }
 
 export const allSecrets = Object.values(secret)

@@ -17,7 +17,7 @@ import Script from 'next/script'
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            {process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID! && (
+            {process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID && (
                 <Script strategy="lazyOnload" id="crisp-chat">
                     {`
                 window.$crisp=[];

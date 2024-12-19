@@ -27,6 +27,7 @@ const webConfig: NextjsArgs = {
         CLERK_SECRET_KEY: secret.ClerkSecretKey.value,
         CLERK_ENCRYPTION_KEY: secret.ClerkEncryptionKey.value,
         FEATURE_SUBSCRIPTIONS: secret.FeatureSubscriptions.value,
+        NEXT_PUBLIC_FEATURE_SELECT_VOICE: secret.FeatureSelectVoice.value,
     },
 }
 

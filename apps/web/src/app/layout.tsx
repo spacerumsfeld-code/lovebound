@@ -4,6 +4,7 @@ import { cn } from '../lib/utils'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { AuthProvider } from 'src/providers/AuthProvider'
+import { AnalyticsProvider } from 'src/providers/AnalyticsProvider'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -35,14 +36,16 @@ export default function RootLayout({
                 )}
             >
                 <AuthProvider>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        {children}
-                    </ThemeProvider>
+                    <AnalyticsProvider>
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="system"
+                            enableSystem
+                            disableTransitionOnChange
+                        >
+                            {children}
+                        </ThemeProvider>
+                    </AnalyticsProvider>
                 </AuthProvider>
             </body>
         </html>

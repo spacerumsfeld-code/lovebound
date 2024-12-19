@@ -39,6 +39,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "FeatureSelectVoice": {
+      "type": "sst.sst.Secret"
+      "value": any
+    }
     "FeatureSubscriptions": {
       "type": "sst.sst.Secret"
       "value": string
