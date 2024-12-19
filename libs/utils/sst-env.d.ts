@@ -39,10 +39,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "FeatureSelectVoice": {
-      "type": "sst.sst.Secret"
-      "value": any
-    }
     "FeatureSubscriptions": {
       "type": "sst.sst.Secret"
       "value": string
@@ -63,6 +59,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Function"
       "url": string
+    }
+    "PosthogKey": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
     "Server": {
       "name": string

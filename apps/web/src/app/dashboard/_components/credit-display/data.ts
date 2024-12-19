@@ -6,6 +6,7 @@ import { client as api } from '@clients/api.client'
 export const getCreditCount = async () => {
     try {
         const { user } = await getCurrentUser()
+        if (!user) return { creditCount: 0 }
 
         const response = await api.payment.getCreditCount.$get({
             userId: user.id,

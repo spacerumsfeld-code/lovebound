@@ -4,6 +4,7 @@ import { client as api } from '@clients/api.client'
 export const getRecentStories = async () => {
     try {
         const { user } = await getCurrentUser()
+        if (!user) return { recentStories: [] }
 
         const response = await api.story.getRecentStories.$get({
             userId: user.id,

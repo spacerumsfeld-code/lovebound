@@ -2,35 +2,30 @@
 
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import { getCurrentUser } from '../app/data'
 import { use, useEffect } from 'react'
 
 if (typeof window !== 'undefined') {
-    if (process.env.ENVIRONMENT === 'production') {
-        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-            api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-        })
-    }
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+        api_host: '/api/posthog',
+        ui_host: 'https://us.posthog.com',
+    })
 }
 
-interface CSPostHogProviderProps {
+export function AnalyticsProvider(props: {
+    promise: Promise<any>
     children: React.ReactNode
-}
-
-export function AnalyticsProvider({ children }: CSPostHogProviderProps) {
-    const { user } = use(getCurrentUser())
-
-    if (user && !posthog._isIdentified()) {
-        posthog.identify(String(user.id), {
-            // email: user.email as string,
-        })
-    }
+}) {
+    const { userId } = use(props.promise)
 
     useEffect(() => {
+        if (userId && !posthog._isIdentified()) {
+            posthog.identify(userId)
+        }
+
         return () => {
             posthog.reset()
         }
-    }, [user])
+    }, [userId])
 
-    return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+    return <PostHogProvider client={posthog}>{props.children}</PostHogProvider>
 }

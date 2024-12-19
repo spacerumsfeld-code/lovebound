@@ -165,13 +165,11 @@ export const CreateStoryView = (props: {
                 handleSceneChange={handleSceneChange}
                 getSceneNumberForSelection={getSceneNumberForSelection}
             />
-            {process.env.NEXT_PUBLIC_FEATURE_SELECT_VOICE && (
-                <NarrationOptions
-                    selectedVoice={storyData.narrationVoice}
-                    narrationEnabled={storyData.includeNarration}
-                    handleInputChange={handleInputChange}
-                />
-            )}
+            <NarrationOptions
+                selectedVoice={storyData.narrationVoice}
+                narrationEnabled={storyData.includeNarration}
+                handleInputChange={handleInputChange}
+            />
         </div>
     )
 }

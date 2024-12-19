@@ -5,6 +5,7 @@ import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { AuthProvider } from 'src/providers/AuthProvider'
 import { AnalyticsProvider } from 'src/providers/AnalyticsProvider'
+import { getCurrentUserId } from './data'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -27,6 +28,10 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    // @Data
+    const getCurrentUserIdPromise = getCurrentUserId()
+
+    // @Render
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -36,7 +41,7 @@ export default function RootLayout({
                 )}
             >
                 <AuthProvider>
-                    <AnalyticsProvider>
+                    <AnalyticsProvider promise={getCurrentUserIdPromise}>
                         <ThemeProvider
                             attribute="class"
                             defaultTheme="system"

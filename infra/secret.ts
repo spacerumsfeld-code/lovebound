@@ -1,11 +1,14 @@
 /// <reference path="../.sst/platform/config.d.ts" />
 
 export const secret = {
+    // Client Secrets
     WebUrl: new sst.Secret('WebUrl'),
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
     ClerkPublishableKey: new sst.Secret('ClerkPublishableKey'),
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
     ClerkEncryptionKey: new sst.Secret('ClerkEncryptionKey'),
+    PosthogKey: new sst.Secret('PosthogKey'),
+    // Server Secrets
     DatabaseUrl: new sst.Secret('DatabaseUrl'),
     AuthHandlerSigningSecret: new sst.Secret('AuthHandlerSigningSecret'),
     OpenAIApiKey: new sst.Secret('OpenAIApiKey'),
@@ -18,7 +21,6 @@ export const secret = {
     StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
     // Feature Flags
     FeatureSubscriptions: new sst.Secret('FeatureSubscriptions'),
-    FeatureSelectVoice: new sst.Secret('FeatureSelectVoice'),
 }
 
 export const allSecrets = Object.values(secret)
