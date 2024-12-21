@@ -1,31 +1,12 @@
-'use client'
+import { getCurrentUser } from 'src/app/data'
+import { PHProvider } from './PHProvider'
 
-import posthog from 'posthog-js'
-import { PostHogProvider } from 'posthog-js/react'
-import { use, useEffect } from 'react'
-
-if (typeof window !== 'undefined') {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-        api_host: '/api/posthog',
-        ui_host: 'https://us.posthog.com',
-    })
-}
-
-export function AnalyticsProvider(props: {
-    promise: Promise<any>
+export const AnalyticsProvider = async (props: {
     children: React.ReactNode
-}) {
-    const { userId } = use(props.promise)
+}) => {
+    // @Data
+    const { user } = await getCurrentUser()
 
-    useEffect(() => {
-        if (userId && !posthog._isIdentified()) {
-            posthog.identify(userId)
-        }
-
-        return () => {
-            posthog.reset()
-        }
-    }, [userId])
-
-    return <PostHogProvider client={posthog}>{props.children}</PostHogProvider>
+    // @Render
+    return <PHProvider userId={user?.id ?? ''}>{props.children}</PHProvider>
 }
