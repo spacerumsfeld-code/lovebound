@@ -25,7 +25,7 @@ export default function Error({
                     <div className="text-center">
                         <p className="sm:text-2xl font-bold">Whoops!</p>
                         <p className="text-md text-muted-foreground">
-                            Something went wrong. Let's get you back to the
+                            Something went wrong. Let&apos;s get you back to the
                             dashboard.
                         </p>
                     </div>

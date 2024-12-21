@@ -32,7 +32,7 @@ export const PHProvider = (props: {
         return () => {
             posthog.reset()
         }
-    }, [])
+    }, [props.userId])
 
     // @Render
     return <PostHogProvider client={posthog}>{props.children}</PostHogProvider>
