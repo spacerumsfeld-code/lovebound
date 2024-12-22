@@ -1,19 +1,19 @@
 'use client'
 
+import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 import { BackgroundGradient } from 'src/components/ui/background-gradient'
 import { Button } from 'src/components/ui/button'
 import { SITE_MAP } from 'src/constants'
 
-export default function Error({
+export default function GlobalError({
     error,
 }: {
-    error: Error & { digest: string }
+    error: Error & { digest?: string }
 }) {
     // @Sentry
     useEffect(() => {
-        // Sentry.captureException(error)
-        console.error(error)
+        Sentry.captureException(error)
     }, [error])
 
     // @Render

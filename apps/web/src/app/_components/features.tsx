@@ -1,5 +1,4 @@
 import { cn } from '../../lib/utils'
-import { BackgroundGrids } from './BackgroundGrids'
 
 export const Features = () => {
     const features = [
