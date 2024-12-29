@@ -1,6 +1,6 @@
 /**
  * @summary
- * The role to be assumed by the GitHub Actions runners.
+ * The role to be assumed by the Github Action runner.
  */
 
 /// <reference path="../.sst/platform/config.d.ts" />
@@ -16,6 +16,7 @@ if (isProduction) {
             '1c58a3a8518e8759bf075b76b750d4f2df264fcd',
         ],
     })
+
     const githubRole = new aws.iam.Role('GithubRole', {
         name: [$app.name, $app.stage, 'github'].join('-'),
         assumeRolePolicy: {
@@ -37,6 +38,7 @@ if (isProduction) {
             ],
         },
     })
+
     new aws.iam.RolePolicyAttachment('GithubRolePolicy', {
         policyArn: 'arn:aws:iam::aws:policy/AdministratorAccess',
         role: githubRole.name,
