@@ -1,14 +1,35 @@
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { db } from '@clients/db.client'
-import { ItemTypeEnum } from './item.model'
 import { items } from './item.sql'
-import { eq, and } from 'drizzle-orm/expressions'
+import { eq, ne, and } from 'drizzle-orm/expressions'
+import { userInventory } from '@client-types/user/user.sql'
+import { ItemTypeEnum } from './item.model'
 
 class ItemService {
     private store
 
     constructor(store: NeonHttpDatabase) {
         this.store = store
+    }
+
+    public async getShopItems({
+        userId,
+        offset,
+        limit,
+    }: {
+        userId: string
+        offset: number
+        limit: number
+    }) {
+        const shopItems = await this.store
+            .select()
+            .from(items)
+            .leftJoin(userInventory, ne(userInventory.userId, userId))
+            .where(eq(items.isDefault, false))
+            .offset(offset)
+            .limit(limit)
+
+        return { items: shopItems[0].items }
     }
 
     public async getAllGenres() {
