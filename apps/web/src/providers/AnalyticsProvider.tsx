@@ -1,11 +1,11 @@
-import { getCurrentUser } from 'src/app/data'
 import { PHProvider } from './PHProvider'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const AnalyticsProvider = async (props: {
     children: React.ReactNode
 }) => {
     // @Data
-    const { user } = await getCurrentUser()
+    const user = await currentUser()
 
     // @Render
     return <PHProvider userId={user?.id ?? ''}>{props.children}</PHProvider>

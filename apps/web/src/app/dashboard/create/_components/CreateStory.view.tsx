@@ -5,6 +5,8 @@ import { storyLengthMap, TItemInput } from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '../../../../constants'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
+import { TInitialStoryData } from '@client-types/story/story.model'
+import { TScene } from '@client-types/scene/scene.model'
 
 export const CreateStoryView = (props: {
     items: {
@@ -16,9 +18,9 @@ export const CreateStoryView = (props: {
         tones: TItemInput[]
     }
 }) => {
-    const [storyData, setStoryData] = useState({
+    const [storyData, setStoryData] = useState<TInitialStoryData>({
         title: '',
-        theme: '{}',
+        theme: null,
         genre: null,
         length: JSON.stringify(
             props.items.lengths.find(
@@ -46,11 +48,14 @@ export const CreateStoryView = (props: {
                 includeNarration: false,
                 scenes: Array(3)
                     .fill({})
-                    .map(() => ({
-                        tone: null,
-                        setting: null,
-                        tensionLevel: null,
-                    })),
+                    .map(
+                        () =>
+                            ({
+                                tone: null,
+                                setting: null,
+                                tensionLevel: null,
+                            }) as TScene,
+                    ),
             }))
         } else if (
             JSON.parse(storyData.length).id ===
@@ -95,9 +100,12 @@ export const CreateStoryView = (props: {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: TItemInput,
     ): number => {
-        const currentIndex = storyData.scenes.findIndex(
-            (scene) => JSON.parse(scene[category] ?? '{}').id === value!.id,
-        )
+        const currentIndex = storyData.scenes.findIndex((scene) => {
+            const parsedScene = scene[category]
+                ? JSON.parse(scene[category] as string)
+                : {}
+            return parsedScene.id === value!.id
+        })
 
         if (currentIndex !== -1) {
             return currentIndex
@@ -149,9 +157,12 @@ export const CreateStoryView = (props: {
             ITEM_ID_MAP.get('Story.Length.Short')
         )
             return null
-        const index = storyData.scenes.findIndex(
-            (scene) => JSON.parse(scene[category] ?? '{}').id === value,
-        )
+        const index = storyData.scenes.findIndex((scene) => {
+            const parsedScene = scene[category]
+                ? JSON.parse(scene[category] as string)
+                : {}
+            return parsedScene.id === value
+        })
         return index !== -1 ? index : null
     }
 

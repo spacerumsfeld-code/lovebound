@@ -1,6 +1,9 @@
 'use client'
 
-import { TCreateStoryClient } from '@client-types/story/story.model'
+import {
+    TCreateStoryClient,
+    TInitialStoryData,
+} from '@client-types/story/story.model'
 import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
 import {
     Card,
@@ -17,7 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from 'src/components/ui/select'
-import { GenreEnum, TItemInput } from '@client-types/item/item.model'
+import { TItemInput } from '@client-types/item/item.model'
 import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
 import { ITEM_ID_MAP } from 'src/constants'
 import { Switch } from 'src/components/ui/switch'
@@ -31,7 +34,7 @@ import { ScrollArea } from 'src/components/ui/scroll-area'
 import { ItemCard } from './ItemCard'
 
 export const CreateStoryCore = (props: {
-    storyData: any
+    storyData: TInitialStoryData
     items: {
         genres: TItemInput[]
         themes: TItemInput[]
@@ -81,10 +84,7 @@ export const CreateStoryCore = (props: {
                             <Select
                                 value={props.storyData.genre || ''}
                                 onValueChange={(value) =>
-                                    props.handleInputChange(
-                                        'genre',
-                                        value as GenreEnum,
-                                    )
+                                    props.handleInputChange('genre', value)
                                 }
                             >
                                 <SelectTrigger id="genre">
@@ -208,7 +208,10 @@ export const CreateStoryCore = (props: {
                                             isSelected={props.storyData.scenes.some(
                                                 (scene) =>
                                                     JSON.parse(
-                                                        scene?.setting ?? '{}',
+                                                        typeof scene?.setting ===
+                                                            'string'
+                                                            ? scene.setting
+                                                            : '{}',
                                                     ).id === setting.id,
                                             )}
                                             sceneNumber={props.getSceneNumberForSelection(
@@ -239,7 +242,10 @@ export const CreateStoryCore = (props: {
                                             isSelected={props.storyData.scenes.some(
                                                 (scene) =>
                                                     JSON.parse(
-                                                        scene?.tone ?? '{}',
+                                                        typeof scene.tone ===
+                                                            'string'
+                                                            ? scene.tone
+                                                            : '{}',
                                                     ).id === tone.id,
                                             )}
                                             sceneNumber={props.getSceneNumberForSelection(
@@ -273,8 +279,10 @@ export const CreateStoryCore = (props: {
                                                 isSelected={props.storyData.scenes.some(
                                                     (scene) =>
                                                         JSON.parse(
-                                                            scene?.tensionLevel ??
-                                                                '{}',
+                                                            typeof scene?.tensionLevel ===
+                                                                'string'
+                                                                ? scene.tensionLevel
+                                                                : '{}',
                                                         ).id === tension.id,
                                                 )}
                                                 sceneNumber={props.getSceneNumberForSelection(

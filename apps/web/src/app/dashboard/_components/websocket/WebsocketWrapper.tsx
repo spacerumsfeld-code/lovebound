@@ -1,9 +1,9 @@
 import { Websocket } from './Websocket'
-import { getCurrentUser } from 'src/app/data'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const WebsocketWrapper = async () => {
     // @Data
-    const { user } = await getCurrentUser()
+    const user = await currentUser()
 
     // @Render
     return <Websocket userId={user?.id ?? ''} />

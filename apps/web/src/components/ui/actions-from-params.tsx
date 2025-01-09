@@ -23,6 +23,9 @@ export const ActionsFromParams = () => {
             case 'modal.subscription.success':
                 setModalToRender(ModalType.ConfirmSubscription)
                 break
+            case 'modal.item.purchased':
+                setModalToRender(ModalType.ConfirmShopPurchase)
+                break
             default:
                 break
         }

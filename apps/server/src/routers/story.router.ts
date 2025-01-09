@@ -5,6 +5,7 @@ import { baseProcedure } from '../_internals/index'
 import { Payment, Story, ZCreateStory } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
+import { storyLengthMap } from '@client-types/item/item.model'
 
 export const storyRouter = router({
     getStories: baseProcedure
@@ -34,7 +35,6 @@ export const storyRouter = router({
                 }),
             )
             if (getStoriesError) {
-                console.error(`❌ getStories error:`, getStoriesError)
                 throw new HTTPException(400, {
                     message: getStoriesError.message,
                 })
@@ -67,17 +67,13 @@ export const storyRouter = router({
                 Story.getRecentStories({ userId: input.userId }),
             )
             if (getRecentStoriesError) {
-                console.error(
-                    `❌ getRecentStories error:`,
-                    getRecentStoriesError,
-                )
                 throw new HTTPException(400, {
                     message: getRecentStoriesError.message,
                 })
             }
 
             return c.superjson({
-                data: recentStories!,
+                data: { recentStories: recentStories },
                 success: true,
             })
         }),
@@ -109,7 +105,16 @@ export const storyRouter = router({
             const [, deductCreditsError] = await handleAsync(
                 Payment.deductCredits({
                     userId: input.ownerId,
-                    storyLength: input.length.id,
+                    creditCost: (() => {
+                        switch (input.length.id) {
+                            case storyLengthMap.get('Mini')!:
+                                return 1
+                            case storyLengthMap.get('Short')!:
+                                return 2
+                            default:
+                                return 1
+                        }
+                    })(),
                 }),
             )
             if (deductCreditsError) {

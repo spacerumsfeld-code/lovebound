@@ -63,6 +63,26 @@ export const ZCreateStoryClient = ZCreateStory.omit({
 })
 export type TCreateStoryClient = z.infer<typeof ZCreateStoryClient>
 
+export const ZInitialStoryData = z.object({
+    title: z.string().min(1).optional().nullable(),
+    includeNarration: z.boolean(),
+    narrationVoice: z.nativeEnum(NarrationVoiceEnum).nullable(),
+    // ItemIds
+    genre: z.string(),
+    theme: z.string(),
+    length: z.string(),
+    scenes: z.array(
+        ZScene.omit({
+            id: true,
+            storyId: true,
+            orderIndex: true,
+            narrationUrl: true,
+            content: true,
+        }),
+    ),
+})
+export type TInitialStoryData = z.infer<typeof ZInitialStoryData>
+
 export const ZStoryCreatedEvent = z.object({
     title: z.string(),
     ownerId: z.string(),

@@ -2,12 +2,12 @@
 
 import { TCreateStoryClient } from '@client-types/story/story.model'
 import { client as api } from '@clients/api.client'
+import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { getCurrentUser } from 'src/app/data'
 
 export const submitStory = async (data: TCreateStoryClient) => {
     try {
-        const { user } = await getCurrentUser()
+        const user = await currentUser()
 
         await api.story.submitStory.$post({
             ...data,
@@ -20,11 +20,11 @@ export const submitStory = async (data: TCreateStoryClient) => {
     return redirect('/dashboard?action=modal.story.created')
 }
 
-export const getAllItems = async () => {
+export const getCreateStoryItems = async () => {
     try {
-        const { user } = await getCurrentUser()
+        const user = await currentUser()
 
-        const response = await api.item.getAllItems.$get({
+        const response = await api.item.getCreateStoryItems.$get({
             userId: user!.id,
         })
         const {

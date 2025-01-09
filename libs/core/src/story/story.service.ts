@@ -1,6 +1,5 @@
 import { db } from '@clients/db.client'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { TStoryWithScenes } from '../story/story.model'
 import { stories } from './story.sql'
 import { aiClient } from '@clients/openai.client'
 import { eq, and } from 'drizzle-orm/expressions'
@@ -30,7 +29,7 @@ class StoryService {
             .orderBy(desc(stories.createdAt))
             .limit(10)
 
-        return { recentStories }
+        return recentStories
     }
 
     public async getStories({
@@ -94,7 +93,7 @@ class StoryService {
         }
 
         const result = await query
-        return result as unknown as TStoryWithScenes[]
+        return result
     }
 
     public async generateSceneContent({ prompt }: { prompt: string }) {

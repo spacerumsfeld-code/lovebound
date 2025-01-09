@@ -4,6 +4,7 @@ import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { ProductTypeEnum, users } from '@core'
 import { eq } from 'drizzle-orm/expressions'
 import { sql } from 'drizzle-orm'
+import { userInventory } from '@client-types/user/user.sql'
 
 class PaymentService {
     private store
@@ -16,14 +17,15 @@ class PaymentService {
 
     public createCheckoutSession = async ({
         userId,
-        // customerEmail,
+        customerEmail,
         productType,
     }: {
         userId: string
-        // customerEmail: string
+        customerEmail: string
         productType: ProductTypeEnum
     }) => {
         const { url } = await this.paymentClient.createCheckoutSession({
+            customerEmail,
             userId,
             productType,
         })
@@ -86,32 +88,36 @@ class PaymentService {
 
     public async deductCredits({
         userId,
-        storyLength,
+        creditCost,
     }: {
         userId: string
-        storyLength: number
+        creditCost: number
     }) {
-        let creditCount: number
-        switch (storyLength) {
-            case 23:
-                creditCount = 1
-                break
-            case 24:
-                creditCount = 2
-                break
-            default:
-                creditCount = 2
-        }
-
         const result = await this.store
             .update(users)
             .set({
-                credits: sql`${users.credits} - ${creditCount}`,
+                credits: sql`${users.credits} - ${creditCost}`,
             })
             .where(eq(users.clerkId, userId))
             .returning({ credits: users.credits })
 
         return { success: true, newCreditCount: result[0].credits }
+    }
+
+    public async purchaseItem({
+        userId,
+        itemId,
+    }: {
+        userId: string
+        itemId: number
+    }) {
+        await this.store.insert(userInventory).values({
+            userId,
+            itemId,
+            purchasedAt: new Date(),
+        })
+
+        return { success: true }
     }
 }
 

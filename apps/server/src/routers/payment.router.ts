@@ -2,8 +2,8 @@ import { z } from 'zod'
 import { router } from '../_internals/router'
 import { baseProcedure } from '../_internals/index'
 import { HTTPException } from 'hono/http-exception'
-import { handleAsync } from '@utils'
-import { Payment, ProductTypeEnum } from '@core'
+import { extractFulfilledValues, handleAsync } from '@utils'
+import { Payment, ProductTypeEnum, User } from '@core'
 
 export const paymentRouter = router({
     getCheckoutUrl: baseProcedure
@@ -20,8 +20,21 @@ export const paymentRouter = router({
                 )}`,
             )
 
+            const [userEmail, getUserEmailError] = await handleAsync(
+                User.getUserEmail({
+                    userId: input.userId,
+                }),
+            )
+            if (getUserEmailError) {
+                console.error(`❌ getCheckoutUrl error:`, getUserEmailError)
+                throw new HTTPException(400, {
+                    message: getUserEmailError.message,
+                })
+            }
+
             const [checkoutUrl, error] = await handleAsync(
                 Payment.createCheckoutSession({
+                    customerEmail: userEmail!,
                     userId: input.userId,
                     productType: input.productType,
                 }),
@@ -67,8 +80,53 @@ export const paymentRouter = router({
 
             return c.superjson({
                 data: {
-                    creditCount: creditCount!,
+                    creditCount,
                 },
+                success: true,
+            })
+        }),
+    purchaseItemFromShop: baseProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+                itemId: z.number(),
+                itemCost: z.number(),
+            }),
+        )
+        .mutation(async ({ c, input }) => {
+            console.info(
+                `💻 Invoked paymentRouter.purchaseItemFromShop with data ${JSON.stringify(
+                    input,
+                )}`,
+            )
+
+            const purchaseItemPromises = [
+                Payment.purchaseItem({
+                    userId: input.userId,
+                    itemId: input.itemId,
+                }),
+                Payment.deductCredits({
+                    userId: input.userId,
+                    creditCost: input.itemCost,
+                }),
+            ]
+            const purchaseItemResults =
+                await Promise.allSettled(purchaseItemPromises)
+
+            const { hasRejections } =
+                extractFulfilledValues(purchaseItemResults)
+            if (hasRejections) {
+                console.error(
+                    `❌ purchaseItemFromShop error:`,
+                    purchaseItemResults,
+                )
+                throw new HTTPException(400, {
+                    message: 'Failed to purchase item',
+                })
+            }
+
+            return c.superjson({
+                data: {},
                 success: true,
             })
         }),

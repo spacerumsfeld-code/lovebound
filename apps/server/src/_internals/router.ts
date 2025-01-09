@@ -74,6 +74,7 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
                             input = operation.schema?.parse(parsedQuery)
                         } catch (err) {
                             if (err instanceof ZodError) {
+                                console.error(`❌ validation error: ${err}`)
                                 throw new HTTPException(400, {
                                     cause: err,
                                     message: err.message,

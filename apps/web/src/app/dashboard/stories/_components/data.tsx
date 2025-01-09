@@ -2,7 +2,8 @@
 
 import { client as api } from '@clients/api.client'
 import { StoryGridView } from './StoryGrid.view'
-import { getCurrentUser } from 'src/app/data'
+import { currentUser } from '@clerk/nextjs/server'
+import { TStoryWithScenes } from '@client-types/story/story.model'
 
 export const getStories = async (args: {
     limit: number
@@ -11,7 +12,7 @@ export const getStories = async (args: {
     theme: number
 }) => {
     try {
-        const { user } = await getCurrentUser()
+        const user = await currentUser()
 
         const response = await api.story.getStories.$get({
             ...args,
@@ -24,7 +25,7 @@ export const getStories = async (args: {
         const component = (
             <StoryGridView
                 key={JSON.stringify(args)}
-                storiesWithScenes={stories}
+                storiesWithScenes={stories as unknown as TStoryWithScenes[]}
                 hasMore={hasMore}
                 nextOffset={nextOffset}
             />

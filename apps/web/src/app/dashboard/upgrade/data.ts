@@ -3,7 +3,7 @@
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
 import { client as api } from '@clients/api.client'
 import { redirect } from 'next/navigation'
-import { getCurrentUser } from 'src/app/data'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const createCheckoutSession = async ({
     productType,
@@ -12,7 +12,7 @@ export const createCheckoutSession = async ({
 }) => {
     let url: string
     try {
-        const { user } = await getCurrentUser()
+        const user = await currentUser()
 
         const response = await api.payment.getCheckoutUrl.$get({
             userId: user!.id,

@@ -37,6 +37,15 @@ class UserService {
         return { success: true, id: newUser[0].id }
     }
 
+    public async getUserEmail({ userId }: { userId: string }) {
+        const user = await this.store
+            .select({ email: users.email })
+            .from(users)
+            .where(eq(users.clerkId, userId))
+
+        return user?.[0]?.email
+    }
+
     public async updateUser({
         clerkId,
         email,

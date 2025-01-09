@@ -12,8 +12,6 @@ import { Label } from 'src/components/ui/label'
 import { ScrollArea } from 'src/components/ui/scroll-area'
 import { cn } from 'src/lib/utils'
 
-// @TODO: need a sample of each voice. maybe we manually call the API and build and host the audio file.
-
 export const NarrationOptions = (props: {
     selectedVoice: NarrationVoiceEnum
     narrationEnabled: boolean

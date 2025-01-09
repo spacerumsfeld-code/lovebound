@@ -11,6 +11,7 @@ import { Logo } from '../../_components/logo'
 import { Button } from '../../..//components/ui/button'
 import { CreditDisplay } from './credit-display/CreditDisplay'
 import { DashboardThemeToggle } from './DashboardModleToggle'
+import Link from 'next/link'
 
 export const AppSidebar = ({
     ...props
@@ -23,7 +24,9 @@ export const AppSidebar = ({
             <SidebarContent className="p-2 justify-between">
                 <NavMain />
                 <div className="flex flex-col gap-8">
-                    <Button href="/dashboard/create">+ Create Story</Button>
+                    <Button as={Link} href="/dashboard/create">
+                        + Create Story
+                    </Button>
                     <CreditDisplay />
                     <DashboardThemeToggle />
                 </div>

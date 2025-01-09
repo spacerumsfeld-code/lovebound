@@ -1,22 +1,19 @@
-import { Suspense } from 'react'
-import { Header } from 'src/components/ui/header'
+import { ItemTypeEnum } from '@client-types/item/item.model'
 import { ShopGrid } from './ShopGrid'
 
-export const ShopPage = () => {
+export const ShopPage = async ({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
+    // @Data
+    const { type } = await searchParams
+    const args = {
+        limit: 16,
+        offset: 0,
+        type: (type ?? ItemTypeEnum.None) as ItemTypeEnum,
+    }
+
     // @Render
-    return (
-        <main>
-            <Header
-                title="The Romance Shop"
-                description="Purchase addons to enhance your love stories"
-                ctaConfig={{
-                    title: 'Browse Shop',
-                    href: '/shop',
-                }}
-            />
-            <Suspense fallback={'Loading'}>
-                <ShopGrid />
-            </Suspense>
-        </main>
-    )
+    return <ShopGrid args={args} />
 }

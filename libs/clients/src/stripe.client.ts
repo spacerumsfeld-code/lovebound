@@ -25,11 +25,11 @@ const verifyWebhook = ({
 
 export const createCheckoutSession = async ({
     userId,
-    // customerEmail = 'nickfin2014@gmail.com',
+    customerEmail,
     productType,
 }: {
     userId: string
-    // customerEmail: string
+    customerEmail: string
     productType: ProductTypeEnum
 }) => {
     const priceId = ProductIdEnum[productType]
@@ -46,7 +46,7 @@ export const createCheckoutSession = async ({
             ? 'http://localhost:3000/dashboard?action=modal.subscription.success'
             : 'http://localhost:3000/dashboard?action=modal.topup.success',
         cancel_url: 'http://localhost:3000/dashboard',
-        customer_email: 'nickfin2014@gmail.com',
+        customer_email: customerEmail,
         metadata: {
             userId,
             productType,

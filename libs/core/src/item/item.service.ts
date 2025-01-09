@@ -1,7 +1,7 @@
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { db } from '@clients/db.client'
 import { items } from './item.sql'
-import { eq, ne, and } from 'drizzle-orm/expressions'
+import { eq, or, and, isNull, isNotNull } from 'drizzle-orm/expressions'
 import { userInventory } from '@client-types/user/user.sql'
 import { ItemTypeEnum } from './item.model'
 
@@ -16,128 +16,62 @@ class ItemService {
         userId,
         offset,
         limit,
+        type,
     }: {
         userId: string
         offset: number
         limit: number
+        type: ItemTypeEnum
     }) {
-        const shopItems = await this.store
-            .select()
+        const query = db
+            .select({
+                id: items.id,
+                name: items.name,
+                description: items.description,
+                imageUrl: items.imageUrl,
+                cost: items.cost,
+                type: items.type,
+            })
             .from(items)
-            .leftJoin(userInventory, ne(userInventory.userId, userId))
-            .where(eq(items.isDefault, false))
+            .leftJoin(userInventory, eq(userInventory.userId, userId))
             .offset(offset)
             .limit(limit)
 
-        return { items: shopItems[0].items }
+        if (type !== ItemTypeEnum.None) {
+            query.where(
+                and(
+                    eq(items.isDefault, false),
+                    eq(items.type, type),
+                    isNull(userInventory.id),
+                ),
+            )
+        } else {
+            query.where(
+                and(eq(items.isDefault, false), isNull(userInventory.id)),
+            )
+        }
+
+        const shopItems = await query
+        console.info('retrieved shop items', shopItems)
+
+        return shopItems
     }
 
-    public async getAllGenres() {
-        const genres = await this.store
+    public async getCreateStoryItems({ userId }: { userId: string }) {
+        const createStoryItems = await this.store
             .select({
                 id: items.id,
+                type: items.type,
                 name: items.name,
                 imageUrl: items.imageUrl,
             })
             .from(items)
+            .leftJoin(userInventory, eq(userInventory.userId, userId))
             .where(
-                and(
-                    eq(items.type, ItemTypeEnum.Genre),
-                    eq(items.isDefault, true),
-                ),
+                or(eq(items.isDefault, true), isNotNull(userInventory.userId)),
             )
 
-        return genres
-    }
-
-    public async getAllThemes() {
-        const themes = await this.store
-            .select({
-                id: items.id,
-                name: items.name,
-                imageUrl: items.imageUrl,
-            })
-            .from(items)
-            .where(
-                and(
-                    eq(items.type, ItemTypeEnum.Theme),
-                    eq(items.isDefault, true),
-                ),
-            )
-
-        return themes
-    }
-
-    public async getAllLengths() {
-        const lengths = await this.store
-            .select({
-                id: items.id,
-                name: items.name,
-                imageUrl: items.imageUrl,
-            })
-            .from(items)
-            .where(
-                and(
-                    eq(items.type, ItemTypeEnum.Length),
-                    eq(items.isDefault, true),
-                ),
-            )
-
-        return lengths
-    }
-
-    public async getAllTensionLevels() {
-        const tensionLevels = await this.store
-            .select({
-                id: items.id,
-                name: items.name,
-                imageUrl: items.imageUrl,
-            })
-            .from(items)
-            .where(
-                and(
-                    eq(items.type, ItemTypeEnum.TensionLevel),
-                    eq(items.isDefault, true),
-                ),
-            )
-
-        return tensionLevels
-    }
-
-    public async getAllSettings() {
-        const settings = await this.store
-            .select({
-                id: items.id,
-                name: items.name,
-                imageUrl: items.imageUrl,
-            })
-            .from(items)
-            .where(
-                and(
-                    eq(items.type, ItemTypeEnum.Setting),
-                    eq(items.isDefault, true),
-                ),
-            )
-
-        return settings
-    }
-
-    public async getAllTones() {
-        const tones = await this.store
-            .select({
-                id: items.id,
-                name: items.name,
-                imageUrl: items.imageUrl,
-            })
-            .from(items)
-            .where(
-                and(
-                    eq(items.type, ItemTypeEnum.Tone),
-                    eq(items.isDefault, true),
-                ),
-            )
-
-        return tones
+        return createStoryItems
     }
 }
 

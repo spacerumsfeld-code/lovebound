@@ -7,6 +7,7 @@ export enum ModalType {
     ConfirmCreate,
     ConfirmTopup,
     ConfirmSubscription,
+    ConfirmShopPurchase,
 }
 
 export const modalAtom = atom<ModalType>(ModalType.None)

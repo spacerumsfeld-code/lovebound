@@ -7,6 +7,8 @@ import {
     CardTitle,
 } from './card'
 import { Button } from './button'
+import { cn } from 'src/lib/utils'
+import Link from 'next/link'
 
 export const Header = (props: {
     title: string
@@ -14,8 +16,10 @@ export const Header = (props: {
     ctaConfig?: {
         title: string
         href: string
-    }
+        active?: boolean
+    }[]
 }) => {
+    // @Render
     return (
         <Card className="bg-purple-50">
             <CardHeader>
@@ -25,13 +29,20 @@ export const Header = (props: {
                 </CardTitle>
                 <CardDescription>{props.description}</CardDescription>
             </CardHeader>
-            <CardContent>
-                {props.ctaConfig && (
-                    <Button href={props.ctaConfig.href}>
-                        {props.ctaConfig.title}
-                        <ArrowRight className="ml-2 h-4 w-4" />
+            <CardContent className="flex flex-col sm:flex-row gap-2">
+                {props.ctaConfig?.map((cta, index) => (
+                    <Button
+                        variant="primary"
+                        as={Link}
+                        className={cn(
+                            cta.active ? 'bg-indigo-500' : 'bg-indigo-300',
+                        )}
+                        href={cta.href}
+                        key={index}
+                    >
+                        {cta.title}
                     </Button>
-                )}
+                ))}
             </CardContent>
         </Card>
     )

@@ -10,15 +10,15 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { WordScrambleGame } from '../WordScramble'
 
-export const StoryCreatedModal = () => {
-    const images = [
-        'https://cdn.sanity.io/images/vjg0x5qe/production/1c6a26521d9c96079c4517179f6654edf550542e-1024x1024.webp',
-        'https://cdn.sanity.io/images/vjg0x5qe/production/d57a81d5388f6acd71a67db0c289c7ae9592c7c4-1024x1024.webp',
-        'https://cdn.sanity.io/images/vjg0x5qe/production/15c91e075e26d6ac02666769feeeeae45a9834db-1024x1024.webp',
-        'https://cdn.sanity.io/images/vjg0x5qe/production/52dcbabf5144d40c1cd267fabd65ddee66a73551-1024x1024.webp',
-        'https://cdn.sanity.io/images/vjg0x5qe/production/f9ad22469b791790c454e0da7dcf486523a6fd47-1024x1024.webp',
-    ]
+const images = [
+    'https://cdn.sanity.io/images/vjg0x5qe/production/1c6a26521d9c96079c4517179f6654edf550542e-1024x1024.webp',
+    'https://cdn.sanity.io/images/vjg0x5qe/production/d57a81d5388f6acd71a67db0c289c7ae9592c7c4-1024x1024.webp',
+    'https://cdn.sanity.io/images/vjg0x5qe/production/15c91e075e26d6ac02666769feeeeae45a9834db-1024x1024.webp',
+    'https://cdn.sanity.io/images/vjg0x5qe/production/52dcbabf5144d40c1cd267fabd65ddee66a73551-1024x1024.webp',
+    'https://cdn.sanity.io/images/vjg0x5qe/production/f9ad22469b791790c454e0da7dcf486523a6fd47-1024x1024.webp',
+]
 
+export const StoryCreatedModal = () => {
     return (
         <div className="py-40 flex items-center justify-center">
             <Modal isGlobal>
