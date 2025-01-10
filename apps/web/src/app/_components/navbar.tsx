@@ -124,7 +124,6 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
             </motion.div>
             <div className="flex items-center gap-4">
                 <ModeToggle />
-
                 <AnimatePresence mode="popLayout" initial={false}>
                     {!visible && (
                         <motion.div
@@ -144,15 +143,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                                 duration: 0.5,
                                 ease: 'easeOut',
                             }}
-                        >
-                            <Button
-                                href={'/login'}
-                                variant="secondary"
-                                className="hidden md:block"
-                            >
-                                Login
-                            </Button>
-                        </motion.div>
+                        ></motion.div>
                     )}
                 </AnimatePresence>
                 <Button
@@ -242,7 +233,7 @@ const MobileNav = ({ navItems, visible }: NavbarProps) => {
                                 variant="primary"
                                 className="block md:hidden w-full"
                             >
-                                Login
+                                Claim Free Stories
                             </Button>
                         </motion.div>
                     )}
