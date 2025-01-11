@@ -32,7 +32,7 @@ export const createNarration = orchestrationClient.createFunction(
 
         const [uploadUrl, uploadError] = await step.run(
             'Upload Narration to S3',
-            () => handleAsync(uploadAudioFromBuffer(buffer)),
+            () => handleAsync(uploadAudioFromBuffer(buffer, data.storyId)),
         )
         if (uploadError) {
             console.error('uploadUrlError', uploadError)
