@@ -36,8 +36,8 @@ const ZFinishStoryEvent = z.object({
 }) satisfies LiteralZodEventSchema
 
 export const orchestrationClient = new Inngest({
-    name: 'Tension.io',
-    id: 'tension-io',
+    name: 'LoveboundIO',
+    id: 'LoveboundIO',
     eventKey: process.env.INNGEST_EVENT_KEY!,
     schemas: new EventSchemas().fromZod([
         ZStartStoryEvent,

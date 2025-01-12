@@ -5,7 +5,7 @@ import { readdirSync } from 'fs'
 export default $config({
     app(input) {
         return {
-            name: 'tension-io',
+            name: 'lovebound-io',
             removal: input?.stage === 'production' ? 'retain' : 'remove',
             home: 'aws',
         }

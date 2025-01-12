@@ -1,5 +1,3 @@
-/// <reference path="../.sst/platform/config.d.ts" />
-
 import { orchestration } from './orchestration'
 import { allSecrets } from './secret'
 import { websocket } from './websocket'

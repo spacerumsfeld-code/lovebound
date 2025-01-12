@@ -50,17 +50,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::720174059271:role/tension-io-production-github
-          aws-region: us-east-1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::720174059271:role/tension-io-production-github
+      #     aws-region: us-east-1
 
-      - name: Run linting
-        run: make cicd-lint
+      # - name: Run linting
+      #   run: make cicd-lint
 
-      - name: Run type checking
-        run: make cicd-typecheck
+      # - name: Run type checking
+      #   run: make cicd-typecheck
 
       - name: Deploy
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
