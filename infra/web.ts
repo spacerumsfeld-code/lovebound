@@ -16,7 +16,7 @@ const webConfig: NextjsArgs = {
     /**
      * @summary
      * This has been found to be the simplest and most reliable way to get secrets
-     * rolled into the runtime, middleware, etc. of the NextJS project.
+     * injected into the runtime, middleware, etc. of the Next.js project.
      */
     environment: {
         WEB_URL: secret.WebUrl.value,
