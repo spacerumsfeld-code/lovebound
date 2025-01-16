@@ -6,6 +6,7 @@ export const AnalyticsProvider = async (props: {
 }) => {
     // @Data
     const user = await currentUser()
+    console.info('do we run?', user)
 
     // @Render
     return <PHProvider userId={user?.id ?? ''}>{props.children}</PHProvider>
