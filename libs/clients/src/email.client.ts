@@ -4,7 +4,13 @@ import { EmailType, emails } from '@transactional'
 
 export const resend = new Resend(Resource.ResendApiKey.value)
 
-const sendEmail = async ({ to, emailType }: { to: string; emailType: EmailType }) => {
+const sendEmail = async ({
+    to,
+    emailType,
+}: {
+    to: string
+    emailType: EmailType
+}) => {
     await resend.emails.send({
         from: 'Lovebound <admin@lovebound.io>',
         to,
@@ -14,15 +20,9 @@ const sendEmail = async ({ to, emailType }: { to: string; emailType: EmailType }
     })
 }
 
-const addToAudience = async (
-    email: string,
-    firstName?: string,
-    lastName?: string,
-) => {
+const addToAudience = async ({ email }: { email: string }) => {
     await resend.contacts.create({
         email,
-        firstName,
-        lastName,
         unsubscribed: false,
         audienceId: Resource.ResendAudienceId.value,
     })

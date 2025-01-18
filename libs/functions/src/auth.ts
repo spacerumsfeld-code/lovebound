@@ -4,6 +4,7 @@ import { Resource } from 'sst'
 import { UserCreatedOrUpdatedData, User, ClerkUserEvent } from '@core'
 import { Handler, APIGatewayEvent } from 'aws-lambda'
 import { UserDeletedData } from '@client-types/user/user.model'
+import { emailClient } from '@clients/email.client'
 
 export const handler: Handler = async (req: APIGatewayEvent) => {
     try {
@@ -18,6 +19,10 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
             'svix-signature': svix_signature!,
         })
     } catch (error) {
+        console.error(`
+            👤❌ Webhook verification error:
+            ${JSON.stringify(error)}
+        `)
         return {
             status: 500,
             body: JSON.stringify({ error: error.message }),
@@ -61,7 +66,29 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     return {
                         status: 500,
                         body: JSON.stringify({
-                            error: createUserError.message,
+                            error: createUserError!.message,
+                        }),
+                    }
+                }
+
+                const [, addToAudienceError] = await handleAsync(
+                    emailClient.addToAudience({
+                        email: createData.email_addresses.find(
+                            (email) =>
+                                email.id ===
+                                createData.primary_email_address_id,
+                        )!.email_address,
+                    }),
+                )
+                if (addToAudienceError) {
+                    console.error(`
+                        👤❌ addToAudience error:
+                        ${JSON.stringify(addToAudienceError)}
+                    `)
+                    return {
+                        status: 500,
+                        body: JSON.stringify({
+                            error: addToAudienceError!.message,
                         }),
                     }
                 }
