@@ -9,9 +9,7 @@ export const PurchaseFooter = () => {
     // *Render
     return (
         <ModalFooter className="flex gap-4">
-            <Button as={Link} href="/dashboard/shop" onClick={() => setOpen()}>
-                Keep Shopping
-            </Button>
+            <Button onClick={() => setOpen()}>Keep Shopping</Button>
             <Button
                 as={Link}
                 onClick={() => setOpen()}
