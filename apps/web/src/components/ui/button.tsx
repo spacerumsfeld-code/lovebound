@@ -9,6 +9,7 @@ export const Button = ({
     as: Tag = 'a',
     children,
     className,
+    disabled = false,
     variant = 'primary',
     onClick,
     ...props
@@ -16,6 +17,7 @@ export const Button = ({
     href?: string
     as?: React.ElementType
     children: React.ReactNode
+    disabled?: boolean
     className?: string
     onClick?: () => void
     variant?: 'primary' | 'secondary' | 'dark' | 'gradient'
@@ -39,8 +41,13 @@ export const Button = ({
     return (
         <Tag
             href={href || undefined}
-            onClick={() => onClick?.()}
-            className={cn(baseStyles, variantStyles[variant], className)}
+            onClick={() => !disabled && onClick?.()}
+            className={cn(
+                baseStyles,
+                variantStyles[variant],
+                className,
+                disabled && 'opacity-50 cursor-not-allowed',
+            )}
             {...props}
         >
             {children}

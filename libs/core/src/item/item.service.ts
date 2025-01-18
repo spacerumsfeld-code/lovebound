@@ -33,7 +33,13 @@ class ItemService {
                 type: items.type,
             })
             .from(items)
-            .leftJoin(userInventory, eq(userInventory.userId, userId))
+            .leftJoin(
+                userInventory,
+                and(
+                    eq(userInventory.itemId, items.id),
+                    eq(userInventory.userId, userId),
+                ),
+            )
             .offset(offset)
             .limit(limit)
 
@@ -42,7 +48,7 @@ class ItemService {
                 and(
                     eq(items.isDefault, false),
                     eq(items.type, type),
-                    isNull(userInventory.id),
+                    isNull(userInventory.userId),
                 ),
             )
         } else {
@@ -52,7 +58,6 @@ class ItemService {
         }
 
         const shopItems = await query
-        console.info('retrieved shop items', shopItems)
 
         return shopItems
     }
@@ -66,7 +71,13 @@ class ItemService {
                 imageUrl: items.imageUrl,
             })
             .from(items)
-            .leftJoin(userInventory, eq(userInventory.userId, userId))
+            .leftJoin(
+                userInventory,
+                and(
+                    eq(userInventory.itemId, items.id),
+                    eq(userInventory.userId, userId),
+                ),
+            )
             .where(
                 or(eq(items.isDefault, true), isNotNull(userInventory.userId)),
             )

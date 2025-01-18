@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { router } from '../_internals/router'
 import { baseProcedure } from '../_internals/index'
-import { HTTPException } from 'hono/http-exception'
 import { Item } from '@core'
 import { handleAsync } from '@utils'
 import { ItemTypeEnum } from '@client-types/item/item.model'
+import { handleError } from '../_internals/util'
 
 export const itemRouter = router({
     getShopItems: baseProcedure
@@ -31,11 +31,7 @@ export const itemRouter = router({
                     limit: input.limit,
                 }),
             )
-            if (getShopItemsError) {
-                throw new HTTPException(400, {
-                    message: getShopItemsError.message,
-                })
-            }
+            if (getShopItemsError) handleError(getShopItemsError)
 
             const hasMore = !(shopItems!.length < input.limit)
             const nextOffset = hasMore ? input.offset + input.limit : 0
@@ -68,17 +64,7 @@ export const itemRouter = router({
                         userId: input.userId,
                     }),
                 )
-            if (getCreateStoryItemsError) {
-                console.error(getCreateStoryItemsError)
-                throw new HTTPException(400, {
-                    message: getCreateStoryItemsError.message,
-                })
-            }
-
-            console.info(
-                'what did we get back from the store?',
-                getCreateStoryItems?.length ?? [],
-            )
+            if (getCreateStoryItemsError) handleError(getCreateStoryItemsError)
 
             return c.superjson({
                 data: {
