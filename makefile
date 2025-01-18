@@ -14,6 +14,10 @@ typecheck-target:
 build-web:
 	npx sst shell pnpm nx run web:build
 
+commit:
+	git add .
+	git commit -m "better-commits"
+
 # DATA MODELLING
 push-db:
 	npx sst shell drizzle-kit push
