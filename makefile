@@ -16,7 +16,7 @@ build-web:
 
 commit:
 	git add .
-	git commit -m "better-commits"
+	better-commits
 
 # DATA MODELLING
 push-db:
