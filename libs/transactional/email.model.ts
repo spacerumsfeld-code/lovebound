@@ -1,3 +1,6 @@
 export enum EmailType {
-    Sample = 'sample',
+    Welcome = 'welcome',
+    StoryCreated = 'story-created',
+    StoryCompleted = 'story-completed',
+    PurchaseSuccessful = 'purchase-successful',
 }

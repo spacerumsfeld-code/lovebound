@@ -1,4 +1,4 @@
 {
     "extends": "../../tsconfig.base.json",
-    "include": ["emails", "email.model.ts", "email.object.tsx"]
+    "include": ["emails", "email.model.ts", "email.object.tsx", "sst-env.d.ts"]
 }

@@ -55,6 +55,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "LogoUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "OpenAIApiKey": {
       "type": "sst.sst.Secret"
       "value": string

@@ -1,8 +1,9 @@
-/// <reference path="../.sst/platform/config.d.ts" />
+import type {} from '../.sst/platform/config'
 
 export const secret = {
     // Client Secrets
     WebUrl: new sst.Secret('WebUrl'),
+    LogoUrl: new sst.Secret('LogoUrl'),
     Environment: new sst.Secret('Environment'),
     SentryDsn: new sst.Secret('SentryDsn'),
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),

@@ -1,1 +1,1 @@
-export * from './Sample.email' 
+export { Template as BaseEmail } from './Base.email'

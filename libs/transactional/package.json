@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "type": "module",
     "scripts": {
-        "preview": "npx email preview ./emails",
+        "preview": "sst shell email preview ./emails",
         "lint": "eslint .",
         "typecheck": "tsc --noEmit",
         "preinstall": "npx only-allow pnpm"
