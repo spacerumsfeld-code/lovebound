@@ -72,6 +72,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "ResendAudienceId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "SentryDsn": {
       "type": "sst.sst.Secret"
       "value": string

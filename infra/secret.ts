@@ -22,6 +22,7 @@ export const secret = {
     StripeSecretKey: new sst.Secret('StripeSecretKey'),
     StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
     ResendApiKey: new sst.Secret('ResendApiKey'),
+    ResendAudienceId: new sst.Secret('ResendAudienceId'),
     // Feature Flags
     FeatureSubscriptions: new sst.Secret('FeatureSubscriptions'),
 }
