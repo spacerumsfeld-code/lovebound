@@ -4,6 +4,7 @@ export const secret = {
     // Client Secrets
     WebUrl: new sst.Secret('WebUrl'),
     Environment: new sst.Secret('Environment'),
+    SentryDsn: new sst.Secret('SentryDsn'),
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
     ClerkPublishableKey: new sst.Secret('ClerkPublishableKey'),
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
