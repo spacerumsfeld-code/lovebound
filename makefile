@@ -18,6 +18,10 @@ commit:
 	git add .
 	better-commits
 
+preview:
+	# MUST use node18 for the preview server to work.
+	pnpm nx run transactional:preview
+
 # DATA MODELLING
 push-db:
 	npx sst shell drizzle-kit push
