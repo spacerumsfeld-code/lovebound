@@ -119,7 +119,7 @@ export const previewProps = {
 
 export const templateName = 'Plaid Verify Identity'
 
-export const Template = ({ validationCode }: PlaidVerifyIdentityEmailProps) => (
+export const SampleEmail = ({ validationCode }: PlaidVerifyIdentityEmailProps) => (
     <Html>
         <Head />
         <Body style={main}>

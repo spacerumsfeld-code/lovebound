@@ -1,11 +1,15 @@
 import { cacheClient } from '@clients/cache.client'
+import { emailClient } from '@clients/email.client'
 import { postToConnection } from '@clients/wss.client'
+import { EmailType } from '@transactional'
 
 class NotificationService {
-    private client
+    private cache
+    private email
 
-    constructor(client: typeof cacheClient) {
-        this.client = client
+    constructor(cache: typeof cacheClient, email: typeof emailClient) {
+        this.cache = cache
+        this.email = email
     }
 
     public createConnection = async ({
@@ -15,13 +19,13 @@ class NotificationService {
         userId: string
         connectionId: string
     }) => {
-        await this.client.set(`ws:connection:${userId}`, connectionId)
+        await this.cache.set(`ws:connection:${userId}`, connectionId)
 
         return { success: true }
     }
 
     public getConnection = async ({ userId }: { userId: string }) => {
-        const connectionId = await this.client.get(`ws:connection:${userId}`)
+        const connectionId = await this.cache.get(`ws:connection:${userId}`)
 
         return {
             connectionId,
@@ -46,7 +50,17 @@ class NotificationService {
 
         return { success: true, id: connectionId! }
     }
+
+    public sendEmail = async ({
+        to,
+        emailType,
+    }: {
+        to: string
+        emailType: EmailType
+    }) => {
+        await this.email.sendEmail({ to, emailType })
+    }
 }
 
-const notificationService = new NotificationService(cacheClient)
+const notificationService = new NotificationService(cacheClient, emailClient)
 export const Notification = notificationService

@@ -3,7 +3,7 @@ import { cn } from 'src/lib/utils'
 export const LoginRight = () => {
     // @Render
     return (
-        <div className="w-full relative w-full z-20 hidden md:flex border-l border-neutral-100 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900 items-center justify-center">
+        <div className="w-full relative z-20 hidden md:flex border-l border-neutral-100 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900 items-center justify-center">
             <div className="max-w-sm mx-auto">
                 <p
                     className={cn(

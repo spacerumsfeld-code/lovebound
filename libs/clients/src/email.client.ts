@@ -1,14 +1,16 @@
 import { Resend } from 'resend'
 import { Resource } from 'sst'
+import { EmailType, emails } from '@transactional'
 
 export const resend = new Resend(Resource.ResendApiKey.value)
 
-const sendEmail = async (to: string, subject: string, html: string) => {
+const sendEmail = async ({ to, emailType }: { to: string; emailType: EmailType }) => {
     await resend.emails.send({
-        from: 'hello@resend.dev',
+        from: 'Lovebound <admin@lovebound.io>',
         to,
-        subject,
-        html,
+        text: emails[emailType as keyof typeof emails].text,
+        subject: emails[emailType as keyof typeof emails].subject,
+        html: await emails[emailType as keyof typeof emails].html(),
     })
 }
 

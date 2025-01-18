@@ -1,4 +1,4 @@
 {
     "extends": "../../tsconfig.base.json",
-    "include": ["emails"]
+    "include": ["emails", "email.model.ts", "email.object.tsx"]
 }

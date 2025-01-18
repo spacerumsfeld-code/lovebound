@@ -28,7 +28,8 @@
             "@client-types/*": ["libs/core/src/*"],
             "@core": ["libs/core/index.ts"],
             "@clients/*": ["libs/clients/src/*"],
-            "@utils": ["libs/utils/index.ts"]
+            "@utils": ["libs/utils/index.ts"],
+            "@transactional": ["libs/transactional/index.ts"]
         }
     },
     "references": [
@@ -49,6 +50,9 @@
         },
         {
             "path": "./libs/utils"
+        },
+        {
+            "path": "./libs/transactional"
         }
     ],
     "include": ["**/sst-env.d.ts"],

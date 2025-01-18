@@ -23,7 +23,6 @@ export const getRecentStories = async () => {
 
 export const getCreditCount = dedupe(async () => {
     try {
-        console.info('!!! getCreditCount!!')
         const user = await currentUser()
         if (!user) return { creditCount: 0 }
 
