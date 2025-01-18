@@ -39,6 +39,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "Environment": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "FeatureSubscriptions": {
       "type": "sst.sst.Secret"
       "value": string

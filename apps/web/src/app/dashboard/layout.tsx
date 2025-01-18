@@ -13,11 +13,12 @@ import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
 import { Breadcrumbs } from './_components/crumbs'
 import { Modal } from './_components/modals/Modal'
 import Script from 'next/script'
+import { EnvironmentEnum } from 'src/constants'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            {process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID && (
+            {process.env.ENVIRONMENT === EnvironmentEnum.PRODUCTION && (
                 <Script strategy="lazyOnload" id="crisp-chat">
                     {`
                 window.$crisp=[];

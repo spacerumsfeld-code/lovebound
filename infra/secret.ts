@@ -3,6 +3,7 @@
 export const secret = {
     // Client Secrets
     WebUrl: new sst.Secret('WebUrl'),
+    Environment: new sst.Secret('Environment'),
     CrispWebsiteId: new sst.Secret('CrispWebsiteId'),
     ClerkPublishableKey: new sst.Secret('ClerkPublishableKey'),
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
