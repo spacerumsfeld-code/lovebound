@@ -1,11 +1,10 @@
-import { LoginLeft } from './Left'
-import { LoginRight } from './Right'
+import { Login } from './Login'
 
 export const LoginPage = () => {
+    // *Render
     return (
-        <main className="grid grid-cols-1 md:grid-cols-2 min-h-screen w-full">
-            <LoginLeft />
-            <LoginRight />
+        <main className="flex flex-col items-center justify-center min-h-screen w-full bg-dot-black/[0.2]">
+            <Login />
         </main>
     )
 }

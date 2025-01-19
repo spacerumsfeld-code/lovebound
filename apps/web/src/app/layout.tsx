@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { cn } from '../lib/utils'
-import { ThemeProvider } from '../providers/ThemeProvider'
 import localFont from 'next/font/local'
 import { AuthProvider } from 'src/providers/AuthProvider'
 import { AnalyticsProvider } from 'src/providers/AnalyticsProvider'
@@ -37,16 +36,7 @@ export default function RootLayout({
                 )}
             >
                 <AuthProvider>
-                    <AnalyticsProvider>
-                        <ThemeProvider
-                            attribute="class"
-                            defaultTheme="system"
-                            enableSystem
-                            disableTransitionOnChange
-                        >
-                            {children}
-                        </ThemeProvider>
-                    </AnalyticsProvider>
+                    <AnalyticsProvider>{children}</AnalyticsProvider>
                 </AuthProvider>
             </body>
         </html>
