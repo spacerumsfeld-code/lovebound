@@ -3,7 +3,7 @@ import { PayAsYouGo } from './PayAsYouGo'
 import { Subscriptions } from './Subscriptions'
 
 export const UpgradePage = () => {
-    // @Render
+    //* Render
     return (
         <div className="container max-w-6xl mx-auto px-4 py-8">
             <UpgradeHeader />

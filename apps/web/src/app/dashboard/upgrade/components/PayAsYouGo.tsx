@@ -20,17 +20,17 @@ export const PayAsYouGo = () => {
             <CardHeader>
                 <CardTitle>Credit Packs</CardTitle>
                 <CardDescription>
-                    Perfect for occasional story creation
+                    Make stories at your own pace.
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="grid sm:grid-cols-3 gap-4">
-                    <Card>
+                    <Card className="border-2">
                         <CardHeader>
                             <CardTitle className="text-2xl font-bold">
                                 10 Credits
                             </CardTitle>
-                            <CardDescription>Basic Pack</CardDescription>
+                            <CardDescription>Basic Topup</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <p className="text-3xl font-bold">$10</p>
@@ -55,7 +55,7 @@ export const PayAsYouGo = () => {
                         </CardFooter>
                     </Card>
 
-                    <Card>
+                    <Card className="border-2">
                         <CardHeader>
                             <CardTitle className="text-2xl font-bold">
                                 20 Credits
@@ -85,10 +85,7 @@ export const PayAsYouGo = () => {
                         </CardFooter>
                     </Card>
 
-                    <Card className="relative overflow-hidden border-2 border-indigo-400">
-                        <div className="absolute -top-4 -right-16 px-12 py-1 bg-indigo-400 text-white text-sm font-medium rotate-45">
-                            Best Value
-                        </div>
+                    <Card className="relative overflow-hidden border-2">
                         <CardHeader>
                             <CardTitle className="text-2xl font-bold">
                                 50 Credits
