@@ -75,7 +75,7 @@ export const Demonstration = ({ className }: { className?: string }) => {
     }, [controls1, controls2, controls3, controls4, controlsOutput])
 
     return (
-        <div className="relative py-20 px-4 mx-auto bg-neutral-50 dark:bg-neutral-900">
+        <div className="w-full relative py-20 px-4 mx-auto">
             <div className="mb-32">
                 <h4 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
                     Your fantasies, come to life.

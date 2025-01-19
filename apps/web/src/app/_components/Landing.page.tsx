@@ -1,15 +1,15 @@
-import { CTA } from './cta'
-import { Demonstration } from './Demonstration'
-import { Features } from './features'
-import { Footer } from './footer'
-import { Hero } from './test/Hero'
 import { Navbar } from './navbar'
+import { Hero } from './test/Hero'
+import { Features } from './features'
+import { Demonstration } from './Demonstration'
 import { Pricing } from './pricing'
+import { CTA } from './cta'
+import { Footer } from './footer'
 
 export const LandingPage = () => {
-    // @Render
+    // *Render
     return (
-        <main>
+        <main className="w-full bg-white bg-dot-black/[0.2]">
             <Navbar />
             <Hero />
             <Features />

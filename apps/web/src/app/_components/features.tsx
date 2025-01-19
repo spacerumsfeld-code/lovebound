@@ -1,59 +1,59 @@
 import { cn } from '../../lib/utils'
 
-export const Features = () => {
-    const features = [
-        {
-            title: 'Creative Freedom at Your Fingertips',
-            description:
-                'Craft stories with customizable settings, tones, characters, and themes that suit your mood and desires.',
-            icon: '🖋️',
-        },
-        {
-            title: 'Full Ownership',
-            description:
-                'Every story you generate is yours. Share it, save it, or turn it into something greater. You own your words, your fantasies, and your creations.',
-            icon: '📜',
-        },
-        {
-            title: 'Infinite Variety',
-            description:
-                'Choose from countless themes, settings, and genres to create tales that span from lighthearted romance to the steamiest encounters.',
-            icon: ' 🎨',
-        },
-        {
-            title: 'Diverse Representation',
-            description:
-                'Stories for everyone. Celebrate underrepresented groups and diverse characters in tales that feel authentic and meaningful to you.',
-            icon: '🌍',
-        },
-        {
-            title: 'Easy and Intuitive',
-            description:
-                "Customize your dream story in minutes, whether you're a seasoned writer or just want a good read.",
-            icon: '🌟',
-        },
-        {
-            title: 'A Story for Every Mood',
-            description:
-                "Whether you're craving romance, adventure, or mystery, tailor your story to match your feelings. Let your imagination run wild.",
-            icon: '💭',
-        },
-        {
-            title: 'Privacy Guaranteed',
-            description:
-                'Your fantasies are safe with us. We ensure your stories are private and stored securely for your eyes only.',
-            icon: '🔒',
-        },
-        {
-            title: 'Constantly Growing',
-            description:
-                'We are always adding new features to make your experience even better.',
-            icon: '❤️',
-        },
-    ]
+const features = [
+    {
+        title: 'Creative Freedom at Your Fingertips',
+        description:
+            'Craft stories with customizable settings, tones, characters, and themes that suit your mood and desires.',
+        icon: '🖋️',
+    },
+    {
+        title: 'Full Ownership',
+        description:
+            'Every story you generate is yours. Share it, save it, or turn it into something greater. You own your words, your fantasies, and your creations.',
+        icon: '📜',
+    },
+    {
+        title: 'Infinite Variety',
+        description:
+            'Choose from countless themes, settings, and genres to create tales that span from lighthearted romance to the steamiest encounters.',
+        icon: ' 🎨',
+    },
+    {
+        title: 'Diverse Representation',
+        description:
+            'Stories for everyone. Celebrate underrepresented groups and diverse characters in tales that feel authentic and meaningful to you.',
+        icon: '🌍',
+    },
+    {
+        title: 'Easy and Intuitive',
+        description:
+            "Customize your dream story in minutes, whether you're a seasoned writer or just want a good read.",
+        icon: '🌟',
+    },
+    {
+        title: 'A Story for Every Mood',
+        description:
+            "Whether you're craving romance, adventure, or mystery, tailor your story to match your feelings. Let your imagination run wild.",
+        icon: '💭',
+    },
+    {
+        title: 'Privacy Guaranteed',
+        description:
+            'Your fantasies are safe with us. We ensure your stories are private and stored securely for your eyes only.',
+        icon: '🔒',
+    },
+    {
+        title: 'Constantly Growing',
+        description:
+            'We are always adding new features to make your experience even better.',
+        icon: '❤️',
+    },
+]
 
+export const Features = () => {
     return (
-        <div className="relative my-10 lg:my-40 max-w-7xl mx-auto">
+        <div className="w-full relative py-16 mx-auto">
             <div id="features">
                 <h4 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
                     An ever-expanding list of features to empower you to create.

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconCheck, IconPlus } from '@tabler/icons-react'
+import { IconCheck } from '@tabler/icons-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../components/ui/button'
 
@@ -58,17 +58,16 @@ const plans: Array<Plan> = [
             'Suggest features and we will work to enhance your experience',
             '+1 Free addon pack each month for even more settings, themes, and genres',
         ],
-        additionalFeatures: ['Everything in Mini Plan'],
         buttonText: 'Get Started',
         href: '/dashboard/create',
     },
 ]
 
-export function Pricing() {
+export const Pricing = () => {
     return (
         <div
             id="pricing"
-            className="relative isolate bg-white dark:bg-neutral-950 w-full px-4 py-0 sm:py-20 lg:px-4 "
+            className="w-full px-4 py-8 sm:py-20 lg:px-4 relative"
         >
             <div
                 className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl"
@@ -172,15 +171,6 @@ const Card = ({ plan }: { plan: Plan }) => {
                         <Step key={idx}>{feature}</Step>
                     ))}
                 </div>
-                {plan.additionalFeatures &&
-                    plan.additionalFeatures.length > 0 && <Divider />}
-                <div className="p-4">
-                    {plan.additionalFeatures?.map((feature, idx) => (
-                        <Step additional key={idx}>
-                            {feature}
-                        </Step>
-                    ))}
-                </div>
             </div>
         </div>
     )
@@ -208,28 +198,6 @@ const Step = ({
                 className={cn('font-medium text-black text-sm dark:text-white')}
             >
                 {children}
-            </div>
-        </div>
-    )
-}
-
-const Divider = () => {
-    return (
-        <div className="relative">
-            <div className={cn('w-full h-px dark:bg-neutral-950 bg-white')} />
-            <div
-                className={cn('w-full h-px bg-neutral-200 dark:bg-neutral-800')}
-            />
-            <div
-                className={cn(
-                    'absolute inset-0 h-5 w-5 m-auto rounded-xl dark:bg-neutral-800 bg-white shadow-[0px_-1px_0px_0px_var(--neutral-200)] dark:shadow-[0px_-1px_0px_0px_var(--neutral-700)] flex items-center justify-center',
-                )}
-            >
-                <IconPlus
-                    className={cn(
-                        'h-3 w-3 [stroke-width:4px] dark:text-neutral-300 text-black',
-                    )}
-                />
             </div>
         </div>
     )

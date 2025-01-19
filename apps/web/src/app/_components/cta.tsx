@@ -11,7 +11,7 @@ export const CTA = () => {
             className="w-full grid grid-cols-1 md:grid-cols-3 my-20 md:my-40 justify-start relative z-20 max-w-7xl mx-auto bg-gradient-to-br from-gray-100 to-white dark:from-neutral-900 dark:to-neutral-950"
         >
             <GridLineHorizontal className="top-0" offset="0px" />
-            <GridLineHorizontal className="bottom-0 top-auto" />
+            <GridLineHorizontal className="bottom-0 top-auto" offset="0px" />
             <GridLineVertical className="left-0" offset="0px" />
             <GridLineVertical className="left-auto right-0" offset="0px" />
             <div className="md:col-span-2 p-8 md:p-14">
