@@ -3,7 +3,8 @@ import { router } from '../_internals/router'
 import { baseProcedure } from '../_internals/index'
 import { HTTPException } from 'hono/http-exception'
 import { extractFulfilledValues, handleAsync } from '@utils'
-import { Payment, ProductTypeEnum, User } from '@core'
+import { Payment, ProductTypeEnum, User, Notification } from '@core'
+import { EmailType } from '@transactional'
 
 export const paymentRouter = router({
     getCheckoutUrl: baseProcedure
@@ -123,6 +124,23 @@ export const paymentRouter = router({
                 throw new HTTPException(400, {
                     message: 'Failed to purchase item',
                 })
+            }
+
+            const [userEmail, getUserEmailError] = await handleAsync(
+                User.getUserEmail({ userId: input.userId }),
+            )
+            if (getUserEmailError) {
+                console.error(getUserEmailError)
+            }
+
+            const [, sendEmailError] = await handleAsync(
+                Notification.sendEmail({
+                    to: userEmail!,
+                    emailType: EmailType.PurchaseSuccessful,
+                }),
+            )
+            if (sendEmailError) {
+                console.error(sendEmailError)
             }
 
             return c.superjson({

@@ -50,6 +50,7 @@ export const createCheckoutSession = async ({
         metadata: {
             userId,
             productType,
+            customerEmail,
         },
     })
 

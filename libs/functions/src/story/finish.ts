@@ -1,5 +1,6 @@
 import { orchestrationClient } from '@clients/orchestration.client'
-import { Notification, Story } from '@core'
+import { Notification, Story, User } from '@core'
+import { EmailType } from '@transactional'
 import { handleAsync } from '@utils'
 
 export const finishStory = orchestrationClient.createFunction(
@@ -45,6 +46,29 @@ export const finishStory = orchestrationClient.createFunction(
         )
         if (postToConnectionError) {
             console.error(postToConnectionError)
+        }
+
+        const [userEmail, getUserEmailError] = await handleAsync(
+            User.getUserEmail({ userId: data.ownerId }),
+        )
+        if (getUserEmailError) {
+            console.error(getUserEmailError)
+            return {
+                status: 'failed',
+                message: getUserEmailError.message,
+            }
+        }
+
+        const [, sendEmailError] = await step.run('Send Email', () =>
+            handleAsync(
+                Notification.sendEmail({
+                    to: userEmail!,
+                    emailType: EmailType.StoryCompleted,
+                }),
+            ),
+        )
+        if (sendEmailError) {
+            console.error(sendEmailError)
         }
 
         return { status: 'initiated' }

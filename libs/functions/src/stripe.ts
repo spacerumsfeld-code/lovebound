@@ -1,8 +1,9 @@
 import type { Stripe } from 'stripe'
 import { stripeClient } from '@clients/stripe.client'
 import { Resource } from 'sst'
-import { Payment, ZCheckoutCompleteMetadata } from '@core'
+import { Payment, ZCheckoutCompleteMetadata, Notification } from '@core'
 import { handleAsync } from '@utils'
+import { EmailType } from '@transactional'
 
 export const handler = async (req: any) => {
     let event: Stripe.Event
@@ -60,6 +61,7 @@ export const handler = async (req: any) => {
                             body: JSON.stringify({ error: topupError.message }),
                         }
                     }
+
                     break
             }
         } catch (error) {
@@ -73,6 +75,9 @@ export const handler = async (req: any) => {
 
     return {
         status: 200,
-        body: JSON.stringify({ received: true }),
+        body: JSON.stringify({
+            success: true,
+            message: `💰 ${event.type} processed successfully`,
+        }),
     }
 }

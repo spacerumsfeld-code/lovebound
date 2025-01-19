@@ -31,6 +31,7 @@ export enum ProductIdEnum {
 export const ZCheckoutCompleteMetadata = z.object({
     userId: z.string(),
     productType: z.nativeEnum(ProductTypeEnum),
+    customerEmail: z.string(),
 })
 
 export const StoryIdToCostMap = {
