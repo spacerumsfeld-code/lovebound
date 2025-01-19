@@ -59,6 +59,8 @@ class NotificationService {
         emailType: EmailType
     }) => {
         await this.email.sendEmail({ to, emailType })
+
+        return { success: true }
     }
 }
 

@@ -15,6 +15,7 @@ import {
     Text,
 } from 'jsx-email'
 import { Resource } from 'sst'
+import React from 'react'
 
 const main = {
     backgroundColor: '#ffffff',

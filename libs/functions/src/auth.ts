@@ -5,6 +5,8 @@ import { UserCreatedOrUpdatedData, User, ClerkUserEvent } from '@core'
 import { Handler, APIGatewayEvent } from 'aws-lambda'
 import { UserDeletedData } from '@client-types/user/user.model'
 import { emailClient } from '@clients/email.client'
+import { Notification } from '@core'
+import { EmailType } from '@transactional'
 
 export const handler: Handler = async (req: APIGatewayEvent) => {
     try {
@@ -93,6 +95,29 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
 
+                const [, sendWelcomeEmailError] = await handleAsync(
+                    Notification.sendEmail({
+                        to: createData.email_addresses.find(
+                            (email) =>
+                                email.id ===
+                                createData.primary_email_address_id,
+                        )!.email_address,
+                        emailType: EmailType.Welcome,
+                    }),
+                )
+                if (sendWelcomeEmailError) {
+                    console.error(`
+                        👤❌ sendWelcomeEmail error:
+                        ${JSON.stringify(sendWelcomeEmailError)}
+                    `)
+                    return {
+                        status: 500,
+                        body: JSON.stringify({
+                            error: sendWelcomeEmailError!.message,
+                        }),
+                    }
+                }
+
                 break
             case 'user.updated':
                 const updateData = eventData.data as UserCreatedOrUpdatedData
@@ -147,6 +172,13 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
                 break
+        }
+
+        return {
+            status: 200,
+            body: JSON.stringify({
+                message: `User event handled of type ${eventData.type}`,
+            }),
         }
     }
 }
