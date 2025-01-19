@@ -35,7 +35,10 @@ export const Header = (props: {
                         variant="primary"
                         as={Link}
                         className={cn(
-                            cta.active ? 'bg-indigo-500' : 'bg-indigo-300',
+                            cta.active
+                                ? 'bg-indigo-400 hover:bg-indigo-300'
+                                : 'bg-indigo-300 hover:bg-indigo-200',
+                            'from-transparent to-transparent',
                         )}
                         href={cta.href}
                         key={index}

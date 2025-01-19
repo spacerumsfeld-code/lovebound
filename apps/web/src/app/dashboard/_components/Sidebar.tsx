@@ -10,7 +10,6 @@ import { UserButton } from '@clerk/nextjs'
 import { Logo } from '../../_components/logo'
 import { Button } from '../../..//components/ui/button'
 import { CreditDisplay } from './credit-display/CreditDisplay'
-import { DashboardThemeToggle } from './DashboardModleToggle'
 import Link from 'next/link'
 
 export const AppSidebar = ({
@@ -28,7 +27,6 @@ export const AppSidebar = ({
                         + Create Story
                     </Button>
                     <CreditDisplay />
-                    <DashboardThemeToggle />
                 </div>
             </SidebarContent>
             <SidebarFooter>

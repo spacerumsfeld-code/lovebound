@@ -7,6 +7,7 @@ import Balancer from 'react-wrap-balancer'
 import { Button } from '../../../components/ui/button'
 import { HeartBeam } from './HeartBeam'
 import { BackgroundGrids } from '../BackgroundGrids'
+import { ArrowRight } from 'lucide-react'
 
 export const Hero = () => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -120,8 +121,13 @@ export const Hero = () => {
                 transition={{ duration: 0.2, delay: 0.7 }}
                 className="mb-10 mt-8 flex w-full flex-col items-center justify-center gap-4 px-8 sm:flex-row md:mb-20"
             >
-                <Button href="/login" className="w-40 bg-indigo-400 text-white">
+                <Button
+                    href="/login"
+                    variant="primary"
+                    className="flex gap-x-2 group justify-center items-center"
+                >
                     Get Started
+                    <ArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
                 </Button>
             </motion.div>
             <motion.div

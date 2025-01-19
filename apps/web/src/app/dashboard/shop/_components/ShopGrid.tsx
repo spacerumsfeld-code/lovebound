@@ -30,16 +30,6 @@ export const ShopGrid = ({
     // @State
     const headerCtaConfig = [
         {
-            title: 'Value Packs',
-            href: `/dashboard/shop?type=${ItemTypeEnum.Pack}`,
-            active: Boolean(args.type === ItemTypeEnum.Pack),
-        },
-        {
-            title: 'Genres',
-            href: `/dashboard/shop?type=${ItemTypeEnum.Genre}`,
-            active: Boolean(args.type === ItemTypeEnum.Genre),
-        },
-        {
             title: 'Themes',
             href: `/dashboard/shop?type=${ItemTypeEnum.Theme}`,
             active: Boolean(args.type === ItemTypeEnum.Theme),

@@ -12,8 +12,8 @@ import Link from 'next/link'
 import React, { useRef, useState } from 'react'
 import { Button } from '../../components/ui//button'
 import { Logo } from './logo'
-import { ModeToggle } from './mode-toggle'
 import { SITE_MAP } from '../../constants'
+import { ArrowRight } from 'lucide-react'
 
 interface NavbarProps {
     navItems: {
@@ -123,7 +123,6 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                 )}
             </motion.div>
             <div className="flex items-center gap-4">
-                <ModeToggle />
                 <AnimatePresence mode="popLayout" initial={false}>
                     {!visible && (
                         <motion.div
@@ -143,15 +142,16 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                                 duration: 0.5,
                                 ease: 'easeOut',
                             }}
-                        ></motion.div>
+                        />
                     )}
                 </AnimatePresence>
                 <Button
                     href="/login"
                     variant="primary"
-                    className="hidden md:block"
+                    className="hidden md:flex gap-x-2 group justify-center items-center"
                 >
-                    Claim Free Story
+                    Free Story
+                    <ArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
                 </Button>
             </div>
         </motion.div>
