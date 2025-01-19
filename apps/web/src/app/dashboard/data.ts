@@ -1,5 +1,3 @@
-'use server'
-
 import { client as api } from '@clients/api.client'
 import { currentUser } from '@clerk/nextjs/server'
 import { cache as dedupe } from 'react'
@@ -17,7 +15,9 @@ export const getRecentStories = async () => {
 
         return { recentStories }
     } catch (error) {
-        throw new Error(`client.getRecentStories failed with error: ${error}`)
+        throw new Error(
+            `❌ client.getRecentStories failed with error: ${error}`,
+        )
     }
 }
 

@@ -108,7 +108,7 @@ export const Demonstration = ({ className }: { className?: string }) => {
 
                 <div className="flex flex-col items-center justify-center">
                     <Card className="flex flex-col items-center justify-center">
-                        <Logo height={100} width={100} noLabel />
+                        <Logo height={100} width={100} />
                     </Card>
                 </div>
 

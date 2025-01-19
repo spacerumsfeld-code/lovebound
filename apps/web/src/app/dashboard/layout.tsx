@@ -1,5 +1,5 @@
 import { Separator } from '../../components/ui/separator'
-import { AppSidebar } from './_components/Sidebar'
+import { AppSidebar } from './_components/side-bar/Sidebar'
 import {
     SidebarInset,
     SidebarProvider,
@@ -10,7 +10,7 @@ import { ActionsFromParams } from '../../components/ui/actions-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '../../components/ui/sonner'
 import { WebsocketWrapper } from './_components/websocket/WebsocketWrapper'
-import { Breadcrumbs } from './_components/crumbs'
+import { Breadcrumbs } from './_components/side-bar/crumbs'
 import { Modal } from './_components/modals/Modal'
 import Script from 'next/script'
 import { EnvironmentEnum } from 'src/constants'

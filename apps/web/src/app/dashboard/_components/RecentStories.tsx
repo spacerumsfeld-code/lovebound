@@ -1,10 +1,11 @@
-import { Button } from '../../../components/ui/buttonTwo'
+import { Button } from '../../../components/ui/button'
 import { Card, CardHeader, CardTitle } from '../../../components/ui/card'
 import { ArrowRight, Book } from 'lucide-react'
 import { Suspense } from 'react'
 import { RecentStoriesAsync } from './RecentStories.async'
 import { ScrollArea } from '../../../components/ui/scroll-area'
 import { RecentStoriesSkeleton } from './RecentStories.skeleton'
+import { SITE_MAP } from 'src/constants'
 
 export const RecentStories = () => {
     // @Render
@@ -17,10 +18,10 @@ export const RecentStories = () => {
                 </CardTitle>
                 <Button
                     variant="link"
-                    className="text-sm text-muted-foreground"
+                    href={SITE_MAP.STORIES}
+                    className="text-md hover:text-indigo-500 text-muted-foreground"
                 >
                     View all
-                    <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </CardHeader>
 

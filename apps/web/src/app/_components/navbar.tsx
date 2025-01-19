@@ -23,22 +23,22 @@ interface NavbarProps {
     visible: boolean
 }
 
-export const Navbar = () => {
-    const navItems = [
-        {
-            name: 'Features',
-            link: '/#features',
-        },
-        {
-            name: 'Pricing',
-            link: '/#pricing',
-        },
-        {
-            name: 'Free',
-            link: '/#free',
-        },
-    ]
+const navItems = [
+    {
+        name: 'Features',
+        link: '/#features',
+    },
+    {
+        name: 'Pricing',
+        link: '/#pricing',
+    },
+    {
+        name: 'Free',
+        link: '/#free',
+    },
+]
 
+export const Navbar = () => {
     const ref = useRef<HTMLDivElement>(null)
     const { scrollY } = useScroll({
         target: ref,
@@ -92,7 +92,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
             )}
         >
             <div className="flex gap-x-4 justify-center items-center">
-                <Logo />
+                <Logo label />
             </div>
             <motion.div className="lg:flex flex-row flex-1 absolute inset-0 hidden items-center justify-center space-x-2 lg:space-x-2 text-sm text-zinc-600 font-medium hover:text-zinc-800 transition duration-200">
                 {navItems.map(

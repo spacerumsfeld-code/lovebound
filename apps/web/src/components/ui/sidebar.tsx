@@ -219,7 +219,7 @@ const Sidebar = React.forwardRef<
                         }
                         side={side}
                     >
-                        <div className="flex h-full w-full flex-col">
+                        <div className="flex h-full w-full flex-col bg-white">
                             {children}
                         </div>
                     </SheetContent>
@@ -436,10 +436,7 @@ const SidebarGroup = React.forwardRef<
         <div
             ref={ref}
             data-sidebar="group"
-            className={cn(
-                'relative flex w-full min-w-0 flex-col p-2',
-                className,
-            )}
+            className={cn('relative flex w-full min-w-0 flex-col', className)}
             {...props}
         />
     )

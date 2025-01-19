@@ -64,7 +64,7 @@ export function Footer() {
             <div className="max-w-7xl mx-auto text-sm text-neutral-500 flex sm:flex-row flex-col justify-between items-start  md:px-8">
                 <div>
                     <div className="mr-0 md:mr-4  md:flex mb-4">
-                        <Logo />
+                        <Logo label />
                     </div>
 
                     <div className="mt-2 ml-2">

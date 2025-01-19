@@ -1,10 +1,10 @@
 'use client'
 
-import { Button } from '../../../../components/ui/buttonTwo'
+import { Button } from 'src/components/ui/button'
 import { useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { JSX, useState } from 'react'
-import useLoading from '../../../../hooks/use-loading'
+import useLoading from 'src/hooks/use-loading'
 import { getShopItems } from '../data'
 import { ItemTypeEnum } from '@client-types/item/item.model'
 

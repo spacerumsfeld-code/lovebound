@@ -20,7 +20,7 @@ export const Button = ({
     disabled?: boolean
     className?: string
     onClick?: () => void
-    variant?: 'primary' | 'secondary' | 'dark' | 'gradient'
+    variant?: 'primary' | 'secondary' | 'link'
 } & (
     | React.ComponentPropsWithoutRef<'a'>
     | React.ComponentPropsWithoutRef<'button'>
@@ -32,7 +32,9 @@ export const Button = ({
     const variantStyles = {
         primary:
             'shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset] bg-gradient-to-b from-indigo-400 to-indigo-500 hover:bg-indigo-300',
-        secondary: 'bg-transparent shadow-none bg-teal-500 hover:bg-teal-400',
+        secondary:
+            'shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset] bg-gradient-to-b from-teal-400 to-teal-500 hover:bg-teal-300',
+        link: 'bg-transparent shadow-none',
     }
 
     return (

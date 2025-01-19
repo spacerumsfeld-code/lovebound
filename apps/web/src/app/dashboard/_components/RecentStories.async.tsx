@@ -1,5 +1,7 @@
+import Link from 'next/link'
 import { getRecentStories } from '../data'
 import Image from 'next/image'
+import { SITE_MAP } from 'src/constants'
 
 export const RecentStoriesAsync = async () => {
     // @Data
@@ -7,14 +9,15 @@ export const RecentStoriesAsync = async () => {
 
     // @Render
     if (!recentStories) {
-        return <h3 className="text-lg font-semibold">No stories found</h3>
+        return <h3 className="text-lg font-semibold">No stories yet!</h3>
     }
 
     return (
         <div className="grid grid-cols-2 gap-4 p-8">
             {recentStories.map((story, index) => (
-                <div
+                <Link
                     key={`story.id_${index}`}
+                    href={SITE_MAP.STORIES}
                     className="relative rounded-lg overflow-hidden group cursor-pointer"
                 >
                     <Image
@@ -29,7 +32,7 @@ export const RecentStoriesAsync = async () => {
                             {story.title}
                         </span>
                     </div>
-                </div>
+                </Link>
             ))}
         </div>
     )
