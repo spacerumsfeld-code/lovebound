@@ -59,10 +59,10 @@ export const ShopHeader = (props: { type: ItemTypeEnum }) => {
                     variant="primary"
                     as={Link}
                     className={cn(
-                        cta.active
-                            ? 'bg-indigo-400 hover:bg-indigo-300'
-                            : 'bg-indigo-300 hover:bg-indigo-200',
                         'from-transparent to-transparent',
+                        cta.active
+                            ? 'bg-indigo-400 hover:bg-indigo-300 active:bg-indigo-400'
+                            : 'bg-indigo-300 hover:bg-indigo-200 active:bg-indigo-300',
                     )}
                     href={cta.href}
                     key={index}

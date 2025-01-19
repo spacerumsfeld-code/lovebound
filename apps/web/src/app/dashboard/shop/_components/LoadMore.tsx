@@ -2,7 +2,7 @@
 
 import { Button } from 'src/components/ui/button'
 import { useSearchParams } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
+import { Loader2, ChevronDown } from 'lucide-react'
 import { JSX, useState } from 'react'
 import useLoading from 'src/hooks/use-loading'
 import { getShopItems } from '../data'
@@ -36,14 +36,17 @@ export const LoadMore = (props: { nextOffset: number }) => {
             ) : (
                 <div className="flex flex-col mx-auto gap-y-2 w-full items-center py-8">
                     <Button
+                        variant="primary"
+                        disabled={isLoading('loadMoreStories')}
                         onClick={() => handleLoadMore()}
-                        className="bg-indigo-400 hover:bg-indigo-300 text-white"
+                        className="flex items-center justify-center"
                     >
                         {isLoading('loadMoreStories') ? (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
-                            <div>Load More</div>
+                            <ChevronDown className="mr-2 h-4 w-4" />
                         )}
+                        Load More
                     </Button>
                 </div>
             )}

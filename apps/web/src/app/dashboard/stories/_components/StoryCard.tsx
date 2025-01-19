@@ -66,7 +66,6 @@ export const StoryCard = (props: { story: TStoryWithScenes }) => {
                             {props.story.title}
                         </h3>
                     </div>
-                    <div className="absolute inset-0 bg-black/30" />
                 </Card>
             </motion.div>
         </EReaderModal>

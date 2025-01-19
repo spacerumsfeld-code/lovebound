@@ -9,7 +9,7 @@ import {
 import { Button } from 'src/components/ui/button'
 import Image from 'next/image'
 import { Badge } from 'src/components/ui/badge'
-import { Pause, ShoppingCart } from 'lucide-react'
+import { Loader2, ShoppingCart } from 'lucide-react'
 import { Separator } from 'src/components/ui/separator'
 import useLoading from 'src/hooks/use-loading'
 import { useState } from 'react'
@@ -96,11 +96,11 @@ export const ShopItemModal = (props: {
                     <Button
                         variant="secondary"
                         disabled={isLoading('purchaseItem') || needMoreCredits}
-                        className="flex"
+                        className="flex items-center justify-center"
                         onClick={() => handleBuyNow()}
                     >
                         {isLoading('purchaseItem') ? (
-                            <Pause className="mr-2 h-4 w-4 animate-spin" />
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
                             <ShoppingCart className="mr-2 h-4 w-4" />
                         )}

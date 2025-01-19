@@ -1,4 +1,4 @@
-import { ShopItemCard } from './ShopItemCard'
+import { ShopItemCard } from './shop-card/ShopItemCard'
 import React from 'react'
 import { LoadMore } from './LoadMore'
 import { TItem } from '@client-types/item/item.model'

@@ -1,11 +1,12 @@
 'use client'
 
-import { Card } from '../../../../components/ui/card'
-import { cn } from '../../../../lib/utils'
+import { Card } from '../../../../../components/ui/card'
+import { cn } from '../../../../../lib/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { ShopItemModal } from '../../_components/modals/ShopItem.modal'
+import { ShopItemModal } from '../../../_components/modals/ShopItem.modal'
 import { TItem } from '@client-types/item/item.model'
+import { TypeLabel } from './TypeLabel'
 
 export const ShopItemCard = (props: {
     item: Partial<TItem>
@@ -33,7 +34,7 @@ export const ShopItemCard = (props: {
                             {props.item.name}
                         </h3>
                     </div>
-                    <div className="absolute inset-0 bg-black/30" />
+                    <TypeLabel type={props.item.type} />
                 </Card>
             </motion.div>
         </ShopItemModal>
