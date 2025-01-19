@@ -58,9 +58,12 @@ class NotificationService {
         to: string
         emailType: EmailType
     }) => {
-        await this.email.sendEmail({ to, emailType })
-
-        return { success: true }
+        try {
+            await this.email.sendEmail({ to, emailType })
+            return { success: true }
+        } catch (error) {
+            throw new Error(error)
+        }
     }
 }
 

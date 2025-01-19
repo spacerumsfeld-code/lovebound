@@ -2,10 +2,11 @@ import { z } from 'zod'
 import { router } from '../_internals/router'
 import { handleAsync } from '@utils'
 import { baseProcedure } from '../_internals/index'
-import { Payment, Story, ZCreateStory } from '@core'
+import { Payment, Story, ZCreateStory, Notification, User } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
 import { storyLengthMap } from '@client-types/item/item.model'
+import { EmailType } from '@transactional'
 
 export const storyRouter = router({
     getStories: baseProcedure
@@ -134,6 +135,29 @@ export const storyRouter = router({
                 console.error(`❌ orchestration error:`, orchestrationError)
                 throw new HTTPException(400, {
                     message: orchestrationError.message,
+                })
+            }
+
+            const [userEmail, getUserEmailError] = await handleAsync(
+                User.getUserEmail({ userId: input.ownerId }),
+            )
+            if (getUserEmailError) {
+                console.error(`❌ getUserEmail error:`, getUserEmailError)
+                throw new HTTPException(400, {
+                    message: getUserEmailError.message,
+                })
+            }
+
+            const [, sendEmailError] = await handleAsync(
+                Notification.sendEmail({
+                    to: userEmail!,
+                    emailType: EmailType.StoryCreated,
+                }),
+            )
+            if (sendEmailError) {
+                console.error(`❌ sendWelcomeEmail error:`, sendEmailError)
+                throw new HTTPException(400, {
+                    message: sendEmailError.message,
                 })
             }
 

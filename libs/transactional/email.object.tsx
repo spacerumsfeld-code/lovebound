@@ -1,6 +1,7 @@
 import { render } from 'jsx-email'
 import { EmailType } from './email.model'
 import { BaseEmail } from './emails'
+import * as React from 'react'
 
 export const emails = {
     [EmailType.Welcome]: {
