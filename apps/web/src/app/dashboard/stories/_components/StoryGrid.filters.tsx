@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { ThemeIdEnum, GenreIdEnum } from '@client-types/item/item.model'
 
 export const StoryGridFilters = (props: { genre: number; theme: number }) => {
-    // @Interactivity
+    // *Interactivity
     const router = useRouter()
 
     const handleGenreFilterChange = (filter: string) => {
@@ -28,10 +28,10 @@ export const StoryGridFilters = (props: { genre: number; theme: number }) => {
         router.push(`/dashboard/stories?theme=${themeId}&genre=${props.genre}`)
     }
 
-    // @Render
+    // *Render
     return (
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 justify-between">
                 <p className="text-bold">Genre</p>
                 <Select
                     onValueChange={(value) =>
@@ -56,7 +56,7 @@ export const StoryGridFilters = (props: { genre: number; theme: number }) => {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 justify-between">
                 <p className="text-bold">Theme</p>
                 <Select
                     onValueChange={(value) =>

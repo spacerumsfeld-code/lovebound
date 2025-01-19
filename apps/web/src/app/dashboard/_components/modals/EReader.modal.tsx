@@ -71,15 +71,18 @@ export const EReaderModal = (props: {
         <Modal>
             <ModalTrigger>{props.children}</ModalTrigger>
             <ModalBody>
-                <ModalContent>
+                <ModalContent className="p-0">
                     <div
-                        className={`flex flex-col h-[90vh] bg-amber-50 transition-colors duration-300`}
+                        className={`flex flex-col h-[90vh] md:h-[90vh] bg-amber-50 transition-colors duration-300`}
                     >
-                        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h2 className="text-2xl font-bold">
+                        {/* Header */}
+                        <div className="flex justify-between items-center p-3 md:p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h2 className="text-lg md:text-2xl font-bold truncate">
                                 {props.story.title}
                             </h2>
                         </div>
+
+                        {/* Content */}
                         <div className="flex-1 overflow-hidden relative">
                             <ScrollArea className="h-full">
                                 <AnimatePresence mode="wait">
@@ -93,7 +96,7 @@ export const EReaderModal = (props: {
                                             stiffness: 300,
                                             damping: 30,
                                         }}
-                                        className="p-8 space-y-4 min-h-full flex flex-col justify-between"
+                                        className="p-4 md:p-8 space-y-4 min-h-full flex flex-col justify-between"
                                         style={{
                                             backgroundColor: '#fff9e6',
                                             boxShadow:
@@ -109,6 +112,7 @@ export const EReaderModal = (props: {
                                                     textAlign: 'justify',
                                                     columnCount: 1,
                                                     columnGap: '2rem',
+                                                    padding: '0 0.5rem',
                                                 }}
                                             >
                                                 {currentScene.content
@@ -122,7 +126,9 @@ export const EReaderModal = (props: {
                                                     ))}
                                             </div>
                                         </div>
-                                        <div className="flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700">
+
+                                        {/* Controls */}
+                                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-2 md:p-4 border-t border-gray-200 dark:border-gray-700">
                                             <Button
                                                 variant="ghost"
                                                 onClick={handlePrevScene}
@@ -130,12 +136,14 @@ export const EReaderModal = (props: {
                                                     currentSceneIndex === 0
                                                 }
                                                 aria-label="Previous scene"
+                                                className="w-full md:w-auto"
                                             >
                                                 <ChevronLeft className="h-4 w-4 mr-2" />
                                                 Previous
                                             </Button>
-                                            <div className="flex items-center space-x-2">
-                                                <span className="text-sm">
+
+                                            <div className="flex items-center space-x-2 w-full md:w-auto justify-center">
+                                                <span className="text-sm hidden md:inline">
                                                     Aa
                                                 </span>
                                                 <Slider
@@ -146,12 +154,13 @@ export const EReaderModal = (props: {
                                                     min={12}
                                                     max={24}
                                                     step={1}
-                                                    className="w-32"
+                                                    className="w-24 md:w-32"
                                                 />
-                                                <span className="text-sm">
+                                                <span className="text-sm hidden md:inline">
                                                     Aa
                                                 </span>
                                             </div>
+
                                             <Button
                                                 variant="ghost"
                                                 onClick={handleNextScene}
@@ -160,13 +169,16 @@ export const EReaderModal = (props: {
                                                     totalScenes - 1
                                                 }
                                                 aria-label="Next scene"
+                                                className="w-full md:w-auto"
                                             >
                                                 Next
                                                 <ChevronRight className="h-4 w-4 ml-2" />
                                             </Button>
                                         </div>
+
+                                        {/* Audio Controls */}
                                         {currentScene.narrationUrl && (
-                                            <div className="flex justify-center items-center p-4 border-t border-gray-200 dark:border-gray-700">
+                                            <div className="flex justify-center items-center p-2 md:p-4 border-t border-gray-200 dark:border-gray-700">
                                                 <audio
                                                     ref={audioRef}
                                                     src={

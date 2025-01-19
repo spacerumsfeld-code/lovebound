@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <ActionsFromParams />
             </Suspense>
             <WebsocketWrapper />
-            <Toaster />
+            <Toaster position="bottom-center" />
             <Modal />
         </>
     )

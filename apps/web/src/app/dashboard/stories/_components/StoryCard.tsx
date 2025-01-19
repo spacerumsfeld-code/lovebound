@@ -6,13 +6,23 @@ import { cn } from '../../../../lib/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { EReaderModal } from '../../_components/modals/EReader.modal'
+import { useToast } from 'src/hooks/use-toast'
 
 export const StoryCard = (props: { story: TStoryWithScenes }) => {
-    // @Render
+    // *Interactivity
+    const { showToast } = useToast()
+
+    const handleInProgressClick = () => {
+        showToast('ℹ️ This story is still in progress. Check back soon!')
+        return
+    }
+
+    // *Render
     if (props.story.inProgress)
         return (
             <motion.div
                 whileHover={{ scale: 1.02 }}
+                onClick={() => handleInProgressClick()}
                 className={cn(
                     'h-[400px] w-[300px] relative group cursor-pointer',
                 )}
