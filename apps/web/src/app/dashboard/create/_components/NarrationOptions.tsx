@@ -10,6 +10,7 @@ import {
 } from 'src/components/ui/card'
 import { Label } from 'src/components/ui/label'
 import { ScrollArea } from 'src/components/ui/scroll-area'
+import { useToast } from 'src/hooks/use-toast'
 import { cn } from 'src/lib/utils'
 
 export const NarrationOptions = (props: {
@@ -17,8 +18,22 @@ export const NarrationOptions = (props: {
     narrationEnabled: boolean
     handleInputChange: (field: string, value: string | boolean) => void
 }) => {
+    // *Interactivity
+    const { showToast } = useToast()
+
+    const handleVoiceClick = (value: string) => {
+        if (!props.narrationEnabled) {
+            showToast(
+                '❌ Narration is currently only available for mini stories.',
+            )
+            return
+        }
+        props.handleInputChange('narrationVoice', value)
+    }
+
+    // *Render
     return (
-        <Card className="w-80">
+        <Card className="w-80 relative w-full md:w-80">
             <CardHeader>
                 <CardTitle>Narration</CardTitle>
             </CardHeader>
@@ -30,11 +45,14 @@ export const NarrationOptions = (props: {
                             ([key, value]) => (
                                 <div
                                     key={value}
+                                    onClick={() => handleVoiceClick(value)}
                                     className={cn(
-                                        'flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg',
+                                        'flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer',
+                                        'hover:bg-indigo-50 active:bg-indigo-100',
                                         props.narrationEnabled &&
-                                            props.selectedVoice === value &&
-                                            'border-indigo-400 border outline',
+                                            props.selectedVoice === value
+                                            ? 'bg-indigo-100 ring-2 ring-indigo-500 ring-offset-2'
+                                            : 'bg-white',
                                     )}
                                 >
                                     <div className="flex items-center space-x-3">
@@ -49,14 +67,7 @@ export const NarrationOptions = (props: {
                                     </div>
                                     <Button
                                         disabled={!props.narrationEnabled}
-                                        onClick={() =>
-                                            props.handleInputChange(
-                                                'narrationVoice',
-                                                value,
-                                            )
-                                        }
                                         variant="outline"
-                                        size="sm"
                                     >
                                         Select
                                     </Button>

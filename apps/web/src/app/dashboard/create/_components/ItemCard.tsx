@@ -8,7 +8,7 @@ export const ItemCard = (props: {
     sceneNumber: number | null
     onClick: () => void
 }) => {
-    // @Render
+    // *Render
     return (
         <div
             className={cn(

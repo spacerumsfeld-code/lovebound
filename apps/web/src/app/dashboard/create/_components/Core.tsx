@@ -304,18 +304,6 @@ export const CreateStoryCore = (props: {
                     </TabsContent>
                 </ScrollArea>
             </Tabs>
-
-            <div className="fixed bottom-6 left-0 right-0 flex justify-center">
-                <ConfirmCreateModal
-                    storyData={
-                        props.storyData as unknown as Required<TCreateStoryClient>
-                    }
-                >
-                    <div className="px-4 py-2 rounded-md bg-indigo-400  text-white text-sm font-bold relative cursor-pointer inline-block text-center">
-                        + Create Story
-                    </div>
-                </ConfirmCreateModal>
-            </div>
         </div>
     )
 }

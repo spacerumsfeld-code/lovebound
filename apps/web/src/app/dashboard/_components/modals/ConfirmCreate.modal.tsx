@@ -7,8 +7,8 @@ import {
     ModalFooter,
     ModalTrigger,
 } from '../../../../components/ui/animated-modal'
-import { Button } from '../../../../components/ui/buttonTwo'
-import { Pause } from 'lucide-react'
+import { Button } from '../../../../components/ui/button'
+import { Pen, Loader2 } from 'lucide-react'
 import { submitStory } from '../../create/data'
 import {
     TCreateStoryClient,
@@ -68,15 +68,17 @@ export const ConfirmCreateModal = (props: {
                 </ModalContent>
                 <ModalFooter className="flex gap-y-4">
                     <Button
+                        variant="primary"
                         disabled={isLoading('submit.story')}
                         onClick={() => handleSubmit()}
-                        className="bg-indigo-400 text-white hover:scale-105"
+                        className="flex items-center justify-center"
                     >
                         {isLoading('submit.story') ? (
-                            <Pause className="animate-spin" />
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
-                            'Submit'
+                            <Pen className="mr-2 h-4 w-4" />
                         )}
+                        Create
                     </Button>
                 </ModalFooter>
             </ModalBody>

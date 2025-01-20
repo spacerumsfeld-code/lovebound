@@ -5,8 +5,13 @@ import { storyLengthMap, TItemInput } from '@client-types/item/item.model'
 import { ITEM_ID_MAP } from '../../../../constants'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
-import { TInitialStoryData } from '@client-types/story/story.model'
+import {
+    TCreateStoryClient,
+    TInitialStoryData,
+} from '@client-types/story/story.model'
 import { TScene } from '@client-types/scene/scene.model'
+import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
+import { Button } from 'src/components/ui/button'
 
 export const CreateStoryView = (props: {
     items: {
@@ -181,6 +186,15 @@ export const CreateStoryView = (props: {
                 narrationEnabled={storyData.includeNarration}
                 handleInputChange={handleInputChange}
             />
+            <div className="fixed bottom-6 left-0 right-0 flex justify-center">
+                <ConfirmCreateModal
+                    storyData={
+                        storyData as unknown as Required<TCreateStoryClient>
+                    }
+                >
+                    <Button variant="primary">Create Story</Button>
+                </ConfirmCreateModal>
+            </div>
         </div>
     )
 }

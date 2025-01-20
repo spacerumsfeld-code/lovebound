@@ -14,6 +14,7 @@ import { Breadcrumbs } from './_components/side-bar/crumbs'
 import { Modal } from './_components/modals/Modal'
 import Script from 'next/script'
 import { EnvironmentEnum } from 'src/constants'
+import Link from 'next/link'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -45,7 +46,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             />
                             <Breadcrumbs />
                         </div>
-                        <Button>+ Create Story</Button>
+                        <Button
+                            as={Link}
+                            variant="primary"
+                            href="/dashboard/create"
+                        >
+                            Create Story
+                        </Button>
                     </header>
                     <Separator orientation="horizontal" className="w-full" />
                     {children}
