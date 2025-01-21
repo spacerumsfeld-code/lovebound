@@ -32,18 +32,10 @@ export const CTA = () => {
             </div>
             <div className="border-t md:border-t-0 md:border-l border-dashed p-8 md:p-14">
                 <p className="text-base text-neutral-700 dark:text-neutral-200">
-                    &quot;This is the best product ever made and the perfect
-                    website with literally no flaws. I cannot recommend it
-                    enough.&quot;
+                    Join thousands of satisfied readers who&apos;ve discovered
+                    their next favorite stories. Generate several free stories
+                    today - no credit card required, no strings attached.
                 </p>
-                <div className="flex flex-col text-sm items-start mt-4 gap-1">
-                    <p className="font-bold text-neutral-800 dark:text-neutral-200">
-                        Artemis Papadakis
-                    </p>
-                    <p className="text-neutral-500 dark:text-neutral-400">
-                        Nicks mom
-                    </p>
-                </div>
             </div>
         </section>
     )

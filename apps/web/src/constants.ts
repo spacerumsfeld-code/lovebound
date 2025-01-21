@@ -6,6 +6,8 @@ export enum SITE_MAP {
     SHOP = '/dashboard/shop',
     CREATE = '/dashboard/create',
     UPGRADE = '/dashboard/upgrade',
+    PRIVACY_POLICY = '/info/privacy-policy',
+    TERMS_OF_SERVICE = '/info/terms-of-service',
 }
 
 export const ITEM_ID_MAP = new Map<string, number>([

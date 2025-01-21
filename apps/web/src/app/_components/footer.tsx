@@ -6,23 +6,15 @@ export function Footer() {
     const pages = [
         {
             title: 'Home',
-            href: '#',
+            href: '/',
         },
         {
             title: 'Features',
-            href: '#',
+            href: '/#features',
         },
         {
             title: 'Pricing',
-            href: '#',
-        },
-        {
-            title: 'Contact',
-            href: '#',
-        },
-        {
-            title: 'Blog',
-            href: '#',
+            href: '/#pricing',
         },
     ]
 
@@ -35,27 +27,15 @@ export function Footer() {
             title: 'Instagram',
             href: '#',
         },
-        {
-            title: 'Twitter',
-            href: '#',
-        },
-        {
-            title: 'LinkedIn',
-            href: '#',
-        },
     ]
     const legals = [
         {
             title: 'Privacy Policy',
-            href: '#',
+            href: '/info/privacy-policy',
         },
         {
             title: 'Terms of Service',
-            href: '#',
-        },
-        {
-            title: 'Cookie Policy',
-            href: '#',
+            href: '/info/terms-of-service',
         },
     ]
 

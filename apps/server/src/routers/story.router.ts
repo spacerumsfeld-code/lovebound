@@ -123,7 +123,7 @@ export const storyRouter = router({
                     name: 'start.story',
                     data: {
                         ...input,
-                        userId: ctx.userId!,
+                        ownerId: ctx.userId!,
                         storyId: createdStory!.id,
                     },
                 }),

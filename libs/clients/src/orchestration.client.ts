@@ -10,7 +10,7 @@ const ZStartStoryEvent = z.object({
     name: z.literal('start.story'),
     data: ZCreateStory.extend({
         storyId: z.number(),
-        userId: z.string(),
+        ownerId: z.string(),
     }),
 }) satisfies LiteralZodEventSchema
 
@@ -19,7 +19,7 @@ const ZCreateSceneEvent = z.object({
     data: ZCreateStory.extend({
         sceneNumber: z.number(),
         storyId: z.number(),
-        userId: z.string(),
+        ownerId: z.string(),
     }),
 }) satisfies LiteralZodEventSchema
 
