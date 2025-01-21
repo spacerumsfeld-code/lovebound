@@ -48,8 +48,7 @@ export function Footer() {
                     </div>
 
                     <div className="mt-2 ml-2">
-                        &copy; copyright Poes Pursuits LLC 2024. All rights
-                        reserved.
+                        &copy; Poes Pursuits LLC 2025. All rights reserved.
                     </div>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 items-start mt-10 sm:mt-0 md:mt-0">
