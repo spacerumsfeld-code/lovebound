@@ -1,16 +1,16 @@
 import { cn } from '../../lib/utils'
 
-const features = [
+const differentiators = [
     {
         title: 'Creative Freedom at Your Fingertips',
         description:
-            'Craft stories with customizable settings, tones, characters, and themes that suit your mood and desires.',
+            'Choose from a wide and expanding range of options to craft your stories.',
         icon: '🖋️',
     },
     {
         title: 'Full Ownership',
         description:
-            'Every story you generate is yours. Share it, save it, or turn it into something greater. You own your words, your fantasies, and your creations.',
+            'Every story you generate is yours. Share it, save it, or turn it into something greater.',
         icon: '📜',
     },
     {
@@ -26,15 +26,14 @@ const features = [
         icon: '🌍',
     },
     {
-        title: 'Easy and Intuitive',
+        title: 'Intuitive',
         description:
-            "Customize your dream story in minutes, whether you're a seasoned writer or just want a good read.",
+            'No need to write. Just choose your options from the menu and let the magic happen.',
         icon: '🌟',
     },
     {
         title: 'A Story for Every Mood',
-        description:
-            "Whether you're craving romance, adventure, or mystery, tailor your story to match your feelings. Let your imagination run wild.",
+        description: 'Let your imagination run wild.',
         icon: '💭',
     },
     {
@@ -46,29 +45,34 @@ const features = [
     {
         title: 'Constantly Growing',
         description:
-            'We are always adding new features to make your experience even better.',
+            'We are always adding new features and value your feedback. Help us make this the best story generator for you.',
         icon: '❤️',
     },
 ]
 
-export const Features = () => {
+export const Differentiators = () => {
     return (
         <div className="w-full relative py-16 mx-auto">
-            <div id="features">
-                <h4 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
-                    An ever-expanding list of features to empower you to create.
+            <div id="differentiators">
+                <h4 className="text-gray-700 text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium">
+                    An ever-expanding list of features that empower you to
+                    create.
                 </h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  relative z-10 py-10 max-w-7xl mx-auto">
-                {features.map((feature, index) => (
-                    <Feature key={feature.title} {...feature} index={index} />
+                {differentiators.map((feature, index) => (
+                    <DifferentiatorItem
+                        key={feature.title}
+                        {...feature}
+                        index={index}
+                    />
                 ))}
             </div>
         </div>
     )
 }
 
-export const Feature = ({
+export const DifferentiatorItem = ({
     title,
     description,
     icon,

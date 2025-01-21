@@ -176,20 +176,12 @@ const Card = ({ plan }: { plan: Plan }) => {
     )
 }
 
-const Step = ({
-    children,
-    additional,
-}: {
-    children: React.ReactNode
-    additional?: boolean
-    featured?: boolean
-}) => {
+const Step = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex items-start justify-start gap-2 my-4">
             <div
                 className={cn(
                     'h-4 w-4 rounded-full bg-neutral-700 flex items-center justify-center flex-shrink-0 mt-0.5',
-                    additional ? 'bg-sky-500' : 'bg-neutral-700',
                 )}
             >
                 <IconCheck className="h-3 w-3 [stroke-width:4px] text-neutral-300" />

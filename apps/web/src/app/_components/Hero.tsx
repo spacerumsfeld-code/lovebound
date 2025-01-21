@@ -4,9 +4,9 @@ import React, { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
-import { Button } from '../../../components/ui/button'
+import { Button } from '../../components/ui/button'
 import { HeartBeam } from './HeartBeam'
-import { BackgroundGrids } from '../BackgroundGrids'
+import { BackgroundGrids } from './BackgroundGrids'
 import { ArrowRight } from 'lucide-react'
 
 export const Hero = () => {

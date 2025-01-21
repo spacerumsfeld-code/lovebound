@@ -27,16 +27,6 @@ export const ShopHeader = (props: { type: ItemTypeEnum }) => {
             active: Boolean(props.type === ItemTypeEnum.Theme),
         },
         {
-            title: 'Lengths',
-            href: `/dashboard/shop?type=${ItemTypeEnum.Length}`,
-            active: Boolean(props.type === ItemTypeEnum.Length),
-        },
-        {
-            title: 'Tones',
-            href: `/dashboard/shop?type=${ItemTypeEnum.Tone}`,
-            active: Boolean(props.type === ItemTypeEnum.Tone),
-        },
-        {
             title: 'Settings',
             href: `/dashboard/shop?type=${ItemTypeEnum.Setting}`,
             active: Boolean(props.type === ItemTypeEnum.Setting),
