@@ -1,7 +1,7 @@
 'use client'
 
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
-import { createCheckoutSession } from '../data'
+import { createCheckoutSession } from '../server'
 import { Button } from 'src/components/ui/button'
 import { cn } from 'src/lib/utils'
 

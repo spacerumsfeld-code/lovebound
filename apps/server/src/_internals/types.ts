@@ -1,6 +1,6 @@
 import { Context, TypedResponse } from 'hono'
 import { z } from 'zod'
-import { Bindings, Variables } from 'hono/types'
+import { Bindings } from 'hono/types'
 
 export type Middleware<I> = ({
     ctx,
@@ -9,8 +9,14 @@ export type Middleware<I> = ({
 }: {
     ctx: I
     next: <B>(args?: B) => B & I
-    c: Context<{ Bindings: {}; Variables: Variables }>
+    c: Context<{ Bindings: {} }>
 }) => Promise<any>
+
+export type MiddlewareFunction<T = {}, R = void> = (params: {
+    ctx: T
+    next: <B>(args: B) => Promise<B & T>
+    c: Context<{ Bindings: Bindings }>
+}) => Promise<R>
 
 export type QueryOperation<
     Schema extends Record<string, unknown>,

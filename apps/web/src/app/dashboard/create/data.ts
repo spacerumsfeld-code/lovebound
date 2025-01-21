@@ -1,24 +1,5 @@
-'use server'
-
-import { TCreateStoryClient } from '@client-types/story/story.model'
 import { client as api } from '@clients/api.client'
 import { currentUser } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
-
-export const submitStory = async (data: TCreateStoryClient) => {
-    try {
-        const user = await currentUser()
-
-        await api.story.submitStory.$post({
-            ...data,
-            ownerId: user!.id,
-        })
-    } catch (error) {
-        throw new Error(`client.submitStory failed with error: ${error}`)
-    }
-
-    return redirect('/dashboard?action=modal.story.created')
-}
 
 export const getCreateStoryItems = async () => {
     try {
@@ -33,6 +14,8 @@ export const getCreateStoryItems = async () => {
 
         return { genres, themes, lengths, tensionLevels, settings, tones }
     } catch (error) {
-        throw new Error(`client.getAllItems failed with error: ${error}`)
+        throw new Error(
+            `client.getCreateStoryItems failed with error: ${error}`,
+        )
     }
 }

@@ -14,7 +14,7 @@ import { Separator } from 'src/components/ui/separator'
 import useLoading from 'src/hooks/use-loading'
 import { useState } from 'react'
 import { useToast } from 'src/hooks/use-toast'
-import { purchaseItemFromShop } from '../../shop/data'
+import { purchaseItemFromShop } from '../../shop/server'
 import Link from 'next/link'
 
 export const ShopItemModal = (props: {

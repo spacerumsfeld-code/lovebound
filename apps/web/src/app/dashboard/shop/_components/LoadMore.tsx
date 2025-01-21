@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { Loader2, ChevronDown } from 'lucide-react'
 import { JSX, useState } from 'react'
 import useLoading from 'src/hooks/use-loading'
-import { getShopItems } from '../data'
+import { getShopItems } from '../server'
 import { ItemTypeEnum } from '@client-types/item/item.model'
 
 export const LoadMore = (props: { nextOffset: number }) => {

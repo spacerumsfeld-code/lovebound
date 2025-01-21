@@ -22,10 +22,6 @@ export type SuperJSONTypedResponse<
 export class Procedure<ctx = {}> {
     private readonly middlewares: Middleware<ctx>[] = []
 
-    /**
-     * Optional, but recommended:
-     * This makes "c.superjson" available to your API routes
-     */
     private superjsonMiddleware: Middleware<ctx> =
         async function superjsonMiddleware({ c, next }) {
             type JSONRespond = typeof c.json

@@ -1,20 +1,19 @@
 import { z } from 'zod'
 import { router } from '../_internals/router'
-import { baseProcedure } from '../_internals/index'
+import { protectedProcedure } from '../_internals/index'
 import { HTTPException } from 'hono/http-exception'
 import { extractFulfilledValues, handleAsync } from '@utils'
 import { Payment, ProductTypeEnum, User, Notification } from '@core'
 import { EmailType } from '@transactional'
 
 export const paymentRouter = router({
-    getCheckoutUrl: baseProcedure
+    getCheckoutUrl: protectedProcedure
         .input(
             z.object({
-                userId: z.string(),
                 productType: z.nativeEnum(ProductTypeEnum),
             }),
         )
-        .query(async ({ c, input }) => {
+        .query(async ({ c, input, ctx }) => {
             console.info(
                 `💻 Invoked paymentRouter.getCheckoutUrl with data ${JSON.stringify(
                     input,
@@ -23,7 +22,7 @@ export const paymentRouter = router({
 
             const [userEmail, getUserEmailError] = await handleAsync(
                 User.getUserEmail({
-                    userId: input.userId,
+                    userId: ctx.userId!,
                 }),
             )
             if (getUserEmailError) {
@@ -36,7 +35,7 @@ export const paymentRouter = router({
             const [checkoutUrl, error] = await handleAsync(
                 Payment.createCheckoutSession({
                     customerEmail: userEmail!,
-                    userId: input.userId,
+                    userId: ctx.userId!,
                     productType: input.productType,
                 }),
             )
@@ -54,47 +53,36 @@ export const paymentRouter = router({
                 success: true,
             })
         }),
-    getCreditCount: baseProcedure
-        .input(
-            z.object({
-                userId: z.string(),
+    getCreditCount: protectedProcedure.query(async ({ c, ctx }) => {
+        console.info(`💻 Invoked paymentRouter.getCreditCount`)
+
+        const [creditCount, error] = await handleAsync(
+            Payment.getCreditCount({
+                userId: ctx.userId!,
             }),
         )
-        .query(async ({ c, input }) => {
-            console.info(
-                `💻 Invoked paymentRouter.getCreditCount with data ${JSON.stringify(
-                    input,
-                )}`,
-            )
-
-            const [creditCount, error] = await handleAsync(
-                Payment.getCreditCount({
-                    userId: input.userId,
-                }),
-            )
-            if (error) {
-                console.error(`❌ getCreditCount error:`, error)
-                throw new HTTPException(400, {
-                    message: 'Failed to get credit count',
-                })
-            }
-
-            return c.superjson({
-                data: {
-                    creditCount,
-                },
-                success: true,
+        if (error) {
+            console.error(`❌ getCreditCount error:`, error)
+            throw new HTTPException(400, {
+                message: 'Failed to get credit count',
             })
-        }),
-    purchaseItemFromShop: baseProcedure
+        }
+
+        return c.superjson({
+            data: {
+                creditCount,
+            },
+            success: true,
+        })
+    }),
+    purchaseItemFromShop: protectedProcedure
         .input(
             z.object({
-                userId: z.string(),
                 itemId: z.number(),
                 itemCost: z.number(),
             }),
         )
-        .mutation(async ({ c, input }) => {
+        .mutation(async ({ c, input, ctx }) => {
             console.info(
                 `💻 Invoked paymentRouter.purchaseItemFromShop with data ${JSON.stringify(
                     input,
@@ -103,11 +91,11 @@ export const paymentRouter = router({
 
             const purchaseItemPromises = [
                 Payment.purchaseItem({
-                    userId: input.userId,
+                    userId: ctx.userId!,
                     itemId: input.itemId,
                 }),
                 Payment.deductCredits({
-                    userId: input.userId,
+                    userId: ctx.userId!,
                     creditCost: input.itemCost,
                 }),
             ]
@@ -127,7 +115,7 @@ export const paymentRouter = router({
             }
 
             const [userEmail, getUserEmailError] = await handleAsync(
-                User.getUserEmail({ userId: input.userId }),
+                User.getUserEmail({ userId: ctx.userId! }),
             )
             if (getUserEmailError) {
                 console.error(getUserEmailError)

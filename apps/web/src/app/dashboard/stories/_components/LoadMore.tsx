@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { ChevronDown, Loader2 } from 'lucide-react'
 import { JSX, useState } from 'react'
 import useLoading from '../../../../hooks/use-loading'
-import { getStories } from './data'
+import { getStories } from '../server'
 
 export const LoadMore = (props: { nextOffset: number }) => {
     // @State

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { router } from '../_internals/router'
 import { handleAsync } from '@utils'
-import { baseProcedure } from '../_internals/index'
+import { protectedProcedure } from '../_internals/index'
 import { Payment, Story, ZCreateStory, Notification, User } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
@@ -9,17 +9,16 @@ import { storyLengthMap } from '@client-types/item/item.model'
 import { EmailType } from '@transactional'
 
 export const storyRouter = router({
-    getStories: baseProcedure
+    getStories: protectedProcedure
         .input(
             z.object({
                 limit: z.number().int(),
                 offset: z.number().int(),
                 genre: z.number(),
                 theme: z.number(),
-                userId: z.string(),
             }),
         )
-        .query(async ({ c, input }) => {
+        .query(async ({ c, ctx, input }) => {
             console.info(
                 `💻 Invoked storyRouter.getStories with data ${JSON.stringify(
                     input,
@@ -28,7 +27,7 @@ export const storyRouter = router({
 
             const [getStories, getStoriesError] = await handleAsync(
                 Story.getStories({
-                    userId: input.userId,
+                    userId: ctx.userId!,
                     limit: input.limit,
                     offset: input.offset,
                     genre: input.genre,
@@ -53,34 +52,28 @@ export const storyRouter = router({
                 success: true,
             })
         }),
-    getRecentStories: baseProcedure
-        .input(
-            z.object({
-                userId: z.string(),
-            }),
+    getRecentStories: protectedProcedure.query(async ({ c, input, ctx }) => {
+        console.info(
+            `💻 Invoked storyRouter.getRecentStories with data: ${JSON.stringify(input)}`,
         )
-        .query(async ({ c, input }) => {
-            console.info(
-                `💻 Invoked storyRouter.getRecentStories with data: ${JSON.stringify(input)}`,
-            )
 
-            const [recentStories, getRecentStoriesError] = await handleAsync(
-                Story.getRecentStories({ userId: input.userId }),
-            )
-            if (getRecentStoriesError) {
-                throw new HTTPException(400, {
-                    message: getRecentStoriesError.message,
-                })
-            }
-
-            return c.superjson({
-                data: { recentStories: recentStories },
-                success: true,
+        const [recentStories, getRecentStoriesError] = await handleAsync(
+            Story.getRecentStories({ userId: ctx.userId! }),
+        )
+        if (getRecentStoriesError) {
+            throw new HTTPException(400, {
+                message: getRecentStoriesError.message,
             })
-        }),
-    submitStory: baseProcedure
+        }
+
+        return c.superjson({
+            data: { recentStories: recentStories },
+            success: true,
+        })
+    }),
+    submitStory: protectedProcedure
         .input(ZCreateStory)
-        .mutation(async ({ c, input }) => {
+        .mutation(async ({ c, input, ctx }) => {
             console.info(
                 `💻 Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
             )
@@ -88,7 +81,7 @@ export const storyRouter = router({
             const [createdStory, createStoryError] = await handleAsync(
                 Story.createStory({
                     length: input.length,
-                    ownerId: input.ownerId,
+                    ownerId: ctx.userId!,
                     title: input.title,
                     genre: input.genre,
                     theme: input.theme,
@@ -105,7 +98,7 @@ export const storyRouter = router({
 
             const [, deductCreditsError] = await handleAsync(
                 Payment.deductCredits({
-                    userId: input.ownerId,
+                    userId: ctx.userId!,
                     creditCost: (() => {
                         switch (input.length.id) {
                             case storyLengthMap.get('Mini')!:
@@ -128,7 +121,11 @@ export const storyRouter = router({
             const [, orchestrationError] = await handleAsync(
                 orchestrationClient.send({
                     name: 'start.story',
-                    data: { ...input, storyId: createdStory!.id },
+                    data: {
+                        ...input,
+                        userId: ctx.userId!,
+                        storyId: createdStory!.id,
+                    },
                 }),
             )
             if (orchestrationError) {
@@ -139,7 +136,7 @@ export const storyRouter = router({
             }
 
             const [userEmail, getUserEmailError] = await handleAsync(
-                User.getUserEmail({ userId: input.ownerId }),
+                User.getUserEmail({ userId: ctx.userId! }),
             )
             if (getUserEmailError) {
                 console.error(`❌ getUserEmail error:`, getUserEmailError)

@@ -37,7 +37,7 @@ export const mapCreateStoryZodErrorsToSentences = (
 }
 
 export const ZCreateStory = z.object({
-    ownerId: z.string(),
+    // ownerId: z.string(),
     title: z.string().min(1),
     coverUrl: z.string().nullable().optional(),
     includeNarration: z.boolean(),
@@ -57,11 +57,6 @@ export const ZCreateStory = z.object({
     ),
 })
 export type TCreateStory = z.infer<typeof ZCreateStory>
-
-export const ZCreateStoryClient = ZCreateStory.omit({
-    ownerId: true,
-})
-export type TCreateStoryClient = z.infer<typeof ZCreateStoryClient>
 
 export const ZInitialStoryData = z.object({
     title: z.string().min(1).optional().nullable(),

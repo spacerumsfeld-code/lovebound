@@ -1,5 +1,5 @@
 import { TItemInput } from '../../../../libs/core/src/item/item.model'
-import { TCreateStoryClient } from '../../../../libs/core/src/story/story.model'
+import { TCreateStory } from '../../../../libs/core/src/story/story.model'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export const formatCreateStoryParams = (params: TCreateStoryClient) => {
+export const formatCreateStoryParams = (params: TCreateStory) => {
     const { length, genre, theme, scenes, ...rest } = params
     return {
         ...rest,

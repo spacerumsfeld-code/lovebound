@@ -4,11 +4,22 @@ import { HTTPException } from 'hono/http-exception'
 import { StatusCode } from 'hono/utils/http-status'
 import superjson from 'superjson'
 import { Resource } from 'sst'
+import { auth } from '@clerk/nextjs/server'
 
 export const baseClient = hc<ApiSpec>(Resource.Server.url, {
     fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-        const response = await fetch(input, { ...init, cache: 'no-store' })
+        const { userId } = await auth()
 
+        const headers = {
+            ...init?.headers,
+            Authorization: `Bearer ${userId ?? ''}`,
+        }
+
+        const response = await fetch(input, {
+            ...init,
+            cache: 'no-store',
+            headers,
+        })
         if (!response.ok) {
             throw new HTTPException(response.status as StatusCode, {
                 message: response.statusText,

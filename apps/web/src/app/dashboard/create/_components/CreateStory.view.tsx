@@ -6,7 +6,7 @@ import { ITEM_ID_MAP } from '../../../../constants'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
 import {
-    TCreateStoryClient,
+    TCreateStory,
     TInitialStoryData,
 } from '@client-types/story/story.model'
 import { TScene } from '@client-types/scene/scene.model'
@@ -188,9 +188,7 @@ export const CreateStoryView = (props: {
             />
             <div className="fixed bottom-6 left-0 right-0 flex justify-center">
                 <ConfirmCreateModal
-                    storyData={
-                        storyData as unknown as Required<TCreateStoryClient>
-                    }
+                    storyData={storyData as unknown as Required<TCreateStory>}
                 >
                     <Button variant="primary">Create Story</Button>
                 </ConfirmCreateModal>

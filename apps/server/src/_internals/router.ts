@@ -25,6 +25,9 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
                     err.status,
                 )
             } else {
+                console.error(
+                    `💻❌ An unknown server error occurred: ${err.message}`,
+                )
                 return c.json(
                     {
                         error: 'Unknown Error',
@@ -74,7 +77,9 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
                             input = operation.schema?.parse(parsedQuery)
                         } catch (err) {
                             if (err instanceof ZodError) {
-                                console.error(`❌ validation error: ${err}`)
+                                console.error(
+                                    `💻❌ A validation error occured on the server: ${err.message}`,
+                                )
                                 throw new HTTPException(400, {
                                     cause: err,
                                     message: err.message,
@@ -109,6 +114,9 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
                             input = operation.schema?.parse(parsedBody)
                         } catch (err) {
                             if (err instanceof ZodError) {
+                                console.error(
+                                    `💻❌ A validation error occured on the server: ${err.message}`,
+                                )
                                 throw new HTTPException(400, {
                                     cause: err,
                                     message: err.message,

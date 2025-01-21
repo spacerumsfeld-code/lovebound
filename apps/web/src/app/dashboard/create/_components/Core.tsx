@@ -1,10 +1,6 @@
 'use client'
 
-import {
-    TCreateStoryClient,
-    TInitialStoryData,
-} from '@client-types/story/story.model'
-import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
+import { TInitialStoryData } from '@client-types/story/story.model'
 import {
     Card,
     CardContent,

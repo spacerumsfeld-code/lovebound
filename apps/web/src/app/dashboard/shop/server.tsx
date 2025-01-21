@@ -1,6 +1,9 @@
+'use server'
+
 import { client as api } from '@clients/api.client'
 import { ItemTypeEnum } from '@client-types/item/item.model'
 import { ShopGridView } from './_components/ShopGrid.view'
+import { redirect } from 'next/navigation'
 
 export const getShopItems = async (args: {
     type: ItemTypeEnum
@@ -36,4 +39,22 @@ export const getShopItems = async (args: {
     } catch (error) {
         throw new Error(`❌ client.getShopItems failed with error: ${error}`)
     }
+}
+
+export const purchaseItemFromShop = async (args: {
+    itemId: number
+    itemCost: number
+}) => {
+    try {
+        await api.payment.purchaseItemFromShop.$post({
+            itemId: args.itemId,
+            itemCost: args.itemCost,
+        })
+    } catch (error) {
+        throw new Error(
+            `❌ client.purchaseItemFromShop failed with error: ${error}`,
+        )
+    }
+
+    return redirect('/dashboard/shop?action=modal.item.purchased')
 }

@@ -8,12 +8,19 @@ process.env.INNGEST_EVENT_KEY = Resource.InngestEventKey.value
 
 const ZStartStoryEvent = z.object({
     name: z.literal('start.story'),
-    data: ZCreateStory.extend({ storyId: z.number() }),
+    data: ZCreateStory.extend({
+        storyId: z.number(),
+        userId: z.string(),
+    }),
 }) satisfies LiteralZodEventSchema
 
 const ZCreateSceneEvent = z.object({
     name: z.literal('create.scene'),
-    data: ZCreateStory.extend({ sceneNumber: z.number(), storyId: z.number() }),
+    data: ZCreateStory.extend({
+        sceneNumber: z.number(),
+        storyId: z.number(),
+        userId: z.string(),
+    }),
 }) satisfies LiteralZodEventSchema
 
 const ZCreateNarrationEvent = z.object({

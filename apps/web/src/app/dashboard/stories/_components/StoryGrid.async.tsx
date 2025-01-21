@@ -1,4 +1,4 @@
-import { getStories } from './data'
+import { getStories } from '../data'
 
 export const StoryGridAsync = async ({
     args,
