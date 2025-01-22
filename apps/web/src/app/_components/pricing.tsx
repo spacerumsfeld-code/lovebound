@@ -10,9 +10,7 @@ export type Plan = {
     subText?: string
     currency: string
     features: string[]
-    featured?: boolean
     buttonText?: string
-    additionalFeatures?: string[]
     href: string
 }
 
@@ -27,38 +25,35 @@ const plans: Array<Plan> = [
             'Pay for credits to create stories at your own pace',
             'No obligation',
         ],
-        buttonText: 'Get Started',
+        buttonText: 'Get Casual',
         href: '/dashboard/create',
     },
     {
-        id: 'Plan.Mini',
-        name: 'Mini',
+        id: 'Plan.Casual',
+        name: 'Casual',
         price: 8.95,
         subText: '/month',
         currency: '$',
-        featured: true,
         features: [
+            '10 credits/month @10% off',
             'Fullfill your fantasies for the price of a Starbucks mocha/month',
-            '10 credits/month for 10% off',
-            'Audio narration for mini stories',
-            'Personalized email and chat support',
         ],
-        buttonText: 'Get Mini',
+        buttonText: 'Get Casual',
         href: '/dashboard/create',
     },
     {
         id: 'Plan.Premium',
         name: 'Premium',
-        price: 25,
+        price: 19.95,
         subText: '/month',
         currency: '$',
         features: [
-            '30 credits a month',
+            '30 credits/month @maximum savings',
+            'Audio narration',
             'Novella-length stories',
-            'Suggest features and we will work to enhance your experience',
-            '+1 Free addon pack each month for even more settings, themes, and genres',
+            'Personalized email and chat support',
         ],
-        buttonText: 'Get Started',
+        buttonText: 'Get Premium',
         href: '/dashboard/create',
     },
 ]
@@ -78,8 +73,9 @@ export const Pricing = () => {
                     Simple and flexible pricing
                 </h2>
                 <p className="max-w-md mx-auto text-base text-center text-neutral-600 dark:text-neutral-300 mt-4">
-                    Our pricing is designed to be flexible and simple. All plans
-                    can be cancelled at any time.
+                    Our pricing is designed to be flexible and simple. Pay as
+                    you go with no obligation or subscribe to a plan for a
+                    discounted rate. All plans can be cancelled at any time.
                 </p>
             </>
 
@@ -120,17 +116,6 @@ const Card = ({ plan }: { plan: Plan }) => {
                                 {plan.name}
                             </p>
                         </div>
-
-                        {plan.featured && (
-                            <div
-                                className={cn(
-                                    'font-medium text-xs px-3 py-1 rounded-full relative bg-neutral-900 dark:bg-white dark:text-black text-white',
-                                )}
-                            >
-                                <div className="absolute inset-x-0 bottom-0 w-3/4 mx-auto h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
-                                Featured
-                            </div>
-                        )}
                     </div>
                     <div className="mt-8 ">
                         <div className="flex items-end">

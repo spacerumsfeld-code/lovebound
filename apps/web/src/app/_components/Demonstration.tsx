@@ -80,10 +80,6 @@ export const Demonstration = ({ className }: { className?: string }) => {
                 <h4 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
                     Your fantasies, come to life.
                 </h4>
-                <p className="text-sm lg:text-base  max-w-2xl mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-                    From your inputs, our AI authors are able to craft your
-                    perfect romance stories.
-                </p>
             </div>
             <div
                 className={cn(
@@ -91,17 +87,17 @@ export const Demonstration = ({ className }: { className?: string }) => {
                     className,
                 )}
             >
-                <div className="flex flex-col gap-8 justify-between ">
-                    <div className="relative px-3 py-1 rounded-full text-sm font-medium transition-all bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700">
+                <div className="flex flex-col gap-8 justify-between">
+                    <div className="relative px-6 py-3 rounded-xl text-sm font-medium transition-all bg-white/50 backdrop-blur-sm dark:bg-zinc-800/50 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:scale-105 transform duration-200">
                         <div>Genre: Historical</div>
                     </div>
-                    <div className="relative px-3 py-1 rounded-full text-sm font-medium transition-all bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700">
+                    <div className="relative px-6 py-3 rounded-xl text-sm font-medium transition-all bg-white/50 backdrop-blur-sm dark:bg-zinc-800/50 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:scale-105 transform duration-200">
                         <div>Theme: Forbidden Romance</div>
                     </div>
-                    <div className="relative px-3 py-1 rounded-full text-sm font-medium transition-all bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700">
+                    <div className="relative px-6 py-3 rounded-xl text-sm font-medium transition-all bg-white/50 backdrop-blur-sm dark:bg-zinc-800/50 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:scale-105 transform duration-200">
                         <div>Tone: Sultry</div>
                     </div>
-                    <div className="relative px-3 py-1 rounded-full text-sm font-medium transition-all bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700">
+                    <div className="relative px-6 py-3 rounded-xl text-sm font-medium transition-all bg-white/50 backdrop-blur-sm dark:bg-zinc-800/50 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:scale-105 transform duration-200">
                         <div>Tension Level: Max</div>
                     </div>
                 </div>
@@ -112,14 +108,15 @@ export const Demonstration = ({ className }: { className?: string }) => {
                     </Card>
                 </div>
 
-                <div className="flex justify-right items-center rounded-md hover:scale-105">
-                    <Image
-                        src="/sampleStoryCover.webp"
-                        alt="Story Cover"
-                        height={400}
-                        width={300}
-                        className="rounded-md h-full w-full hover:scale-105"
-                    />
+                <div className="flex justify-right items-center">
+                    <div className="relative w-[300px] h-[400px] transform transition-all duration-300 hover:scale-105">
+                        <Image
+                            src="/sampleStoryCover.webp"
+                            alt="Story Cover"
+                            fill
+                            className="rounded-lg object-cover shadow-xl ring-2 ring-gray-200 dark:ring-gray-700 hover:ring-4 transition-all duration-300"
+                        />
+                    </div>
                 </div>
 
                 <svg

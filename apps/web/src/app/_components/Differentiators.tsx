@@ -52,11 +52,10 @@ const differentiators = [
 
 export const Differentiators = () => {
     return (
-        <div className="w-full relative py-16 mx-auto">
+        <div id="empowerment" className="w-full relative py-16 mx-auto">
             <div id="differentiators">
                 <h4 className="text-gray-700 text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium">
-                    An ever-expanding list of features that empower you to
-                    create.
+                    Uniquely empowering you to create.
                 </h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative z-10 py-10 max-w-7xl mx-auto">
@@ -86,7 +85,7 @@ export const DifferentiatorItem = ({
     return (
         <div
             className={cn(
-                'flex flex-col lg:border-r  py-10 relative group/feature dark:border-neutral-800',
+                ' bg-white flex flex-col lg:border-r  py-10 relative group/feature dark:border-neutral-800',
                 (index === 0 || index === 4) &&
                     'lg:border-l dark:border-neutral-800',
                 index < 4 && 'lg:border-b dark:border-neutral-800',

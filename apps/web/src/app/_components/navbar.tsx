@@ -29,12 +29,16 @@ const navItems = [
         link: '/#features',
     },
     {
+        name: 'Empowerment',
+        link: '/#empowerment',
+    },
+    {
         name: 'Pricing',
         link: '/#pricing',
     },
     {
-        name: 'Free',
-        link: '/#free',
+        name: 'Get Started',
+        link: '/#get-started',
     },
 ]
 
