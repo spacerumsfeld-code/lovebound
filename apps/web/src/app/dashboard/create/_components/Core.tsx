@@ -28,6 +28,7 @@ import {
 } from 'src/components/ui/tabs'
 import { ScrollArea } from 'src/components/ui/scroll-area'
 import { ItemCard } from './ItemCard'
+import { VisitShopCTA } from './VisitShopCTA'
 
 export const CreateStoryCore = (props: {
     storyData: TInitialStoryData
@@ -294,6 +295,7 @@ export const CreateStoryCore = (props: {
                                             />
                                         ),
                                     )}
+                                    <VisitShopCTA />
                                 </div>
                             </CardContent>
                         </Card>

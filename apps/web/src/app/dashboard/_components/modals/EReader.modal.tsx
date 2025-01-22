@@ -64,9 +64,11 @@ export const EReaderModal = (props: {
         }
     }
 
-    const currentScene = props.story.scenes[currentSceneIndex]
+    const currentScene = props.story.scenes?.[currentSceneIndex]
 
     // @Render
+    if (!currentScene) return null
+
     return (
         <Modal>
             <ModalTrigger>{props.children}</ModalTrigger>

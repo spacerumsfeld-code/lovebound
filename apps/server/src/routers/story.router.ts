@@ -52,10 +52,8 @@ export const storyRouter = router({
                 success: true,
             })
         }),
-    getRecentStories: protectedProcedure.query(async ({ c, input, ctx }) => {
-        console.info(
-            `💻 Invoked storyRouter.getRecentStories with data: ${JSON.stringify(input)}`,
-        )
+    getRecentStories: protectedProcedure.query(async ({ c, ctx }) => {
+        console.info(`💻 Invoked storyRouter.getRecentStories`)
 
         const [recentStories, getRecentStoriesError] = await handleAsync(
             Story.getRecentStories({ userId: ctx.userId! }),
@@ -67,7 +65,7 @@ export const storyRouter = router({
         }
 
         return c.superjson({
-            data: { recentStories: recentStories },
+            data: { recentStories },
             success: true,
         })
     }),

@@ -23,6 +23,7 @@ export const CreateStoryView = (props: {
         tones: TItemInput[]
     }
 }) => {
+    // *State
     const [storyData, setStoryData] = useState<TInitialStoryData>({
         title: '',
         theme: null,

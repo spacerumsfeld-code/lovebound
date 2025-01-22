@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Button } from '../../../components/ui/buttonTwo'
-import { Input } from '../../../components/ui/input'
+import { Button } from 'src/components/ui/button'
+import { Input } from 'src/components/ui/input'
 import { Check } from 'lucide-react'
 
 const words = [
@@ -93,7 +93,7 @@ export function WordScrambleGame({ isOpen }: { isOpen: boolean }) {
                             value={userGuess}
                             onChange={(e) => setUserGuess(e.target.value)}
                         />
-                        <Button type="submit">
+                        <Button type="submit" variant="primary">
                             <Check className="h-4 w-4" />
                         </Button>
                     </form>
@@ -106,7 +106,7 @@ export function WordScrambleGame({ isOpen }: { isOpen: boolean }) {
                 <div className="text-center">
                     <h3 className="text-2xl font-bold mb-4">Game Over!</h3>
                     <p className="text-xl mb-4">Your final score: {score}</p>
-                    <Button className="bg-indigo-400" onClick={resetGame}>
+                    <Button variant="primary" onClick={resetGame}>
                         Play Again
                     </Button>
                 </div>
