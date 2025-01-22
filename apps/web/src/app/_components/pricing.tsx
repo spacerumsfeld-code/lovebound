@@ -36,6 +36,7 @@ const plans: Array<Plan> = [
         currency: '$',
         features: [
             '10 credits/month @10% off',
+            'Basic email and chat support',
             'Fullfill your fantasies for the price of a Starbucks mocha/month',
         ],
         buttonText: 'Get Casual',
@@ -51,6 +52,7 @@ const plans: Array<Plan> = [
             '30 credits/month @maximum savings',
             'Audio narration',
             'Novella-length stories',
+            'Early access to new features',
             'Personalized email and chat support',
         ],
         buttonText: 'Get Premium',

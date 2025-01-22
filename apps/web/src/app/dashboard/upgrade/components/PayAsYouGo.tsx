@@ -30,21 +30,18 @@ export const PayAsYouGo = () => {
                             <CardTitle className="text-2xl font-bold">
                                 10 Credits
                             </CardTitle>
-                            <CardDescription>Basic Topup</CardDescription>
+                            <CardDescription>Mini Topup</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <p className="text-3xl font-bold">$10</p>
-                            <p className="text-sm text-muted-foreground">
-                                $1 per credit
-                            </p>
                             <ul className="mt-4 space-y-2">
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>10 story generations</span>
+                                    <span>Never expire</span>
                                 </li>
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>Never expires</span>
+                                    <span>Infinite Rollover</span>
                                 </li>
                             </ul>
                         </CardContent>
@@ -60,27 +57,24 @@ export const PayAsYouGo = () => {
                             <CardTitle className="text-2xl font-bold">
                                 20 Credits
                             </CardTitle>
-                            <CardDescription>Popular Pack</CardDescription>
+                            <CardDescription>Standard Topup</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">$18</p>
-                            <p className="text-sm text-muted-foreground">
-                                $0.90 per credit
-                            </p>
+                            <p className="text-3xl font-bold">$20</p>
                             <ul className="mt-4 space-y-2">
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>20 story generations</span>
+                                    <span>Never expire</span>
                                 </li>
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>10% savings</span>
+                                    <span>Infinite Rollover</span>
                                 </li>
                             </ul>
                         </CardContent>
                         <CardFooter>
                             <PurchaseButton
-                                product={ProductTypeEnum.Credits20Pack}
+                                product={ProductTypeEnum.Credits10Pack}
                             />
                         </CardFooter>
                     </Card>
@@ -93,18 +87,15 @@ export const PayAsYouGo = () => {
                             <CardDescription>Power Pack</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">$40</p>
-                            <p className="text-sm text-muted-foreground">
-                                $0.80 per credit
-                            </p>
+                            <p className="text-3xl font-bold">$50</p>
                             <ul className="mt-4 space-y-2">
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>50 story generations</span>
+                                    <span>Never expire</span>
                                 </li>
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
-                                    <span>20% savings</span>
+                                    <span>Infinite Rollover</span>
                                 </li>
                             </ul>
                         </CardContent>
