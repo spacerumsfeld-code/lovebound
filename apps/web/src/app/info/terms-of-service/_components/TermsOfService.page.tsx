@@ -4,7 +4,7 @@ import { Button } from 'src/components/ui/button'
 
 export const TermsOfService = () => {
     return (
-        <div className="py-8 md:py-12 px-4 md:px-8">
+        <main className="py-8 md:py-12 px-4 md:px-8 bg-dot-black/[0.2]">
             <div className="prose prose-neutral dark:prose-invert max-w-4xl mx-auto">
                 <div className="flex items-center justify-between mb-8">
                     <Button
@@ -65,7 +65,7 @@ export const TermsOfService = () => {
                     Account Requirements
                 </h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
-                    <li>You must be 13 years or older to use our service</li>
+                    <li>You must be 18 years or older to use our service</li>
                     <li>You must provide accurate and complete information</li>
                     <li>
                         You are responsible for maintaining account security
@@ -88,11 +88,6 @@ export const TermsOfService = () => {
                 </h2>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                     <li>You retain ownership of your generated stories</li>
-                    <li>
-                        You may not redistribute or resell AI-generated content
-                    </li>
-                    <li>We maintain rights to the underlying AI technology</li>
-                    <li>Content must comply with our usage guidelines</li>
                 </ul>
 
                 <h2 className="text-2xl font-semibold mt-8 mb-4">
@@ -104,7 +99,6 @@ export const TermsOfService = () => {
                     <li>Attempt to bypass system limitations</li>
                     <li>Share account access with others</li>
                     <li>Use the service for illegal purposes</li>
-                    <li>Reverse engineer our technology</li>
                 </ul>
 
                 <h2 className="text-2xl font-semibold mt-8 mb-4">
@@ -148,9 +142,10 @@ export const TermsOfService = () => {
                 <h2 className="text-2xl font-semibold mt-8 mb-4">Contact Us</h2>
                 <p className="mb-6">
                     For questions about these terms, please contact us using the
-                    Support button on the bottom right of the screen.
+                    Support button on the bottom right of the screen of your
+                    dashboard.
                 </p>
             </div>
-        </div>
+        </main>
     )
 }

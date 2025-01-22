@@ -4,7 +4,7 @@ import { Button } from 'src/components/ui/button'
 
 export const PrivacyPolicy = () => {
     return (
-        <div className="py-8 md:py-12 px-4 md:px-8">
+        <main className="py-8 md:py-12 px-4 md:px-8 bg-white bg-dot-black/[0.2]">
             <div className="prose prose-neutral dark:prose-invert max-w-4xl mx-auto">
                 <div className="flex items-center justify-between mb-8">
                     <Button
@@ -79,7 +79,6 @@ export const PrivacyPolicy = () => {
                     <li>To provide our story generation service</li>
                     <li>To maintain your account and credit balance</li>
                     <li>To authenticate your access to the platform</li>
-                    <li>To process your payments securely</li>
                 </ul>
 
                 <h3 className="text-xl font-medium mt-6 mb-3">
@@ -113,7 +112,6 @@ export const PrivacyPolicy = () => {
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                     <li>We use Posthog for basic analytics</li>
                     <li>Analytics data is anonymized where possible</li>
-                    <li>You can opt out of non-essential tracking</li>
                     <li>
                         We do not sell your personal information to third
                         parties
@@ -126,7 +124,6 @@ export const PrivacyPolicy = () => {
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                     <li>Your data is stored securely on our servers</li>
                     <li>We use industry-standard security measures</li>
-                    <li>Regular security audits are performed</li>
                     <li>Backups are encrypted and secured</li>
                 </ul>
 
@@ -134,7 +131,6 @@ export const PrivacyPolicy = () => {
                     Your Rights
                 </h2>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
-                    <li>Access your personal data</li>
                     <li>Request data deletion</li>
                     <li>Opt out of marketing communications</li>
                     <li>Export your story data</li>
@@ -163,9 +159,9 @@ export const PrivacyPolicy = () => {
                     Children&apos;s Privacy
                 </h2>
                 <p className="mb-6">
-                    Our service is not intended for users under 13 years of age.
+                    Our service is not intended for users under 18 years of age.
                     We do not knowingly collect information from children under
-                    13.
+                    18.
                 </p>
 
                 <h2 className="text-2xl font-semibold mt-8 mb-4">
@@ -181,7 +177,7 @@ export const PrivacyPolicy = () => {
                 <p className="mb-6">
                     If you have questions about this privacy policy or your
                     personal data, please contact us using the Support button on
-                    the bottom right of the screen.
+                    the bottom right of the screen of your dashboard.
                 </p>
 
                 <h2 className="text-2xl font-semibold mt-8 mb-4">
@@ -192,6 +188,6 @@ export const PrivacyPolicy = () => {
                     our handling of your data as described above.
                 </p>
             </div>
-        </div>
+        </main>
     )
 }
