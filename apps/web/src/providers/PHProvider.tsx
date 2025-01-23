@@ -17,14 +17,15 @@ export const PHProvider = (props: {
 }) => {
     // @Interactivity
     useEffect(() => {
-        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
             api_host: '/api/posthog',
             ui_host: 'https://us.posthog.com',
             loaded: () => {
                 const isLoggedIn = Boolean(props.userId)
                 const isIdentified = posthog._isIdentified()
 
-                if (isLoggedIn && !isIdentified) posthog.identify(props.userId)
+                if (props.userId && isLoggedIn && !isIdentified)
+                    posthog.identify(props.userId)
                 else if (!isLoggedIn && isIdentified) posthog.reset()
             },
         })

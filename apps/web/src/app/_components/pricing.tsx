@@ -25,7 +25,7 @@ const plans: Array<Plan> = [
             'Pay for credits to create stories at your own pace',
             'No obligation',
         ],
-        buttonText: 'Get Casual',
+        buttonText: 'Get Started',
         href: '/dashboard/create',
     },
     {

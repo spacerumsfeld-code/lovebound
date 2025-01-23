@@ -17,7 +17,10 @@ export const ShopGrid = ({
     return (
         <main>
             <ShopHeader type={args.type} />
-            <Suspense fallback={<ShopGridSkeleton size={12} />}>
+            <Suspense
+                key={JSON.stringify(args)}
+                fallback={<ShopGridSkeleton size={12} />}
+            >
                 <ShopGridAsync args={args} />
             </Suspense>
         </main>

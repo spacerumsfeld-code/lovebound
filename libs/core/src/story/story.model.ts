@@ -58,13 +58,29 @@ export const ZCreateStory = z.object({
 })
 export type TCreateStory = z.infer<typeof ZCreateStory>
 
+export type TSceneInitialState = {
+    tone: string | null
+    setting: string | null
+    tensionLevel: string | null
+}
+
+export type TStoryInitialState = {
+    title: string
+    theme: string | null
+    genre: string | null
+    length: string
+    includeNarration: boolean
+    narrationVoice: NarrationVoiceEnum | null
+    scenes: TSceneInitialState[]
+}
+
 export const ZInitialStoryData = z.object({
     title: z.string().min(1).optional().nullable(),
     includeNarration: z.boolean(),
     narrationVoice: z.nativeEnum(NarrationVoiceEnum).nullable(),
     // ItemIds
-    genre: z.string(),
-    theme: z.string(),
+    genre: z.null(),
+    theme: z.null(),
     length: z.string(),
     scenes: z.array(
         ZScene.omit({
@@ -76,7 +92,6 @@ export const ZInitialStoryData = z.object({
         }),
     ),
 })
-export type TInitialStoryData = z.infer<typeof ZInitialStoryData>
 
 export const ZStoryCreatedEvent = z.object({
     title: z.string(),

@@ -27,6 +27,9 @@ export const users = pgTable(
         lastName: text('last_name'),
         profileImageUrl: text('profile_image_url'),
         credits: integer('credits').default(0).notNull().default(3),
+        gettingStartedCreateStory: boolean(
+            'getting_started_create_story',
+        ).default(false),
     },
     (table) => {
         return {

@@ -1,9 +1,8 @@
 import type { Stripe } from 'stripe'
 import { stripeClient } from '@clients/stripe.client'
 import { Resource } from 'sst'
-import { Payment, ZCheckoutCompleteMetadata, Notification } from '@core'
+import { Payment, ZCheckoutCompleteMetadata } from '@core'
 import { handleAsync } from '@utils'
-import { EmailType } from '@transactional'
 
 export const handler = async (req: any) => {
     let event: Stripe.Event

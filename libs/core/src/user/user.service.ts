@@ -46,19 +46,40 @@ class UserService {
         return user?.[0]?.email
     }
 
+    public async getUserGettingStartedFields({ userId }: { userId: string }) {
+        const user = await this.store
+            .select({
+                gettingStartedCreateStory: users.gettingStartedCreateStory,
+            })
+            .from(users)
+            .where(eq(users.clerkId, userId))
+
+        return user?.[0]
+    }
+
     public async updateUser({
-        clerkId,
+        userId,
         email,
         profileImageUrl,
+        gettingStartedCreateStory,
     }: {
-        clerkId: string
-        email: string
-        profileImageUrl: string
+        userId: string
+        email?: string
+        profileImageUrl?: string
+        gettingStartedCreateStory?: boolean
     }) {
+        const setParams = Object.fromEntries(
+            Object.entries({
+                email,
+                profileImageUrl,
+                gettingStartedCreateStory,
+            }).filter(([, value]) => value !== undefined && value !== null),
+        )
+
         await this.store
             .update(users)
-            .set({ email, profileImageUrl })
-            .where(eq(users.clerkId, clerkId))
+            .set(setParams)
+            .where(eq(users.clerkId, userId))
     }
 
     public async markUserDeleted({ clerkId }: { clerkId: string }) {

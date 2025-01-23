@@ -36,10 +36,6 @@ const navItems = [
         name: 'Pricing',
         link: '/#pricing',
     },
-    {
-        name: 'Get Started',
-        link: '/#get-started',
-    },
 ]
 
 export const Navbar = () => {
@@ -154,7 +150,7 @@ const DesktopNav = ({ navItems, visible }: NavbarProps) => {
                     variant="primary"
                     className="hidden md:flex gap-x-2 group justify-center items-center"
                 >
-                    Free Story
+                    Signup
                     <ArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
                 </Button>
             </div>

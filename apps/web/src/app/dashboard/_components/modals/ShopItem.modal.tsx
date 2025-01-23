@@ -18,7 +18,7 @@ import { purchaseItemFromShop } from '../../shop/server'
 import Link from 'next/link'
 
 export const ShopItemModal = (props: {
-    item: Partial<TItem>
+    item: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>
     creditCount: number
     children: React.ReactNode
 }) => {
@@ -54,7 +54,7 @@ export const ShopItemModal = (props: {
                     </div>
                     <div className="relative w-full h-48 sm:h-64 rounded-lg overflow-hidden">
                         <Image
-                            src={props.item.imageUrl}
+                            src={props.item.imageUrl!}
                             alt={props.item.name}
                             layout="fill"
                             objectFit="cover"

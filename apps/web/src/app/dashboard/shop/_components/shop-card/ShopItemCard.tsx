@@ -9,7 +9,7 @@ import { TItem } from '@client-types/item/item.model'
 import { TypeLabel } from './TypeLabel'
 
 export const ShopItemCard = (props: {
-    item: Partial<TItem>
+    item: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>
     creditCount: number
 }) => {
     // @Render

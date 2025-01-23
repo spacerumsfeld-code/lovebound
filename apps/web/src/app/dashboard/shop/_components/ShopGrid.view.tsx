@@ -4,7 +4,7 @@ import { LoadMore } from './LoadMore'
 import { TItem } from '@client-types/item/item.model'
 
 export const ShopGridView = (props: {
-    items: Partial<TItem>[]
+    items: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>[]
     hasMore: boolean
     nextOffset: number
     creditCount: number

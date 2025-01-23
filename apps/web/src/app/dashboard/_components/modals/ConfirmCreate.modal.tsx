@@ -18,7 +18,6 @@ import {
 import useLoading from '../../../../hooks/use-loading'
 import { toast } from 'sonner'
 import { StoryIdToCostMap } from '@client-types/payment/payment.model'
-import { formatCreateStoryParams } from '../../../../lib/utils'
 
 export const ConfirmCreateModal = (props: {
     children: React.ReactNode
@@ -26,11 +25,10 @@ export const ConfirmCreateModal = (props: {
 }) => {
     // @State
     const { startLoading, isLoading } = useLoading()
-    const formattedData = formatCreateStoryParams(props.storyData)
 
     // @Interactivity
     const handleSubmit = async () => {
-        const { data, success, error } = ZCreateStory.safeParse(formattedData)
+        const { data, success, error } = ZCreateStory.safeParse(props.storyData)
         if (!success) {
             toast(mapCreateStoryZodErrorsToSentences(error))
             return
@@ -49,19 +47,21 @@ export const ConfirmCreateModal = (props: {
                         Almost there! Please confirm your story details.
                     </h4>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Title: {formattedData?.title}
+                        Title: {props.storyData?.title}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Genre: {formattedData?.genre?.name}
+                        Genre:{' '}
+                        {props.storyData?.genre?.name || 'No genre selected'}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Theme: {formattedData?.theme?.name}
+                        Theme:{' '}
+                        {props.storyData?.theme?.name || 'No theme selected'}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Length: {formattedData?.length?.name}
+                        Length: {props.storyData?.length?.name}
                     </p>
                     <p className="text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold">
-                        Cost: {StoryIdToCostMap[formattedData?.length?.id]}{' '}
+                        Cost: {StoryIdToCostMap[props.storyData?.length?.id]}{' '}
                         credits
                     </p>
                 </ModalContent>

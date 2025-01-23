@@ -1,6 +1,5 @@
 'use client'
 
-import { TInitialStoryData } from '@client-types/story/story.model'
 import {
     Card,
     CardContent,
@@ -29,9 +28,10 @@ import {
 import { ScrollArea } from 'src/components/ui/scroll-area'
 import { ItemCard } from './ItemCard'
 import { VisitShopCTA } from './VisitShopCTA'
+import { TStoryInitialState } from '@client-types/story/story.model'
 
 export const CreateStoryCore = (props: {
-    storyData: TInitialStoryData
+    storyData: TStoryInitialState
     items: {
         genres: TItemInput[]
         themes: TItemInput[]

@@ -2,16 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { storyLengthMap, TItemInput } from '@client-types/item/item.model'
-import { ITEM_ID_MAP } from '../../../../constants'
+import { ITEM_ID_MAP } from 'src/constants'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
-import {
-    TCreateStory,
-    TInitialStoryData,
-} from '@client-types/story/story.model'
-import { TScene } from '@client-types/scene/scene.model'
-import { ConfirmCreateModal } from '../../_components/modals/ConfirmCreate.modal'
+import { TStoryInitialState } from '@client-types/story/story.model'
+import { ConfirmCreateModal } from 'src/app/dashboard/_components/modals/ConfirmCreate.modal'
 import { Button } from 'src/components/ui/button'
+import { createInitialStoryState, transformToCreateStory } from 'src/lib/utils'
 
 export const CreateStoryView = (props: {
     items: {
@@ -24,26 +21,15 @@ export const CreateStoryView = (props: {
     }
 }) => {
     // *State
-    const [storyData, setStoryData] = useState<TInitialStoryData>({
-        title: '',
-        theme: null,
-        genre: null,
-        length: JSON.stringify(
-            props.items.lengths.find(
-                (length) => length.id === storyLengthMap.get('Mini')!,
-            ),
-        ),
-        includeNarration: false,
-        narrationVoice: null,
-        scenes: [
-            {
-                tone: null,
-                setting: null,
-                tensionLevel: null,
-            },
-        ],
-    })
+    const defaultLength = props.items.lengths.find(
+        (length) => length.id === storyLengthMap.get('Mini')!,
+    )!
 
+    const [storyData, setStoryData] = useState<TStoryInitialState>(
+        createInitialStoryState(defaultLength),
+    )
+
+    // *Interactivity
     useEffect(() => {
         if (
             JSON.parse(storyData.length).id ===
@@ -54,14 +40,11 @@ export const CreateStoryView = (props: {
                 includeNarration: false,
                 scenes: Array(3)
                     .fill({})
-                    .map(
-                        () =>
-                            ({
-                                tone: null,
-                                setting: null,
-                                tensionLevel: null,
-                            }) as TScene,
-                    ),
+                    .map(() => ({
+                        tone: null,
+                        setting: null,
+                        tensionLevel: null,
+                    })),
             }))
         } else if (
             JSON.parse(storyData.length).id ===
@@ -172,6 +155,7 @@ export const CreateStoryView = (props: {
         return index !== -1 ? index : null
     }
 
+    // *Render
     return (
         <div className="flex flex-col md:flex-row gap-4 p-4">
             <CreateStoryCore
@@ -189,7 +173,7 @@ export const CreateStoryView = (props: {
             />
             <div className="fixed bottom-6 left-0 right-0 flex justify-center">
                 <ConfirmCreateModal
-                    storyData={storyData as unknown as Required<TCreateStory>}
+                    storyData={transformToCreateStory(storyData)}
                 >
                     <Button variant="primary">Create Story</Button>
                 </ConfirmCreateModal>

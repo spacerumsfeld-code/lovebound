@@ -37,11 +37,10 @@ export const itemRouter = router({
 
             return c.superjson({
                 data: {
-                    items: shopItems,
+                    items: shopItems!,
                     hasMore,
                     nextOffset,
                 },
-                success: true,
             })
         }),
     getCreateStoryItems: protectedProcedure.query(async ({ c, ctx }) => {
@@ -59,22 +58,22 @@ export const itemRouter = router({
             data: {
                 genres: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.Genre,
-                ),
+                )!,
                 themes: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.Theme,
-                ),
+                )!,
                 lengths: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.Length,
-                ),
+                )!,
                 tensionLevels: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.TensionLevel,
-                ),
+                )!,
                 settings: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.Setting,
-                ),
+                )!,
                 tones: getCreateStoryItems!.filter(
                     ({ type }) => type === ItemTypeEnum.Tone,
-                ),
+                )!,
             },
             success: true,
         })

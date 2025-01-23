@@ -42,7 +42,7 @@ export const ShopHeader = (props: { type: ItemTypeEnum }) => {
     return (
         <Header
             title="Romance Shop"
-            description={descriptionMap.get(props.type)}
+            description={descriptionMap.get(props.type) || ''}
         >
             {filterOptions.map((cta, index) => (
                 <Button

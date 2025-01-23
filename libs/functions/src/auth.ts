@@ -128,7 +128,7 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
 
                 const [, updateUserError] = await handleAsync(
                     User.updateUser({
-                        clerkId: updateData.id,
+                        userId: updateData.id,
                         email: updateData.email_addresses.find(
                             (email) =>
                                 email.id ===

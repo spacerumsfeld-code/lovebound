@@ -3,6 +3,8 @@
 import { cn } from '../../lib/utils'
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
+import { Button } from 'src/components/ui/button'
+import { SITE_MAP } from 'src/constants'
 
 export const CTA = () => {
     return (
@@ -23,11 +25,15 @@ export const CTA = () => {
                     with no obligation.
                 </p>
 
-                <div className="flex items-start sm:items-center flex-col sm:flex-row sm:gap-4">
-                    <button className="mt-8 flex space-x-2 items-center group text-base px-4 py-2 rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-500 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]">
-                        <span>Claim free stories</span>
+                <div className="flex items-start sm:items-center flex-col sm:flex-row sm:gap-4 mt-6">
+                    <Button
+                        href="/login"
+                        variant="primary"
+                        className="hidden md:flex gap-x-2 group justify-center items-center"
+                    >
+                        Claim Free Stories
                         <ArrowRight className="text-white group-hover:translate-x-1 stroke-[1px] h-3 w-3 mt-0.5 transition-transform duration-200" />
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div className="border-t md:border-t-0 md:border-l border-dashed p-8 md:p-14">

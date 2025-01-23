@@ -1,0 +1,1 @@
+ALTER TABLE "stories" ALTER COLUMN "cover_url" SET NOT NULL;

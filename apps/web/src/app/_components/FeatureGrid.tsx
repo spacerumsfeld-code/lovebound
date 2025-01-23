@@ -366,8 +366,7 @@ const items = [
         title: 'Control',
         description: (
             <span className="text-sm">
-                Combine genres, themes, settings, tones, and tension levels
-                however you want.
+                You decide what you want your story to be.
             </span>
         ),
         header: <SkeletonTwo />,

@@ -65,7 +65,7 @@ export const storyRouter = router({
         }
 
         return c.superjson({
-            data: { recentStories },
+            data: { recentStories: recentStories! },
             success: true,
         })
     }),
@@ -154,6 +154,37 @@ export const storyRouter = router({
                 throw new HTTPException(400, {
                     message: sendEmailError.message,
                 })
+            }
+
+            const [gettingStartedFields, gettingStartedFieldsError] =
+                await handleAsync(
+                    User.getUserGettingStartedFields({
+                        userId: ctx.userId!,
+                    }),
+                )
+            if (gettingStartedFieldsError) {
+                console.error(
+                    `❌ gettingStartedFieldsError error:`,
+                    gettingStartedFieldsError,
+                )
+                throw new HTTPException(400, {
+                    message: gettingStartedFieldsError.message,
+                })
+            }
+
+            if (!gettingStartedFields?.gettingStartedCreateStory) {
+                const [, updateUserError] = await handleAsync(
+                    User.updateUser({
+                        userId: ctx.userId!,
+                        gettingStartedCreateStory: true,
+                    }),
+                )
+                if (updateUserError) {
+                    console.error(`❌ updateUser error:`, updateUserError)
+                    throw new HTTPException(400, {
+                        message: updateUserError.message,
+                    })
+                }
             }
 
             return c.superjson({

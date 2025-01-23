@@ -19,7 +19,6 @@ export const getCreditCount = dedupe(async () => {
     try {
         const response = await api.payment.getCreditCount.$get()
         const data = await response.json()
-
         const { creditCount } = data.data
 
         return { creditCount }
@@ -27,3 +26,19 @@ export const getCreditCount = dedupe(async () => {
         throw new Error(`❌ client.getCreditCount error: ${error.message}`)
     }
 })
+
+export const getGettingStartedFields = async () => {
+    try {
+        const response = await api.user.getGettingStartedFields.$get()
+        const data = await response.json()
+        const { gettingStartedFields } = data.data
+
+        return {
+            gettingStartedFields,
+        }
+    } catch (error) {
+        throw new Error(
+            `❌ client.getGettingStartedFields error: ${error.message}`,
+        )
+    }
+}

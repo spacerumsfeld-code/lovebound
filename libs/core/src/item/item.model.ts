@@ -52,13 +52,13 @@ export type TItem = {
     description: string
     cost: number
     isDefault: boolean
-    imageUrl: string | null
+    imageUrl: string
     type: ItemTypeEnum
 }
 
 export const ZItemInput = z.object({
     id: z.number(),
     name: z.string().min(1),
-    imageUrl: z.string().optional().nullable(),
+    imageUrl: z.string(),
 })
 export type TItemInput = z.infer<typeof ZItemInput>

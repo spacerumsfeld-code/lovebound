@@ -14,7 +14,7 @@ import { useToast } from 'src/hooks/use-toast'
 import { cn } from 'src/lib/utils'
 
 export const NarrationOptions = (props: {
-    selectedVoice: NarrationVoiceEnum
+    selectedVoice: NarrationVoiceEnum | null
     narrationEnabled: boolean
     handleInputChange: (field: string, value: string | boolean) => void
 }) => {

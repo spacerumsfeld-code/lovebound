@@ -13,7 +13,7 @@ export const stories = pgTable('stories', {
     id: serial('id').primaryKey(),
     ownerId: text('owner_id').notNull(),
     title: text('title').notNull(),
-    coverUrl: text('cover_url'),
+    coverUrl: text('cover_url').notNull(),
     inProgress: boolean('in_progress').notNull().default(true),
     // enums
     genre: integer('genre')

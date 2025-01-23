@@ -70,7 +70,7 @@ export const paymentRouter = router({
 
         return c.superjson({
             data: {
-                creditCount,
+                creditCount: creditCount!,
             },
             success: true,
         })
@@ -132,7 +132,6 @@ export const paymentRouter = router({
             }
 
             return c.superjson({
-                data: {},
                 success: true,
             })
         }),
