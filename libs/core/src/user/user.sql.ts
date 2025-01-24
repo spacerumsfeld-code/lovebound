@@ -30,6 +30,9 @@ export const users = pgTable(
         gettingStartedCreateStory: boolean(
             'getting_started_create_story',
         ).default(false),
+        gettingStartedExploreShop: boolean(
+            'getting_started_explore_shop',
+        ).default(false),
     },
     (table) => {
         return {

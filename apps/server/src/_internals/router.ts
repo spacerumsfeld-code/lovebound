@@ -63,6 +63,10 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
             })
 
         if (operation.type === 'query') {
+            console.info(
+                `💻 Invoked ${path} with input ${JSON.stringify(operation.schema?.parse({}))}`,
+            )
+
             if (operation.schema) {
                 route.get(
                     path,
@@ -96,10 +100,18 @@ export const router = <T extends Record<string, OperationType<any, any>>>(
                 route.get(path, ...operationMiddlewares, (c) => {
                     const ctx = c.get('__middleware_output') || {}
 
+                    console.info(
+                        `💻 Invoked ${path} with input ${JSON.stringify(ctx)}`,
+                    )
+
                     return operation.handler({ c, ctx, input: undefined })
                 })
             }
         } else if (operation.type === 'mutation') {
+            console.info(
+                `💻 Invoked ${path} with input ${JSON.stringify(operation.schema?.parse({}))}`,
+            )
+
             if (operation.schema) {
                 route.post(
                     path,

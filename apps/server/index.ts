@@ -16,4 +16,10 @@ const apiRouter = app
 
 export const handler = handle(apiRouter)
 
+export enum RouterEnum {
+    User = 'userRouter',
+    Story = 'storyRouter',
+    Item = 'itemRouter',
+    payment = 'paymentRouter',
+}
 export type ApiSpec = typeof apiRouter

@@ -5,18 +5,12 @@ import { Item } from '@core'
 import { handleAsync } from '@utils'
 import { ItemTypeEnum } from '@client-types/item/item.model'
 import { handleError } from '../_internals/util'
+import { handler } from '../_internals/handler'
+import { RouterEnum } from '@server'
+import { getShopItems } from '../helpers/item.helpers'
 
-export const itemRouter = router({
-    getShopItems: protectedProcedure
-        .input(
-            z.object({
-                type: z.nativeEnum(ItemTypeEnum),
-                offset: z.number().int(),
-                limit: z.number().int(),
-            }),
-        )
-        .query(async ({ c, input, ctx }) => {
-            console.info(
+/**
+ *             console.info(
                 `💻 Invoked itemRouter.getShopItems with data ${JSON.stringify(
                     input,
                 )}`,
@@ -42,7 +36,29 @@ export const itemRouter = router({
                     nextOffset,
                 },
             })
-        }),
+ */
+
+export const itemRouter = router({
+    getShopItems: protectedProcedure
+        .input(
+            z.object({
+                type: z.nativeEnum(ItemTypeEnum),
+                offset: z.number().int(),
+                limit: z.number().int(),
+            }),
+        )
+        .query(async ({ c, input, ctx }) =>
+            handler({ router: RouterEnum.Item }).pipe(
+                () =>
+                    getShopItems({
+                        type: input.type,
+                        userId: ctx.userId!,
+                        offset: input.offset,
+                        limit: input.limit,
+                    }),
+                (data) => c.superjson(data),
+            ),
+        ),
     getCreateStoryItems: protectedProcedure.query(async ({ c, ctx }) => {
         console.info(`💻 Invoked itemRouter.getCreateStoryItems`)
 
