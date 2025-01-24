@@ -50,6 +50,7 @@ class UserService {
         const user = await this.store
             .select({
                 gettingStartedCreateStory: users.gettingStartedCreateStory,
+                gettingStartedExploreShop: users.gettingStartedExploreShop,
             })
             .from(users)
             .where(eq(users.clerkId, userId))
@@ -62,17 +63,20 @@ class UserService {
         email,
         profileImageUrl,
         gettingStartedCreateStory,
+        gettingStartedExploreShop,
     }: {
         userId: string
         email?: string
         profileImageUrl?: string
         gettingStartedCreateStory?: boolean
+        gettingStartedExploreShop?: boolean
     }) {
         const setParams = Object.fromEntries(
             Object.entries({
                 email,
                 profileImageUrl,
                 gettingStartedCreateStory,
+                gettingStartedExploreShop,
             }).filter(([, value]) => value !== undefined && value !== null),
         )
 

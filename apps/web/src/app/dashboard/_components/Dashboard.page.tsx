@@ -1,4 +1,4 @@
-import { DashboardHeader } from './DashboardHeader'
+import { DashboardHeader } from './header/DashboardHeader'
 import { RecentStories } from './RecentStories'
 
 export const DashboardPage = () => {

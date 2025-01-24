@@ -58,3 +58,13 @@ export const purchaseItemFromShop = async (args: {
 
     return redirect('/dashboard/shop?action=modal.item.purchased')
 }
+
+export const updateUserExploreShop = async () => {
+    try {
+        await api.user.updateUserExploreShop.$post()
+    } catch (error) {
+        throw new Error(
+            `❌ client.updateUserExploreShop failed with error: ${error}`,
+        )
+    }
+}

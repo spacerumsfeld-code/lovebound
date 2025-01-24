@@ -27,4 +27,24 @@ export const userRouter = router({
             },
         })
     }),
+    updateUserExploreShop: protectedProcedure.mutation(async ({ c, ctx }) => {
+        console.info('💻 Invoked userRouter.updateUserExploreShop')
+
+        const [, gettingStartedFieldsError] = await handleAsync(
+            User.updateUser({
+                userId: ctx.userId!,
+                gettingStartedExploreShop: true,
+            }),
+        )
+        if (gettingStartedFieldsError) {
+            console.error(`❌ get error:`, gettingStartedFieldsError)
+            throw new HTTPException(400, {
+                message: gettingStartedFieldsError.message,
+            })
+        }
+
+        return c.superjson({
+            success: true,
+        })
+    }),
 })
