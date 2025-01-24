@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "getting_started_purchase_item" boolean DEFAULT false;

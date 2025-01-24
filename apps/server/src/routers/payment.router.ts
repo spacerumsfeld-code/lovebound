@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { router } from '../_internals/router'
 import { protectedProcedure } from '../_internals/index'
 import { HTTPException } from 'hono/http-exception'
-import { extractFulfilledValues, handleAsync } from '@utils'
+import { extractFulfilledValues, handleAsync, resolvePromises } from '@utils'
 import { Payment, ProductTypeEnum, User, Notification } from '@core'
 import { EmailType } from '@transactional'
 
@@ -114,14 +114,14 @@ export const paymentRouter = router({
                 })
             }
 
-            // changeme
-
-            const [userEmail, getUserEmailError] = await handleAsync(
-                User.getUserEmail({ userId: ctx.userId! }),
-            )
-            if (getUserEmailError) {
-                console.error(getUserEmailError)
-            }
+            const [userEmail, gettingStartedFields] = await resolvePromises([
+                { promise: User.getUserEmail({ userId: ctx.userId! }) },
+                {
+                    promise: User.getUserGettingStartedFields({
+                        userId: ctx.userId!,
+                    }),
+                },
+            ])
 
             const [, sendEmailError] = await handleAsync(
                 Notification.sendEmail({
@@ -130,7 +130,25 @@ export const paymentRouter = router({
                 }),
             )
             if (sendEmailError) {
-                console.error(sendEmailError)
+                console.error(`❌ purchaseItem error:`, sendEmailError)
+                throw new HTTPException(400, {
+                    message: 'Failed to send email',
+                })
+            }
+
+            if (!gettingStartedFields!.gettingStartedPurchaseItem) {
+                const [, updateUserError] = await handleAsync(
+                    User.updateUser({
+                        userId: ctx.userId!,
+                        gettingStartedPurchaseItem: true,
+                    }),
+                )
+                if (updateUserError) {
+                    console.error(`❌ purchaseItem error:`, updateUserError)
+                    throw new HTTPException(400, {
+                        message: 'Failed to update user',
+                    })
+                }
             }
 
             return c.superjson({

@@ -52,6 +52,7 @@ class UserService {
                 gettingStartedCreateStory: users.gettingStartedCreateStory,
                 gettingStartedExploreShop: users.gettingStartedExploreShop,
                 gettingStartedTopUpCredits: users.gettingStartedTopUpCredits,
+                gettingStartedPurchaseItem: users.gettingStartedPurchaseItem,
             })
             .from(users)
             .where(eq(users.clerkId, userId))
@@ -66,6 +67,7 @@ class UserService {
         gettingStartedCreateStory,
         gettingStartedExploreShop,
         gettingStartedTopUpCredits,
+        gettingStartedPurchaseItem,
     }: {
         userId: string
         email?: string
@@ -73,6 +75,7 @@ class UserService {
         gettingStartedCreateStory?: boolean
         gettingStartedExploreShop?: boolean
         gettingStartedTopUpCredits?: boolean
+        gettingStartedPurchaseItem?: boolean
     }) {
         const setParams = Object.fromEntries(
             Object.entries({
@@ -81,6 +84,7 @@ class UserService {
                 gettingStartedCreateStory,
                 gettingStartedExploreShop,
                 gettingStartedTopUpCredits,
+                gettingStartedPurchaseItem,
             }).filter(([, value]) => value !== undefined && value !== null),
         )
 

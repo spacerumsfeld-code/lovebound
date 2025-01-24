@@ -1,4 +1,3 @@
-import { ArrowRight, CheckCircle, Circle } from 'lucide-react'
 import { Header } from 'src/components/ui/header'
 import { SITE_MAP } from 'src/constants'
 import { HeaderItem } from './HeaderItem'
@@ -7,8 +6,8 @@ export enum GettingStartedLinkId {
     CreateStory = 'gettingStartedCreateStory',
     Shop = 'gettingStartedExploreShop',
     TopUp = 'gettingStartedTopUpCredits',
-    Addon = 'gettingStartedAddon',
-    Subscription = 'gettingStartedSubscription',
+    Item = 'gettingStartedPurchaseItem',
+    // Subscription = 'gettingStartedSubscription',
 }
 
 const gettingStartedLinks = [
@@ -31,19 +30,19 @@ const gettingStartedLinks = [
         href: SITE_MAP.UPGRADE,
     },
     {
-        id: GettingStartedLinkId.Addon,
-        title: 'Get your first addon',
+        id: GettingStartedLinkId.Item,
+        title: 'Get your first shop item',
         description:
-            'Get your first addon from the shop to enhance your storytelling.',
+            'Get your first item from the shop to enhance your storytelling.',
         href: SITE_MAP.SHOP,
     },
-    {
-        id: GettingStartedLinkId.Subscription,
-        title: 'Start a subscription',
-        description:
-            'Start a subscription to save on credits and access more features.',
-        href: SITE_MAP.UPGRADE,
-    },
+    // {
+    //     id: GettingStartedLinkId.Subscription,
+    //     title: 'Start a subscription',
+    //     description:
+    //         'Start a subscription to save on credits and access more features.',
+    //     href: SITE_MAP.UPGRADE,
+    // },
 ]
 
 export const DashboardHeader = () => {
