@@ -33,6 +33,9 @@ export const users = pgTable(
         gettingStartedExploreShop: boolean(
             'getting_started_explore_shop',
         ).default(false),
+        gettingStartedTopUpCredits: boolean(
+            'getting_started_top_up_credits',
+        ).default(false),
     },
     (table) => {
         return {

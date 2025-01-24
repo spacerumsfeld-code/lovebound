@@ -114,6 +114,8 @@ export const paymentRouter = router({
                 })
             }
 
+            // changeme
+
             const [userEmail, getUserEmailError] = await handleAsync(
                 User.getUserEmail({ userId: ctx.userId! }),
             )

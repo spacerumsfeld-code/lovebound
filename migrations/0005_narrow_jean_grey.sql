@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "getting_started_top_up_credits" boolean DEFAULT false;
