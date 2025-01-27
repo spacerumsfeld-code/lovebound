@@ -6,12 +6,12 @@ import { modalAtom, ModalType } from '../../atoms/modal'
 import { useSetAtom } from 'jotai'
 
 export const ActionsFromParams = () => {
-    // @State
+    // *State
     const searchParams = useSearchParams()
     const action = searchParams?.get('action') ?? ''
     const setModalToRender = useSetAtom(modalAtom)
 
-    // @Ineractivity
+    // *Interactivity
     useEffect(() => {
         switch (action) {
             case 'modal.story.created':
@@ -31,6 +31,6 @@ export const ActionsFromParams = () => {
         }
     }, [action, setModalToRender])
 
-    // @Render
+    // *Render
     return <></>
 }
