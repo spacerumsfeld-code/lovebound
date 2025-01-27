@@ -5,10 +5,12 @@ export enum ProductTypeEnum {
     Credits20Pack = 'Credits20Pack',
     Credits50Pack = 'Credits50Pack',
     CasualSubscription = 'CasualSubscription',
+    PremiumSubscription = 'PremiumSubscription',
 }
 
 export const subscriptionSet = new Set<ProductTypeEnum>([
     ProductTypeEnum.CasualSubscription,
+    ProductTypeEnum.PremiumSubscription,
 ])
 
 export enum CreditCountEnum {
@@ -16,6 +18,7 @@ export enum CreditCountEnum {
     Credits20Pack = 20,
     Credits50Pack = 50,
     CasualSubscription = 10,
+    PremiumSubscription = 30,
 }
 
 export enum ProductIdEnum {
@@ -23,6 +26,7 @@ export enum ProductIdEnum {
     Credits20Pack = 'price_1QSthLLZGjrJKEOlrABFyIR7',
     Credits50Pack = 'price_1QStjoLZGjrJKEOlooXjFf8m',
     CasualSubscription = 'price_1QStaQLZGjrJKEOlBhU4C3BM',
+    PremiumSubscription = 'price_1QlycXLZGjrJKEOlrQtfZv8H',
 }
 
 export const ZStripeMetadata = z.object({

@@ -11,7 +11,7 @@ import { PurchaseButton } from './PurchaseButton'
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
 
 export const Subscriptions = () => {
-    // @Render
+    // *Render
     return (
         <div className="grid sm:grid-cols-2 gap-8">
             <Card>
@@ -52,7 +52,7 @@ export const Subscriptions = () => {
                         <CardTitle>Premium Subscription</CardTitle>
                         <Sparkles className="h-5 w-5 text-indigo-400" />
                     </div>
-                    <CardDescription>For Romance aficionados</CardDescription>
+                    <CardDescription>For Romance junkies</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-baseline gap-2">
@@ -84,7 +84,7 @@ export const Subscriptions = () => {
                 </CardContent>
                 <CardFooter>
                     <PurchaseButton
-                        product={ProductTypeEnum.CasualSubscription}
+                        product={ProductTypeEnum.PremiumSubscription}
                         subscription
                     />
                 </CardFooter>
