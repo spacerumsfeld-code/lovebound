@@ -9,9 +9,7 @@ export const ItemAsync = async (props: { linkId: GettingStartedLinkId }) => {
     // *Render
     return (
         <>
-            {gettingStartedFields[
-                props.linkId as keyof typeof gettingStartedFields
-            ] ? (
+            {gettingStartedFields[props.linkId] ? (
                 <CheckCircle
                     className="h-5 w-5 text-green-300 stroke-2"
                     strokeWidth={2}

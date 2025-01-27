@@ -54,7 +54,35 @@ export const emails = {
                     config={{
                         title: 'Purchase Successful',
                         message:
-                            'Your purchase has been successful! Your items are ready to use to craft your next story.',
+                            'Your purchase is successful! Your items are ready to use to craft your next story.',
+                    }}
+                />,
+            ),
+    },
+    [EmailType.SubscriptionCreated]: {
+        subject: 'Subscription Created',
+        text: 'Subscription Created',
+        html: async () =>
+            await render(
+                <BaseEmail
+                    config={{
+                        title: 'Subscription Created',
+                        message:
+                            'Your subscription is active! Your credits have been topped up and you now have access to additional features.',
+                    }}
+                />,
+            ),
+    },
+    [EmailType.SubscriptionCancelled]: {
+        subject: 'Subscription Cancelled',
+        text: 'Subscription Cancelled',
+        html: async () =>
+            await render(
+                <BaseEmail
+                    config={{
+                        title: 'Subscription Cancelled',
+                        message:
+                            'We hate to see you go and hope to see you again soon!',
                     }}
                 />,
             ),

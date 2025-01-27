@@ -37,7 +37,7 @@ export const Subscriptions = () => {
                 </CardContent>
                 <CardFooter>
                     <PurchaseButton
-                        product={ProductTypeEnum.MiniSubscription}
+                        product={ProductTypeEnum.CasualSubscription}
                         subscription
                     />
                 </CardFooter>
@@ -84,7 +84,7 @@ export const Subscriptions = () => {
                 </CardContent>
                 <CardFooter>
                     <PurchaseButton
-                        product={ProductTypeEnum.PremiumSubscription}
+                        product={ProductTypeEnum.CasualSubscription}
                         subscription
                     />
                 </CardFooter>

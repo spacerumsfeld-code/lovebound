@@ -7,7 +7,6 @@ export enum GettingStartedLinkId {
     Shop = 'gettingStartedExploreShop',
     TopUp = 'gettingStartedTopUpCredits',
     Item = 'gettingStartedPurchaseItem',
-    // Subscription = 'gettingStartedSubscription',
 }
 
 const gettingStartedLinks = [
@@ -36,13 +35,6 @@ const gettingStartedLinks = [
             'Get your first item from the shop to enhance your storytelling.',
         href: SITE_MAP.SHOP,
     },
-    // {
-    //     id: GettingStartedLinkId.Subscription,
-    //     title: 'Start a subscription',
-    //     description:
-    //         'Start a subscription to save on credits and access more features.',
-    //     href: SITE_MAP.UPGRADE,
-    // },
 ]
 
 export const DashboardHeader = () => {

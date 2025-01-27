@@ -16,7 +16,7 @@ export {
     ProductTypeEnum,
     ProductIdEnum,
     CreditCountEnum,
-    ZCheckoutCompleteMetadata,
+    ZStripeMetadata,
     subscriptionSet,
 } from './src/payment/payment.model'
 

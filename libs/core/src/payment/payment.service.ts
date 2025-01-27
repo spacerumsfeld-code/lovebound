@@ -1,7 +1,7 @@
 import { db } from '@clients/db.client'
 import { stripeClient } from '@clients/stripe.client'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { ProductTypeEnum, users } from '@core'
+import { CreditCountEnum, ProductTypeEnum, users } from '@core'
 import { eq } from 'drizzle-orm/expressions'
 import { sql } from 'drizzle-orm'
 import { userInventory } from '@client-types/user/user.sql'
@@ -54,28 +54,9 @@ class PaymentService {
         userId: string
         productType: ProductTypeEnum
     }) {
-        let creditCount: number
-        switch (productType) {
-            case ProductTypeEnum.Credits10Pack:
-                creditCount = 10
-                break
-            case ProductTypeEnum.Credits20Pack:
-                creditCount = 20
-                break
-            case ProductTypeEnum.Credits50Pack:
-                creditCount = 50
-                break
-            case ProductTypeEnum.MiniSubscription:
-                creditCount = 10
-                break
-            case ProductTypeEnum.PremiumSubscription:
-                creditCount = 30
-                break
-            default:
-                throw new Error('Invalid product type')
-        }
+        const creditCount = CreditCountEnum[productType]
 
-        const result = await this.store
+        await this.store
             .update(users)
             .set({
                 credits: sql`${users.credits} + ${creditCount}`,
@@ -83,7 +64,7 @@ class PaymentService {
             .where(eq(users.clerkId, userId))
             .returning({ credits: users.credits })
 
-        return { success: true, newCreditCount: result[0].credits }
+        return { success: true }
     }
 
     public async deductCredits({
