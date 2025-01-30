@@ -3,7 +3,7 @@
  * The role to be assumed by the Github Action runner.
  */
 
-/// <reference path="../.sst/platform/config.d.ts" />
+import type {} from '../.sst/platform/config'
 
 import { isProduction } from './stage'
 
