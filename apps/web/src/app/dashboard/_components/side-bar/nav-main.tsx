@@ -5,13 +5,12 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuSkeleton,
 } from 'src/components/ui/sidebar'
 
 import Link from 'next/link'
 import { SITE_MAP } from 'src/constants'
 import { Suspense } from 'react'
-import { BillingLink } from './BillingLink'
+import { BillingLink } from './billing-link/BillingLink'
 
 const navOptions = [
     {
@@ -39,7 +38,7 @@ export const NavMain = () => {
                 {navOptions.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <Link href={item.url}>
-                            <SidebarMenuButton tooltip={item.title}>
+                            <SidebarMenuButton>
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
                             </SidebarMenuButton>
@@ -48,9 +47,10 @@ export const NavMain = () => {
                 ))}
                 <Suspense
                     fallback={
-                        <SidebarMenuSkeleton showIcon={true}>
+                        <SidebarMenuButton>
                             <CreditCard />
-                        </SidebarMenuSkeleton>
+                            <span>Billing</span>
+                        </SidebarMenuButton>
                     }
                 >
                     <BillingLink />
