@@ -90,7 +90,7 @@ export const userRouter = router({
 
         return c.superjson({
             data: {
-                currentSubscription: currentSubscription!,
+                currentSubscriptionType: currentSubscription!,
             },
         })
     }),

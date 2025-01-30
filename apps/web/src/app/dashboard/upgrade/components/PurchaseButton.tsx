@@ -5,6 +5,11 @@ import { createCheckoutSession } from '../server'
 import { Button } from 'src/components/ui/button'
 import useLoading from 'src/hooks/use-loading'
 import { Loader2 } from 'lucide-react'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from 'src/components/ui/tooltip'
 
 export const PurchaseButton = (props: {
     product: ProductTypeEnum
@@ -13,6 +18,7 @@ export const PurchaseButton = (props: {
 }) => {
     // @State
     const { isLoading, startLoading } = useLoading()
+    const shouldDisplayTooltip = Boolean(props.subscription && props.disabled)
 
     // @Interactivity
     const handlePurchaseProduct = async (productType: ProductTypeEnum) => {
@@ -25,15 +31,38 @@ export const PurchaseButton = (props: {
 
     // @Render
     return (
-        <Button
-            className={'flex items-center justify-center'}
-            onClick={() => handlePurchaseProduct(props.product)}
-            disabled={isLoading('upgrade')}
-        >
-            {isLoading('upgrade') && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <>
+            {shouldDisplayTooltip ? (
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button
+                            className={'flex items-center justify-center'}
+                            onClick={() => handlePurchaseProduct(props.product)}
+                            disabled={isLoading('upgrade') || props.disabled}
+                        >
+                            {isLoading('upgrade') && (
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            )}
+                            {props.subscription ? 'Subscribe' : 'Buy Now'}
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" align="center">
+                        Manage subscriptions by clicking &quot;Billing&quot; on
+                        the left.
+                    </TooltipContent>
+                </Tooltip>
+            ) : (
+                <Button
+                    className={'flex items-center justify-center'}
+                    onClick={() => handlePurchaseProduct(props.product)}
+                    disabled={isLoading('upgrade') || props.disabled}
+                >
+                    {isLoading('upgrade') && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {props.subscription ? 'Subscribe' : 'Buy Now'}
+                </Button>
             )}
-            {props.subscription ? 'Subscribe' : 'Buy Now'}
-        </Button>
+        </>
     )
 }

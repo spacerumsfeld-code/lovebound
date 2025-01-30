@@ -9,8 +9,13 @@ import {
 } from 'src/components/ui/card'
 import { PurchaseButton } from './PurchaseButton'
 import { ProductTypeEnum } from '@client-types/payment/payment.model'
+import { getCurrentSubscriptionType } from '../../data'
 
-export const Subscriptions = () => {
+export const Subscriptions = async () => {
+    // *Data
+    const { currentSubscriptionType } = await getCurrentSubscriptionType()
+    const userHasSubscription = Boolean(currentSubscriptionType)
+
     // *Render
     return (
         <div className="grid sm:grid-cols-2 gap-8">
@@ -39,6 +44,7 @@ export const Subscriptions = () => {
                     <PurchaseButton
                         product={ProductTypeEnum.CasualSubscription}
                         subscription
+                        disabled={userHasSubscription}
                     />
                 </CardFooter>
             </Card>
@@ -86,6 +92,7 @@ export const Subscriptions = () => {
                     <PurchaseButton
                         product={ProductTypeEnum.PremiumSubscription}
                         subscription
+                        disabled={userHasSubscription}
                     />
                 </CardFooter>
             </Card>

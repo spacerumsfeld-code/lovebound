@@ -6,17 +6,16 @@ import { Sparkles } from 'lucide-react'
 
 export const SubscriptionCTAAsync = async () => {
     // *Data
-    const { currentSubscription } = await getCurrentSubscriptionType()
+    const { currentSubscriptionType } = await getCurrentSubscriptionType()
 
     // *Render
     let ctaText
-    switch (currentSubscription) {
+    switch (currentSubscriptionType) {
         case null:
-            ctaText = 'Upgrade to a subscription for more features'
+            ctaText = 'Upgrade to a subscription'
             break
         case ProductTypeEnum.CasualSubscription:
-            ctaText =
-                'Upgrade to a Premium Subscription for audio narration and more'
+            ctaText = 'Upgrade to Premium Subscription'
             break
         case ProductTypeEnum.PremiumSubscription:
             ctaText = 'Current subscription: Premium'
@@ -26,13 +25,13 @@ export const SubscriptionCTAAsync = async () => {
     return (
         <Link
             href={SITE_MAP.UPGRADE}
-            className="flex justify-center items-center"
+            className="flex justify-center items-center text-indigo-400"
         >
             <div>
-                <Sparkles className="inline-block mr-2 text-indigo-400" />
+                <Sparkles className="inline-block mr-2" />
             </div>
             <span className="hidden sm:block ">{ctaText}</span>
-            <span className="sm:hidden text-indigo-400">Upgrade</span>
+            <span className="sm:hidden">Upgrade</span>
         </Link>
     )
 }
