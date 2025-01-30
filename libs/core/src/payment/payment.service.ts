@@ -56,6 +56,12 @@ class PaymentService {
         return userExistsInStripe
     }
 
+    public async getCurrentSubscriptionType({ userId }: { userId: string }) {
+        const subscriptionType =
+            await this.paymentClient.getCurrentSubscriptionType({ userId })
+        return subscriptionType
+    }
+
     public async topUpCredits({
         userId,
         productType,

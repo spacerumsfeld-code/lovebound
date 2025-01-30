@@ -10,6 +10,10 @@ import {
 } from '@core'
 import { handleAsync } from '@utils'
 import { EmailType } from '@transactional'
+import {
+    ProductTypeEnum,
+    ZStripeSubscriptionMetadata,
+} from '@client-types/payment/payment.model'
 
 export const handler = async (req: any) => {
     let event: Stripe.Event
@@ -109,7 +113,7 @@ export const handler = async (req: any) => {
                 const {
                     data: parsedSubscriptionMetadata,
                     error: parsedSubscriptionMetadataError,
-                } = ZStripeMetadata.safeParse(
+                } = ZStripeSubscriptionMetadata.safeParse(
                     data.subscription_details?.metadata,
                 )
                 if (parsedSubscriptionMetadataError) {
@@ -130,24 +134,27 @@ export const handler = async (req: any) => {
                     parsedSubscriptionMetadata,
                 )
 
-                const [subscriptionStatus, subscriptionStatusError] =
-                    await handleAsync(
-                        stripeClient.getSubscriptionStatus({
-                            subscriptionId: data.subscription as string,
-                        }),
-                    )
-                if (subscriptionStatusError) {
+                const [subscription, subscriptionError] = await handleAsync(
+                    stripeClient.getSubscription({
+                        subscriptionId: data.subscription as string,
+                    }),
+                )
+                if (subscriptionError) {
                     console.error(
                         `❌ stripe.invoicePaid error:`,
-                        subscriptionStatusError,
+                        subscriptionError,
                     )
                 }
 
-                if (data.paid && subscriptionStatus === 'active') {
+                if (data.paid && subscription!.status === 'active') {
                     const [, topupError] = await handleAsync(
                         Payment.topUpCredits({
                             userId: parsedSubscriptionMetadata.userId,
-                            productType: parsedSubscriptionMetadata.productType,
+                            productType:
+                                ProductTypeEnum[
+                                    subscription!.items.data[0].plan
+                                        .id as keyof typeof ProductTypeEnum
+                                ],
                         }),
                     )
                     if (topupError) {
@@ -170,7 +177,7 @@ export const handler = async (req: any) => {
                 const {
                     data: subscriptionCreatedMetadata,
                     error: subscriptionCreatedMetadataError,
-                } = ZStripeMetadata.safeParse(data.metadata)
+                } = ZStripeSubscriptionMetadata.safeParse(data.metadata)
                 if (subscriptionCreatedMetadataError) {
                     console.error(
                         `❌ stripe.subscriptionCreated validation error:`,
@@ -214,7 +221,7 @@ export const handler = async (req: any) => {
                 const {
                     data: subscriptionDeletedMetadata,
                     error: subscriptionDeletedMetadataError,
-                } = ZStripeMetadata.safeParse(data.metadata)
+                } = ZStripeSubscriptionMetadata.safeParse(data.metadata)
                 if (subscriptionDeletedMetadataError) {
                     console.error(
                         `❌ stripe.invoicePaid validation error:`,

@@ -5,7 +5,6 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from '../../components/ui/sidebar'
-import { Button } from '../../components/ui/button'
 import { ActionsFromParams } from '../../components/ui/actions-from-params'
 import { Suspense } from 'react'
 import { Toaster } from '../../components/ui/sonner'
@@ -14,7 +13,7 @@ import { Breadcrumbs } from './_components/side-bar/crumbs'
 import { Modal } from './_components/modals/Modal'
 import Script from 'next/script'
 import { EnvironmentEnum } from 'src/constants'
-import Link from 'next/link'
+import { SubscriptionCTA } from './_components/subscription-cta/SubscriptionCTA'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -46,13 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             />
                             <Breadcrumbs />
                         </div>
-                        <Button
-                            as={Link}
-                            variant="primary"
-                            href="/dashboard/create"
-                        >
-                            Create Story
-                        </Button>
+                        <SubscriptionCTA />
                     </header>
                     <Separator orientation="horizontal" className="w-full" />
                     {children}

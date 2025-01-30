@@ -42,3 +42,17 @@ export const getGettingStartedFields = dedupe(async () => {
         )
     }
 })
+
+export const getCurrentSubscriptionType = dedupe(async () => {
+    try {
+        const response = await api.user.getCurrentSubscriptionType.$get()
+        const data = await response.json()
+        const { currentSubscription } = data.data
+
+        return { currentSubscription }
+    } catch (error) {
+        throw new Error(
+            `❌ client.getCurrentSubscriptionType error: ${error.message}`,
+        )
+    }
+})

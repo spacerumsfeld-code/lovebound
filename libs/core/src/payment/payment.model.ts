@@ -6,6 +6,9 @@ export enum ProductTypeEnum {
     Credits50Pack = 'Credits50Pack',
     CasualSubscription = 'CasualSubscription',
     PremiumSubscription = 'PremiumSubscription',
+    // reverse maps
+    'price_1QStaQLZGjrJKEOlBhU4C3BM' = ProductTypeEnum.CasualSubscription,
+    'price_1QlycXLZGjrJKEOlrQtfZv8H' = ProductTypeEnum.PremiumSubscription,
 }
 
 export const subscriptionSet = new Set<ProductTypeEnum>([
@@ -33,6 +36,10 @@ export const ZStripeMetadata = z.object({
     userId: z.string(),
     productType: z.nativeEnum(ProductTypeEnum),
     customerEmail: z.string(),
+})
+
+export const ZStripeSubscriptionMetadata = ZStripeMetadata.omit({
+    productType: true,
 })
 
 export const StoryIdToCostMap = {

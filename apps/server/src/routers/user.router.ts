@@ -69,6 +69,31 @@ export const userRouter = router({
             })
         },
     ),
+    getCurrentSubscriptionType: protectedProcedure.query(async ({ c, ctx }) => {
+        console.info('💻 Invoked userRouter.getCurrentSubscription')
+
+        const [currentSubscription, currentSubscriptionError] =
+            await handleAsync(
+                Payment.getCurrentSubscriptionType({
+                    userId: ctx.userId!,
+                }),
+            )
+        if (currentSubscriptionError) {
+            console.error(
+                `❌ getCurrentSubscription error:`,
+                currentSubscriptionError.message,
+            )
+            throw new HTTPException(400, {
+                message: currentSubscriptionError.message,
+            })
+        }
+
+        return c.superjson({
+            data: {
+                currentSubscription: currentSubscription!,
+            },
+        })
+    }),
     updateUserExploreShop: protectedProcedure.mutation(async ({ c, ctx }) => {
         console.info('💻 Invoked userRouter.updateUserExploreShop')
 

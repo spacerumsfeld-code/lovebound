@@ -3,19 +3,32 @@ import { Resource } from 'sst'
 import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {
-    apiVersion: '2024-11-20.acacia',
+    apiVersion: '2025-01-27.acacia',
     appInfo: {
         name: 'Lovebound',
     },
 })
 
-const getSubscriptionStatus = async ({
+const getSubscription = async ({
     subscriptionId,
 }: {
     subscriptionId: string
 }) => {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
-    return subscription.status
+    return subscription
+}
+
+const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
+    const subscriptionSearch = await stripe.subscriptions.search({
+        limit: 1,
+        query: `metadata["userId"]:"${userId}" status:"active"`,
+    })
+
+    const priceId =
+        subscriptionSearch.data?.[0]?.items?.data?.[0]?.plan.id ?? null
+    return priceId
+        ? (ProductTypeEnum[priceId as keyof typeof ProductTypeEnum] ?? null)
+        : null
 }
 
 const checkIfUserExistsInStripe = async ({ email }: { email: string }) => {
@@ -71,7 +84,6 @@ export const createCheckoutSession = async ({
         subscription_data: {
             metadata: {
                 userId,
-                productType,
                 customerEmail,
             },
         },
@@ -81,10 +93,11 @@ export const createCheckoutSession = async ({
 }
 
 const stripeClient = {
+    getCurrentSubscriptionType,
     checkIfUserExistsInStripe,
     createCheckoutSession,
     verifyWebhook,
-    getSubscriptionStatus,
+    getSubscription,
 }
 
 export { stripeClient }

@@ -16,7 +16,7 @@ export const HeaderItem = (props: {
     // *Render
     return (
         <Link
-            key={props.link.href}
+            key={props.link.id}
             href={props.link.href}
             className="group p-4 border rounded-lg hover:bg-purple-50 transition-colors relative"
         >
