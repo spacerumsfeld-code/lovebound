@@ -5,7 +5,7 @@ import { Differentiators } from './Differentiators'
 import { Demonstration } from './Demonstration'
 import { Pricing } from './pricing'
 import { CTA } from './cta'
-import { Footer } from './footer'
+import { Footer } from './footer/footer'
 
 export const LandingPage = () => {
     // *Render

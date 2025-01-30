@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import { Logo } from './logo'
+import { Logo } from '../logo'
+import { ProductHuntBanner } from './ProductHuntBanner'
 
 export function Footer() {
     const pages = [
@@ -19,10 +20,6 @@ export function Footer() {
     ]
 
     const socials = [
-        {
-            title: 'Facebook',
-            href: '#',
-        },
         {
             title: 'Instagram',
             href: '#',
@@ -50,6 +47,7 @@ export function Footer() {
                     <div className="mt-2 ml-2">
                         &copy; Poes Pursuits LLC 2025. All rights reserved.
                     </div>
+                    <ProductHuntBanner />
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 items-start mt-10 sm:mt-0 md:mt-0">
                     <div className="flex justify-center space-y-4 flex-col w-full">

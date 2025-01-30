@@ -20,11 +20,16 @@ const nextConfig = {
     skipTrailingSlashRedirect: true,
     reactStrictMode: false,
     images: {
+        dangerouslyAllowSVG: true,
         remotePatterns: [
             {
                 protocol: 'https',
                 hostname: 'cdn.sanity.io',
             },
+            {
+                protocol: 'https',
+                hostname: 'api.producthunt.com'
+            }
         ],
     },
 }
