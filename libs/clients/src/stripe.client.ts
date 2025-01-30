@@ -18,6 +18,13 @@ const getSubscriptionStatus = async ({
     return subscription.status
 }
 
+const checkIfUserExistsInStripe = async ({ email }: { email: string }) => {
+    const customers = await stripe.customers.list({
+        email,
+    })
+    return customers.data.length > 0
+}
+
 const verifyWebhook = ({
     body,
     signature,
@@ -74,6 +81,7 @@ export const createCheckoutSession = async ({
 }
 
 const stripeClient = {
+    checkIfUserExistsInStripe,
     createCheckoutSession,
     verifyWebhook,
     getSubscriptionStatus,

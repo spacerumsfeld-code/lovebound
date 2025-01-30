@@ -1,7 +1,7 @@
 import { router } from '../_internals/router'
 import { handleAsync } from '@utils'
 import { protectedProcedure } from '../_internals/index'
-import { User } from '@core'
+import { Payment, User } from '@core'
 import { HTTPException } from 'hono/http-exception'
 
 export const userRouter = router({
@@ -27,6 +27,48 @@ export const userRouter = router({
             },
         })
     }),
+    checkIfUserExistsInStripe: protectedProcedure.mutation(
+        async ({ c, ctx }) => {
+            console.info('💻 Invoked userRouter.checkIfUserExistsInStripe')
+
+            const [userEmail, userEmailError] = await handleAsync(
+                User.getUserEmail({
+                    userId: ctx.userId!,
+                }),
+            )
+            if (userEmailError) {
+                console.error(
+                    `❌ userRouter.checkIfUserExistsInStripe error:`,
+                    userEmailError,
+                )
+                throw new HTTPException(400, {
+                    message: userEmailError.message,
+                })
+            }
+
+            const [userExistsInStripe, userExistsInStripeError] =
+                await handleAsync(
+                    Payment.checkIfUserExistsInStripe({
+                        email: userEmail!,
+                    }),
+                )
+            if (userExistsInStripeError) {
+                console.error(
+                    `❌ userRouter.checkIfUserExistsInStripe error:`,
+                    userExistsInStripeError,
+                )
+                throw new HTTPException(400, {
+                    message: userExistsInStripeError.message,
+                })
+            }
+
+            return c.superjson({
+                data: {
+                    userExistsInStripe,
+                },
+            })
+        },
+    ),
     updateUserExploreShop: protectedProcedure.mutation(async ({ c, ctx }) => {
         console.info('💻 Invoked userRouter.updateUserExploreShop')
 

@@ -1,16 +1,17 @@
-'use client'
-
-import { House, Pencil, SquareTerminal } from 'lucide-react'
+import { CreditCard, House, Pencil, SquareTerminal } from 'lucide-react'
 
 import {
     SidebarGroup,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from '../../../../components/ui/sidebar'
+    SidebarMenuSkeleton,
+} from 'src/components/ui/sidebar'
+
 import Link from 'next/link'
-import { SITE_MAP } from '../../../../constants'
-import { usePathname } from 'next/navigation'
+import { SITE_MAP } from 'src/constants'
+import { Suspense } from 'react'
+import { BillingLink } from './BillingLink'
 
 const navOptions = [
     {
@@ -31,14 +32,6 @@ const navOptions = [
 ]
 
 export const NavMain = () => {
-    //* State
-    const pathname = usePathname()
-
-    // *Interactivity
-    const isActive = (url: string) => {
-        return pathname === url
-    }
-
     // *Render
     return (
         <SidebarGroup>
@@ -46,16 +39,22 @@ export const NavMain = () => {
                 {navOptions.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <Link href={item.url}>
-                            <SidebarMenuButton
-                                tooltip={item.title}
-                                isActive={isActive(item.url)}
-                            >
+                            <SidebarMenuButton tooltip={item.title}>
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
                 ))}
+                <Suspense
+                    fallback={
+                        <SidebarMenuSkeleton showIcon={true}>
+                            <CreditCard />
+                        </SidebarMenuSkeleton>
+                    }
+                >
+                    <BillingLink />
+                </Suspense>
             </SidebarMenu>
         </SidebarGroup>
     )

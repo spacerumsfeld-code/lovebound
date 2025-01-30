@@ -1,4 +1,4 @@
-/// <reference path="../.sst/platform/config.d.ts" />
+import type {} from '../.sst/platform/config'
 
 import { server } from './server'
 import { allSecrets, secret } from './secret'
@@ -28,6 +28,7 @@ const webConfig: NextjsArgs = {
         NEXT_PUBLIC_POSTHOG_KEY: secret.PosthogKey.value,
         CLERK_SECRET_KEY: secret.ClerkSecretKey.value,
         CLERK_ENCRYPTION_KEY: secret.ClerkEncryptionKey.value,
+        STRIPE_BILLING_DASHBOARD_URL: secret.StripeBillingDashboardUrl.value,
         // Feature flags
         FEATURE_SUBSCRIPTIONS: secret.FeatureSubscriptions.value,
     },

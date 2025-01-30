@@ -47,6 +47,15 @@ class PaymentService {
         return user?.[0]?.credits ?? 3
     }
 
+    public async checkIfUserExistsInStripe({ email }: { email: string }) {
+        const userExistsInStripe =
+            await this.paymentClient.checkIfUserExistsInStripe({
+                email,
+            })
+
+        return userExistsInStripe
+    }
+
     public async topUpCredits({
         userId,
         productType,

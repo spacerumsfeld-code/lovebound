@@ -11,6 +11,7 @@ export const secret = {
     ClerkSecretKey: new sst.Secret('ClerkSecretKey'),
     ClerkEncryptionKey: new sst.Secret('ClerkEncryptionKey'),
     PosthogKey: new sst.Secret('PosthogKey'),
+    StripeBillingDashboardUrl: new sst.Secret('StripeBillingDashboardUrl'),
     // Server Secrets
     DatabaseUrl: new sst.Secret('DatabaseUrl'),
     AuthHandlerSigningSecret: new sst.Secret('AuthHandlerSigningSecret'),

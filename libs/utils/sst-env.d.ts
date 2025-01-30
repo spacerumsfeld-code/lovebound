@@ -89,6 +89,10 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "StripeBillingDashboardUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "StripeHandler": {
       "name": string
       "type": "sst.aws.Function"
