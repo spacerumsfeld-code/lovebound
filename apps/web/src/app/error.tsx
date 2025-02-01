@@ -6,7 +6,7 @@ import { BackgroundGradient } from 'src/components/ui/background-gradient'
 import { Button } from 'src/components/ui/button'
 import { SITE_MAP } from 'src/constants'
 
-export default function GlobalError({
+export default function Error({
     error,
 }: {
     error: Error & { digest?: string }

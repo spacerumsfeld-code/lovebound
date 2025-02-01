@@ -114,7 +114,9 @@ export const paymentRouter = router({
                 })
             }
 
-            const [userEmail, gettingStartedFields] = await resolvePromises([
+            const {
+                results: [userEmail, gettingStartedFields],
+            } = await resolvePromises([
                 { promise: User.getUserEmail({ userId: ctx.userId! }) },
                 {
                     promise: User.getUserGettingStartedFields({

@@ -1,3 +1,3 @@
 import { nanoid } from 'nanoid'
 
-export const generateId = () => nanoid()
+export const generateId = (size?: number) => nanoid(size && size)

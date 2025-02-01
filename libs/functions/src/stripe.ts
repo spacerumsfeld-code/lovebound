@@ -1,14 +1,13 @@
 import type { Stripe } from 'stripe'
-import { stripeClient } from '@clients/stripe.client'
 import { Resource } from 'sst'
 import {
-    Notification,
     Payment,
+    Notification,
     subscriptionSet,
     User,
     ZStripeMetadata,
 } from '@core'
-import { handleAsync } from '@utils'
+import { handleAsync, resolvePromises } from '@utils'
 import { EmailType } from '@transactional'
 import {
     ProductTypeEnum,
@@ -18,7 +17,7 @@ import {
 export const handler = async (req: any) => {
     let event: Stripe.Event
     try {
-        event = stripeClient.verifyWebhook({
+        event = Payment.verifyWebhook({
             body: req.body,
             signature: req.headers['stripe-signature'],
             secret: Resource.StripeWebhookSecret.value,
@@ -62,12 +61,71 @@ export const handler = async (req: any) => {
 
                 /**
                  * @info
-                 * This event is invoked for subscriptions as well, but we will use
-                 * invoice.paid for all payments received for subscriptions to maintain
-                 * separation of concerns.
+                 * handle subscriptions solely in the invoice.paid handler.
                  */
                 if (subscriptionSet.has(parsedData.productType)) {
                     break
+                }
+
+                /**
+                 * @info
+                 * handle referral code, if present
+                 */
+                const promoCodeId = data?.discounts?.[0]?.promotion_code ?? null
+                if (promoCodeId) {
+                    const [promoCode, promoCodeError] = await handleAsync(
+                        Payment.getPromoCodeById({ id: promoCodeId as string }),
+                    )
+                    if (promoCodeError) {
+                        console.error(
+                            `❌ stripe.checkoutComplete error:`,
+                            promoCodeError,
+                        )
+                        return {
+                            status: 500,
+                            body: JSON.stringify({
+                                error: promoCodeError.message,
+                            }),
+                        }
+                    }
+
+                    if (parsedData.userId === promoCode!.metadata!.referrerId) {
+                        const [, sendNaughtyEmailError] = await handleAsync(
+                            Notification.sendEmail({
+                                to: parsedData.customerEmail,
+                                emailType: EmailType.SelfReferral,
+                            }),
+                        )
+                        if (sendNaughtyEmailError) {
+                            console.error(
+                                `❌ stripe.checkoutComplete error:`,
+                                sendNaughtyEmailError,
+                            )
+                        }
+                        break
+                    }
+
+                    await resolvePromises([
+                        {
+                            promise: Payment.topUpCredits({
+                                userId: promoCode!.metadata!.referrerId,
+                                productType: ProductTypeEnum.Credits10Pack,
+                            }),
+                        },
+                        {
+                            promise: Notification.sendEmail({
+                                to: parsedData.customerEmail,
+                                emailType: EmailType.ReferralUseReferred,
+                            }),
+                        },
+                        {
+                            promise: Notification.sendEmail({
+                                to: promoCode!.metadata!.referrerEmail,
+                                emailType: EmailType.ReferralUseReferrer,
+                            }),
+                        },
+                        // update referrer "gettingStartedReferSomeone" field.
+                    ])
                 }
 
                 const [, topupError] = await handleAsync(
@@ -135,7 +193,7 @@ export const handler = async (req: any) => {
                 )
 
                 const [subscription, subscriptionError] = await handleAsync(
-                    stripeClient.getSubscription({
+                    Payment.getSubscription({
                         subscriptionId: data.subscription as string,
                     }),
                 )

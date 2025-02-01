@@ -23,6 +23,7 @@ export const secret = {
     StripePublishableKey: new sst.Secret('StripePublishableKey'),
     StripeSecretKey: new sst.Secret('StripeSecretKey'),
     StripeWebhookSecret: new sst.Secret('StripeWebhookSecret'),
+    StripeReferralCouponId: new sst.Secret('StripeReferralCouponId'),
     ResendApiKey: new sst.Secret('ResendApiKey'),
     ResendAudienceId: new sst.Secret('ResendAudienceId'),
     // Feature Flags

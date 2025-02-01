@@ -27,7 +27,15 @@ export const AppSidebar = ({
                 </div>
             </SidebarContent>
             <SidebarFooter>
-                <UserButton />
+                <UserButton
+                    appearance={{
+                        elements: {
+                            profileSection__emailAddresses: {
+                                display: 'none',
+                            },
+                        },
+                    }}
+                />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

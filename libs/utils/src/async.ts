@@ -30,7 +30,8 @@ export async function resolvePromises<
         promises.map((p) => p.promise),
     )
 
-    return promises.map((promiseObject, index) => {
+    let errorMessage = ''
+    const results = promises.map((promiseObject, index) => {
         const settledPromise = settledPromises[index]
         if (settledPromise.status === 'fulfilled') {
             return settledPromise.value as PromiseResult<
@@ -42,7 +43,7 @@ export async function resolvePromises<
                     `❌ resolvePromises error:`,
                     settledPromise.reason,
                 )
-                throw settledPromise.reason
+                errorMessage = settledPromise.reason
             } else {
                 console.error(
                     `❌ resolvePromises error:`,
@@ -52,6 +53,11 @@ export async function resolvePromises<
             }
         }
     }) as PromiseResults<T>
+
+    return {
+        results,
+        errorMessage,
+    }
 }
 
 type Fulfilled<T> = { status: 'fulfilled'; value: T }

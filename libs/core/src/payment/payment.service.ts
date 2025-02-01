@@ -15,6 +15,18 @@ class PaymentService {
         this.paymentClient = paymentClient
     }
 
+    public verifyWebhook({
+        body,
+        signature,
+        secret,
+    }: {
+        body: string
+        signature: string
+        secret: string
+    }) {
+        return this.paymentClient.verifyWebhook({ body, signature, secret })
+    }
+
     public createCheckoutSession = async ({
         userId,
         customerEmail,
@@ -48,12 +60,11 @@ class PaymentService {
     }
 
     public async checkIfUserExistsInStripe({ email }: { email: string }) {
-        const userExistsInStripe =
-            await this.paymentClient.checkIfUserExistsInStripe({
-                email,
-            })
+        const stripeId = await this.paymentClient.getStripeIdByEmail({
+            email,
+        })
 
-        return userExistsInStripe
+        return Boolean(stripeId)
     }
 
     public async getCurrentSubscriptionType({ userId }: { userId: string }) {
@@ -114,6 +125,35 @@ class PaymentService {
         })
 
         return { success: true }
+    }
+
+    public async getPromoCodeById({ id }: { id: string }) {
+        const promoCode = await this.paymentClient.getPromoCodeById({ id })
+        return promoCode
+    }
+
+    public async getSubscription({
+        subscriptionId,
+    }: {
+        subscriptionId: string
+    }) {
+        const subscription = await this.paymentClient.getSubscription({
+            subscriptionId,
+        })
+        return subscription
+    }
+
+    public async createReferralPromoCode({
+        referrerId,
+        referrerEmail,
+    }: {
+        referrerId: string
+        referrerEmail: string
+    }) {
+        await this.paymentClient.createPromoCode({
+            referrerId,
+            referrerEmail,
+        })
     }
 }
 

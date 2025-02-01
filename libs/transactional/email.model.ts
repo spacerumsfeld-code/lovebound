@@ -5,4 +5,7 @@ export enum EmailType {
     PurchaseSuccessful = 'purchase-successful',
     SubscriptionCreated = 'subscription-created',
     SubscriptionCancelled = 'subscription-cancelled',
+    SelfReferral = 'self-referral',
+    ReferralUseReferred = 'referral-use-referred',
+    ReferralUseReferrer = 'referral-use-referrer',
 }

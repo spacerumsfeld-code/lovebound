@@ -1,9 +1,8 @@
 import { Webhook } from 'svix'
-import { handleAsync } from '@utils'
+import { handleAsync, resolvePromises } from '@utils'
 import { Resource } from 'sst'
-import { UserCreatedOrUpdatedData, User, ClerkUserEvent } from '@core'
+import { UserCreatedOrUpdatedData, User, ClerkUserEvent, Payment } from '@core'
 import { Handler, APIGatewayEvent } from 'aws-lambda'
-import { UserDeletedData } from '@client-types/user/user.model'
 import { emailClient } from '@clients/email.client'
 import { Notification } from '@core'
 import { EmailType } from '@transactional'
@@ -42,18 +41,19 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
         switch (eventData.type) {
             case 'user.created':
                 const createData = eventData.data as UserCreatedOrUpdatedData
+
                 console.info(
                     '👤 Handling user.created event for clerkId:',
                     JSON.stringify(createData.id),
                 )
 
+                const email = createData.email_addresses.find(
+                    (email) => email.id === createData.primary_email_address_id,
+                )!.email_address
+
                 const [, createUserError] = await handleAsync(
                     User.createUser({
-                        email: createData.email_addresses.find(
-                            (email) =>
-                                email.id ===
-                                createData.primary_email_address_id,
-                        )!.email_address,
+                        email,
                         firstName: createData.first_name ?? '',
                         lastName: createData.last_name ?? '',
                         clerkId: createData.id,
@@ -73,47 +73,31 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
 
-                const [, addToAudienceError] = await handleAsync(
-                    emailClient.addToAudience({
-                        email: createData.email_addresses.find(
-                            (email) =>
-                                email.id ===
-                                createData.primary_email_address_id,
-                        )!.email_address,
-                    }),
-                )
-                if (addToAudienceError) {
-                    console.error(`
-                        👤❌ addToAudience error:
-                        ${JSON.stringify(addToAudienceError)}
-                    `)
-                    return {
-                        status: 500,
-                        body: JSON.stringify({
-                            error: addToAudienceError!.message,
+                const { errorMessage } = await resolvePromises([
+                    {
+                        promise: emailClient.addToAudience({
+                            email,
                         }),
-                    }
-                }
-
-                const [, sendWelcomeEmailError] = await handleAsync(
-                    Notification.sendEmail({
-                        to: createData.email_addresses.find(
-                            (email) =>
-                                email.id ===
-                                createData.primary_email_address_id,
-                        )!.email_address,
-                        emailType: EmailType.Welcome,
-                    }),
-                )
-                if (sendWelcomeEmailError) {
-                    console.error(`
-                        👤❌ sendWelcomeEmail error:
-                        ${JSON.stringify(sendWelcomeEmailError)}
-                    `)
+                    },
+                    {
+                        promise: Notification.sendEmail({
+                            to: email,
+                            emailType: EmailType.Welcome,
+                        }),
+                    },
+                    {
+                        promise: Payment.createReferralPromoCode({
+                            referrerId: createData.id,
+                            referrerEmail: email,
+                        }),
+                    },
+                ])
+                if (errorMessage) {
+                    console.error(`👤❌ createUser error: ${errorMessage}`)
                     return {
                         status: 500,
                         body: JSON.stringify({
-                            error: sendWelcomeEmailError!.message,
+                            error: errorMessage,
                         }),
                     }
                 }
@@ -150,27 +134,6 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
 
-                break
-            case 'user.deleted':
-                const deleteData = eventData.data as UserDeletedData
-                console.info(
-                    '👤 Handling user.deleted event for email:',
-                    JSON.stringify(deleteData.id),
-                )
-
-                const [, markUserDeletedError] = await handleAsync(
-                    User.markUserDeleted({
-                        clerkId: deleteData.id,
-                    }),
-                )
-                if (markUserDeletedError) {
-                    return {
-                        status: 5000,
-                        message: JSON.stringify({
-                            error: markUserDeletedError.message,
-                        }),
-                    }
-                }
                 break
         }
 

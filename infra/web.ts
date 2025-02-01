@@ -29,6 +29,7 @@ const webConfig: NextjsArgs = {
         CLERK_SECRET_KEY: secret.ClerkSecretKey.value,
         CLERK_ENCRYPTION_KEY: secret.ClerkEncryptionKey.value,
         STRIPE_BILLING_DASHBOARD_URL: secret.StripeBillingDashboardUrl.value,
+        SENTRY_SUPPRESS_GLOBAL_ERROR_HANDLER_FILE_WARNING: '1',
         // Feature flags
         FEATURE_SUBSCRIPTIONS: secret.FeatureSubscriptions.value,
     },

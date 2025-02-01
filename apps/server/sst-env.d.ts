@@ -102,6 +102,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "StripeReferralCouponId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "StripeSecretKey": {
       "type": "sst.sst.Secret"
       "value": string
