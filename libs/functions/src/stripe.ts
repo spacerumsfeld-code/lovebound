@@ -124,7 +124,12 @@ export const handler = async (req: any) => {
                                 emailType: EmailType.ReferralUseReferrer,
                             }),
                         },
-                        // update referrer "gettingStartedReferSomeone" field.
+                        {
+                            promise: User.updateUser({
+                                userId: promoCode!.metadata!.referrerId,
+                                gettingStartedReferralUsed: true,
+                            }),
+                        },
                     ])
                 }
 

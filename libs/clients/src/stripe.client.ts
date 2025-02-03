@@ -64,8 +64,8 @@ const createPromoCode = async ({
     referrerId: string
     referrerEmail: string
 }) => {
-    await stripe.promotionCodes.create({
-        code: `REF-${generateId(6)}`,
+    const promoCode = await stripe.promotionCodes.create({
+        code: `REF-${generateId(6)}`.replace(/_/g, '-'),
         coupon: Resource.StripeReferralCouponId.value,
         max_redemptions: 1,
         metadata: {
@@ -74,9 +74,7 @@ const createPromoCode = async ({
         },
     })
 
-    return {
-        success: true,
-    }
+    return promoCode.code
 }
 
 const createCheckoutSession = async ({

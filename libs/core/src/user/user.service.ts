@@ -46,6 +46,15 @@ class UserService {
         return user?.[0]?.email
     }
 
+    public async getUserReferralCode({ userId }: { userId: string }) {
+        const user = await this.store
+            .select({ referralCode: users.referralCode })
+            .from(users)
+            .where(eq(users.clerkId, userId))
+
+        return user?.[0]?.referralCode
+    }
+
     public async getUserGettingStartedFields({ userId }: { userId: string }) {
         const user = await this.store
             .select({
@@ -53,9 +62,12 @@ class UserService {
                 gettingStartedExploreShop: users.gettingStartedExploreShop,
                 gettingStartedTopUpCredits: users.gettingStartedTopUpCredits,
                 gettingStartedPurchaseItem: users.gettingStartedPurchaseItem,
+                gettingStartedReferralUsed: users.gettingStartedReferralUsed,
             })
             .from(users)
             .where(eq(users.clerkId, userId))
+
+        console.info('we got our user!!!!!', user)
 
         return user?.[0]
     }
@@ -68,6 +80,8 @@ class UserService {
         gettingStartedExploreShop,
         gettingStartedTopUpCredits,
         gettingStartedPurchaseItem,
+        gettingStartedReferralUsed,
+        referralCode,
     }: {
         userId: string
         email?: string
@@ -76,6 +90,8 @@ class UserService {
         gettingStartedExploreShop?: boolean
         gettingStartedTopUpCredits?: boolean
         gettingStartedPurchaseItem?: boolean
+        gettingStartedReferralUsed?: boolean
+        referralCode?: string
     }) {
         const setParams = Object.fromEntries(
             Object.entries({
@@ -85,6 +101,8 @@ class UserService {
                 gettingStartedExploreShop,
                 gettingStartedTopUpCredits,
                 gettingStartedPurchaseItem,
+                gettingStartedReferralUsed,
+                referralCode,
             }).filter(([, value]) => value !== undefined && value !== null),
         )
 
@@ -92,17 +110,6 @@ class UserService {
             .update(users)
             .set(setParams)
             .where(eq(users.clerkId, userId))
-    }
-
-    public async markUserDeleted({ clerkId }: { clerkId: string }) {
-        await this.store
-            .update(users)
-            .set({
-                deleted: true,
-            })
-            .where(eq(users.clerkId, clerkId))
-
-        return { success: true }
     }
 }
 

@@ -1,0 +1,1 @@
+ALTER TABLE "users" RENAME COLUMN "referral_id" TO "referral_code";

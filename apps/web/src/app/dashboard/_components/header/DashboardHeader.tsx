@@ -1,6 +1,7 @@
 import { Header } from 'src/components/ui/header'
 import { SITE_MAP } from 'src/constants'
 import { HeaderItem } from './HeaderItem'
+import { ReferralItem } from './ReferralItem'
 
 export enum GettingStartedLinkId {
     CreateStory = 'gettingStartedCreateStory',
@@ -48,6 +49,7 @@ export const DashboardHeader = () => {
                 {gettingStartedLinks.map((link, _index) => (
                     <HeaderItem key={link.id} link={link} />
                 ))}
+                <ReferralItem />
             </div>
         </Header>
     )

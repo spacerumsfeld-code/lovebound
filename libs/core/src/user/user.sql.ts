@@ -39,6 +39,10 @@ export const users = pgTable(
         gettingStartedPurchaseItem: boolean(
             'getting_started_purchase_item',
         ).default(false),
+        gettingStartedReferralUsed: boolean(
+            'getting_started_referral_used',
+        ).default(false),
+        referralCode: text('referral_code'),
     },
     (table) => {
         return {

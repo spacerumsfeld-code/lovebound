@@ -73,7 +73,10 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
 
-                const { errorMessage } = await resolvePromises([
+                const {
+                    results: [, , promoCode],
+                    errorMessage,
+                } = await resolvePromises([
                     {
                         promise: emailClient.addToAudience({
                             email,
@@ -102,6 +105,21 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                     }
                 }
 
+                const [, addReferralIdError] = await handleAsync(
+                    User.updateUser({
+                        userId: createData.id,
+                        referralCode: promoCode!,
+                    }),
+                )
+                if (addReferralIdError) {
+                    console.error(`👤❌ addReferralCode: ${addReferralIdError}`)
+                    return {
+                        status: 500,
+                        body: JSON.stringify({
+                            error: addReferralIdError,
+                        }),
+                    }
+                }
                 break
             case 'user.updated':
                 const updateData = eventData.data as UserCreatedOrUpdatedData

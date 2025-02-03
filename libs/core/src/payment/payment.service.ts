@@ -150,10 +150,11 @@ class PaymentService {
         referrerId: string
         referrerEmail: string
     }) {
-        await this.paymentClient.createPromoCode({
+        const promoCode = await this.paymentClient.createPromoCode({
             referrerId,
             referrerEmail,
         })
+        return promoCode
     }
 }
 

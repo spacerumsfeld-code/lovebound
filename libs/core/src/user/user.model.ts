@@ -11,12 +11,6 @@ export interface ClerkUserEvent<T = object> {
     type: string
 }
 
-export interface UserDeletedData {
-    deleted: boolean
-    id: string
-    object: string
-}
-
 export interface UserEmailAddress {
     email_address: string
     id: string

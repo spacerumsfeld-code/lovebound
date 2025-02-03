@@ -1,7 +1,6 @@
 import { SignedIn, SignedOut, SignIn } from '@clerk/nextjs'
 import { Button } from 'src/components/ui/button'
 import { Card } from 'src/components/ui/card'
-
 import { SITE_MAP } from 'src/constants'
 
 export const Login = () => {

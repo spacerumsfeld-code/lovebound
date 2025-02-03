@@ -6,7 +6,9 @@ import { HTTPException } from 'hono/http-exception'
 
 export const userRouter = router({
     getGettingStartedFields: protectedProcedure.query(async ({ c, ctx }) => {
-        console.info('💻 Invoked userRouter.getGettingStartedFields')
+        console.info(
+            `💻 Invoked userRouter.getGettingStartedFields with userId: ${ctx.userId}`,
+        )
 
         const [gettingStartedFields, gettingStartedFieldsError] =
             await handleAsync(
@@ -15,15 +17,63 @@ export const userRouter = router({
                 }),
             )
         if (gettingStartedFieldsError) {
-            console.error(`❌ get error:`, gettingStartedFieldsError)
+            console.error(
+                `❌ gettingStartedFieldsError error:`,
+                gettingStartedFieldsError,
+            )
             throw new HTTPException(400, {
                 message: gettingStartedFieldsError.message,
             })
         }
 
+        /**
+         * @info
+         * On signup, this route can be hit before the clerk webhook has been triggered
+         * and actually created the user. Thus, we short-circuit here to prevent errors.
+         */
+        if (!gettingStartedFields) {
+            return c.superjson({
+                data: {
+                    gettingStartedFields: {
+                        gettingStartedReferralUsed: {
+                            used: false,
+                            code: null,
+                        },
+                        gettingStartedCreateStory: false,
+                        gettingStartedExploreShop: false,
+                        gettingStartedTopUpCredits: false,
+                        gettingStartedPurchaseItem: false,
+                    },
+                },
+            })
+        }
+
+        let code
+        if (!gettingStartedFields!.gettingStartedReferralUsed) {
+            const [referralCode, getReferralCodeIdError] = await handleAsync(
+                User.getUserReferralCode({ userId: ctx.userId! }),
+            )
+            code = referralCode
+            if (getReferralCodeIdError) {
+                console.error(
+                    `❌ getReferralCodeIdError error:`,
+                    getReferralCodeIdError,
+                )
+                throw new HTTPException(400, {
+                    message: getReferralCodeIdError.message,
+                })
+            }
+        }
+
         return c.superjson({
             data: {
-                gettingStartedFields: gettingStartedFields!,
+                gettingStartedFields: {
+                    ...gettingStartedFields,
+                    gettingStartedReferralUsed: {
+                        used: gettingStartedFields!.gettingStartedReferralUsed,
+                        code: code ?? null,
+                    },
+                },
             },
         })
     }),
