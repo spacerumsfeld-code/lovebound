@@ -30,11 +30,7 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
         }
     }
 
-    const allowedEvents = new Set<string>([
-        'user.created',
-        'user.updated',
-        'user.deleted',
-    ])
+    const allowedEvents = new Set<string>(['user.created'])
     const eventData = JSON.parse(req.body!) as ClerkUserEvent
 
     if (allowedEvents.has(eventData.type)) {
@@ -57,7 +53,6 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                         firstName: createData.first_name ?? '',
                         lastName: createData.last_name ?? '',
                         clerkId: createData.id,
-                        profileImageUrl: createData.profile_image_url ?? '',
                     }),
                 )
                 if (createUserError) {
@@ -98,38 +93,6 @@ export const handler: Handler = async (req: APIGatewayEvent) => {
                         status: 500,
                         body: JSON.stringify({
                             error: errorMessage,
-                        }),
-                    }
-                }
-
-                break
-            case 'user.updated':
-                const updateData = eventData.data as UserCreatedOrUpdatedData
-                console.info(
-                    '👤 Handling user.updated event for clerkId:',
-                    JSON.stringify(updateData.id),
-                )
-
-                const [, updateUserError] = await handleAsync(
-                    User.updateUser({
-                        userId: updateData.id,
-                        email: updateData.email_addresses.find(
-                            (email) =>
-                                email.id ===
-                                updateData!.primary_email_address_id,
-                        )!.email_address,
-                        profileImageUrl: updateData.profile_image_url,
-                    }),
-                )
-                if (updateUserError) {
-                    console.error(`
-                        👤❌ updateUser error:
-                        ${JSON.stringify(updateUserError)}
-                    `)
-                    return {
-                        status: 500,
-                        body: JSON.stringify({
-                            error: updateUserError.message,
                         }),
                     }
                 }

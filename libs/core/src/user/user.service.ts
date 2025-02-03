@@ -15,13 +15,11 @@ class UserService {
         email,
         firstName,
         lastName,
-        profileImageUrl,
     }: {
         clerkId: string
         email: string
         firstName: string
         lastName: string
-        profileImageUrl: string
     }) {
         const newUser = await this.store
             .insert(users)
@@ -30,7 +28,6 @@ class UserService {
                 email,
                 firstName,
                 lastName,
-                profileImageUrl,
             })
             .returning({ id: users.id })
 
@@ -62,8 +59,6 @@ class UserService {
 
     public async updateUser({
         userId,
-        email,
-        profileImageUrl,
         gettingStartedCreateStory,
         gettingStartedExploreShop,
         gettingStartedTopUpCredits,
@@ -79,8 +74,6 @@ class UserService {
     }) {
         const setParams = Object.fromEntries(
             Object.entries({
-                email,
-                profileImageUrl,
                 gettingStartedCreateStory,
                 gettingStartedExploreShop,
                 gettingStartedTopUpCredits,
@@ -92,17 +85,6 @@ class UserService {
             .update(users)
             .set(setParams)
             .where(eq(users.clerkId, userId))
-    }
-
-    public async markUserDeleted({ clerkId }: { clerkId: string }) {
-        await this.store
-            .update(users)
-            .set({
-                deleted: true,
-            })
-            .where(eq(users.clerkId, clerkId))
-
-        return { success: true }
     }
 }
 

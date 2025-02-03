@@ -23,7 +23,6 @@ export {
 export {
     type ClerkUserEvent,
     type UserCreatedOrUpdatedData,
-    type UserDeletedData,
 } from './src/user/user.model'
 
 export { ZScene, type NarrationVoiceEnum } from './src/scene/scene.model'
