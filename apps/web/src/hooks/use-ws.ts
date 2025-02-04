@@ -14,18 +14,39 @@ export const useWebsocket = (url: string, userId: string) => {
                 payload: Record<string, object | string | boolean | number>
             } = JSON.parse(event.data)
 
-            switch (message.type) {
-                case 'scene.written':
-                    showToast(
-                        `Good news! Scene ${message.payload.sceneNumber} has been written. Your story is almost complete!`,
-                    )
-                    break
-                case 'story.complete':
-                    showToast('Your story is complete!')
-                    break
-                default:
-                    console.info('Unknown event type', message)
-                    break
+            const allowedNotifications = new Set<string>([
+                'scene.written',
+                'story.complete',
+            ])
+            if (allowedNotifications.has(message.type)) {
+                switch (message.type) {
+                    case 'scene.written':
+                        if (message.payload.length === 'Mini')
+                            showToast(
+                                `🖊️ Your story\'s content has been written!`,
+                            )
+
+                        if (message.payload.length === 'Short') {
+                            if (message.payload.sceneNumber === 1)
+                                showToast(
+                                    `🖊️ Your story\s first scene has been written!`,
+                                )
+
+                            if (message.payload.sceneNumber === 2)
+                                showToast(
+                                    `🖊️ Your story\'s second scene has been written!🖊️ Your story is almost complete!`,
+                                )
+
+                            if (message.payload.sceneNumber === 3)
+                                showToast(
+                                    `🖊️ Your story\'s final scene has been written!`,
+                                )
+                        }
+                        break
+                    case 'story.complete':
+                        showToast('🖊️ Good news! Your story is complete!')
+                        break
+                }
             }
         },
         [showToast],
@@ -39,17 +60,17 @@ export const useWebsocket = (url: string, userId: string) => {
         if (!socketRef.current) {
             socketRef.current = new WebSocket(`${url}?userId=${userId}`)
 
-            socketRef.current.onopen = () => {
-                showToast('WebSocket connected')
-            }
+            // socketRef.current.onopen = () => {
+            //     showToast('WebSocket connected')
+            // }
 
-            socketRef.current.onclose = () => {
-                showToast('WebSocket disconnected')
-            }
+            // socketRef.current.onclose = () => {
+            //     showToast('WebSocket disconnected')
+            // }
 
-            socketRef.current.onerror = () => {
-                showToast('WebSocket error occurred')
-            }
+            // socketRef.current.onerror = () => {
+            //     showToast('WebSocket error occurred')
+            // }
         }
 
         socketRef.current.onmessage = handleMessage

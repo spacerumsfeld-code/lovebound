@@ -1,8 +1,7 @@
-import { storyLengthMap } from '@client-types/item/item.model'
 import { cacheClient } from '@clients/cache.client'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
-import { handleAsync } from '@utils'
+import { handleAsync, resolvePromises } from '@utils'
 
 export const createScene = orchestrationClient.createFunction(
     { id: 'create.scene' },
@@ -14,19 +13,19 @@ export const createScene = orchestrationClient.createFunction(
             )}`,
         )
         const { data } = event
-        const isMiniStory = data.length.id === storyLengthMap.get('Mini')!
 
         let prompt: string
-        switch (isMiniStory) {
-            case true:
+        switch (data.length.name) {
+            case 'Mini':
                 prompt = (await cacheClient.get<string>(`prompt:mini`))!
                 break
-            case false:
+            case 'Short':
                 prompt = (await cacheClient.get<string>(
                     `prompt:short:scene:${data.sceneNumber}`,
                 ))!
                 break
             default:
+                prompt = ''
                 break
         }
 
@@ -35,18 +34,45 @@ export const createScene = orchestrationClient.createFunction(
         )
         const scene = data.scenes.shift()!
         const { tone, setting, tensionLevel } = scene
-        const { genre, theme, title } = data
-        const finalPrompt =
-            prompt! +
-            JSON.stringify({
-                genre: genre.name,
-                theme: theme.name,
-                title,
-                tone: tone.name,
-                setting: setting.name,
-                tensionLevel: tensionLevel.name,
-                lastSceneSummary,
+        const { genre, theme } = data
+        const {
+            results: [genrePrompt, themePrompt, tonePrompt, tensionPrompt],
+        } = await resolvePromises([
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${genre.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${theme.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${tone.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(
+                    `prompt:rich:${tensionLevel.name}`,
+                ),
+            },
+        ])
+
+        const finalPrompt = prompt
+            .replace('[genre_instructions]', genrePrompt!)
+            .replace('[theme_instructions]', themePrompt!)
+            .replace('[tone_instructions]', tonePrompt!)
+            .replace('[tension_level_instructions]', tensionPrompt!)
+            .replace('[setting]', setting!.name)
+            .replace('[last_scene_summary]', lastSceneSummary!)
+
+        const allPromptsExist = Boolean(
+            genrePrompt && themePrompt && tonePrompt && tensionPrompt,
+        )
+        if (!allPromptsExist) {
+            console.error('❌ Not all prompts retrieved from cacheClient', {
+                genrePrompt,
+                themePrompt,
+                tonePrompt,
+                tensionPrompt,
             })
+        }
 
         const [sceneContentAndSummary, generateSceneContentError] =
             await step.run('Generate Scene Content', () =>
@@ -96,6 +122,7 @@ export const createScene = orchestrationClient.createFunction(
                             type: 'scene.written',
                             payload: {
                                 sceneNumber: data.sceneNumber,
+                                length: data.length.name,
                             },
                         },
                     }),
@@ -105,8 +132,8 @@ export const createScene = orchestrationClient.createFunction(
             console.error(postToConnectionError)
         }
 
-        switch (isMiniStory) {
-            case true:
+        switch (data.length.name) {
+            case 'Mini':
                 if (data.includeNarration) {
                     await orchestrationClient.send({
                         name: 'create.narration',
@@ -125,7 +152,7 @@ export const createScene = orchestrationClient.createFunction(
                     })
                 }
                 break
-            case false:
+            case 'Short':
                 if (data.sceneNumber === 3) {
                     await orchestrationClient.send({
                         name: 'finish.story',
