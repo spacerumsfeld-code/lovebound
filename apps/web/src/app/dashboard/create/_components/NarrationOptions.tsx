@@ -12,6 +12,8 @@ import { Label } from 'src/components/ui/label'
 import { ScrollArea } from 'src/components/ui/scroll-area'
 import { useToast } from 'src/hooks/use-toast'
 import { cn } from 'src/lib/utils'
+import { useRef, useEffect } from 'react'
+import { PlayIcon } from 'lucide-react'
 
 export const NarrationOptions = (props: {
     selectedVoice: NarrationVoiceEnum | null
@@ -21,6 +23,8 @@ export const NarrationOptions = (props: {
     // *Interactivity
     const { showToast } = useToast()
 
+    const audioRef = useRef<HTMLAudioElement | null>(null)
+
     const handleVoiceClick = (value: string) => {
         if (!props.narrationEnabled) {
             showToast('❌ Narration is not currently enabled for this story.')
@@ -29,9 +33,27 @@ export const NarrationOptions = (props: {
         props.handleInputChange('narrationVoice', value)
     }
 
+    const handlePlaySample = (voice: string) => {
+        if (audioRef.current) {
+            audioRef.current.pause()
+        }
+        audioRef.current = new Audio(
+            `https://cdn.openai.com/API/docs/audio/${voice}.wav`,
+        )
+        audioRef.current.play()
+    }
+
+    useEffect(() => {
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause()
+            }
+        }
+    }, [])
+
     // *Render
     return (
-        <Card className="w-80 relative w-full md:w-80">
+        <Card className="relative w-full md:w-80">
             <CardHeader>
                 <CardTitle>Narration</CardTitle>
             </CardHeader>
@@ -43,9 +65,8 @@ export const NarrationOptions = (props: {
                             ([key, value]) => (
                                 <div
                                     key={value}
-                                    onClick={() => handleVoiceClick(value)}
                                     className={cn(
-                                        'flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer',
+                                        'flex items-center justify-between p-2 rounded-lg transition-colors',
                                         'hover:bg-indigo-50 active:bg-indigo-100',
                                         props.narrationEnabled &&
                                             props.selectedVoice === value
@@ -63,12 +84,32 @@ export const NarrationOptions = (props: {
                                             </div>
                                         </div>
                                     </div>
-                                    <Button
-                                        disabled={!props.narrationEnabled}
-                                        variant="outline"
-                                    >
-                                        Select
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            size="icon"
+                                            variant="ghost"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                handlePlaySample(value)
+                                            }}
+                                        >
+                                            <PlayIcon className="h-4 w-4" />
+                                        </Button>
+                                        <div
+                                            onClick={() =>
+                                                handleVoiceClick(value)
+                                            }
+                                        >
+                                            <Button
+                                                disabled={
+                                                    !props.narrationEnabled
+                                                }
+                                                variant="outline"
+                                            >
+                                                Select
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </div>
                             ),
                         )}
