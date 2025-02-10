@@ -9,6 +9,7 @@ import { TStoryInitialState } from '@client-types/story/story.model'
 import { ConfirmCreateModal } from 'src/app/dashboard/_components/modals/ConfirmCreate.modal'
 import { Button } from 'src/components/ui/button'
 import { createInitialStoryState, transformToCreateStory } from 'src/lib/utils'
+import { ProductTypeEnum } from '@client-types/payment/payment.model'
 
 export const CreateStoryView = (props: {
     items: {
@@ -19,12 +20,14 @@ export const CreateStoryView = (props: {
         settings: TItemInput[]
         tones: TItemInput[]
     }
+    currentSubscriptionType: ProductTypeEnum
 }) => {
     // *State
     const defaultLength = props.items.lengths.find(
         (length) => length.id === storyLengthMap.get('Mini')!,
     )!
-
+    const userHasPremiumSubscription =
+        props.currentSubscriptionType === ProductTypeEnum.PremiumSubscription
     const [storyData, setStoryData] = useState<TStoryInitialState>(
         createInitialStoryState(defaultLength),
     )
@@ -164,6 +167,7 @@ export const CreateStoryView = (props: {
                 handleInputChange={handleInputChange}
                 handleItemCardClick={handleItemCardClick}
                 handleSceneChange={handleSceneChange}
+                userHasPremiumSubscription={userHasPremiumSubscription}
                 getSceneNumberForSelection={getSceneNumberForSelection}
             />
             <NarrationOptions

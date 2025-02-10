@@ -37,6 +37,9 @@ export const AppSidebar = ({
                                 profileSection__danger: {
                                     display: 'none',
                                 },
+                                profileSection__connectedAccounts: {
+                                    display: 'none',
+                                },
                             },
                         },
                     }}

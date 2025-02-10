@@ -23,9 +23,7 @@ export const NarrationOptions = (props: {
 
     const handleVoiceClick = (value: string) => {
         if (!props.narrationEnabled) {
-            showToast(
-                '❌ Narration is currently only available for mini stories.',
-            )
+            showToast('❌ Narration is not currently enabled for this story.')
             return
         }
         props.handleInputChange('narrationVoice', value)
