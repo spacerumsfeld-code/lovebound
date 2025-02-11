@@ -16,7 +16,6 @@ import {
     SelectValue,
 } from 'src/components/ui/select'
 import { TItemInput } from '@client-types/item/item.model'
-import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
 import {
     Tabs,
     TabsContent,
@@ -28,6 +27,7 @@ import { ItemCard } from './ItemCard'
 import { VisitShopCTA } from './VisitShopCTA'
 import { TStoryInitialState } from '@client-types/story/story.model'
 import { NarrationSwitch } from './NarrationSwitch'
+import { LengthRadioGroup } from './LengthRadioGroup'
 
 export const CreateStoryCore = (props: {
     storyData: TStoryInitialState
@@ -99,35 +99,11 @@ export const CreateStoryCore = (props: {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div>
-                            <Label>Length</Label>
-                            <RadioGroup
-                                value={String(props.storyData.length)}
-                                onValueChange={(value) =>
-                                    props.handleInputChange('length', value)
-                                }
-                                className="flex flex-col space-y-1 mt-1"
-                            >
-                                {props.items.lengths.map((length) => (
-                                    <div
-                                        key={length.name}
-                                        className="flex items-center space-x-2"
-                                    >
-                                        <RadioGroupItem
-                                            value={JSON.stringify(length)}
-                                            id={`length-${length.id}`}
-                                            disabled={
-                                                length.id !== 23 &&
-                                                length.id !== 24
-                                            }
-                                        />
-                                        <Label htmlFor={`length-${length.id}`}>
-                                            {length.name}
-                                        </Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        </div>
+                        <LengthRadioGroup
+                            storyLength={String(props.storyData.length)}
+                            handleInputChange={props.handleInputChange}
+                            items={props.items.lengths}
+                        />
                         <NarrationSwitch
                             storyLengthId={
                                 JSON.parse(props.storyData.length).id

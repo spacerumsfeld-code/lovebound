@@ -90,23 +90,6 @@ const SkeletonOne = () => {
 }
 
 const SkeletonTwo = () => {
-    const sliderVariants = {
-        initial: {
-            width: '40%',
-            x: 0,
-        },
-        animate: (i: number) => ({
-            width: ['40%', '80%', '60%'],
-            x: [0, 10, 0],
-            transition: {
-                duration: 2,
-                delay: i * 0.3,
-                repeat: Infinity,
-                repeatType: 'reverse',
-            },
-        }),
-    }
-
     const labels = ['Setting: Medieval Scotland', 'Fantasy Elements', 'Tension']
 
     return (
@@ -123,7 +106,22 @@ const SkeletonTwo = () => {
                     <div className="relative h-2 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                         <motion.div
                             custom={i}
-                            variants={sliderVariants}
+                            variants={{
+                                initial: {
+                                    width: '40%',
+                                    x: 0,
+                                },
+                                animate: {
+                                    width: '80%',
+                                    x: 10,
+                                    transition: {
+                                        duration: 2,
+                                        delay: i * 0.3,
+                                        repeat: Infinity,
+                                        repeatType: 'reverse',
+                                    },
+                                },
+                            }}
                             className="absolute h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
                         />
                     </div>

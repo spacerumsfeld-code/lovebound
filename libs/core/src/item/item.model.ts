@@ -37,10 +37,19 @@ export enum GenreIdEnum {
     Mystery = 8,
 }
 
-export enum StoryLengthIdEnum {
-    Mini = 23,
-    Short = 24,
+export enum StoryLengthEnum {
+    Mini = 'Mini',
+    Short = 'Short',
+    'Long' = 'Long',
+    'Novella' = 'Novella',
+    'Novel' = 'Novel',
 }
+
+export const activeStoryLengths = new Set<StoryLengthEnum>([
+    StoryLengthEnum.Mini,
+    StoryLengthEnum.Short,
+])
+
 export const storyLengthMap = new Map<string, number>([
     ['Mini', 23],
     ['Short', 24],
