@@ -1,4 +1,5 @@
 export { startStoryCreation } from './start'
+export { createCover } from './createCover'
 export { createScene } from './createScene'
 export { createNarration } from './createNarration'
 export { finishStory } from './finish'

@@ -14,6 +14,17 @@ const ZStartStoryEvent = z.object({
     }),
 }) satisfies LiteralZodEventSchema
 
+const ZCreateStoryCover = z.object({
+    name: z.literal('create.cover'),
+    data: z.object({
+        storyId: z.number(),
+        ownerId: z.string(),
+        genre: z.string(),
+        theme: z.string(),
+        setting: z.string(),
+    }),
+}) satisfies LiteralZodEventSchema
+
 const ZCreateSceneEvent = z.object({
     name: z.literal('create.scene'),
     data: ZCreateStory.extend({
@@ -48,6 +59,7 @@ export const orchestrationClient = new Inngest({
     eventKey: process.env.INNGEST_EVENT_KEY!,
     schemas: new EventSchemas().fromZod([
         ZStartStoryEvent,
+        ZCreateStoryCover,
         ZCreateSceneEvent,
         ZFinishStoryEvent,
         ZCreateNarrationEvent,

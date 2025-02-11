@@ -1,4 +1,5 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import { Resource } from 'sst'
 
 const nextConfig = {
     rewrites: async () => {
@@ -29,6 +30,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'api.producthunt.com'
+            },
+            {
+                protocol: 'https',
+                hostname: `${Resource.Bucket.name}.s3.amazonaws.com`,
             }
         ],
     },

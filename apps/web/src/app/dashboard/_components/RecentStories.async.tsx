@@ -9,7 +9,7 @@ export const RecentStoriesAsync = async () => {
 
     // @Render
     if (!recentStories) {
-        return <h3 className="text-lg font-semibold">No stories yet!</h3>
+        return <h3 className="text-lg font-semibold p-8">No stories yet!</h3>
     }
 
     return (

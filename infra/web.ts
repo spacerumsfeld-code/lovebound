@@ -5,9 +5,10 @@ import { allSecrets, secret } from './secret'
 import { websocket } from './websocket'
 import { type NextjsArgs } from '../.sst/platform/src/components/aws'
 import { isProduction } from './stage'
+import { bucket } from './bucket'
 
 const webConfig: NextjsArgs = {
-    link: [server, websocket, ...allSecrets],
+    link: [server, bucket, websocket, ...allSecrets],
     path: 'apps/web',
     dev: {
         autostart: true,

@@ -17,6 +17,7 @@ export const useWebsocket = (url: string, userId: string) => {
             const allowedNotifications = new Set<string>([
                 'scene.written',
                 'story.complete',
+                'cover.created',
             ])
             if (allowedNotifications.has(message.type)) {
                 switch (message.type) {
@@ -42,6 +43,9 @@ export const useWebsocket = (url: string, userId: string) => {
                                     `🖊️ Your story\'s final scene has been written!`,
                                 )
                         }
+                        break
+                    case 'cover.created':
+                        showToast("🖊️ Your story's cover has been created!")
                         break
                     case 'story.complete':
                         showToast('🖊️ Good news! Your story is complete!')

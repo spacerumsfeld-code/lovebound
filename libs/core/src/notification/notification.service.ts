@@ -19,7 +19,9 @@ class NotificationService {
         userId: string
         connectionId: string
     }) => {
-        await this.cache.set(`ws:connection:${userId}`, connectionId)
+        await this.cache.set(`ws:connection:${userId}`, connectionId, {
+            ex: 60 * 60 * 24,
+        })
 
         return { success: true }
     }

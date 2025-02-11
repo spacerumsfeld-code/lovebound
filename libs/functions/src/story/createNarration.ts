@@ -1,5 +1,5 @@
 import { orchestrationClient } from '@clients/orchestration.client'
-import { uploadAudioFromBuffer } from '@clients/s3.client'
+import { s3Client } from '@clients/s3.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
@@ -32,7 +32,10 @@ export const createNarration = orchestrationClient.createFunction(
 
         const [uploadUrl, uploadError] = await step.run(
             'Upload Narration to S3',
-            () => handleAsync(uploadAudioFromBuffer(buffer, data.storyId)),
+            () =>
+                handleAsync(
+                    s3Client.uploadAudioFromBuffer(buffer, data.storyId),
+                ),
         )
         if (uploadError) {
             console.error('uploadUrlError', uploadError)

@@ -1,4 +1,5 @@
 import { orchestrationClient } from '@clients/orchestration.client'
+import { resolvePromises } from '@utils'
 
 export const startStoryCreation = orchestrationClient.createFunction(
     { id: 'start.story' },
@@ -11,10 +12,26 @@ export const startStoryCreation = orchestrationClient.createFunction(
         )
         const { data } = event
 
-        await orchestrationClient.send({
-            name: 'create.scene',
-            data: { ...data, sceneNumber: 1 },
-        })
+        resolvePromises([
+            {
+                promise: orchestrationClient.send({
+                    name: 'create.cover',
+                    data: {
+                        storyId: data.storyId,
+                        ownerId: data.ownerId,
+                        genre: data.genre.name,
+                        theme: data.theme.name,
+                        setting: data.scenes[0].setting.name,
+                    },
+                }),
+            },
+            {
+                promise: orchestrationClient.send({
+                    name: 'create.scene',
+                    data: { ...data, sceneNumber: 1 },
+                }),
+            },
+        ])
 
         return { status: 'initiated' }
     },
