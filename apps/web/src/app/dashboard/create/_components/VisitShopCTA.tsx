@@ -1,18 +1,11 @@
-import Link from 'next/link'
 import { SITE_MAP } from 'src/constants'
 import Image from 'next/image'
-import { cn } from 'src/lib/utils'
 import { Button } from 'src/components/ui/button'
 
 export const VisitShopCTA = () => {
     // *Render
     return (
-        <Link
-            href={SITE_MAP.SHOP}
-            className={cn(
-                'relative rounded-lg overflow-hidden group cursor-pointer',
-            )}
-        >
+        <div className="relative rounded-lg overflow-hidden group cursor-pointer hover:bg">
             <Image
                 src="https://cdn.sanity.io/images/vjg0x5qe/production/c0edae14dfa508ada4364ef1a260ad0b16b945b3-1024x1024.webp"
                 alt="Visit Shop"
@@ -24,8 +17,10 @@ export const VisitShopCTA = () => {
                 <span className="text-white text-sm font-semibold">
                     Want More Options?
                 </span>
-                <Button variant="primary">Visit Shop</Button>
+                <Button href={SITE_MAP.SHOP} variant="primary">
+                    Visit Shop
+                </Button>
             </div>
-        </Link>
+        </div>
     )
 }

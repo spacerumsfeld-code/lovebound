@@ -42,30 +42,32 @@ export const LengthRadioGroup = (props: {
                 className="flex flex-col space-y-1 mt-1"
             >
                 {sortedLengths.map((length) => (
-                    <Tooltip key={length.name}>
-                        <TooltipTrigger>
-                            <div
-                                key={length.name}
-                                className="flex items-center space-x-2"
-                            >
-                                <RadioGroupItem
-                                    value={JSON.stringify(length)}
-                                    id={`length-${length.id}`}
-                                    disabled={
-                                        !activeStoryLengths.has(
-                                            length.name as StoryLengthEnum,
-                                        )
-                                    }
-                                />
+                    <div
+                        key={length.name}
+                        className="flex items-center space-x-2"
+                    >
+                        <RadioGroupItem
+                            value={JSON.stringify(length)}
+                            id={`length-${length.id}`}
+                            disabled={
+                                !activeStoryLengths.has(
+                                    length.name as StoryLengthEnum,
+                                )
+                            }
+                        />
+                        <Tooltip key={length.name}>
+                            <TooltipTrigger>
                                 <Label htmlFor={`length-${length.id}`}>
                                     {length.name}
                                 </Label>
-                            </div>
-                        </TooltipTrigger>
-                        <TooltipContent side="left">
-                            {getTooltipContent(length.name as StoryLengthEnum)}
-                        </TooltipContent>
-                    </Tooltip>
+                            </TooltipTrigger>
+                            <TooltipContent side="left">
+                                {getTooltipContent(
+                                    length.name as StoryLengthEnum,
+                                )}
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
                 ))}
             </RadioGroup>
         </div>
