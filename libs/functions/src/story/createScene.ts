@@ -29,7 +29,7 @@ export const createScene = orchestrationClient.createFunction(
                 break
         }
 
-        const lastSceneSummary = await cacheClient.get<string>(
+        const priorSceneSummary = await cacheClient.get<string>(
             `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
         )
         const scene = data.scenes.shift()!
@@ -60,7 +60,7 @@ export const createScene = orchestrationClient.createFunction(
             .replace('[tone_instructions]', tonePrompt!)
             .replace('[tension_level_instructions]', tensionPrompt!)
             .replace('[setting]', setting!.name)
-            .replace('[last_scene_summary]', lastSceneSummary!)
+            .replace('[priorSceneSummary]', priorSceneSummary!)
 
         const allPromptsExist = Boolean(
             genrePrompt && themePrompt && tonePrompt && tensionPrompt,
