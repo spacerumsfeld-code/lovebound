@@ -144,6 +144,7 @@ export const Hero = () => {
                         width={1920}
                         height={1080}
                         className="rounded-[20px]"
+                        priority
                     />
                 </div>
             </motion.div>

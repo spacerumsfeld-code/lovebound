@@ -4,8 +4,8 @@ import React, { useEffect } from 'react'
 import { motion, useAnimation, AnimationControls } from 'framer-motion'
 import { cn } from '../../lib/utils'
 import { Card } from '../../components/ui/card'
-import Image from 'next/image'
 import { Logo } from './logo'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 const transition = {
     duration: 3,
@@ -108,16 +108,14 @@ export const Demonstration = ({ className }: { className?: string }) => {
                     </Card>
                 </div>
 
-                <div className="flex justify-right items-center">
-                    <div className="relative w-[300px] h-[400px] transform transition-all duration-300 hover:scale-105">
-                        <Image
-                            src="/sampleStoryCover.webp"
-                            alt="Story Cover"
-                            fill
-                            className="rounded-lg object-cover shadow-xl ring-2 ring-gray-200 dark:ring-gray-700 hover:ring-4 transition-all duration-300"
-                        />
-                    </div>
-                </div>
+                <OptimizedImage
+                    src="https://cdn.sanity.io/images/vjg0x5qe/production/8820a451ab8ec2873d74ed02812594219c99978f-1024x1024.webp"
+                    alt="Sample Story Cover"
+                    height={600}
+                    width={400}
+                    mobileWidth="100vw"
+                    className="rounded-lg shadow-xl ring-2 ring-gray-200"
+                />
 
                 <svg
                     width="100%"
