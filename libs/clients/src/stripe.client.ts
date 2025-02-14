@@ -59,13 +59,11 @@ const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
 }
 
 const getStripeIdByEmail = async ({ email }: { email: string }) => {
-    console.info('stripe.customers.list', email)
     const customers = await stripe.customers.list({
         email,
         limit: 1,
     })
-    console.info('stripe.customers.list', customers)
-    return customers.data?.[0]?.id ?? null
+    return customers.data?.length ? customers.data[0].id : null
 }
 
 const getPromoCodeById = async ({ id }: { id: string }) => {
@@ -117,9 +115,19 @@ const createCheckoutSession = async ({
     customerEmail: string
     productType: ProductTypeEnum
 }) => {
+    let userStripeId = await getStripeIdByEmail({ email: customerEmail })
     const priceId = ProductIdEnum[productType]
     const isSubscription = subscriptionSet.has(productType)
-    const userStripeId = await getStripeIdByEmail({ email: customerEmail })
+
+    if (!userStripeId) {
+        const customer = await stripe.customers.create({
+            email: customerEmail,
+            metadata: {
+                userId,
+            },
+        })
+        userStripeId = customer.id
+    }
 
     const session = await stripe.checkout.sessions.create({
         line_items: [
@@ -134,7 +142,7 @@ const createCheckoutSession = async ({
             : `${Resource.WebUrl.value}/dashboard?action=modal.topup.success`,
         cancel_url: `${Resource.WebUrl.value}/dashboard`,
         customer_email: userStripeId ? undefined : customerEmail,
-        customer: userStripeId ? userStripeId : undefined,
+        customer: userStripeId,
         allow_promotion_codes: true,
         metadata: {
             userId,
