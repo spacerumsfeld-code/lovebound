@@ -14,7 +14,6 @@ export {
 
 export {
     ProductTypeEnum,
-    ProductIdEnum,
     CreditCountEnum,
     ZStripeMetadata,
     subscriptionSet,

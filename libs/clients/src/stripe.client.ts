@@ -52,9 +52,9 @@ const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
     const priceId =
         subscriptionSearch.data?.[0]?.items?.data?.[0]?.plan.id ?? null
     return priceId
-        ? PriceIdToProductTypeEnum[
+        ? (PriceIdToProductTypeEnum[
               priceId as keyof typeof PriceIdToProductTypeEnum
-          ]
+          ] as unknown as ProductTypeEnum)
         : null
 }
 
