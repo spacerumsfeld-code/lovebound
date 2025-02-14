@@ -63,6 +63,7 @@ const getStripeIdByEmail = async ({ email }: { email: string }) => {
         email,
         limit: 1,
     })
+    console.info('stripe.customers.list', customers)
     return customers.data?.[0]?.id ?? null
 }
 
