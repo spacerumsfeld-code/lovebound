@@ -21,6 +21,24 @@ export const userRouter = router({
             })
         }
 
+        /**
+         * @info
+         * If the user has not yet been created via the clerk webhook,
+         * we need to return the default values manually.
+         * */
+        if (!gettingStartedFields) {
+            return c.superjson({
+                data: {
+                    gettingStartedFields: {
+                        gettingStartedCreateStory: false,
+                        gettingStartedExploreShop: false,
+                        gettingStartedTopUpCredits: false,
+                        gettingStartedPurchaseItem: false,
+                    },
+                },
+            })
+        }
+
         return c.superjson({
             data: {
                 gettingStartedFields: gettingStartedFields!,
