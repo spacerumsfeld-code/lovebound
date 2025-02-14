@@ -17,7 +17,7 @@ export const OptimizedImage = (props: {
             alt={props.alt}
             width={props.width}
             height={props.height}
-            quality={90}
+            quality={75}
             placeholder="blur"
             blurDataURL={`${props.src}?w=${Math.max(props.width / 5, 10)}&blur=50&auto=format`}
             className={props.className}

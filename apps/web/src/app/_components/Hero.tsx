@@ -8,6 +8,7 @@ import { Button } from '../../components/ui/button'
 import { HeartBeam } from './HeartBeam'
 import { BackgroundGrids } from './BackgroundGrids'
 import { ArrowRight } from 'lucide-react'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const Hero = () => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -137,16 +138,15 @@ export const Hero = () => {
                 ref={containerRef}
                 className="relative mx-auto max-w-7xl rounded-[32px] border border-neutral-200/50 bg-neutral-100 p-2 backdrop-blur-lg dark:border-neutral-700 dark:bg-neutral-800/50 md:p-4"
             >
-                <div className="rounded-[24px] border border-neutral-200 bg-white p-2 dark:border-neutral-700 dark:bg-black">
-                    <Image
-                        src="https://cdn.sanity.io/images/vjg0x5qe/production/e4f2c267d56e042817bba93434a32df05aaeb77e-3024x1964.png"
-                        alt="Romance As a Service preview"
-                        width={1920}
-                        height={1080}
-                        className="rounded-[20px]"
-                        priority
-                    />
-                </div>
+                <OptimizedImage
+                    src="https://cdn.sanity.io/images/vjg0x5qe/production/e4f2c267d56e042817bba93434a32df05aaeb77e-3024x1964.png"
+                    alt="Romance As a Service preview"
+                    width={1920}
+                    height={1080}
+                    priority
+                    mobileWidth="100vw"
+                    className="rounded-[24px] border border-neutral-200 bg-white p-2"
+                />
             </motion.div>
         </div>
     )
