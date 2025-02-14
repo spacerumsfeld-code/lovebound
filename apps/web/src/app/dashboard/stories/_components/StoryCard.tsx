@@ -4,9 +4,10 @@ import { TStoryWithScenes } from '@client-types/story/story.model'
 import { Card } from '../../../../components/ui/card'
 import { cn } from '../../../../lib/utils'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { EReaderModal } from '../../_components/modals/EReader.modal'
 import { useToast } from 'src/hooks/use-toast'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
+import { TitleLabel } from '../../shop/_components/shop-card/TitleLabel'
 
 export const StoryCard = (props: { story: TStoryWithScenes }) => {
     // *Interactivity
@@ -28,7 +29,7 @@ export const StoryCard = (props: { story: TStoryWithScenes }) => {
                 )}
             >
                 <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
-                    <Image
+                    <OptimizedImage
                         src={props.story.coverUrl}
                         alt={props.story.title}
                         height={400}
@@ -54,18 +55,14 @@ export const StoryCard = (props: { story: TStoryWithScenes }) => {
                 )}
             >
                 <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
-                    <Image
+                    <OptimizedImage
                         src={props.story.coverUrl}
                         alt={props.story.title}
                         height={400}
                         width={300}
                         className="h-full w-full object-cover"
                     />
-                    <div className="absolute bottom-0 p-4 text-white">
-                        <h3 className="text-xl text-white font-semibold mb-2">
-                            {props.story.title}
-                        </h3>
-                    </div>
+                    <TitleLabel title={props.story.title} />
                 </Card>
             </motion.div>
         </EReaderModal>

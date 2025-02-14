@@ -3,11 +3,11 @@
 import { Card } from '../../../../../components/ui/card'
 import { cn } from '../../../../../lib/utils'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { ShopItemModal } from '../../../_components/modals/ShopItem.modal'
 import { TItem } from '@client-types/item/item.model'
 import { TypeLabel } from './TypeLabel'
 import { OptimizedImage } from 'src/components/ui/image/optimized-image'
+import { TitleLabel } from './TitleLabel'
 
 export const ShopItemCard = (props: {
     item: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>
@@ -30,11 +30,7 @@ export const ShopItemCard = (props: {
                         width={300}
                         className="h-full w-full object-cover"
                     />
-                    <div className="absolute bottom-0 p-4 text-white">
-                        <h3 className="text-xl text-white font-semibold mb-2">
-                            {props.item.name}
-                        </h3>
-                    </div>
+                    <TitleLabel title={props.item.name} />
                     <TypeLabel type={props.item.type} />
                 </Card>
             </motion.div>
