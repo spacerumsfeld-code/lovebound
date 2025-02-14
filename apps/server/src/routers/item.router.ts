@@ -17,7 +17,7 @@ export const itemRouter = router({
         )
         .query(async ({ c, input, ctx }) => {
             console.info(
-                `💻 Invoked itemRouter.getShopItems with data ${JSON.stringify(
+                `💻 Invoked itemRouter.getShopItems with ctx.userId:${ctx.userId} and input:${JSON.stringify(
                     input,
                 )}`,
             )
@@ -44,7 +44,9 @@ export const itemRouter = router({
             })
         }),
     getCreateStoryItems: protectedProcedure.query(async ({ c, ctx }) => {
-        console.info(`💻 Invoked itemRouter.getCreateStoryItems`)
+        console.info(
+            `💻 Invoked itemRouter.getCreateStoryItems with ctx.userId:${ctx.userId}`,
+        )
 
         const [getCreateStoryItems, getCreateStoryItemsError] =
             await handleAsync(
