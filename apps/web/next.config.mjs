@@ -2,35 +2,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 import { Resource } from 'sst'
 
 const nextConfig = {
-    rewrites: async () => {
-        return [
-            {
-                source: "/monitoring/:path*",
-                destination: "/monitoring/:path*",
-            },
-            {
-                source: "/api/posthog/e",
-                destination: "https://us.i.posthog.com/e",
-            },
-            {
-                source: "/api/posthog/decide",
-                destination: "https://us.i.posthog.com/decide",
-            },
-            {
-                source: "/api/posthog/engage",
-                destination: "https://us.i.posthog.com/engage",
-            },
-            {
-                source: "/api/posthog/s",
-                destination: "https://us.i.posthog.com/s",
-            },
-            {
-                source: "/api/posthog/static/:path*",
-                destination: "https://us-assets.i.posthog.com/static/:path*",
-            }
-        ]
-    },
-    skipTrailingSlashRedirect: true,
     reactStrictMode: false,
     images: {
         dangerouslyAllowSVG: true,
