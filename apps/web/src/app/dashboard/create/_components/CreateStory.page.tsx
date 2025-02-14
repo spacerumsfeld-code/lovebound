@@ -9,6 +9,8 @@ export const CreateStoryPage = async () => {
         { genres, themes, lengths, tensionLevels, settings, tones },
     ] = await Promise.all([getCurrentSubscriptionType(), getCreateStoryItems()])
 
+    console.info('currentSubscriptionType', currentSubscriptionType)
+
     // *Render
     return (
         <CreateStoryView

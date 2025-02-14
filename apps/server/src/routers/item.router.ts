@@ -54,6 +54,11 @@ export const itemRouter = router({
             )
         if (getCreateStoryItemsError) handleError(getCreateStoryItemsError)
 
+        console.info(
+            'CREATE STORY ITEMS RETRIEVED',
+            getCreateStoryItems?.length ?? 'no length',
+        )
+
         return c.superjson({
             data: {
                 genres: getCreateStoryItems!.filter(

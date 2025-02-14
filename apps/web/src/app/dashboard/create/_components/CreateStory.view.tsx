@@ -26,6 +26,7 @@ export const CreateStoryView = (props: {
     const defaultLength = props.items.lengths.find(
         (length) => length.id === storyLengthMap.get('Mini')!,
     )!
+    console.info('items', props.items)
     const userHasPremiumSubscription =
         props.currentSubscriptionType === ProductTypeEnum.PremiumSubscription
     const [storyData, setStoryData] = useState<TStoryInitialState>(
