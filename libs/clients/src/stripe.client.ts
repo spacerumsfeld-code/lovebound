@@ -2,6 +2,7 @@ import { Stripe } from 'stripe'
 import { Resource } from 'sst'
 import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
 import { generateId } from '@utils'
+import { PriceIdToProductTypeEnum } from '@client-types/payment/payment.model'
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {
     apiVersion: '2025-01-27.acacia',
@@ -28,7 +29,9 @@ const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
     const priceId =
         subscriptionSearch.data?.[0]?.items?.data?.[0]?.plan.id ?? null
     return priceId
-        ? (ProductTypeEnum[priceId as keyof typeof ProductTypeEnum] ?? null)
+        ? PriceIdToProductTypeEnum[
+              priceId as keyof typeof PriceIdToProductTypeEnum
+          ]
         : null
 }
 

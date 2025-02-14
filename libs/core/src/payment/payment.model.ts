@@ -1,3 +1,4 @@
+import { Resource } from 'sst'
 import { z } from 'zod'
 
 export enum ProductTypeEnum {
@@ -6,9 +7,15 @@ export enum ProductTypeEnum {
     Credits50Pack = 'Credits50Pack',
     CasualSubscription = 'CasualSubscription',
     PremiumSubscription = 'PremiumSubscription',
-    // reverse maps
+}
+
+export enum PriceIdToProductTypeEnum {
+    // dev
     'price_1QStaQLZGjrJKEOlBhU4C3BM' = ProductTypeEnum.CasualSubscription,
     'price_1QlycXLZGjrJKEOlrQtfZv8H' = ProductTypeEnum.PremiumSubscription,
+    // prod
+    'price_1Qnl8YLZGjrJKEOlz03SpdfU' = ProductTypeEnum.CasualSubscription,
+    'price_1QnlAkLZGjrJKEOl6ReGjaJ2' = ProductTypeEnum.PremiumSubscription,
 }
 
 export const subscriptionSet = new Set<ProductTypeEnum>([
@@ -24,12 +31,27 @@ export enum CreditCountEnum {
     PremiumSubscription = 30,
 }
 
-export enum ProductIdEnum {
-    Credits10Pack = 'price_1QStXILZGjrJKEOlJyokkZVC',
-    Credits20Pack = 'price_1QSthLLZGjrJKEOlrABFyIR7',
-    Credits50Pack = 'price_1QStjoLZGjrJKEOlooXjFf8m',
-    CasualSubscription = 'price_1QStaQLZGjrJKEOlBhU4C3BM',
-    PremiumSubscription = 'price_1QlycXLZGjrJKEOlrQtfZv8H',
+export const ProductIdEnum: Record<ProductTypeEnum, string> = {
+    [ProductTypeEnum.Credits10Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8mLZGjrJKEOlHtbdHj4e'
+            : 'price_1QStXILZGjrJKEOlJyokkZVC',
+    [ProductTypeEnum.Credits20Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8qLZGjrJKEOlqJv3ON88'
+            : 'price_1QSthLLZGjrJKEOlrABFyIR7',
+    [ProductTypeEnum.Credits50Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8sLZGjrJKEOl4FE2CCYX'
+            : 'price_1QStjoLZGjrJKEOlooXjFf8m',
+    [ProductTypeEnum.CasualSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8YLZGjrJKEOlz03SpdfU'
+            : 'price_1QStaQLZGjrJKEOlBhU4C3BM',
+    [ProductTypeEnum.PremiumSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl9yLZGjrJKEOlwWg8pKdG'
+            : 'price_1QlycXLZGjrJKEOlrQtfZv8H',
 }
 
 export const ZStripeMetadata = z.object({
