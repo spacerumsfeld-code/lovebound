@@ -10,6 +10,7 @@
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
+import { EnvironmentEnum } from 'src/constants'
 
 export const PHProvider = (props: {
     userId: string | null
@@ -17,18 +18,20 @@ export const PHProvider = (props: {
 }) => {
     // *Interactivity
     useEffect(() => {
-        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-            api_host: '/api/posthog',
-            ui_host: 'https://us.posthog.com',
-            loaded: () => {
-                const isLoggedIn = Boolean(props.userId)
-                const isIdentified = posthog._isIdentified()
+        if (process.env.ENVIRONMENT === EnvironmentEnum.PRODUCTION) {
+            posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+                api_host: '/api/posthog',
+                ui_host: 'https://us.posthog.com',
+                loaded: () => {
+                    const isLoggedIn = Boolean(props.userId)
+                    const isIdentified = posthog._isIdentified()
 
-                if (props.userId && isLoggedIn && !isIdentified)
-                    posthog.identify(props.userId)
-                else if (!isLoggedIn && isIdentified) posthog.reset()
-            },
-        })
+                    if (props.userId && isLoggedIn && !isIdentified)
+                        posthog.identify(props.userId)
+                    else if (!isLoggedIn && isIdentified) posthog.reset()
+                },
+            })
+        }
 
         return () => {
             posthog.reset()

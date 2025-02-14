@@ -8,5 +8,5 @@ export const AnalyticsProvider = async (props: {
     const user = await currentUser()
 
     // @Render
-    return <PHProvider userId={user?.id ?? ''}>{props.children}</PHProvider>
+    return <PHProvider userId={user?.id ?? null}>{props.children}</PHProvider>
 }
