@@ -1,7 +1,31 @@
 import { Stripe } from 'stripe'
 import { Resource } from 'sst'
-import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
+import { ProductTypeEnum, subscriptionSet } from '@core'
 import { generateId } from '@utils'
+import { PriceIdToProductTypeEnum } from '@client-types/payment/payment.model'
+
+export const ProductIdEnum: Record<ProductTypeEnum, string> = {
+    [ProductTypeEnum.Credits10Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8mLZGjrJKEOlHtbdHj4e'
+            : 'price_1QStXILZGjrJKEOlJyokkZVC',
+    [ProductTypeEnum.Credits20Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8qLZGjrJKEOlqJv3ON88'
+            : 'price_1QSthLLZGjrJKEOlrABFyIR7',
+    [ProductTypeEnum.Credits50Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8sLZGjrJKEOl4FE2CCYX'
+            : 'price_1QStjoLZGjrJKEOlooXjFf8m',
+    [ProductTypeEnum.CasualSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8YLZGjrJKEOlz03SpdfU'
+            : 'price_1QStaQLZGjrJKEOlBhU4C3BM',
+    [ProductTypeEnum.PremiumSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl9yLZGjrJKEOlwWg8pKdG'
+            : 'price_1QlycXLZGjrJKEOlrQtfZv8H',
+}
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {
     apiVersion: '2025-01-27.acacia',
@@ -28,15 +52,18 @@ const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
     const priceId =
         subscriptionSearch.data?.[0]?.items?.data?.[0]?.plan.id ?? null
     return priceId
-        ? (ProductTypeEnum[priceId as keyof typeof ProductTypeEnum] ?? null)
+        ? (PriceIdToProductTypeEnum[
+              priceId as keyof typeof PriceIdToProductTypeEnum
+          ] as unknown as ProductTypeEnum)
         : null
 }
 
 const getStripeIdByEmail = async ({ email }: { email: string }) => {
     const customers = await stripe.customers.list({
         email,
+        limit: 1,
     })
-    return customers.data?.[0]?.id ?? null
+    return customers.data?.length ? customers.data[0].id : null
 }
 
 const getPromoCodeById = async ({ id }: { id: string }) => {
@@ -86,9 +113,19 @@ const createCheckoutSession = async ({
     customerEmail: string
     productType: ProductTypeEnum
 }) => {
+    let userStripeId = await getStripeIdByEmail({ email: customerEmail })
     const priceId = ProductIdEnum[productType]
     const isSubscription = subscriptionSet.has(productType)
-    const userStripeId = await getStripeIdByEmail({ email: customerEmail })
+
+    if (!userStripeId) {
+        const customer = await stripe.customers.create({
+            email: customerEmail,
+            metadata: {
+                userId,
+            },
+        })
+        userStripeId = customer.id
+    }
 
     const session = await stripe.checkout.sessions.create({
         line_items: [
@@ -103,7 +140,7 @@ const createCheckoutSession = async ({
             : `${Resource.WebUrl.value}/dashboard?action=modal.topup.success`,
         cancel_url: `${Resource.WebUrl.value}/dashboard`,
         customer_email: userStripeId ? undefined : customerEmail,
-        customer: userStripeId ? userStripeId : undefined,
+        customer: userStripeId,
         allow_promotion_codes: true,
         metadata: {
             userId,

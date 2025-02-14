@@ -7,7 +7,7 @@ import { HTTPException } from 'hono/http-exception'
 export const userRouter = router({
     getGettingStartedFields: protectedProcedure.query(async ({ c, ctx }) => {
         console.info(
-            `💻 Invoked userRouter.getGettingStartedFields with userId: ${ctx.userId}`,
+            `💻 Invoked userRouter.getGettingStartedFields with ctx.userId:${ctx.userId}`,
         )
 
         const [gettingStartedFields, gettingStartedFieldsError] =
@@ -79,7 +79,9 @@ export const userRouter = router({
     }),
     checkIfUserExistsInStripe: protectedProcedure.mutation(
         async ({ c, ctx }) => {
-            console.info('💻 Invoked userRouter.checkIfUserExistsInStripe')
+            console.info(
+                `💻 Invoked userRouter.checkIfUserExistsInStripe with ctx.userId:${ctx.userId}`,
+            )
 
             const [userEmail, userEmailError] = await handleAsync(
                 User.getUserEmail({
@@ -112,6 +114,11 @@ export const userRouter = router({
                 })
             }
 
+            console.info(
+                'userRouter.checkIfUserExistsInStripe',
+                userExistsInStripe,
+            )
+
             return c.superjson({
                 data: {
                     userExistsInStripe,
@@ -120,7 +127,9 @@ export const userRouter = router({
         },
     ),
     getCurrentSubscriptionType: protectedProcedure.query(async ({ c, ctx }) => {
-        console.info('💻 Invoked userRouter.getCurrentSubscription')
+        console.info(
+            `💻 Invoked userRouter.getCurrentSubscription with ctx.userId:${ctx.userId}`,
+        )
 
         const [currentSubscription, currentSubscriptionError] =
             await handleAsync(
@@ -145,7 +154,9 @@ export const userRouter = router({
         })
     }),
     updateUserExploreShop: protectedProcedure.mutation(async ({ c, ctx }) => {
-        console.info('💻 Invoked userRouter.updateUserExploreShop')
+        console.info(
+            `💻 Invoked userRouter.updateUserExploreShop with ctx.userId:${ctx.userId}`,
+        )
 
         const [, gettingStartedFieldsError] = await handleAsync(
             User.updateUser({

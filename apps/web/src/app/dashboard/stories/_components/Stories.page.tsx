@@ -1,3 +1,4 @@
+import { StoriesHeader } from './Stories.header'
 import { StoryGrid } from './StoryGrid'
 
 export const StoriesPage = async ({
@@ -13,6 +14,11 @@ export const StoriesPage = async ({
         theme: theme ? Number(theme) : 0,
     }
 
-    // @Render
-    return <StoryGrid args={args} />
+    // *Render
+    return (
+        <>
+            <StoriesHeader genre={args.genre} theme={args.theme} />
+            <StoryGrid args={args} />
+        </>
+    )
 }

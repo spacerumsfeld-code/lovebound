@@ -31,25 +31,30 @@ export const generateContent = async (prompt: string) => {
 }
 
 export const generateStoryCover = async ({
-    title,
+    genre,
+    theme,
     setting,
 }: {
-    title: string
-    setting: number
+    genre: string
+    theme: string
+    setting: string
 }) => {
     const coverPrompt = await cacheClient.get<string>('prompt:cover')
+    const finalPrompt = coverPrompt!
+        .replace('[genre]', genre)
+        .replace('[theme]', theme)
+        .replace('[setting]', setting)
+
     const response = await openai.images.generate({
         model: 'dall-e-3',
-        prompt: `I NEED to test how the tool works with extremely simple prompts. DO NOT add any detail, just use it AS-IS: ${
-            coverPrompt! + `title: ${title}, setting: ${setting}`
-        }`,
+        prompt: `I NEED to test how the tool works with extremely simple prompts. DO NOT add any detail, just use it AS-IS: ${finalPrompt}`,
         n: 1,
         quality: 'standard',
         size: '1024x1024',
     })
-    const imageData = response.data[0].url
+    const imageUrl = response.data[0].url
 
-    return imageData
+    return imageUrl
 }
 
 export const generateStoryNarration = async (

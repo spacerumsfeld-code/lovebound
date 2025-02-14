@@ -1,5 +1,5 @@
 {
-  "id": "61926464-8381-44f0-a28d-b25def1cd635",
+  "id": "f2aa072d-cadd-4dbd-8b2d-0e3cc1c2a968",
   "prevId": "34d835ab-a59f-495e-bab8-28733b80759e",
   "version": "7",
   "dialect": "postgresql",
@@ -440,12 +440,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "profile_image_url": {
-          "name": "profile_image_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "credits": {
           "name": "credits",
           "type": "integer",
@@ -480,19 +474,6 @@
           "primaryKey": false,
           "notNull": false,
           "default": false
-        },
-        "getting_started_referral_used": {
-          "name": "getting_started_referral_used",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
-        },
-        "referral_id": {
-          "name": "referral_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {},

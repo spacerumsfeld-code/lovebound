@@ -27,7 +27,6 @@ export const secret = {
     ResendApiKey: new sst.Secret('ResendApiKey'),
     ResendAudienceId: new sst.Secret('ResendAudienceId'),
     // Feature Flags
-    FeatureSubscriptions: new sst.Secret('FeatureSubscriptions'),
 }
 
 export const allSecrets = Object.values(secret)

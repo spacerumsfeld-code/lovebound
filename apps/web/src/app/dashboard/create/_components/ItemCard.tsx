@@ -1,5 +1,5 @@
 import { cn } from 'src/lib/utils'
-import Image from 'next/image'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const ItemCard = (props: {
     label: string
@@ -17,7 +17,7 @@ export const ItemCard = (props: {
             )}
             onClick={props.onClick}
         >
-            <Image
+            <OptimizedImage
                 src={props.imageUrl}
                 alt={props.label}
                 height={200}

@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { storyLengthMap, TItemInput } from '@client-types/item/item.model'
-import { ITEM_ID_MAP } from 'src/constants'
+import { StoryLengthEnum, TItemInput } from '@client-types/item/item.model'
 import { CreateStoryCore } from './Core'
 import { NarrationOptions } from './NarrationOptions'
 import { TStoryInitialState } from '@client-types/story/story.model'
 import { ConfirmCreateModal } from 'src/app/dashboard/_components/modals/ConfirmCreate.modal'
 import { Button } from 'src/components/ui/button'
 import { createInitialStoryState, transformToCreateStory } from 'src/lib/utils'
+import { ProductTypeEnum } from '@client-types/payment/payment.model'
 
 export const CreateStoryView = (props: {
     items: {
@@ -19,22 +19,21 @@ export const CreateStoryView = (props: {
         settings: TItemInput[]
         tones: TItemInput[]
     }
+    currentSubscriptionType: ProductTypeEnum
 }) => {
     // *State
     const defaultLength = props.items.lengths.find(
-        (length) => length.id === storyLengthMap.get('Mini')!,
+        (length) => length.name === StoryLengthEnum.Mini,
     )!
-
+    const userHasPremiumSubscription =
+        props.currentSubscriptionType === ProductTypeEnum.PremiumSubscription
     const [storyData, setStoryData] = useState<TStoryInitialState>(
         createInitialStoryState(defaultLength),
     )
 
     // *Interactivity
     useEffect(() => {
-        if (
-            JSON.parse(storyData.length).id ===
-            ITEM_ID_MAP.get('Story.Length.Short')
-        ) {
+        if (JSON.parse(storyData?.length)?.name === StoryLengthEnum.Short) {
             setStoryData((prev) => ({
                 ...prev,
                 includeNarration: false,
@@ -47,8 +46,7 @@ export const CreateStoryView = (props: {
                     })),
             }))
         } else if (
-            JSON.parse(storyData.length).id ===
-            ITEM_ID_MAP.get('Story.Length.Mini')
+            JSON.parse(storyData?.length)?.name === StoryLengthEnum.Mini
         ) {
             setStoryData((prev) => ({
                 ...prev,
@@ -115,10 +113,7 @@ export const CreateStoryView = (props: {
     ) => {
         const parsedValue = JSON.parse(value as string) as TItemInput
 
-        if (
-            JSON.parse(storyData.length).id ===
-            ITEM_ID_MAP.get('Story.Length.Short')
-        ) {
+        if (JSON.parse(storyData.length).name === StoryLengthEnum.Short) {
             const sceneIndex = getNextAvailableSceneIndex(category, parsedValue)
             setStoryData((prev) => ({
                 ...prev,
@@ -141,10 +136,7 @@ export const CreateStoryView = (props: {
         category: 'tone' | 'setting' | 'tensionLevel',
         value: number,
     ): number | null => {
-        if (
-            JSON.parse(storyData.length).id !==
-            ITEM_ID_MAP.get('Story.Length.Short')
-        )
+        if (JSON.parse(storyData.length).name !== StoryLengthEnum.Short)
             return null
         const index = storyData.scenes.findIndex((scene) => {
             const parsedScene = scene[category]
@@ -164,6 +156,7 @@ export const CreateStoryView = (props: {
                 handleInputChange={handleInputChange}
                 handleItemCardClick={handleItemCardClick}
                 handleSceneChange={handleSceneChange}
+                userHasPremiumSubscription={userHasPremiumSubscription}
                 getSceneNumberForSelection={getSceneNumberForSelection}
             />
             <NarrationOptions

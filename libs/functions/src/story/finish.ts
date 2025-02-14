@@ -8,7 +8,7 @@ export const finishStory = orchestrationClient.createFunction(
     { event: 'finish.story' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.finishStory with data: ${JSON.stringify(
+            `📨 Invoked orchestration.finishStory with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
@@ -25,8 +25,13 @@ export const finishStory = orchestrationClient.createFunction(
                 ),
         )
         if (updateStoryError) {
-            console.error('oops', updateStoryError)
-            return
+            console.error(
+                `📨❌ Error updating story as complete: ${updateStoryError}`,
+            )
+            return {
+                status: 'failed',
+                error: updateStoryError,
+            }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -45,14 +50,20 @@ export const finishStory = orchestrationClient.createFunction(
                 ),
         )
         if (postToConnectionError) {
-            console.error(postToConnectionError)
+            console.error(
+                `📨❌ Error posting to connection: ${postToConnectionError}`,
+            )
+            return {
+                status: 'failed',
+                error: postToConnectionError,
+            }
         }
 
         const [userEmail, getUserEmailError] = await handleAsync(
             User.getUserEmail({ userId: data.ownerId }),
         )
         if (getUserEmailError) {
-            console.error(getUserEmailError)
+            console.error(`📨❌ Error getting user email: ${getUserEmailError}`)
             return {
                 status: 'failed',
                 message: getUserEmailError.message,
@@ -68,7 +79,11 @@ export const finishStory = orchestrationClient.createFunction(
             ),
         )
         if (sendEmailError) {
-            console.error(sendEmailError)
+            console.error(`📨❌ Error sending email: ${sendEmailError}`)
+            return {
+                status: 'failed',
+                error: sendEmailError,
+            }
         }
 
         return { status: 'initiated' }

@@ -15,7 +15,7 @@ export const paymentRouter = router({
         )
         .query(async ({ c, input, ctx }) => {
             console.info(
-                `💻 Invoked paymentRouter.getCheckoutUrl with data ${JSON.stringify(
+                `💻 Invoked paymentRouter.getCheckoutUrl with ctx.userId:${ctx.userId} and input:${JSON.stringify(
                     input,
                 )}`,
             )
@@ -54,7 +54,9 @@ export const paymentRouter = router({
             })
         }),
     getCreditCount: protectedProcedure.query(async ({ c, ctx }) => {
-        console.info(`💻 Invoked paymentRouter.getCreditCount`)
+        console.info(
+            `💻 Invoked paymentRouter.getCreditCount with ctx.userId:${ctx.userId}`,
+        )
 
         const [creditCount, error] = await handleAsync(
             Payment.getCreditCount({
@@ -84,7 +86,7 @@ export const paymentRouter = router({
         )
         .mutation(async ({ c, input, ctx }) => {
             console.info(
-                `💻 Invoked paymentRouter.purchaseItemFromShop with data ${JSON.stringify(
+                `💻 Invoked paymentRouter.purchaseItemFromShop with ctx.userId:${ctx.userId} and input:${JSON.stringify(
                     input,
                 )}`,
             )

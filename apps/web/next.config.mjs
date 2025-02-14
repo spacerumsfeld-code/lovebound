@@ -1,23 +1,7 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import { Resource } from 'sst'
 
 const nextConfig = {
-    rewrites: async () => {
-        return [
-            {
-                source: "/api/posthog/static/:path*",
-                destination: "https://us-assets.i.posthog.com/static/:path*",
-            },
-            {
-                source: "/api/posthog/:path*",
-                destination: "https://us.i.posthog.com/:path*",
-            },
-            {
-                source: "/api/posthog/decide",
-                destination: "https://us.i.posthog.com/decide",
-            },
-        ];
-    },
-    skipTrailingSlashRedirect: true,
     reactStrictMode: false,
     images: {
         dangerouslyAllowSVG: true,
@@ -29,6 +13,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'api.producthunt.com'
+            },
+            {
+                protocol: 'https',
+                hostname: `${Resource.Bucket.name}.s3.amazonaws.com`,
             }
         ],
     },

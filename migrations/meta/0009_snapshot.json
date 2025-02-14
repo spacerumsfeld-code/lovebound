@@ -1,6 +1,6 @@
 {
-  "id": "ab0ea388-7c21-4d03-93bb-114cef86b688",
-  "prevId": "f2aa072d-cadd-4dbd-8b2d-0e3cc1c2a968",
+  "id": "c92705b5-aad9-435d-a666-d523978dae50",
+  "prevId": "ab0ea388-7c21-4d03-93bb-114cef86b688",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -394,13 +394,6 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
-        },
-        "deleted": {
-          "name": "deleted",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
         },
         "clerk_id": {
           "name": "clerk_id",

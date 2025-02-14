@@ -5,7 +5,7 @@ import { protectedProcedure } from '../_internals/index'
 import { Payment, Story, ZCreateStory, Notification, User } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
-import { storyLengthMap } from '@client-types/item/item.model'
+import { StoryLengthEnum } from '@client-types/item/item.model'
 import { EmailType } from '@transactional'
 
 export const storyRouter = router({
@@ -20,7 +20,7 @@ export const storyRouter = router({
         )
         .query(async ({ c, ctx, input }) => {
             console.info(
-                `💻 Invoked storyRouter.getStories with data ${JSON.stringify(
+                `💻 Invoked storyRouter.getStories with ctx.userId:${ctx.userId} and input:${JSON.stringify(
                     input,
                 )}`,
             )
@@ -53,7 +53,9 @@ export const storyRouter = router({
             })
         }),
     getRecentStories: protectedProcedure.query(async ({ c, ctx }) => {
-        console.info(`💻 Invoked storyRouter.getRecentStories`)
+        console.info(
+            `💻 Invoked storyRouter.getRecentStories with ctx.userId:${ctx.userId}`,
+        )
 
         const [recentStories, getRecentStoriesError] = await handleAsync(
             Story.getRecentStories({ userId: ctx.userId! }),
@@ -73,7 +75,9 @@ export const storyRouter = router({
         .input(ZCreateStory)
         .mutation(async ({ c, input, ctx }) => {
             console.info(
-                `💻 Invoked storyRouter.submitStory with ${JSON.stringify(input)}`,
+                `💻 Invoked storyRouter.submitStory with ctx.userId:${ctx.userId} and input:${JSON.stringify(
+                    input,
+                )}`,
             )
 
             const [createdStory, createStoryError] = await handleAsync(
@@ -98,10 +102,10 @@ export const storyRouter = router({
                 Payment.deductCredits({
                     userId: ctx.userId!,
                     creditCost: (() => {
-                        switch (input.length.id) {
-                            case storyLengthMap.get('Mini')!:
+                        switch (input.length.name) {
+                            case StoryLengthEnum.Mini:
                                 return 1
-                            case storyLengthMap.get('Short')!:
+                            case StoryLengthEnum.Short:
                                 return 2
                             default:
                                 return 1

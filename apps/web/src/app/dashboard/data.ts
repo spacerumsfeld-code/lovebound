@@ -48,9 +48,13 @@ export const getCurrentSubscriptionType = dedupe(async () => {
         const response = await api.user.getCurrentSubscriptionType.$get()
         const data = await response.json()
         const { currentSubscriptionType } = data.data
+        console.info('currentSubscriptionType', currentSubscriptionType)
 
         return { currentSubscriptionType }
     } catch (error) {
+        console.error(
+            `❌ client.getCurrentSubscriptionType error: ${error.message}`,
+        )
         throw new Error(
             `❌ client.getCurrentSubscriptionType error: ${error.message}`,
         )

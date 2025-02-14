@@ -7,6 +7,7 @@ import { NotInStripeLink } from './NotInStripeLink'
 export const BillingLink = async () => {
     // *Data
     const { userExistsInStripe } = await checkIfUserExistsInStripe()
+    console.info('client.checkIfUserExistsInStripe', userExistsInStripe)
 
     // *Render
     return (

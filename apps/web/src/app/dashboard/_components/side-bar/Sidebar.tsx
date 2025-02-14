@@ -28,10 +28,18 @@ export const AppSidebar = ({
             </SidebarContent>
             <SidebarFooter>
                 <UserButton
-                    appearance={{
-                        elements: {
-                            profileSection__emailAddresses: {
-                                display: 'none',
+                    userProfileProps={{
+                        appearance: {
+                            elements: {
+                                profileSection__emailAddresses: {
+                                    display: 'none',
+                                },
+                                profileSection__danger: {
+                                    display: 'none',
+                                },
+                                profileSection__connectedAccounts: {
+                                    display: 'none',
+                                },
                             },
                         },
                     }}

@@ -221,6 +221,24 @@ class StoryService {
 
         return { success: true }
     }
+
+    public async createStoryCover({
+        genre,
+        theme,
+        setting,
+    }: {
+        genre: string
+        theme: string
+        setting: string
+    }) {
+        const coverUrl = await this.aiClient.generateStoryCover({
+            genre,
+            theme,
+            setting,
+        })
+
+        return coverUrl
+    }
 }
 
 export const storyService = new StoryService(db, aiClient)

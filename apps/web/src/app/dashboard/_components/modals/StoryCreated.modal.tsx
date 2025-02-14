@@ -9,6 +9,7 @@ import {
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { WordScrambleGame } from '../WordScramble'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 const images = [
     'https://cdn.sanity.io/images/vjg0x5qe/production/1c6a26521d9c96079c4517179f6654edf550542e-1024x1024.webp',
@@ -47,11 +48,11 @@ export const StoryCreatedModal = () => {
                                     }}
                                     className="rounded-xl -mr-4 mt-4 p-1 bg-white dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
                                 >
-                                    <Image
+                                    <OptimizedImage
                                         src={image}
                                         alt="bali images"
-                                        width="500"
-                                        height="500"
+                                        width={500}
+                                        height={500}
                                         className="rounded-lg h-20 w-20 md:h-40 md:w-40 object-cover flex-shrink-0"
                                     />
                                 </motion.div>

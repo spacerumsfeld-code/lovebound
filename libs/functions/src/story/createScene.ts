@@ -1,52 +1,82 @@
-import { storyLengthMap } from '@client-types/item/item.model'
 import { cacheClient } from '@clients/cache.client'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
-import { handleAsync } from '@utils'
+import { handleAsync, resolvePromises } from '@utils'
 
 export const createScene = orchestrationClient.createFunction(
     { id: 'create.scene' },
     { event: 'create.scene' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.createScene with data: ${JSON.stringify(
+            `📨 Invoked orchestration.createScene with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
         const { data } = event
-        const isMiniStory = data.length.id === storyLengthMap.get('Mini')!
 
         let prompt: string
-        switch (isMiniStory) {
-            case true:
+        switch (data.length.name) {
+            case 'Mini':
                 prompt = (await cacheClient.get<string>(`prompt:mini`))!
                 break
-            case false:
+            case 'Short':
                 prompt = (await cacheClient.get<string>(
                     `prompt:short:scene:${data.sceneNumber}`,
                 ))!
                 break
             default:
+                prompt = ''
                 break
         }
 
-        const lastSceneSummary = await cacheClient.get<string>(
+        const priorSceneSummary = await cacheClient.get<string | null>(
             `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
         )
         const scene = data.scenes.shift()!
         const { tone, setting, tensionLevel } = scene
-        const { genre, theme, title } = data
-        const finalPrompt =
-            prompt! +
-            JSON.stringify({
-                genre: genre.name,
-                theme: theme.name,
-                title,
-                tone: tone.name,
-                setting: setting.name,
-                tensionLevel: tensionLevel.name,
-                lastSceneSummary,
-            })
+        const { genre, theme } = data
+        const {
+            results: [genrePrompt, themePrompt, tonePrompt, tensionPrompt],
+        } = await resolvePromises([
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${genre.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${theme.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(`prompt:rich:${tone.name}`),
+            },
+            {
+                promise: cacheClient.get<string>(
+                    `prompt:rich:${tensionLevel.name}`,
+                ),
+            },
+        ])
+
+        const finalPrompt = prompt
+            .replace('[genre_instructions]', genrePrompt!)
+            .replace('[theme_instructions]', themePrompt!)
+            .replace('[tone_instructions]', tonePrompt!)
+            .replace('[tension_level_instructions]', tensionPrompt!)
+            .replace('[setting]', setting!.name)
+            .replace('[priorSceneSummary]', priorSceneSummary!)
+
+        const allPromptsExist = Boolean(
+            genrePrompt && themePrompt && tonePrompt && tensionPrompt,
+        )
+        if (!allPromptsExist) {
+            console.error(
+                `📨❌ Not all prompts retrieved from cacheClient: ${JSON.stringify(
+                    {
+                        genrePrompt,
+                        themePrompt,
+                        tonePrompt,
+                        tensionPrompt,
+                    },
+                )}`,
+            )
+        }
 
         const [sceneContentAndSummary, generateSceneContentError] =
             await step.run('Generate Scene Content', () =>
@@ -57,8 +87,13 @@ export const createScene = orchestrationClient.createFunction(
                 ),
             )
         if (generateSceneContentError) {
-            console.error('oops', generateSceneContentError)
-            return
+            console.error(
+                `📨❌ Error generating scene content: ${generateSceneContentError}`,
+            )
+            return {
+                status: 'failed',
+                error: generateSceneContentError,
+            }
         }
 
         const { content } = sceneContentAndSummary!
@@ -82,8 +117,13 @@ export const createScene = orchestrationClient.createFunction(
                 ),
         )
         if (createSceneError) {
-            console.error('oops', createSceneError)
-            return
+            console.error(
+                `📨❌ Error creating scene in DB: ${createSceneError}`,
+            )
+            return {
+                status: 'failed',
+                error: createSceneError,
+            }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -96,17 +136,24 @@ export const createScene = orchestrationClient.createFunction(
                             type: 'scene.written',
                             payload: {
                                 sceneNumber: data.sceneNumber,
+                                length: data.length.name,
                             },
                         },
                     }),
                 ),
         )
         if (postToConnectionError) {
-            console.error(postToConnectionError)
+            console.error(
+                `📨❌ Error posting to connection: ${postToConnectionError}`,
+            )
+            return {
+                status: 'failed',
+                error: postToConnectionError,
+            }
         }
 
-        switch (isMiniStory) {
-            case true:
+        switch (data.length.name) {
+            case 'Mini':
                 if (data.includeNarration) {
                     await orchestrationClient.send({
                         name: 'create.narration',
@@ -125,7 +172,7 @@ export const createScene = orchestrationClient.createFunction(
                     })
                 }
                 break
-            case false:
+            case 'Short':
                 if (data.sceneNumber === 3) {
                     await orchestrationClient.send({
                         name: 'finish.story',

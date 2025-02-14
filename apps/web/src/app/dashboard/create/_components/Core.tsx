@@ -16,9 +16,6 @@ import {
     SelectValue,
 } from 'src/components/ui/select'
 import { TItemInput } from '@client-types/item/item.model'
-import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
-import { ITEM_ID_MAP } from 'src/constants'
-import { Switch } from 'src/components/ui/switch'
 import {
     Tabs,
     TabsContent,
@@ -29,9 +26,12 @@ import { ScrollArea } from 'src/components/ui/scroll-area'
 import { ItemCard } from './ItemCard'
 import { VisitShopCTA } from './VisitShopCTA'
 import { TStoryInitialState } from '@client-types/story/story.model'
+import { NarrationSwitch } from './NarrationSwitch'
+import { LengthRadioGroup } from './LengthRadioGroup'
 
 export const CreateStoryCore = (props: {
     storyData: TStoryInitialState
+    userHasPremiumSubscription: boolean
     items: {
         genres: TItemInput[]
         themes: TItemInput[]
@@ -99,52 +99,21 @@ export const CreateStoryCore = (props: {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div>
-                            <Label>Length</Label>
-                            <RadioGroup
-                                value={String(props.storyData.length)}
-                                onValueChange={(value) =>
-                                    props.handleInputChange('length', value)
-                                }
-                                className="flex flex-col space-y-1 mt-1"
-                            >
-                                {props.items.lengths.map((length) => (
-                                    <div
-                                        key={length.name}
-                                        className="flex items-center space-x-2"
-                                    >
-                                        <RadioGroupItem
-                                            value={JSON.stringify(length)}
-                                            id={`length-${length.id}`}
-                                            disabled={
-                                                length.id !== 23 &&
-                                                length.id !== 24
-                                            }
-                                        />
-                                        <Label htmlFor={`length-${length.id}`}>
-                                            {length.name}
-                                        </Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <Switch
-                                id="narration"
-                                checked={props.storyData.includeNarration}
-                                onCheckedChange={(checked) =>
-                                    props.handleInputChange(
-                                        'includeNarration',
-                                        checked,
-                                    )
-                                }
-                                disabled={
-                                    JSON.parse(props.storyData.length).id !==
-                                    ITEM_ID_MAP.get('Story.Length.Mini')!
-                                }
-                            />
-                            <Label htmlFor="narration">Enable narration</Label>
-                        </div>
+                        <LengthRadioGroup
+                            storyLength={String(props.storyData.length)}
+                            handleInputChange={props.handleInputChange}
+                            items={props.items.lengths}
+                        />
+                        <NarrationSwitch
+                            storyLength={
+                                JSON.parse(props.storyData.length).name
+                            }
+                            includeNarration={props.storyData.includeNarration}
+                            handleInputChange={props.handleInputChange}
+                            userHasPremiumSubscription={
+                                props.userHasPremiumSubscription
+                            }
+                        />
                     </div>
                 </CardContent>
             </Card>

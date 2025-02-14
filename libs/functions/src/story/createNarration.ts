@@ -1,5 +1,5 @@
 import { orchestrationClient } from '@clients/orchestration.client'
-import { uploadAudioFromBuffer } from '@clients/s3.client'
+import { s3Client } from '@clients/s3.client'
 import { Notification, Story } from '@core'
 import { handleAsync } from '@utils'
 
@@ -8,7 +8,7 @@ export const createNarration = orchestrationClient.createFunction(
     { event: 'create.narration' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.createNarration with data: ${JSON.stringify(
+            `📨 Invoked orchestration.createNarration with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
@@ -23,20 +23,30 @@ export const createNarration = orchestrationClient.createFunction(
             )
         if (generateNarrationContentError) {
             console.error(
-                'generateNarrationContentError',
-                generateNarrationContentError,
+                `📨❌ Error generating narration content: ${generateNarrationContentError}`,
             )
-            return
+            return {
+                status: 'failed',
+                error: generateNarrationContentError,
+            }
         }
         const { buffer } = generatedContentBuffer!
 
         const [uploadUrl, uploadError] = await step.run(
             'Upload Narration to S3',
-            () => handleAsync(uploadAudioFromBuffer(buffer, data.storyId)),
+            () =>
+                handleAsync(
+                    s3Client.uploadAudioFromBuffer(buffer, data.storyId),
+                ),
         )
         if (uploadError) {
-            console.error('uploadUrlError', uploadError)
-            return
+            console.error(
+                `📨❌ Error uploading narration to S3: ${uploadError}`,
+            )
+            return {
+                status: 'failed',
+                error: uploadError,
+            }
         }
 
         const [, updateSceneError] = await step.run(
@@ -50,8 +60,13 @@ export const createNarration = orchestrationClient.createFunction(
                 ),
         )
         if (updateSceneError) {
-            console.error('updateSceneError', updateSceneError)
-            return
+            console.error(
+                `📨❌ Error updating scene with narrationUrl: ${updateSceneError}`,
+            )
+            return {
+                status: 'failed',
+                error: updateSceneError,
+            }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -70,7 +85,13 @@ export const createNarration = orchestrationClient.createFunction(
                 ),
         )
         if (postToConnectionError) {
-            console.error('postToConnectionError', postToConnectionError)
+            console.error(
+                `📨❌ Error posting to connection: ${postToConnectionError}`,
+            )
+            return {
+                status: 'failed',
+                error: postToConnectionError,
+            }
         }
 
         await orchestrationClient.send({

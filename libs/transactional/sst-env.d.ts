@@ -43,10 +43,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "FeatureSubscriptions": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
     "InngestEventKey": {
       "type": "sst.sst.Secret"
       "value": string

@@ -6,9 +6,15 @@ export enum ProductTypeEnum {
     Credits50Pack = 'Credits50Pack',
     CasualSubscription = 'CasualSubscription',
     PremiumSubscription = 'PremiumSubscription',
-    // reverse maps
+}
+
+export enum PriceIdToProductTypeEnum {
+    // dev
     'price_1QStaQLZGjrJKEOlBhU4C3BM' = ProductTypeEnum.CasualSubscription,
     'price_1QlycXLZGjrJKEOlrQtfZv8H' = ProductTypeEnum.PremiumSubscription,
+    // prod
+    'price_1Qnl8YLZGjrJKEOlz03SpdfU' = ProductTypeEnum.CasualSubscription,
+    'price_1QnlAkLZGjrJKEOl6ReGjaJ2' = ProductTypeEnum.PremiumSubscription,
 }
 
 export const subscriptionSet = new Set<ProductTypeEnum>([
@@ -22,14 +28,6 @@ export enum CreditCountEnum {
     Credits50Pack = 50,
     CasualSubscription = 10,
     PremiumSubscription = 30,
-}
-
-export enum ProductIdEnum {
-    Credits10Pack = 'price_1QStXILZGjrJKEOlJyokkZVC',
-    Credits20Pack = 'price_1QSthLLZGjrJKEOlrABFyIR7',
-    Credits50Pack = 'price_1QStjoLZGjrJKEOlooXjFf8m',
-    CasualSubscription = 'price_1QStaQLZGjrJKEOlBhU4C3BM',
-    PremiumSubscription = 'price_1QlycXLZGjrJKEOlrQtfZv8H',
 }
 
 export const ZStripeMetadata = z.object({

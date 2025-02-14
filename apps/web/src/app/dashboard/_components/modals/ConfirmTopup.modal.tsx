@@ -6,8 +6,8 @@ import {
     ModalContent,
     ModalFooter,
 } from '../../../../components/ui/animated-modal'
-import Image from 'next/image'
 import { Button } from '../../../../components/ui/button'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const ConfirmTopupModal = () => {
     // @Render
@@ -19,14 +19,13 @@ export const ConfirmTopupModal = () => {
                         <h4 className="text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-4 md:mb-8">
                             Congratulations! Your credit balance has increased!
                         </h4>
-                        <Image
+                        <OptimizedImage
                             alt="cool"
-                            width="300"
-                            height="400"
+                            height={400}
+                            width={300}
                             src="https://cdn.sanity.io/images/vjg0x5qe/production/5d14f71e88e0631774cdfdaec44dbcec02f81ce5-1024x1024.webp"
                             className="rounded-xl h-[250px] md:h-[400px] w-[200px] md:w-[300px] object-cover"
                         />
-
                         <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-100 text-center text-bold mt-4">
                             Your credits are available for immediate use on your
                             next fantastic story!

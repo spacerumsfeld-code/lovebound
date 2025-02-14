@@ -47,15 +47,22 @@
     {
       "idx": 7,
       "version": "7",
-      "when": 1738435725433,
-      "tag": "0007_huge_boomerang",
+      "when": 1738608306289,
+      "tag": "0007_ancient_golden_guardian",
       "breakpoints": true
     },
     {
       "idx": 8,
       "version": "7",
-      "when": 1738439324453,
-      "tag": "0008_white_wasp",
+      "when": 1739518655376,
+      "tag": "0008_colossal_valeria_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1739518702326,
+      "tag": "0009_low_metal_master",
       "breakpoints": true
     }
   ]

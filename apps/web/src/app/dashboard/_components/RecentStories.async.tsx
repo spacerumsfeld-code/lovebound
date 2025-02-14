@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getRecentStories } from '../data'
-import Image from 'next/image'
 import { SITE_MAP } from 'src/constants'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const RecentStoriesAsync = async () => {
     // @Data
@@ -9,7 +9,7 @@ export const RecentStoriesAsync = async () => {
 
     // @Render
     if (!recentStories) {
-        return <h3 className="text-lg font-semibold">No stories yet!</h3>
+        return <h3 className="text-lg font-semibold p-8">No stories yet!</h3>
     }
 
     return (
@@ -20,10 +20,11 @@ export const RecentStoriesAsync = async () => {
                     href={SITE_MAP.STORIES}
                     className="relative rounded-lg overflow-hidden group cursor-pointer"
                 >
-                    <Image
-                        src={story.coverUrl!}
+                    <OptimizedImage
+                        src={story.coverUrl}
                         height={400}
                         width={300}
+                        mobileWidth={'300px'}
                         alt="Story Cover"
                         className="w-full h-32 object-cover"
                     />
