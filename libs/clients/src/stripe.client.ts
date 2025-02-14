@@ -61,6 +61,7 @@ const getCurrentSubscriptionType = async ({ userId }: { userId: string }) => {
 const getStripeIdByEmail = async ({ email }: { email: string }) => {
     const customers = await stripe.customers.list({
         email,
+        limit: 1,
     })
     return customers.data?.[0]?.id ?? null
 }

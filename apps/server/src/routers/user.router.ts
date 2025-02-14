@@ -80,6 +80,11 @@ export const userRouter = router({
                 })
             }
 
+            console.info(
+                'userRouter.checkIfUserExistsInStripe',
+                userExistsInStripe,
+            )
+
             return c.superjson({
                 data: {
                     userExistsInStripe,
