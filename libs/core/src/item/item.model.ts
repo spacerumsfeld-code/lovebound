@@ -50,11 +50,6 @@ export const activeStoryLengths = new Set<StoryLengthEnum>([
     StoryLengthEnum.Short,
 ])
 
-export const storyLengthMap = new Map<string, number>([
-    ['Mini', 23],
-    ['Short', 24],
-])
-
 export type TItem = {
     id: number
     name: string

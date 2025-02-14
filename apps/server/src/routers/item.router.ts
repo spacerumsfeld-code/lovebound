@@ -55,8 +55,27 @@ export const itemRouter = router({
         if (getCreateStoryItemsError) handleError(getCreateStoryItemsError)
 
         console.info(
-            'CREATE STORY ITEMS RETRIEVED',
-            getCreateStoryItems?.length ?? 'no length',
+            'getCreateStoryItems',
+            JSON.stringify({
+                genres: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Genre,
+                )!,
+                themes: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Theme,
+                )!,
+                lengths: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Length,
+                )!,
+                tensionLevels: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.TensionLevel,
+                )!,
+                settings: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Setting,
+                )!,
+                tones: getCreateStoryItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Tone,
+                )!,
+            }),
         )
 
         return c.superjson({

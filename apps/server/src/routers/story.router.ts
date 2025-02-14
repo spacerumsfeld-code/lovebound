@@ -5,7 +5,7 @@ import { protectedProcedure } from '../_internals/index'
 import { Payment, Story, ZCreateStory, Notification, User } from '@core'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
-import { storyLengthMap } from '@client-types/item/item.model'
+import { StoryLengthEnum } from '@client-types/item/item.model'
 import { EmailType } from '@transactional'
 
 export const storyRouter = router({
@@ -98,10 +98,10 @@ export const storyRouter = router({
                 Payment.deductCredits({
                     userId: ctx.userId!,
                     creditCost: (() => {
-                        switch (input.length.id) {
-                            case storyLengthMap.get('Mini')!:
+                        switch (input.length.name) {
+                            case StoryLengthEnum.Mini:
                                 return 1
-                            case storyLengthMap.get('Short')!:
+                            case StoryLengthEnum.Short:
                                 return 2
                             default:
                                 return 1

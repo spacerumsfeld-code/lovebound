@@ -105,8 +105,8 @@ export const CreateStoryCore = (props: {
                             items={props.items.lengths}
                         />
                         <NarrationSwitch
-                            storyLengthId={
-                                JSON.parse(props.storyData.length).id
+                            storyLength={
+                                JSON.parse(props.storyData.length).name
                             }
                             includeNarration={props.storyData.includeNarration}
                             handleInputChange={props.handleInputChange}
