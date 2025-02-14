@@ -31,11 +31,13 @@ export const CreateStoryView = (props: {
     const [storyData, setStoryData] = useState<TStoryInitialState>(
         createInitialStoryState(defaultLength),
     )
+    console.info('defaultLength', defaultLength)
+    console.info('storyData once we mount', storyData)
 
     // *Interactivity
     useEffect(() => {
         if (
-            JSON.parse(storyData.length).id ===
+            JSON.parse(storyData?.length)?.id ===
             ITEM_ID_MAP.get('Story.Length.Short')
         ) {
             setStoryData((prev) => ({
@@ -50,7 +52,7 @@ export const CreateStoryView = (props: {
                     })),
             }))
         } else if (
-            JSON.parse(storyData.length).id ===
+            JSON.parse(storyData?.length)?.id ===
             ITEM_ID_MAP.get('Story.Length.Mini')
         ) {
             setStoryData((prev) => ({
