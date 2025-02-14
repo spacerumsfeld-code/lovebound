@@ -21,8 +21,8 @@ const webConfig: NextjsArgs = {
      */
     environment: {
         WEB_URL: secret.WebUrl.value,
-        ENVIRONMENT: secret.Environment.value,
         SENTRY_DSN: secret.SentryDsn.value,
+        NEXT_PUBLIC_ENVIRONMENT: secret.Environment.value,
         NEXT_PUBLIC_CRISP_WEBSITE_ID: secret.CrispWebsiteId.value,
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: secret.ClerkPublishableKey.value,
         NEXT_PUBLIC_WEBSOCKET_URL: websocket.url,
