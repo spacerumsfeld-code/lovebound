@@ -1,8 +1,31 @@
 import { Stripe } from 'stripe'
 import { Resource } from 'sst'
-import { ProductIdEnum, ProductTypeEnum, subscriptionSet } from '@core'
+import { ProductTypeEnum, subscriptionSet } from '@core'
 import { generateId } from '@utils'
 import { PriceIdToProductTypeEnum } from '@client-types/payment/payment.model'
+
+export const ProductIdEnum: Record<ProductTypeEnum, string> = {
+    [ProductTypeEnum.Credits10Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8mLZGjrJKEOlHtbdHj4e'
+            : 'price_1QStXILZGjrJKEOlJyokkZVC',
+    [ProductTypeEnum.Credits20Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8qLZGjrJKEOlqJv3ON88'
+            : 'price_1QSthLLZGjrJKEOlrABFyIR7',
+    [ProductTypeEnum.Credits50Pack]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8sLZGjrJKEOl4FE2CCYX'
+            : 'price_1QStjoLZGjrJKEOlooXjFf8m',
+    [ProductTypeEnum.CasualSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl8YLZGjrJKEOlz03SpdfU'
+            : 'price_1QStaQLZGjrJKEOlBhU4C3BM',
+    [ProductTypeEnum.PremiumSubscription]:
+        Resource.Environment.value === 'production'
+            ? 'price_1Qnl9yLZGjrJKEOlwWg8pKdG'
+            : 'price_1QlycXLZGjrJKEOlrQtfZv8H',
+}
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {
     apiVersion: '2025-01-27.acacia',

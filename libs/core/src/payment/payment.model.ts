@@ -1,4 +1,3 @@
-import { Resource } from 'sst'
 import { z } from 'zod'
 
 export enum ProductTypeEnum {
@@ -29,29 +28,6 @@ export enum CreditCountEnum {
     Credits50Pack = 50,
     CasualSubscription = 10,
     PremiumSubscription = 30,
-}
-
-export const ProductIdEnum: Record<ProductTypeEnum, string> = {
-    [ProductTypeEnum.Credits10Pack]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl8mLZGjrJKEOlHtbdHj4e'
-            : 'price_1QStXILZGjrJKEOlJyokkZVC',
-    [ProductTypeEnum.Credits20Pack]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl8qLZGjrJKEOlqJv3ON88'
-            : 'price_1QSthLLZGjrJKEOlrABFyIR7',
-    [ProductTypeEnum.Credits50Pack]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl8sLZGjrJKEOl4FE2CCYX'
-            : 'price_1QStjoLZGjrJKEOlooXjFf8m',
-    [ProductTypeEnum.CasualSubscription]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl8YLZGjrJKEOlz03SpdfU'
-            : 'price_1QStaQLZGjrJKEOlBhU4C3BM',
-    [ProductTypeEnum.PremiumSubscription]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl9yLZGjrJKEOlwWg8pKdG'
-            : 'price_1QlycXLZGjrJKEOlrQtfZv8H',
 }
 
 export const ZStripeMetadata = z.object({
