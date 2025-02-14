@@ -13,7 +13,7 @@ export const AnalyticsProvider = (props: { children: React.ReactNode }) => {
         ) {
             posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
                 capture_pageview: false,
-                api_host: '/api/posthog',
+                api_host: 'https://us.i.posthog.com',
                 ui_host: 'https://us.posthog.com',
             })
         }
