@@ -8,7 +8,7 @@ export const createScene = orchestrationClient.createFunction(
     { event: 'create.scene' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.createScene with data: ${JSON.stringify(
+            `📨 Invoked orchestration.createScene with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
@@ -66,12 +66,16 @@ export const createScene = orchestrationClient.createFunction(
             genrePrompt && themePrompt && tonePrompt && tensionPrompt,
         )
         if (!allPromptsExist) {
-            console.error('❌ Not all prompts retrieved from cacheClient', {
-                genrePrompt,
-                themePrompt,
-                tonePrompt,
-                tensionPrompt,
-            })
+            console.error(
+                `📨❌ Not all prompts retrieved from cacheClient: ${JSON.stringify(
+                    {
+                        genrePrompt,
+                        themePrompt,
+                        tonePrompt,
+                        tensionPrompt,
+                    },
+                )}`,
+            )
         }
 
         const [sceneContentAndSummary, generateSceneContentError] =
@@ -83,8 +87,13 @@ export const createScene = orchestrationClient.createFunction(
                 ),
             )
         if (generateSceneContentError) {
-            console.error('oops', generateSceneContentError)
-            return
+            console.error(
+                `📨❌ Error generating scene content: ${generateSceneContentError}`,
+            )
+            return {
+                status: 'failed',
+                error: generateSceneContentError,
+            }
         }
 
         const { content } = sceneContentAndSummary!
@@ -108,8 +117,13 @@ export const createScene = orchestrationClient.createFunction(
                 ),
         )
         if (createSceneError) {
-            console.error('oops', createSceneError)
-            return
+            console.error(
+                `📨❌ Error creating scene in DB: ${createSceneError}`,
+            )
+            return {
+                status: 'failed',
+                error: createSceneError,
+            }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -129,7 +143,13 @@ export const createScene = orchestrationClient.createFunction(
                 ),
         )
         if (postToConnectionError) {
-            console.error(postToConnectionError)
+            console.error(
+                `📨❌ Error posting to connection: ${postToConnectionError}`,
+            )
+            return {
+                status: 'failed',
+                error: postToConnectionError,
+            }
         }
 
         switch (data.length.name) {

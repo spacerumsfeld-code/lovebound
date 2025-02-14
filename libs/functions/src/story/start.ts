@@ -6,7 +6,7 @@ export const startStoryCreation = orchestrationClient.createFunction(
     { event: 'start.story' },
     async ({ event }) => {
         console.info(
-            `Invoked orchestration.startStoryCreation with data: ${JSON.stringify(
+            `📨 Invoked orchestration.startStoryCreation with data: ${JSON.stringify(
                 event.data,
             )}`,
         )

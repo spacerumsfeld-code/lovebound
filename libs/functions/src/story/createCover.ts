@@ -2,17 +2,25 @@ import { orchestrationClient } from '@clients/orchestration.client'
 import { s3Client } from '@clients/s3.client'
 import { Story, Notification } from '@core'
 import { handleAsync } from '@utils'
+import { Resource } from 'sst'
+
+process.env.ENVIRONMENT = Resource.Environment.value
 
 export const createCover = orchestrationClient.createFunction(
     { id: 'create.cover' },
     { event: 'create.cover' },
     async ({ event, step }) => {
         console.info(
-            `Invoked orchestration.createCover with data: ${JSON.stringify(
+            `📨 Invoked orchestration.createCover with data: ${JSON.stringify(
                 event.data,
             )}`,
         )
         const { data } = event
+
+        if (process.env.ENVIRONMENT === 'development') {
+            console.info(`📨 Skipping create cover in development`)
+            return { status: 'skipped' }
+        }
 
         const [imageUrl, createImageError] = await step.run(
             'Create cover image',
@@ -26,8 +34,13 @@ export const createCover = orchestrationClient.createFunction(
                 ),
         )
         if (createImageError) {
-            console.error('createImageError', createImageError)
-            return
+            console.error(
+                `📨❌ Error creating cover image: ${createImageError}`,
+            )
+            return {
+                status: 'failed',
+                error: createImageError,
+            }
         }
 
         const [uploadUrl, uploadError] = await step.run(
@@ -35,8 +48,11 @@ export const createCover = orchestrationClient.createFunction(
             () => handleAsync(s3Client.uploadImageFromUrl(imageUrl!)),
         )
         if (uploadError) {
-            console.error('uploadUrlError', uploadError)
-            return
+            console.error(`📨❌ Error uploading cover image: ${uploadError}`)
+            return {
+                status: 'failed',
+                error: uploadError,
+            }
         }
 
         const [, updateStoryError] = await step.run(
@@ -50,8 +66,13 @@ export const createCover = orchestrationClient.createFunction(
                 ),
         )
         if (updateStoryError) {
-            console.error('updateStoryError', updateStoryError)
-            return
+            console.error(
+                `📨❌ Error updating story with cover url: ${updateStoryError}`,
+            )
+            return {
+                status: 'failed',
+                error: updateStoryError,
+            }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -67,7 +88,13 @@ export const createCover = orchestrationClient.createFunction(
                 ),
         )
         if (postToConnectionError) {
-            console.error('postToConnectionError', postToConnectionError)
+            console.error(
+                `📨❌ Error posting to connection: ${postToConnectionError}`,
+            )
+            return {
+                status: 'failed',
+                error: postToConnectionError,
+            }
         }
 
         return { status: 'initiated' }

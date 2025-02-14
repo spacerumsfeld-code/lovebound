@@ -16,7 +16,6 @@ export const StoryGrid = ({
     // *Render
     return (
         <main className="p-8">
-            <StoryGridFilters genre={args.genre} theme={args.theme} />
             <Suspense
                 key={JSON.stringify(args)}
                 fallback={<StoryGridSkeleton size={12} />}
