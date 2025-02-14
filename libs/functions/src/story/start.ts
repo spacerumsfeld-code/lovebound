@@ -12,7 +12,7 @@ export const startStoryCreation = orchestrationClient.createFunction(
         )
         const { data } = event
 
-        resolvePromises([
+        await resolvePromises([
             {
                 promise: orchestrationClient.send({
                     name: 'create.cover',
