@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { cn } from 'src/lib/utils'
 import { BentoGrid, BentoGridItem } from 'src/components/ui/bento-grid'
 import {
@@ -13,6 +12,7 @@ import {
     IconBoxAlignRightFilled,
 } from '@tabler/icons-react'
 import { Logo } from './logo'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const FeatureGrid = () => {
     return (
@@ -244,11 +244,11 @@ const SkeletonFour = () => {
                 variants={first}
                 className="h-full w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
             >
-                <Image
+                <OptimizedImage
                     src="https://cdn.sanity.io/images/vjg0x5qe/production/78df376a163586df790bbc579014851971b2964b-1024x1024.webp"
                     alt="Story cover"
-                    height="100"
-                    width="100"
+                    height={100}
+                    width={100}
                     className="rounded-lg h-10 w-10 object-cover"
                 />
                 <p className="sm:text-sm text-xs text-center font-semibold text-neutral-500 mt-4">
@@ -259,11 +259,11 @@ const SkeletonFour = () => {
                 </p>
             </motion.div>
             <motion.div className="h-full relative z-20 w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center">
-                <Image
+                <OptimizedImage
                     src="https://cdn.sanity.io/images/vjg0x5qe/production/0853a7dd606ac5bb022130f96e10771476bfa910-1024x1024.webp"
                     alt="Story cover"
-                    height="100"
-                    width="100"
+                    height={100}
+                    width={100}
                     className="rounded-lg h-10 w-10 object-cover"
                 />
                 <p className="sm:text-sm text-xs text-center font-semibold text-neutral-500 mt-4">
@@ -277,11 +277,11 @@ const SkeletonFour = () => {
                 variants={second}
                 className="h-full w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
             >
-                <Image
+                <OptimizedImage
                     src="https://cdn.sanity.io/images/vjg0x5qe/production/c0edae14dfa508ada4364ef1a260ad0b16b945b3-1024x1024.webp"
                     alt="Story cover"
-                    height="100"
-                    width="100"
+                    height={100}
+                    width={100}
                     className="rounded-lg h-10 w-10 object-cover"
                 />
                 <p className="sm:text-sm text-xs text-center font-semibold text-neutral-500 mt-4">
@@ -372,7 +372,7 @@ const items = [
         icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
     },
     {
-        title: 'As Hot as You Want',
+        title: 'As Spicy as You Want',
         description: (
             <span className="text-sm">
                 Set the tension and intensity of your story - from light to

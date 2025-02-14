@@ -107,7 +107,6 @@ export const Demonstration = ({ className }: { className?: string }) => {
                         <Logo height={100} width={100} />
                     </Card>
                 </div>
-
                 <OptimizedImage
                     src="https://cdn.sanity.io/images/vjg0x5qe/production/8820a451ab8ec2873d74ed02812594219c99978f-1024x1024.webp"
                     alt="Sample Story Cover"
@@ -116,7 +115,6 @@ export const Demonstration = ({ className }: { className?: string }) => {
                     mobileWidth="100vw"
                     className="rounded-lg shadow-xl ring-2 ring-gray-200"
                 />
-
                 <svg
                     width="100%"
                     height="100%"

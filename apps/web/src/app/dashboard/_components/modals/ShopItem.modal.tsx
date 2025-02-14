@@ -7,7 +7,6 @@ import {
     ModalTrigger,
 } from 'src/components/ui/animated-modal'
 import { Button } from 'src/components/ui/button'
-import Image from 'next/image'
 import { Badge } from 'src/components/ui/badge'
 import { Loader2, ShoppingCart } from 'lucide-react'
 import { Separator } from 'src/components/ui/separator'
@@ -16,6 +15,7 @@ import { useState } from 'react'
 import { useToast } from 'src/hooks/use-toast'
 import { purchaseItemFromShop } from '../../shop/server'
 import Link from 'next/link'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const ShopItemModal = (props: {
     item: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>
@@ -49,20 +49,21 @@ export const ShopItemModal = (props: {
             <ModalTrigger>{props.children}</ModalTrigger>
             <ModalBody>
                 <ModalContent>
-                    <div className="text-lg font-bold text-center mb-8">
-                        {props.item.name}
-                    </div>
-                    <div className="relative w-full h-48 sm:h-64 rounded-lg overflow-hidden">
-                        <Image
+                    <div className="flex flex-col gap-y-4 items-center justify-center">
+                        <div className="text-lg font-bold text-center mb-8">
+                            {props.item.name}
+                        </div>
+                        <OptimizedImage
                             src={props.item.imageUrl!}
                             alt={props.item.name}
-                            layout="fill"
-                            objectFit="cover"
+                            height={400}
+                            width={400}
                         />
+                        <p className="text-sm sm:text-base text-muted-foreground">
+                            {props.item.description}
+                        </p>
                     </div>
-                    <p className="text-sm sm:text-base text-muted-foreground">
-                        {props.item.description}
-                    </p>
+
                     <Separator />
                     <div className="flex justify-between items-center">
                         <Badge

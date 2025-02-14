@@ -29,7 +29,7 @@ export const createScene = orchestrationClient.createFunction(
                 break
         }
 
-        const priorSceneSummary = await cacheClient.get<string>(
+        const priorSceneSummary = await cacheClient.get<string | null>(
             `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
         )
         const scene = data.scenes.shift()!

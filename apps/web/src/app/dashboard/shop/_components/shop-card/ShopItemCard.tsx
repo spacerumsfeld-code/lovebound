@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { ShopItemModal } from '../../../_components/modals/ShopItem.modal'
 import { TItem } from '@client-types/item/item.model'
 import { TypeLabel } from './TypeLabel'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const ShopItemCard = (props: {
     item: Omit<TItem, 'createdAt' | 'updatedAt' | 'isDefault'>
@@ -22,7 +23,7 @@ export const ShopItemCard = (props: {
                 )}
             >
                 <Card className="h-[400px] w-[300px] relative overflow-hidden rounded-2xl">
-                    <Image
+                    <OptimizedImage
                         src={props.item.imageUrl}
                         alt={props.item.name}
                         height={400}

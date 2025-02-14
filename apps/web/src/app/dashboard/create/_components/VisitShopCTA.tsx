@@ -1,12 +1,12 @@
 import { SITE_MAP } from 'src/constants'
-import Image from 'next/image'
 import { Button } from 'src/components/ui/button'
+import { OptimizedImage } from 'src/components/ui/image/optimized-image'
 
 export const VisitShopCTA = () => {
     // *Render
     return (
         <div className="relative rounded-lg overflow-hidden group cursor-pointer hover:bg">
-            <Image
+            <OptimizedImage
                 src="https://cdn.sanity.io/images/vjg0x5qe/production/c0edae14dfa508ada4364ef1a260ad0b16b945b3-1024x1024.webp"
                 alt="Visit Shop"
                 height={200}

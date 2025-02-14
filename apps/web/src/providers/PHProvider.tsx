@@ -15,7 +15,7 @@ export const PHProvider = (props: {
     userId: string | null
     children: React.ReactNode
 }) => {
-    // @Interactivity
+    // *Interactivity
     useEffect(() => {
         posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
             api_host: '/api/posthog',

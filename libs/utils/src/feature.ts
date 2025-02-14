@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const featureFlagSchema = z.object({
-    FEATURE_SUBSCRIPTIONS: z.string(),
+    FEATURE_AUDIO_NARRATION: z.string(),
 })
 export type TFeatureFlag = z.infer<typeof featureFlagSchema>
 
