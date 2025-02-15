@@ -1,4 +1,4 @@
-import { ArrowRight, Circle } from 'lucide-react'
+import { ArrowRight, CheckCircle } from 'lucide-react'
 import { getGettingStartedFields } from '../../data'
 import { ReferralItemInteractive } from './ReferralItem.view'
 
@@ -12,7 +12,7 @@ export const ReferralItemAsync = async () => {
             <div className="group p-4 border rounded-lg hover:bg-purple-50 transition-colors relative">
                 <div className="flex items-center gap-4">
                     <div className="flex-shrink-0">
-                        <Circle
+                        <CheckCircle
                             className="h-5 w-5 text-green-300 stroke-2"
                             strokeWidth={2}
                         />
