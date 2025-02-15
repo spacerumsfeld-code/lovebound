@@ -23,6 +23,7 @@ import { StoryIdToCostMap } from '@client-types/payment/payment.model'
 export const ConfirmCreateModal = (props: {
     children: React.ReactNode
     storyData: TCreateStory
+    creditCount: number
 }) => {
     // @State
     const { startLoading, isLoading } = useLoading()
@@ -32,6 +33,12 @@ export const ConfirmCreateModal = (props: {
         const { data, success, error } = ZCreateStory.safeParse(props.storyData)
         if (!success) {
             toast(mapCreateStoryZodErrorsToSentences(error))
+            return
+        }
+        if (props.creditCount < StoryIdToCostMap[props.storyData.length.id]) {
+            toast(
+                '❌ Not enough credits. Please add more credits to your account.',
+            )
             return
         }
         startLoading('submit.story')

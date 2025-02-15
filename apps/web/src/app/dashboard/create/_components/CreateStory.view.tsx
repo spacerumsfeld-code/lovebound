@@ -20,6 +20,7 @@ export const CreateStoryView = (props: {
         tones: TItemInput[]
     }
     currentSubscriptionType: ProductTypeEnum
+    creditCount: number
 }) => {
     // *State
     const defaultLength = props.items.lengths.find(
@@ -167,6 +168,7 @@ export const CreateStoryView = (props: {
             <div className="fixed bottom-6 left-0 right-0 flex justify-center">
                 <ConfirmCreateModal
                     storyData={transformToCreateStory(storyData)}
+                    creditCount={props.creditCount}
                 >
                     <Button variant="primary">Create Story</Button>
                 </ConfirmCreateModal>
