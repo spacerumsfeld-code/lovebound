@@ -39,7 +39,7 @@ const gettingStartedLinks = [
     },
     {
         id: GettingStartedLinkId.Subscribe,
-        title: 'Subscribe.',
+        title: 'Subscribe',
         description: 'Get a subscription and maximize your credits.',
         href: SITE_MAP.UPGRADE,
     },
