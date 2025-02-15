@@ -84,6 +84,37 @@ class ItemService {
 
         return createStoryItems
     }
+
+    public async getFilterItems({ userId }: { userId: string }) {
+        const filterItems = await this.store
+            .select({
+                id: items.id,
+                type: items.type,
+                name: items.name,
+            })
+            .from(items)
+            .leftJoin(
+                userInventory,
+                and(
+                    eq(userInventory.itemId, items.id),
+                    eq(userInventory.userId, userId),
+                ),
+            )
+            .where(
+                and(
+                    or(
+                        eq(items.isDefault, true),
+                        isNotNull(userInventory.userId),
+                    ),
+                    or(
+                        eq(items.type, ItemTypeEnum.Theme),
+                        eq(items.type, ItemTypeEnum.Genre),
+                    ),
+                ),
+            )
+
+        return filterItems
+    }
 }
 
 const itemService = new ItemService(db)

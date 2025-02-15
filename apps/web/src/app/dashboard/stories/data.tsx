@@ -27,9 +27,20 @@ export const getStories = async (args: {
 
         return { component }
     } catch (error) {
-        console.error(error)
         throw new Error(
             `client.getStories failed with ${JSON.stringify(error)}`,
+        )
+    }
+}
+
+export const getFilterItems = async () => {
+    try {
+        const response = await api.item.getFilterItems.$get()
+        const { data: filterItems } = await response.json()
+        return filterItems
+    } catch (error) {
+        throw new Error(
+            `client.getFilterItems failed with ${JSON.stringify(error)}`,
         )
     }
 }

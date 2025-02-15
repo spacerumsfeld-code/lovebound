@@ -1,5 +1,6 @@
 'use client'
 
+import { TItem } from '@client-types/item/item.model'
 import {
     Select,
     SelectContent,
@@ -8,24 +9,33 @@ import {
     SelectValue,
 } from '../../../../components/ui/select'
 import { useRouter } from 'next/navigation'
-import { ThemeIdEnum, GenreIdEnum } from '@client-types/item/item.model'
+import { Button } from 'src/components/ui/button'
 
-export const StoryGridFilters = (props: { genre: number; theme: number }) => {
+export const StoryGridFilters = (props: {
+    genre: number
+    theme: number
+    genreFilters: Pick<TItem, 'id' | 'name' | 'type'>[]
+    themeFilters: Pick<TItem, 'id' | 'name' | 'type'>[]
+}) => {
     // *Interactivity
     const router = useRouter()
 
-    const handleGenreFilterChange = (filter: string) => {
-        const genreId = Object.entries(GenreIdEnum).find(
-            ([, value]) => value === filter,
-        )?.[0]
+    const handleGenreFilterChange = (filter: TItem['name']) => {
+        const genreId = props.genreFilters.find(
+            ({ name }) => name === filter,
+        )?.id
         router.push(`/dashboard/stories?theme=${props.theme}&genre=${genreId}`)
     }
 
-    const handleThemeFilterChange = (filter: string) => {
-        const themeId = Object.entries(ThemeIdEnum).find(
-            ([, value]) => value === filter,
-        )?.[0]
+    const handleThemeFilterChange = (filter: TItem['name']) => {
+        const themeId = props.themeFilters.find(
+            ({ name }) => name === filter,
+        )?.id
         router.push(`/dashboard/stories?theme=${themeId}&genre=${props.genre}`)
+    }
+
+    const handleClearFilters = () => {
+        router.push('/dashboard/stories')
     }
 
     // *Render
@@ -34,25 +44,21 @@ export const StoryGridFilters = (props: { genre: number; theme: number }) => {
             <div className="flex items-center gap-4 justify-between">
                 <p className="text-bold">Genre</p>
                 <Select
-                    onValueChange={(value) =>
-                        handleGenreFilterChange(String(value))
+                    onValueChange={(value) => handleGenreFilterChange(value)}
+                    value={
+                        props.genreFilters.find(({ id }) => id === props.genre)
+                            ?.name || ''
                     }
-                    value={GenreIdEnum[props.genre]}
                 >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Genre" />
                     </SelectTrigger>
                     <SelectContent>
-                        {Object.values(GenreIdEnum)
-                            .filter((value) => !(typeof value === 'number'))
-                            .map((value) => (
-                                <SelectItem
-                                    key={`genre-${value}`}
-                                    value={value}
-                                >
-                                    {value}
-                                </SelectItem>
-                            ))}
+                        {props.genreFilters.map(({ id, name }) => (
+                            <SelectItem key={`genre-${id}`} value={name}>
+                                {name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
@@ -62,25 +68,24 @@ export const StoryGridFilters = (props: { genre: number; theme: number }) => {
                     onValueChange={(value) =>
                         handleThemeFilterChange(String(value))
                     }
-                    value={ThemeIdEnum[props.theme]}
+                    value={
+                        props.themeFilters.find(({ id }) => id === props.theme)
+                            ?.name || ''
+                    }
                 >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Theme" />
                     </SelectTrigger>
                     <SelectContent>
-                        {Object.values(ThemeIdEnum)
-                            .filter((value) => !(typeof value === 'number'))
-                            .map((value) => (
-                                <SelectItem
-                                    key={`theme-${value}`}
-                                    value={value}
-                                >
-                                    {value}
-                                </SelectItem>
-                            ))}
+                        {props.themeFilters.map(({ id, name }) => (
+                            <SelectItem key={`theme-${id}`} value={name}>
+                                {name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
+            <Button onClick={handleClearFilters}>Clear Filters</Button>
         </div>
     )
 }

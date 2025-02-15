@@ -1,3 +1,4 @@
+import { getFilterItems } from '../data'
 import { StoriesHeader } from './Stories.header'
 import { StoryGrid } from './StoryGrid'
 
@@ -13,11 +14,18 @@ export const StoriesPage = async ({
         genre: genre ? Number(genre) : 0,
         theme: theme ? Number(theme) : 0,
     }
+    const { genres: genreFilters, themes: themeFilters } =
+        await getFilterItems()
 
     // *Render
     return (
         <>
-            <StoriesHeader genre={args.genre} theme={args.theme} />
+            <StoriesHeader
+                genre={args.genre}
+                theme={args.theme}
+                genreFilters={genreFilters}
+                themeFilters={themeFilters}
+            />
             <StoryGrid args={args} />
         </>
     )

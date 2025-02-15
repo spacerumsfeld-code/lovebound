@@ -5,6 +5,7 @@ import { Item } from '@core'
 import { handleAsync } from '@utils'
 import { ItemTypeEnum } from '@client-types/item/item.model'
 import { handleError } from '../_internals/util'
+import { HTTPException } from 'hono/http-exception'
 
 export const itemRouter = router({
     getShopItems: protectedProcedure
@@ -78,6 +79,36 @@ export const itemRouter = router({
                 )!,
             },
             success: true,
+        })
+    }),
+    getFilterItems: protectedProcedure.query(async ({ c, ctx }) => {
+        console.info(
+            `💻 Invoked itemRouter.getFilterItems with ctx.userId:${ctx.userId}`,
+        )
+
+        const [getFilterItems, getFilterItemsError] = await handleAsync(
+            Item.getFilterItems({
+                userId: ctx.userId!,
+            }),
+        )
+        if (getFilterItemsError) {
+            console.error(
+                `❌ Error in itemRouter.getFilterItems: ${getFilterItemsError.message}`,
+            )
+            throw new HTTPException(400, {
+                message: getFilterItemsError.message,
+            })
+        }
+
+        return c.superjson({
+            data: {
+                genres: getFilterItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Genre,
+                )!,
+                themes: getFilterItems!.filter(
+                    ({ type }) => type === ItemTypeEnum.Theme,
+                )!,
+            },
         })
     }),
 })
