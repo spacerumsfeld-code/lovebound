@@ -64,6 +64,13 @@
       "when": 1739518702326,
       "tag": "0009_low_metal_master",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1739578313781,
+      "tag": "0010_salty_pixie",
+      "breakpoints": true
     }
   ]
 }

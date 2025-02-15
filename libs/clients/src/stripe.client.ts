@@ -139,7 +139,6 @@ const createCheckoutSession = async ({
             ? `${Resource.WebUrl.value}/dashboard?action=modal.subscription.success`
             : `${Resource.WebUrl.value}/dashboard?action=modal.topup.success`,
         cancel_url: `${Resource.WebUrl.value}/dashboard`,
-        customer_email: userStripeId ? undefined : customerEmail,
         customer: userStripeId,
         allow_promotion_codes: true,
         metadata: {
@@ -152,6 +151,7 @@ const createCheckoutSession = async ({
                   metadata: {
                       userId,
                       customerEmail,
+                      productType,
                   },
               }
             : undefined,

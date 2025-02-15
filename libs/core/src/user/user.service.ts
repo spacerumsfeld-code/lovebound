@@ -60,13 +60,22 @@ class UserService {
                 gettingStartedTopUpCredits: users.gettingStartedTopUpCredits,
                 gettingStartedPurchaseItem: users.gettingStartedPurchaseItem,
                 gettingStartedReferralUsed: users.gettingStartedReferralUsed,
+                gettingStartedSubscribed: users.gettingStartedSubscribed,
             })
             .from(users)
             .where(eq(users.clerkId, userId))
 
-        console.info('we got our user!!!!!', user)
-
         return user?.[0]
+    }
+
+    public async checkIfUserHasHadSubscription({ userId }: { userId: string }) {
+        const user = await this.store
+            .select({
+                gettingStartedSubscribed: users.gettingStartedSubscribed,
+            })
+            .from(users)
+            .where(eq(users.clerkId, userId))
+        return user?.[0]?.gettingStartedSubscribed
     }
 
     public async updateUser({
@@ -76,6 +85,7 @@ class UserService {
         gettingStartedTopUpCredits,
         gettingStartedPurchaseItem,
         gettingStartedReferralUsed,
+        gettingStartedSubscribed,
         referralCode,
     }: {
         userId: string
@@ -86,6 +96,7 @@ class UserService {
         gettingStartedTopUpCredits?: boolean
         gettingStartedPurchaseItem?: boolean
         gettingStartedReferralUsed?: boolean
+        gettingStartedSubscribed?: boolean
         referralCode?: string
     }) {
         const setParams = Object.fromEntries(
@@ -95,6 +106,7 @@ class UserService {
                 gettingStartedTopUpCredits,
                 gettingStartedPurchaseItem,
                 gettingStartedReferralUsed,
+                gettingStartedSubscribed,
                 referralCode,
             }).filter(([, value]) => value !== undefined && value !== null),
         )

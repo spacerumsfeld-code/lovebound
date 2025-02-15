@@ -8,6 +8,7 @@ export enum GettingStartedLinkId {
     Shop = 'gettingStartedExploreShop',
     TopUp = 'gettingStartedTopUpCredits',
     Item = 'gettingStartedPurchaseItem',
+    Subscribe = 'gettingStartedSubscribed',
 }
 
 const gettingStartedLinks = [
@@ -35,6 +36,12 @@ const gettingStartedLinks = [
         description:
             'Get your first item from the shop to enhance your storytelling.',
         href: SITE_MAP.SHOP,
+    },
+    {
+        id: GettingStartedLinkId.Subscribe,
+        title: 'Subscribe.',
+        description: 'Get a subscription and maximize your credits.',
+        href: SITE_MAP.UPGRADE,
     },
 ]
 

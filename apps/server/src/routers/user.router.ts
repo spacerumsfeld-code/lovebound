@@ -43,6 +43,7 @@ export const userRouter = router({
                         gettingStartedExploreShop: false,
                         gettingStartedTopUpCredits: false,
                         gettingStartedPurchaseItem: false,
+                        gettingStartedSubscribed: false,
                     },
                 },
             })

@@ -213,11 +213,8 @@ export const handler = async (req: any) => {
                     const [, topupError] = await handleAsync(
                         Payment.topUpCredits({
                             userId: parsedSubscriptionMetadata.userId,
-                            productType:
-                                ProductTypeEnum[
-                                    subscription!.items.data[0].plan
-                                        .id as keyof typeof ProductTypeEnum
-                                ],
+                            productType: subscription!.metadata!
+                                .productType as ProductTypeEnum,
                         }),
                     )
                     if (topupError) {
@@ -231,6 +228,40 @@ export const handler = async (req: any) => {
                                 error: topupError.message,
                             }),
                         }
+                    }
+                }
+
+                const [
+                    userHasHadSubscription,
+                    checkIfUserHasHadSubscriptionError,
+                ] = await handleAsync(
+                    User.checkIfUserHasHadSubscription({
+                        userId: parsedSubscriptionMetadata.userId,
+                    }),
+                )
+                if (checkIfUserHasHadSubscriptionError) {
+                    console.error(
+                        `❌ stripe.invoicePaid error:`,
+                        checkIfUserHasHadSubscriptionError,
+                    )
+                }
+                console.info(
+                    `💰 userHasHadSubscription:`,
+                    userHasHadSubscription,
+                )
+
+                if (!userHasHadSubscription) {
+                    const [, updateUserError] = await handleAsync(
+                        User.updateUser({
+                            userId: parsedSubscriptionMetadata.userId,
+                            gettingStartedSubscribed: true,
+                        }),
+                    )
+                    if (updateUserError) {
+                        console.error(
+                            `❌ stripe.updateUser error:`,
+                            updateUserError,
+                        )
                     }
                 }
                 break
