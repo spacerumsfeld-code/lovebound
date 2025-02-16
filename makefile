@@ -46,7 +46,7 @@ cicd-typecheck:
 	pnpm nx affected -t typecheck
 
 cicd-deploy:
-	npx sst deploy --stage production
+	npx sst deploy --stage production --verbose
 
 # DEPENDENCY MANAGEMENT
 update:
