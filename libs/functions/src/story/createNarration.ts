@@ -23,7 +23,7 @@ export const createNarration = orchestrationClient.createFunction(
             )
         if (generateNarrationContentError) {
             console.error(
-                `📨❌ Error generating narration content: ${generateNarrationContentError}`,
+                `📨❌ Error generating narration content: ${generateNarrationContentError.message}`,
             )
             return {
                 status: 'failed',
@@ -41,7 +41,7 @@ export const createNarration = orchestrationClient.createFunction(
         )
         if (uploadError) {
             console.error(
-                `📨❌ Error uploading narration to S3: ${uploadError}`,
+                `📨❌ Error uploading narration to S3: ${uploadError.message}`,
             )
             return {
                 status: 'failed',
@@ -61,7 +61,7 @@ export const createNarration = orchestrationClient.createFunction(
         )
         if (updateSceneError) {
             console.error(
-                `📨❌ Error updating scene with narrationUrl: ${updateSceneError}`,
+                `📨❌ Error updating scene with narrationUrl: ${updateSceneError.message}`,
             )
             return {
                 status: 'failed',
@@ -86,12 +86,8 @@ export const createNarration = orchestrationClient.createFunction(
         )
         if (postToConnectionError) {
             console.error(
-                `📨❌ Error posting to connection: ${postToConnectionError}`,
+                `📨❌ Error posting to connection: ${postToConnectionError.message}`,
             )
-            return {
-                status: 'failed',
-                error: postToConnectionError,
-            }
         }
 
         await orchestrationClient.send({

@@ -9,17 +9,17 @@
   "license": "ISC",
   "dependencies": {
     "@eslint/js": "^9.16.0",
+    "@types/aws-lambda": "8.10.145",
+    "@types/node": "^20",
     "drizzle-kit": "^0.28.1",
     "drizzle-orm": "^0.36.4",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "nx": "^20.1.2",
-    "sst": "3.3.27",
+    "sst": "3.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0",
-    "@types/aws-lambda": "8.10.145",
-    "@types/node": "^20",
-    "tsx": "^4.19.2"
+    "typescript-eslint": "^8.17.0"
   },
   "pnpm": {
     "overrides": {

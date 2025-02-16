@@ -30,12 +30,12 @@ export const useWebsocket = (url: string, userId: string) => {
                         if (message.payload.length === 'Short') {
                             if (message.payload.sceneNumber === 1)
                                 showToast(
-                                    `🖊️ Your story\s first scene has been written!`,
+                                    `🖊️ Your story\'s first scene has been written!`,
                                 )
 
                             if (message.payload.sceneNumber === 2)
                                 showToast(
-                                    `🖊️ Your story\'s second scene has been written!🖊️ Your story is almost complete!`,
+                                    `🖊️ Your story\'s second scene has been written! Your story is almost complete!`,
                                 )
 
                             if (message.payload.sceneNumber === 3)

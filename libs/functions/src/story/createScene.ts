@@ -29,9 +29,22 @@ export const createScene = orchestrationClient.createFunction(
                 break
         }
 
-        const priorSceneSummary = await cacheClient.get<string | null>(
-            `short:scene:${data.storyId}:${data.sceneNumber - 1}:summary`,
+        const [, sceneKeys] = await cacheClient.scan(0, {
+            match: `short:scene:${data.storyId}:*`,
+        })
+        const [priorSceneSummaries, getSummariesError] = await handleAsync(
+            Promise.all(sceneKeys.map((key) => cacheClient.get(key))),
         )
+        if (getSummariesError) {
+            console.error(
+                `📨❌ Error getting prior scene summaries: ${getSummariesError.message}`,
+            )
+            return {
+                status: 'failed',
+                message: getSummariesError.message,
+            }
+        }
+
         const scene = data.scenes.shift()!
         const { tone, setting, tensionLevel } = scene
         const { genre, theme } = data
@@ -60,7 +73,10 @@ export const createScene = orchestrationClient.createFunction(
             .replace('[tone_instructions]', tonePrompt!)
             .replace('[tension_level_instructions]', tensionPrompt!)
             .replace('[setting]', setting!.name)
-            .replace('[priorSceneSummary]', priorSceneSummary!)
+            .replace(
+                '[priorSceneSummaries]',
+                JSON.stringify(priorSceneSummaries),
+            )
 
         const allPromptsExist = Boolean(
             genrePrompt && themePrompt && tonePrompt && tensionPrompt,
@@ -88,7 +104,7 @@ export const createScene = orchestrationClient.createFunction(
             )
         if (generateSceneContentError) {
             console.error(
-                `📨❌ Error generating scene content: ${generateSceneContentError}`,
+                `📨❌ Error generating scene content: ${generateSceneContentError.message}`,
             )
             return {
                 status: 'failed',
@@ -118,7 +134,7 @@ export const createScene = orchestrationClient.createFunction(
         )
         if (createSceneError) {
             console.error(
-                `📨❌ Error creating scene in DB: ${createSceneError}`,
+                `📨❌ Error creating scene in DB: ${JSON.stringify(createSceneError)}`,
             )
             return {
                 status: 'failed',
@@ -144,12 +160,8 @@ export const createScene = orchestrationClient.createFunction(
         )
         if (postToConnectionError) {
             console.error(
-                `📨❌ Error posting to connection: ${postToConnectionError}`,
+                `📨❌ Error posting to connection: ${postToConnectionError.message}`,
             )
-            return {
-                status: 'failed',
-                error: postToConnectionError,
-            }
         }
 
         switch (data.length.name) {

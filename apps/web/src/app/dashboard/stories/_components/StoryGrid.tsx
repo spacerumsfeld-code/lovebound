@@ -1,4 +1,3 @@
-import { StoryGridFilters } from './StoryGrid.filters'
 import { Suspense } from 'react'
 import { StoryGridAsync } from './StoryGrid.async'
 import { StoryGridSkeleton } from './StoryGrid.skeleton'

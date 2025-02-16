@@ -35,7 +35,7 @@ export const createCover = orchestrationClient.createFunction(
         )
         if (createImageError) {
             console.error(
-                `📨❌ Error creating cover image: ${createImageError}`,
+                `📨❌ Error creating cover image: ${createImageError.message}`,
             )
             return {
                 status: 'failed',
@@ -48,7 +48,9 @@ export const createCover = orchestrationClient.createFunction(
             () => handleAsync(s3Client.uploadImageFromUrl(imageUrl!)),
         )
         if (uploadError) {
-            console.error(`📨❌ Error uploading cover image: ${uploadError}`)
+            console.error(
+                `📨❌ Error uploading cover image: ${uploadError.message}`,
+            )
             return {
                 status: 'failed',
                 error: uploadError,
@@ -67,7 +69,7 @@ export const createCover = orchestrationClient.createFunction(
         )
         if (updateStoryError) {
             console.error(
-                `📨❌ Error updating story with cover url: ${updateStoryError}`,
+                `📨❌ Error updating story with cover url: ${updateStoryError.message}`,
             )
             return {
                 status: 'failed',
@@ -89,7 +91,7 @@ export const createCover = orchestrationClient.createFunction(
         )
         if (postToConnectionError) {
             console.error(
-                `📨❌ Error posting to connection: ${postToConnectionError}`,
+                `📨❌ Error posting to connection: ${postToConnectionError.message}`,
             )
             return {
                 status: 'failed',

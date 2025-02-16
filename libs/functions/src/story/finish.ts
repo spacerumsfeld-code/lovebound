@@ -26,7 +26,7 @@ export const finishStory = orchestrationClient.createFunction(
         )
         if (updateStoryError) {
             console.error(
-                `📨❌ Error updating story as complete: ${updateStoryError}`,
+                `📨❌ Error updating story as complete: ${updateStoryError.message}`,
             )
             return {
                 status: 'failed',
@@ -51,19 +51,17 @@ export const finishStory = orchestrationClient.createFunction(
         )
         if (postToConnectionError) {
             console.error(
-                `📨❌ Error posting to connection: ${postToConnectionError}`,
+                `📨❌ Error posting to connection: ${postToConnectionError.message}`,
             )
-            return {
-                status: 'failed',
-                error: postToConnectionError,
-            }
         }
 
         const [userEmail, getUserEmailError] = await handleAsync(
             User.getUserEmail({ userId: data.ownerId }),
         )
         if (getUserEmailError) {
-            console.error(`📨❌ Error getting user email: ${getUserEmailError}`)
+            console.error(
+                `📨❌ Error getting user email: ${getUserEmailError.message}`,
+            )
             return {
                 status: 'failed',
                 message: getUserEmailError.message,
@@ -79,7 +77,7 @@ export const finishStory = orchestrationClient.createFunction(
             ),
         )
         if (sendEmailError) {
-            console.error(`📨❌ Error sending email: ${sendEmailError}`)
+            console.error(`📨❌ Error sending email: ${sendEmailError.message}`)
             return {
                 status: 'failed',
                 error: sendEmailError,
