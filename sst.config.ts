@@ -6,8 +6,11 @@ export default $config({
     app(input) {
         return {
             name: 'lovebound-io',
-            removal: input?.stage === 'production' ? 'retain' : 'remove',
             home: 'aws',
+            removal: input?.stage === 'production' ? 'retain' : 'remove',
+            aws: {
+                version: '6.67.0',
+            },
         }
     },
     async run() {
