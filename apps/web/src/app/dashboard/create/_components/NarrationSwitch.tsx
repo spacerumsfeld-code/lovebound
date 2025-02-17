@@ -32,7 +32,7 @@ export const NarrationSwitch = (props: {
                     <TooltipTrigger asChild>
                         <div className="flex items-center space-x-2">
                             <Switch
-                                id="narration"
+                                id="tour-narration"
                                 checked={props.includeNarration}
                                 onCheckedChange={(checked) =>
                                     props.handleInputChange(
@@ -53,7 +53,7 @@ export const NarrationSwitch = (props: {
             ) : (
                 <div className="flex items-center space-x-2">
                     <Switch
-                        id="narration"
+                        id="tour-narration"
                         checked={props.includeNarration}
                         onCheckedChange={(checked) =>
                             props.handleInputChange('includeNarration', checked)

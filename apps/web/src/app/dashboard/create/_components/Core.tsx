@@ -28,10 +28,12 @@ import { VisitShopCTA } from './VisitShopCTA'
 import { TStoryInitialState } from '@client-types/story/story.model'
 import { NarrationSwitch } from './NarrationSwitch'
 import { LengthRadioGroup } from './LengthRadioGroup'
+import { CreateStoryTour } from './CreateStoryTour'
 
 export const CreateStoryCore = (props: {
     storyData: TStoryInitialState
     userHasPremiumSubscription: boolean
+    userHasCompletedTour: boolean
     items: {
         genres: TItemInput[]
         themes: TItemInput[]
@@ -59,14 +61,19 @@ export const CreateStoryCore = (props: {
         <div className="flex-grow space-y-4">
             <Card>
                 <CardHeader>
-                    <CardTitle>Story Details</CardTitle>
+                    <div className="flex items-center gap-2 items-center">
+                        <CardTitle id="tour-start">Story Details</CardTitle>
+                        <CreateStoryTour
+                            userHasCompletedTour={props.userHasCompletedTour}
+                        />
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="storyTitle">Title</Label>
                             <Input
-                                id="storyTitle"
+                                id="tour-title"
                                 value={props.storyData.title}
                                 onChange={(e) =>
                                     props.handleInputChange(
@@ -84,7 +91,7 @@ export const CreateStoryCore = (props: {
                                     props.handleInputChange('genre', value)
                                 }
                             >
-                                <SelectTrigger id="genre">
+                                <SelectTrigger id="tour-genre">
                                     <SelectValue placeholder="Select Genre" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -120,16 +127,32 @@ export const CreateStoryCore = (props: {
 
             <Tabs defaultValue="theme">
                 <TabsList className="grid w-full grid-cols-4 h-9">
-                    <TabsTrigger value="theme" className="text-xs">
+                    <TabsTrigger
+                        id="tour-theme"
+                        value="theme"
+                        className="text-xs"
+                    >
                         Theme
                     </TabsTrigger>
-                    <TabsTrigger value="setting" className="text-xs">
+                    <TabsTrigger
+                        id="tour-setting"
+                        value="setting"
+                        className="text-xs"
+                    >
                         Setting
                     </TabsTrigger>
-                    <TabsTrigger value="tone" className="text-xs">
+                    <TabsTrigger
+                        id="tour-tone"
+                        value="tone"
+                        className="text-xs"
+                    >
                         Tone
                     </TabsTrigger>
-                    <TabsTrigger value="tension" className="text-xs">
+                    <TabsTrigger
+                        id="tour-tension"
+                        value="tension"
+                        className="text-xs"
+                    >
                         Tension
                     </TabsTrigger>
                 </TabsList>

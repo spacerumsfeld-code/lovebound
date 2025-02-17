@@ -19,3 +19,17 @@ export const getCreateStoryItems = async () => {
         )
     }
 }
+
+export const checkIfUserHasCompletedTour = async () => {
+    try {
+        const response = await api.user.userHasCompletedTour.$get()
+        const {
+            data: { userHasCompletedTour },
+        } = await response.json()
+        return { userHasCompletedTour }
+    } catch (error) {
+        throw new Error(
+            `client.checkIfUserHasCompletedTour failed with error: ${error.message}`,
+        )
+    }
+}

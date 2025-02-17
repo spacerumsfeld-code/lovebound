@@ -30,8 +30,8 @@ export const ItemCard = (props: {
                 </span>
             </div>
             {props.sceneNumber !== null && props.sceneNumber >= 0 && (
-                <div className="absolute top-2 right-2 bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                    {props.sceneNumber + 1}
+                <div className="p-2 absolute top-2 right-2 bg-purple-500 text-white rounded-full flex items-center justify-center">
+                    Scene {props.sceneNumber + 1}
                 </div>
             )}
         </div>

@@ -1,6 +1,6 @@
 {
-  "id": "881c352d-157b-4d93-80b5-fc282f514439",
-  "prevId": "65402a51-11dd-45bc-a842-f1de4a2af5ef",
+  "id": "1736cbde-06cb-4c62-b417-e993f37a9995",
+  "prevId": "881c352d-157b-4d93-80b5-fc282f514439",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -477,6 +477,13 @@
         },
         "getting_started_subscribed": {
           "name": "getting_started_subscribed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "getting_started_create_tour": {
+          "name": "getting_started_create_tour",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,

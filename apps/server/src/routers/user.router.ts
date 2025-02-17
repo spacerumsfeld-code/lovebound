@@ -154,6 +154,28 @@ export const userRouter = router({
             },
         })
     }),
+    userHasCompletedTour: protectedProcedure.query(async ({ c, ctx }) => {
+        console.info(
+            `💻 Invoked userRouter.getUserHasCompletedTour with ctx.userId: ${ctx.userId}`,
+        )
+
+        const [userHasCompletedTour, hasCompletedTourError] = await handleAsync(
+            User.checkIfUserHasFinishedTour({
+                userId: ctx.userId!,
+            }),
+        )
+        if (hasCompletedTourError) {
+            console.error(
+                `❌ hasCompletedTourError error: ${hasCompletedTourError.message}`,
+            )
+        }
+
+        return c.superjson({
+            data: {
+                userHasCompletedTour: userHasCompletedTour!,
+            },
+        })
+    }),
     updateUserExploreShop: protectedProcedure.mutation(async ({ c, ctx }) => {
         console.info(
             `💻 Invoked userRouter.updateUserExploreShop with ctx.userId:${ctx.userId}`,

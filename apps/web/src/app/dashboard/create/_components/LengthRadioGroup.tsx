@@ -35,6 +35,7 @@ export const LengthRadioGroup = (props: {
         <div>
             <Label>Length</Label>
             <RadioGroup
+                id="tour-length"
                 value={props.storyLength}
                 onValueChange={(value) =>
                     props.handleInputChange('length', value)
