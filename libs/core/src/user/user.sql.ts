@@ -43,9 +43,6 @@ export const users = pgTable(
         gettingStartedSubscribed: boolean('getting_started_subscribed').default(
             false,
         ),
-        gettingStartedCreateTour: boolean(
-            'getting_started_create_tour',
-        ).default(false),
         referralCode: text('referral_code'),
     },
     (table) => {

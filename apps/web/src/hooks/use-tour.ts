@@ -7,7 +7,6 @@ import 'driver.js/dist/driver.css'
 const configs = {
     [SITE_MAP.CREATE]: {
         showProgress: true,
-        allowClose: false,
         popoverClass:
             'rounded-lg border border-slate-200 bg-white p-6 text-slate-950 shadow-md',
         steps: [
@@ -46,7 +45,7 @@ const configs = {
                 popover: {
                     title: 'Audio Narration',
                     description:
-                        'If you are a premium subscriber, you can add audio narration from one of the sample voices to your story.',
+                        'If you are a premium subscriber, you can add audio narration from one of the voice selections.',
                 },
             },
             {
@@ -62,7 +61,7 @@ const configs = {
                 popover: {
                     title: 'Setting(s)',
                     description:
-                        'The settings for your scenes. Each scene has a unique setting, so be sure to specify a setting for each based on story length.',
+                        'The settings for your scenes. Each scene has a unique setting, so be sure to specify a setting for each scene!',
                 },
             },
             {
@@ -70,7 +69,7 @@ const configs = {
                 popover: {
                     title: 'Tone(s)',
                     description:
-                        'The tones for your scenes. Each scene has a unique tone, so be sure to specify one for each based on story length!',
+                        'The tones for your scenes. Each scene has a unique tone, so be sure to specify one for each scene!',
                 },
             },
             {
@@ -78,7 +77,7 @@ const configs = {
                 popover: {
                     title: 'Tension Level(s)',
                     description:
-                        'How spicy each of your scenes will be. From explicit to very tame, the choice is yours. Each scene has a unique tension level, so be sure to specify one for each based on story length!',
+                        'How spicy each of your scenes will be -- from tame to totally explicit. Each scene has a unique tension level, so be sure to specify one for each scene!',
                 },
             },
             {
@@ -93,7 +92,7 @@ const configs = {
     },
 }
 
-export function useTour(page: SITE_MAP, userHasCompletedTour: boolean) {
+export function useTour(page: SITE_MAP) {
     const [tourDriver, setTourDriver] = useState<Driver | null>(null)
 
     useEffect(() => {
@@ -102,12 +101,6 @@ export function useTour(page: SITE_MAP, userHasCompletedTour: boolean) {
             setTourDriver(result)
         }
     }, [page])
-
-    useEffect(() => {
-        if (tourDriver && !userHasCompletedTour) {
-            tourDriver.drive()
-        }
-    }, [tourDriver])
 
     return { startTour: () => tourDriver?.drive() }
 }

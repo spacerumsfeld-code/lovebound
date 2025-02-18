@@ -33,7 +33,6 @@ import { CreateStoryTour } from './CreateStoryTour'
 export const CreateStoryCore = (props: {
     storyData: TStoryInitialState
     userHasPremiumSubscription: boolean
-    userHasCompletedTour: boolean
     items: {
         genres: TItemInput[]
         themes: TItemInput[]
@@ -61,11 +60,9 @@ export const CreateStoryCore = (props: {
         <div className="flex-grow space-y-4">
             <Card>
                 <CardHeader>
-                    <div className="flex items-center gap-2 items-center">
+                    <div className="flex gap-2 items-center justify-between">
                         <CardTitle id="tour-start">Story Details</CardTitle>
-                        <CreateStoryTour
-                            userHasCompletedTour={props.userHasCompletedTour}
-                        />
+                        <CreateStoryTour />
                     </div>
                 </CardHeader>
                 <CardContent>

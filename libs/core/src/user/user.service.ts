@@ -68,17 +68,6 @@ class UserService {
         return user?.[0]
     }
 
-    public async checkIfUserHasFinishedTour({ userId }: { userId: string }) {
-        const user = await this.store
-            .select({
-                gettingStartedCreateTour: users.gettingStartedCreateTour,
-            })
-            .from(users)
-            .where(eq(users.clerkId, userId))
-
-        return user?.[0]?.gettingStartedCreateTour
-    }
-
     public async checkIfUserHasHadSubscription({ userId }: { userId: string }) {
         const user = await this.store
             .select({

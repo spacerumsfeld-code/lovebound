@@ -21,7 +21,6 @@ export const CreateStoryView = (props: {
     }
     currentSubscriptionType: ProductTypeEnum
     creditCount: number
-    userHasCompletedTour: boolean
 }) => {
     // *State
     const defaultLength = props.items.lengths.find(
@@ -159,7 +158,6 @@ export const CreateStoryView = (props: {
                 handleItemCardClick={handleItemCardClick}
                 handleSceneChange={handleSceneChange}
                 userHasPremiumSubscription={userHasPremiumSubscription}
-                userHasCompletedTour={props.userHasCompletedTour}
                 getSceneNumberForSelection={getSceneNumberForSelection}
             />
             <NarrationOptions
