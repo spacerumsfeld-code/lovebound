@@ -27,7 +27,12 @@ export const EReaderModal = (props: {
     // @State
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0)
     const [fontSize, setFontSize] = useState(16)
-    const totalScenes = props.story.scenes.length
+    const sortedScenes = React.useMemo(
+        () =>
+            [...props.story.scenes].sort((a, b) => a.orderIndex - b.orderIndex),
+        [props.story.scenes],
+    )
+    const totalScenes = sortedScenes.length
     const [isPlaying, setIsPlaying] = useState(false)
     const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -64,7 +69,7 @@ export const EReaderModal = (props: {
         }
     }
 
-    const currentScene = props.story.scenes?.[currentSceneIndex]
+    const currentScene = sortedScenes[currentSceneIndex]
 
     // @Render
     if (!currentScene) return null

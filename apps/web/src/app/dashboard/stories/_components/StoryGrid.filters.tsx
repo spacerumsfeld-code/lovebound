@@ -85,7 +85,12 @@ export const StoryGridFilters = (props: {
                     </SelectContent>
                 </Select>
             </div>
-            <Button onClick={handleClearFilters}>Clear Filters</Button>
+            <Button
+                className="flex items-center justify-center"
+                onClick={handleClearFilters}
+            >
+                Clear Filters
+            </Button>
         </div>
     )
 }

@@ -130,6 +130,14 @@ declare module "sst" {
       "type": "sst.aws.ApiGatewayWebSocket"
       "url": string
     }
+    "XAIApiKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "XAIUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
   }
 }
 /// <reference path="sst-env.d.ts" />

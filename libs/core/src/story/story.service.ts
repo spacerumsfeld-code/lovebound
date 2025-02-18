@@ -1,19 +1,29 @@
 import { db } from '@clients/db.client'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import { stories } from './story.sql'
+
+import { xAiClient } from '@clients/xAi.client'
 import { aiClient } from '@clients/openai.client'
-import { eq, and } from 'drizzle-orm/expressions'
-import { NarrationVoiceEnum, scenes } from '@core'
+
 import { sql, desc } from 'drizzle-orm'
+import { stories } from './story.sql'
+import { eq, and } from 'drizzle-orm/expressions'
+
+import { NarrationVoiceEnum, scenes } from '@core'
 import { TItemInput } from '@client-types/item/item.model'
 
 class StoryService {
     private store
-    private aiClient
+    private openAiClient
+    private basedClient
 
-    constructor(store: NeonHttpDatabase, client: typeof aiClient) {
+    constructor(
+        store: NeonHttpDatabase,
+        openAiClient: typeof aiClient,
+        basedClient: typeof xAiClient,
+    ) {
         this.store = store
-        this.aiClient = client
+        this.openAiClient = openAiClient
+        this.basedClient = basedClient
     }
 
     public async getRecentStories({ userId }: { userId: string }) {
@@ -98,7 +108,7 @@ class StoryService {
 
     public async generateSceneContent({ prompt }: { prompt: string }) {
         const generatedSceneContent =
-            await this.aiClient.generateContent(prompt)
+            await this.basedClient.generateContent(prompt)
 
         return {
             content: generatedSceneContent!,
@@ -112,10 +122,8 @@ class StoryService {
         content: string
         voice: NarrationVoiceEnum
     }) {
-        const narrationAudioBuffer = await this.aiClient.generateStoryNarration(
-            content,
-            voice,
-        )
+        const narrationAudioBuffer =
+            await this.openAiClient.generateStoryNarration(content, voice)
 
         return {
             buffer: narrationAudioBuffer!,
@@ -231,7 +239,7 @@ class StoryService {
         theme: string
         setting: string
     }) {
-        const coverUrl = await this.aiClient.generateStoryCover({
+        const coverUrl = await this.openAiClient.generateStoryCover({
             genre,
             theme,
             setting,
@@ -241,4 +249,4 @@ class StoryService {
     }
 }
 
-export const storyService = new StoryService(db, aiClient)
+export const storyService = new StoryService(db, aiClient, xAiClient)

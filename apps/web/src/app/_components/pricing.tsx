@@ -31,13 +31,13 @@ const plans: Array<Plan> = [
     {
         id: 'Plan.Casual',
         name: 'Casual',
-        price: 8.95,
+        price: 6.95,
         subText: '/month',
         currency: '$',
         features: [
-            '10 credits/month @10% off',
-            'Basic email and chat support',
             'Fullfill your fantasies for the price of a Starbucks mocha/month',
+            '10 credits/month',
+            'Basic email and chat support',
         ],
         buttonText: 'Get Casual',
         href: '/dashboard/create',

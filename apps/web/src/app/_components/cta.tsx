@@ -4,7 +4,6 @@ import { cn } from '../../lib/utils'
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Button } from 'src/components/ui/button'
-import { SITE_MAP } from 'src/constants'
 
 export const CTA = () => {
     return (
@@ -18,7 +17,7 @@ export const CTA = () => {
             <GridLineVertical className="left-auto right-0" offset="0px" />
             <div className="md:col-span-2 p-8 md:p-14">
                 <h2 className="text-left text-neutral-500 dark:text-neutral-200 text-xl md:text-3xl tracking-tight font-medium">
-                    Sign up to claim your{' '}
+                    Sign up to claim a month&apos;s worth of{' '}
                     <span className="text-indigo-500">free stories</span>
                 </h2>
                 <p className="text-left text-neutral-500 mt-4 max-w-lg dark:text-neutral-200 text-xl md:text-3xl tracking-tight font-medium">
@@ -39,8 +38,7 @@ export const CTA = () => {
             <div className="border-t md:border-t-0 md:border-l border-dashed p-8 md:p-14">
                 <p className="text-base text-neutral-700 dark:text-neutral-200">
                     Join thousands of satisfied readers who&apos;ve discovered
-                    their next favorite stories. Generate several free stories
-                    today - no credit card required, no strings attached.
+                    their favorite tool for romance, no strings attached.
                 </p>
             </div>
         </section>

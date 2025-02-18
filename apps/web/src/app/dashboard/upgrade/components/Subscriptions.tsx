@@ -26,10 +26,17 @@ export const Subscriptions = async () => {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-bold">$8.95</span>
+                        <span className="text-3xl font-bold">$6.95</span>
                         <span className="text-muted-foreground">/month</span>
                     </div>
                     <ul className="mt-4 space-y-2">
+                        <li className="flex items-center gap-2">
+                            <Check className="h-4 w-4 text-green-500" />
+                            <span>
+                                Fulfill your fantasies for the price of a
+                                Starbucks mocha/month
+                            </span>
+                        </li>
                         <li className="flex items-center gap-2">
                             <Check className="h-4 w-4 text-green-500" />
                             <span>10 credits/month</span>
