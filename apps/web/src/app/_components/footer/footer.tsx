@@ -21,8 +21,8 @@ export function Footer() {
 
     const socials = [
         {
-            title: 'Instagram',
-            href: '#',
+            title: 'X (Twitter)',
+            href: 'https://x.com/LoveboundIO',
         },
     ]
     const legals = [
