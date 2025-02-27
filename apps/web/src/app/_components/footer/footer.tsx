@@ -18,8 +18,11 @@ export function Footer() {
             href: '/#pricing',
         },
     ]
-
     const socials = [
+        {
+            title: 'Instagram',
+            href: 'https://www.instagram.com/loveboundio/',
+        },
         {
             title: 'X (Twitter)',
             href: 'https://x.com/LoveboundIO',
