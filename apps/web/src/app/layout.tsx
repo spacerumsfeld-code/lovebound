@@ -29,6 +29,21 @@ export const metadata: Metadata = {
     alternates: {
         canonical: `${process.env.WEB_URL}`,
     },
+    openGraph: {
+        title: 'Lovebound',
+        description: 'AI generated romance stories at your fingertips',
+        url: process.env.WEB_URL,
+        siteName: 'Lovebound',
+        images: [
+            {
+                url: 'https://cdn.sanity.io/images/vjg0x5qe/production/e4f2c267d56e042817bba93434a32df05aaeb77e-3024x1964.png?h=800&h=600',
+                width: 800,
+                height: 600,
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
 }
 
 export default function RootLayout({
