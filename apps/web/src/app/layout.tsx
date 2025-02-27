@@ -17,8 +17,18 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-    title: 'Lovebound',
-    description: 'Make your own romance stories.',
+    title: {
+        template:
+            '%s | Lovebound - AI generated romance stories at your fingertips',
+        default:
+            'Home | Lovebound - AI generated romance stories at your fingertips',
+    },
+    description: 'Make your own romance stories with hundreds of inputs.',
+    applicationName: 'Lovebound',
+    keywords: ['Romance', 'Writing', 'AI'],
+    alternates: {
+        canonical: `${process.env.WEB_URL}`,
+    },
 }
 
 export default function RootLayout({
