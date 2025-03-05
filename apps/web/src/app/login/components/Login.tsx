@@ -11,6 +11,7 @@ export const Login = () => {
                 <SignIn
                     routing="hash"
                     transferable
+                    withSignUp
                     signUpForceRedirectUrl={SITE_MAP.DASHBOARD}
                     forceRedirectUrl={SITE_MAP.DASHBOARD}
                     appearance={{
