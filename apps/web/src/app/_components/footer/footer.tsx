@@ -23,10 +23,10 @@ export function Footer() {
             title: 'Instagram',
             href: 'https://www.instagram.com/loveboundio/',
         },
-        {
-            title: 'X (Twitter)',
-            href: 'https://x.com/LoveboundIO',
-        },
+        // {
+        //     title: 'Facebook',
+        //     href: 'https://x.com/LoveboundIO',
+        // },
     ]
     const legals = [
         {
