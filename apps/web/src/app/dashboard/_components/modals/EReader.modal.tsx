@@ -124,11 +124,9 @@ export const EReaderModal = (props: {
                                             >
                                                 {currentScene.content
                                                     .split('#')
-                                                    .map((paragraph) => (
+                                                    .map((paragraph, index) => (
                                                         <p
-                                                            key={
-                                                                paragraph.length
-                                                            }
+                                                            key={`paragraph-${index}`}
                                                         >
                                                             {paragraph}
                                                             <br />

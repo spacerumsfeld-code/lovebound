@@ -22,10 +22,10 @@ export const LengthRadioGroup = (props: {
     // *Render
     const getTooltipContent = (name: StoryLengthEnum) => {
         switch (name) {
-            case StoryLengthEnum.Short:
-                return '3 scenes / ~6000 words'
             case StoryLengthEnum.Mini:
                 return '1 scene / ~1000 words'
+            case StoryLengthEnum.Short:
+                return '3 scenes / ~4500 words'
             default:
                 return 'Coming soon!'
         }
