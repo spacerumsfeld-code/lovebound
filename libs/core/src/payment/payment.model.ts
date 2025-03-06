@@ -1,3 +1,4 @@
+import { StoryLengthEnum } from '@client-types/item/item.model'
 import { z } from 'zod'
 
 export enum ProductTypeEnum {
@@ -40,7 +41,10 @@ export const ZStripeSubscriptionMetadata = ZStripeMetadata.omit({
     productType: true,
 })
 
-export const StoryIdToCostMap = {
-    23: 1,
-    24: 2,
-} as { [key: number]: number }
+export const StoryLengthCostMap = {
+    [StoryLengthEnum.Mini]: 1,
+    [StoryLengthEnum.Short]: 2,
+    [StoryLengthEnum.Novelette]: 3,
+    [StoryLengthEnum.Novella]: 4,
+    [StoryLengthEnum.Novel]: 5,
+}

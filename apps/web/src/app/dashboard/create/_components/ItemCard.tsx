@@ -5,8 +5,9 @@ export const ItemCard = (props: {
     label: string
     imageUrl: string
     isSelected: boolean
-    sceneNumber: number | null
+    sceneNumber: number[]
     onClick: () => void
+    onRemoveFromScene?: (sceneIndex: number) => void
 }) => {
     // *Render
     return (
@@ -29,9 +30,29 @@ export const ItemCard = (props: {
                     {props.label}
                 </span>
             </div>
-            {props.sceneNumber !== null && props.sceneNumber >= 0 && (
-                <div className="p-2 absolute top-2 right-2 bg-purple-500 text-white rounded-full flex items-center justify-center">
-                    Scene {props.sceneNumber + 1}
+            {props.sceneNumber.length > 0 && (
+                <div className="absolute top-2 right-2 grid grid-cols-2 gap-1">
+                    {props.sceneNumber.map((num) => (
+                        <div key={num} className="flex items-center">
+                            <div className="px-2 py-1 hidden sm:block bg-purple-500 text-white text-md rounded-l-full">
+                                Scene {num + 1}
+                            </div>
+                            <div className="px-2 py-1 bg-purple-500 text-white rounded-l-full text-md sm:hidden">
+                                S{num + 1}
+                            </div>
+                            {props.onRemoveFromScene && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        props.onRemoveFromScene?.(num)
+                                    }}
+                                    className="px-2 py-1 bg-red-500 text-white rounded-r-full text-md hover:bg-red-600"
+                                >
+                                    ×
+                                </button>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

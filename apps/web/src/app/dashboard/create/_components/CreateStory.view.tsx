@@ -59,6 +59,19 @@ export const CreateStoryView = (props: {
                     },
                 ],
             }))
+        } else if (
+            JSON.parse(storyData?.length)?.name === StoryLengthEnum.Novelette
+        ) {
+            setStoryData((prev) => ({
+                ...prev,
+                scenes: Array(5)
+                    .fill({})
+                    .map(() => ({
+                        tone: null,
+                        setting: null,
+                        tensionLevel: null,
+                    })),
+            }))
         }
     }, [storyData.length])
 
@@ -114,38 +127,60 @@ export const CreateStoryView = (props: {
     ) => {
         const parsedValue = JSON.parse(value as string) as TItemInput
 
-        if (JSON.parse(storyData.length).name === StoryLengthEnum.Short) {
-            const sceneIndex = getNextAvailableSceneIndex(category, parsedValue)
-            setStoryData((prev) => ({
-                ...prev,
-                scenes: prev.scenes.map((scene, index) =>
-                    index === sceneIndex
-                        ? {
-                              ...scene,
-                              [category]:
-                                  scene[category] === value ? null : value,
-                          }
-                        : scene,
-                ),
-            }))
+        if (
+            JSON.parse(storyData.length).name === StoryLengthEnum.Short ||
+            JSON.parse(storyData.length).name === StoryLengthEnum.Novelette
+        ) {
+            const nextEmptySceneIndex = storyData.scenes.findIndex(
+                (scene) => !scene[category],
+            )
+
+            if (nextEmptySceneIndex !== -1) {
+                setStoryData((prev) => ({
+                    ...prev,
+                    scenes: prev.scenes.map((scene, index) =>
+                        index === nextEmptySceneIndex
+                            ? { ...scene, [category]: value }
+                            : scene,
+                    ),
+                }))
+            }
         } else {
             handleSceneChange(0, category, parsedValue)
         }
     }
 
+    const removeSelectionFromScene = (
+        category: 'tone' | 'setting' | 'tensionLevel',
+        sceneIndex: number,
+    ) => {
+        setStoryData((prev) => ({
+            ...prev,
+            scenes: prev.scenes.map((scene, index) =>
+                index === sceneIndex ? { ...scene, [category]: null } : scene,
+            ),
+        }))
+    }
+
     const getSceneNumberForSelection = (
         category: 'tone' | 'setting' | 'tensionLevel',
         value: number,
-    ): number | null => {
-        if (JSON.parse(storyData.length).name !== StoryLengthEnum.Short)
-            return null
-        const index = storyData.scenes.findIndex((scene) => {
+    ): number[] => {
+        if (
+            JSON.parse(storyData.length).name !== StoryLengthEnum.Short &&
+            JSON.parse(storyData.length).name !== StoryLengthEnum.Novelette
+        )
+            return []
+
+        return storyData.scenes.reduce((indices: number[], scene, index) => {
             const parsedScene = scene[category]
                 ? JSON.parse(scene[category] as string)
                 : {}
-            return parsedScene.id === value
-        })
-        return index !== -1 ? index : null
+            if (parsedScene.id === value) {
+                indices.push(index)
+            }
+            return indices
+        }, [])
     }
 
     // *Render
@@ -159,6 +194,7 @@ export const CreateStoryView = (props: {
                 handleSceneChange={handleSceneChange}
                 userHasPremiumSubscription={userHasPremiumSubscription}
                 getSceneNumberForSelection={getSceneNumberForSelection}
+                removeSelectionFromScene={removeSelectionFromScene}
             />
             <NarrationOptions
                 selectedVoice={storyData.narrationVoice}

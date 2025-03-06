@@ -37,7 +37,7 @@ const configs = {
                 popover: {
                     title: 'Length',
                     description:
-                        'Mini stories are bite-sized bits of love, while a short story is three scenes, each of about 2000 words.',
+                        'Set the lengtg of your story. Hover over a length option to see the scene and word count for that length.',
                 },
             },
             {

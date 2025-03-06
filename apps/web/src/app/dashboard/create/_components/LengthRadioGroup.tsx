@@ -26,6 +26,8 @@ export const LengthRadioGroup = (props: {
                 return '1 scene / ~1000 words'
             case StoryLengthEnum.Short:
                 return '3 scenes / ~4500 words'
+            case StoryLengthEnum.Novelette:
+                return '5 scenes / ~10K words'
             default:
                 return 'Coming soon!'
         }

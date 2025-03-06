@@ -7,6 +7,7 @@ import { orchestrationClient } from '@clients/orchestration.client'
 import { HTTPException } from 'hono/http-exception'
 import { StoryLengthEnum } from '@client-types/item/item.model'
 import { EmailType } from '@transactional'
+import { StoryLengthCostMap } from '@client-types/payment/payment.model'
 
 export const storyRouter = router({
     getStories: protectedProcedure
@@ -101,16 +102,10 @@ export const storyRouter = router({
             const [, deductCreditsError] = await handleAsync(
                 Payment.deductCredits({
                     userId: ctx.userId!,
-                    creditCost: (() => {
-                        switch (input.length.name) {
-                            case StoryLengthEnum.Mini:
-                                return 1
-                            case StoryLengthEnum.Short:
-                                return 2
-                            default:
-                                return 1
-                        }
-                    })(),
+                    creditCost:
+                        StoryLengthCostMap[
+                            input.length.name as unknown as StoryLengthEnum
+                        ],
                 }),
             )
             if (deductCreditsError) {

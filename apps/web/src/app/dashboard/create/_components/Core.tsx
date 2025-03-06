@@ -54,7 +54,11 @@ export const CreateStoryCore = (props: {
     getSceneNumberForSelection: (
         category: 'tone' | 'setting' | 'tensionLevel',
         value: number,
-    ) => number | null
+    ) => number[] | null
+    removeSelectionFromScene: (
+        category: 'tone' | 'setting' | 'tensionLevel',
+        sceneIndex: number,
+    ) => void
 }) => {
     return (
         <div className="flex-grow space-y-4">
@@ -104,7 +108,7 @@ export const CreateStoryCore = (props: {
                             </Select>
                         </div>
                         <LengthRadioGroup
-                            storyLength={String(props.storyData.length)}
+                            storyLength={props.storyData.length}
                             handleInputChange={props.handleInputChange}
                             items={props.items.lengths}
                         />
@@ -168,7 +172,7 @@ export const CreateStoryCore = (props: {
                                                         '{}',
                                                 ).id === theme.id
                                             }
-                                            sceneNumber={null}
+                                            sceneNumber={[]}
                                             onClick={() => {
                                                 props.handleInputChange(
                                                     'theme',
@@ -200,14 +204,22 @@ export const CreateStoryCore = (props: {
                                                             : '{}',
                                                     ).id === setting.id,
                                             )}
-                                            sceneNumber={props.getSceneNumberForSelection(
-                                                'setting',
-                                                setting.id,
-                                            )}
+                                            sceneNumber={
+                                                props.getSceneNumberForSelection(
+                                                    'setting',
+                                                    setting.id,
+                                                ) || []
+                                            }
                                             onClick={() =>
                                                 props.handleItemCardClick(
                                                     'setting',
                                                     JSON.stringify(setting),
+                                                )
+                                            }
+                                            onRemoveFromScene={(sceneIndex) =>
+                                                props.removeSelectionFromScene(
+                                                    'setting',
+                                                    sceneIndex,
                                                 )
                                             }
                                         />
@@ -234,14 +246,22 @@ export const CreateStoryCore = (props: {
                                                             : '{}',
                                                     ).id === tone.id,
                                             )}
-                                            sceneNumber={props.getSceneNumberForSelection(
-                                                'tone',
-                                                tone.id,
-                                            )}
+                                            sceneNumber={
+                                                props.getSceneNumberForSelection(
+                                                    'tone',
+                                                    tone.id,
+                                                ) || []
+                                            }
                                             onClick={() =>
                                                 props.handleItemCardClick(
                                                     'tone',
                                                     JSON.stringify(tone),
+                                                )
+                                            }
+                                            onRemoveFromScene={(sceneIndex) =>
+                                                props.removeSelectionFromScene(
+                                                    'tone',
+                                                    sceneIndex,
                                                 )
                                             }
                                         />
@@ -271,14 +291,24 @@ export const CreateStoryCore = (props: {
                                                                 : '{}',
                                                         ).id === tension.id,
                                                 )}
-                                                sceneNumber={props.getSceneNumberForSelection(
-                                                    'tensionLevel',
-                                                    tension.id,
-                                                )}
+                                                sceneNumber={
+                                                    props.getSceneNumberForSelection(
+                                                        'tensionLevel',
+                                                        tension.id,
+                                                    ) || []
+                                                }
                                                 onClick={() =>
                                                     props.handleItemCardClick(
                                                         'tensionLevel',
                                                         JSON.stringify(tension),
+                                                    )
+                                                }
+                                                onRemoveFromScene={(
+                                                    sceneIndex,
+                                                ) =>
+                                                    props.removeSelectionFromScene(
+                                                        'tensionLevel',
+                                                        sceneIndex,
                                                     )
                                                 }
                                             />

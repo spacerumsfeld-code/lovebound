@@ -1,3 +1,4 @@
+import { StoryLengthEnum } from '@client-types/item/item.model'
 import { cacheClient } from '@clients/cache.client'
 import { orchestrationClient } from '@clients/orchestration.client'
 import { Notification, Story } from '@core'
@@ -8,29 +9,29 @@ export const createScene = orchestrationClient.createFunction(
     { event: 'create.scene' },
     async ({ event, step }) => {
         console.info(
-            `📨 Invoked orchestration.createScene with data: ${JSON.stringify(
-                event.data,
-            )}`,
+            `📨 Invoked orchestration.createScene with data: ${JSON.stringify(event.data)}`,
         )
         const { data } = event
 
-        let prompt: string
+        let promptKey: string
         switch (data.length.name) {
-            case 'Mini':
-                prompt = (await cacheClient.get<string>(`prompt:mini`))!
+            case StoryLengthEnum.Mini:
+                promptKey = `prompt:mini`
                 break
-            case 'Short':
-                prompt = (await cacheClient.get<string>(
-                    `prompt:short:scene:${data.sceneNumber}`,
-                ))!
+            case StoryLengthEnum.Short:
+                promptKey = `prompt:short:scene:${data.sceneNumber}`
+                break
+            case StoryLengthEnum.Novelette:
+                promptKey = `prompt:novelette:scene:${data.sceneNumber}`
                 break
             default:
-                prompt = ''
-                break
+                throw new Error(`Unsupported story length: ${data.length.name}`)
         }
 
+        const prompt = (await cacheClient.get<string>(promptKey))!
+
         const [, sceneKeys] = await cacheClient.scan(0, {
-            match: `short:scene:${data.storyId}:*`,
+            match: `${data.length.name.toLowerCase()}:scene:${data.storyId}:*`,
         })
         const [priorSceneSummaries, getSummariesError] = await handleAsync(
             Promise.all(sceneKeys.map((key) => cacheClient.get(key))),
@@ -39,9 +40,23 @@ export const createScene = orchestrationClient.createFunction(
             console.error(
                 `📨❌ Error getting prior scene summaries: ${getSummariesError.message}`,
             )
-            return {
-                status: 'failed',
-                message: getSummariesError.message,
+            return { status: 'failed', message: getSummariesError.message }
+        }
+
+        let characterNames: { name1: string; name2: string } | null = null
+        if (data.sceneNumber > 1) {
+            characterNames = await cacheClient.get<{
+                name1: string
+                name2: string
+            }>(`story:${data.storyId}:names`)
+            if (!characterNames) {
+                console.error(
+                    `📨❌ No character names found for story ${data.storyId}`,
+                )
+                return {
+                    status: 'failed',
+                    message: 'Character names not found',
+                }
             }
         }
 
@@ -51,15 +66,9 @@ export const createScene = orchestrationClient.createFunction(
         const {
             results: [genrePrompt, themePrompt, tonePrompt, tensionPrompt],
         } = await resolvePromises([
-            {
-                promise: cacheClient.get<string>(`prompt:rich:${genre.name}`),
-            },
-            {
-                promise: cacheClient.get<string>(`prompt:rich:${theme.name}`),
-            },
-            {
-                promise: cacheClient.get<string>(`prompt:rich:${tone.name}`),
-            },
+            { promise: cacheClient.get<string>(`prompt:rich:${genre.name}`) },
+            { promise: cacheClient.get<string>(`prompt:rich:${theme.name}`) },
+            { promise: cacheClient.get<string>(`prompt:rich:${tone.name}`) },
             {
                 promise: cacheClient.get<string>(
                     `prompt:rich:${tensionLevel.name}`,
@@ -67,55 +76,58 @@ export const createScene = orchestrationClient.createFunction(
             },
         ])
 
-        const finalPrompt = prompt
-            .replace('[genre_instructions]', genrePrompt!)
-            .replace('[theme_instructions]', themePrompt!)
-            .replace('[tone_instructions]', tonePrompt!)
-            .replace('[tension_level_instructions]', tensionPrompt!)
-            .replace('[setting]', setting!.name)
+        let finalPrompt = prompt
+            .replace('[genre_instructions]', genrePrompt || '')
+            .replace('[theme_instructions]', themePrompt || '')
+            .replace('[tone_instructions]', tonePrompt || '')
+            .replace('[tension_level_instructions]', tensionPrompt || '')
+            .replace('[setting]', setting?.name || '')
             .replace(
                 '[priorSceneSummaries]',
-                JSON.stringify(priorSceneSummaries),
+                JSON.stringify(priorSceneSummaries || []),
             )
+
+        if (characterNames && data.sceneNumber > 1) {
+            finalPrompt = finalPrompt
+                .replace('[character1_name]', characterNames.name1)
+                .replace('[character2_name]', characterNames.name2)
+        }
 
         const allPromptsExist = Boolean(
             genrePrompt && themePrompt && tonePrompt && tensionPrompt,
         )
         if (!allPromptsExist) {
             console.error(
-                `📨❌ Not all prompts retrieved from cacheClient: ${JSON.stringify(
-                    {
-                        genrePrompt,
-                        themePrompt,
-                        tonePrompt,
-                        tensionPrompt,
-                    },
-                )}`,
+                `📨❌ Not all prompts retrieved: ${JSON.stringify({ genrePrompt, themePrompt, tonePrompt, tensionPrompt })}`,
             )
         }
 
-        const [sceneContentAndSummary, generateSceneContentError] =
-            await step.run('Generate Scene Content', () =>
+        const [sceneResponse, generateSceneContentError] = await step.run(
+            'Generate Scene Content',
+            () =>
                 handleAsync(
                     Story.generateSceneContent({
                         prompt: finalPrompt,
                     }),
                 ),
-            )
+        )
         if (generateSceneContentError) {
             console.error(
-                `📨❌ Error generating scene content: ${generateSceneContentError.message}`,
+                `📨❌ Error generating scene: ${generateSceneContentError.message}`,
             )
-            return {
-                status: 'failed',
-                error: generateSceneContentError,
-            }
+            return { status: 'failed', error: generateSceneContentError }
         }
 
-        const { content } = sceneContentAndSummary!
-        const parsedContent = content.split('###Summary###')
-        const summary = parsedContent.pop()!
-        const finalContent = parsedContent.pop()!
+        const { character1, character2, content, summary } =
+            sceneResponse!.content
+
+        if (data.sceneNumber === 1) {
+            const names = { name1: character1, name2: character2 }
+            await cacheClient.set(
+                `story:${data.storyId}:names`,
+                JSON.stringify(names),
+            )
+        }
 
         const [createdScene, createSceneError] = await step.run(
             'Create Scene in DB',
@@ -123,7 +135,7 @@ export const createScene = orchestrationClient.createFunction(
                 handleAsync(
                     Story.createScene({
                         storyId: data.storyId,
-                        content: finalContent,
+                        content,
                         narrationUrl: null,
                         orderIndex: data.sceneNumber,
                         tone: scene.tone.id,
@@ -134,12 +146,9 @@ export const createScene = orchestrationClient.createFunction(
         )
         if (createSceneError) {
             console.error(
-                `📨❌ Error creating scene in DB: ${JSON.stringify(createSceneError)}`,
+                `📨❌ Error creating scene in DB: ${createSceneError}`,
             )
-            return {
-                status: 'failed',
-                error: createSceneError,
-            }
+            return { status: 'failed', error: createSceneError }
         }
 
         const [, postToConnectionError] = await step.run(
@@ -164,45 +173,57 @@ export const createScene = orchestrationClient.createFunction(
             )
         }
 
-        switch (data.length.name) {
-            case 'Mini':
-                if (data.includeNarration) {
-                    await orchestrationClient.send({
-                        name: 'create.narration',
-                        data: {
-                            ownerId: data.ownerId,
-                            storyId: data.storyId,
-                            sceneId: createdScene!.id,
-                            content: finalContent,
-                            voice: data.narrationVoice!,
-                        },
-                    })
-                } else {
-                    await orchestrationClient.send({
-                        name: 'finish.story',
-                        data: { storyId: data.storyId, ownerId: data.ownerId },
-                    })
-                }
-                break
-            case 'Short':
-                if (data.sceneNumber === 3) {
-                    await orchestrationClient.send({
-                        name: 'finish.story',
-                        data: { storyId: data.storyId, ownerId: data.ownerId },
-                    })
-                } else {
-                    await cacheClient.set(
-                        `short:scene:${data.storyId}:${data.sceneNumber}:summary`,
-                        summary,
-                    )
-                    await orchestrationClient.send({
-                        name: 'create.scene',
-                        data: { ...data, sceneNumber: data.sceneNumber + 1 },
-                    })
-                }
-                break
-            default:
-                break
+        if (data.length.name === StoryLengthEnum.Novelette) {
+            if (data.sceneNumber === 5) {
+                await orchestrationClient.send({
+                    name: 'finish.story',
+                    data: { storyId: data.storyId, ownerId: data.ownerId },
+                })
+            } else {
+                await cacheClient.set(
+                    `novelette:scene:${data.storyId}:${data.sceneNumber}:summary`,
+                    summary,
+                )
+                await orchestrationClient.send({
+                    name: 'create.scene',
+                    data: { ...data, sceneNumber: data.sceneNumber + 1 },
+                })
+            }
+        } else if (
+            data.length.name === StoryLengthEnum.Short &&
+            data.sceneNumber === 3
+        ) {
+            await orchestrationClient.send({
+                name: 'finish.story',
+                data: { storyId: data.storyId, ownerId: data.ownerId },
+            })
+        } else if (data.length.name === StoryLengthEnum.Mini) {
+            if (data.includeNarration) {
+                await orchestrationClient.send({
+                    name: 'create.narration',
+                    data: {
+                        ownerId: data.ownerId,
+                        storyId: data.storyId,
+                        sceneId: createdScene!.id,
+                        content: content,
+                        voice: data.narrationVoice!,
+                    },
+                })
+            } else {
+                await orchestrationClient.send({
+                    name: 'finish.story',
+                    data: { storyId: data.storyId, ownerId: data.ownerId },
+                })
+            }
+        } else {
+            await cacheClient.set(
+                `${data.length.name.toLowerCase()}:scene:${data.storyId}:${data.sceneNumber}:summary`,
+                summary,
+            )
+            await orchestrationClient.send({
+                name: 'create.scene',
+                data: { ...data, sceneNumber: data.sceneNumber + 1 },
+            })
         }
 
         return { status: 'initiated' }
