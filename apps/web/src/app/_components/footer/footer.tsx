@@ -48,7 +48,7 @@ export function Footer() {
                     </div>
 
                     <div className="mt-2 ml-2">
-                        &copy; Poes Pursuits LLC 2025. All rights reserved.
+                        &copy; 2025 Poes Pursuits LLC. All rights reserved.
                     </div>
                     <ProductHuntBanner />
                 </div>
