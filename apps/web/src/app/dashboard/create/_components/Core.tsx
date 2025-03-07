@@ -32,7 +32,7 @@ import { CreateStoryTour } from './CreateStoryTour'
 
 export const CreateStoryCore = (props: {
     storyData: TStoryInitialState
-    userHasPremiumSubscription: boolean
+    userHasPass: boolean
     items: {
         genres: TItemInput[]
         themes: TItemInput[]
@@ -118,9 +118,7 @@ export const CreateStoryCore = (props: {
                             }
                             includeNarration={props.storyData.includeNarration}
                             handleInputChange={props.handleInputChange}
-                            userHasPremiumSubscription={
-                                props.userHasPremiumSubscription
-                            }
+                            userHasPass={props.userHasPass}
                         />
                     </div>
                 </CardContent>

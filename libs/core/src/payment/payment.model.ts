@@ -4,31 +4,24 @@ import { z } from 'zod'
 export enum ProductTypeEnum {
     Credits10Pack = 'Credits10Pack',
     Credits20Pack = 'Credits20Pack',
-    Credits50Pack = 'Credits50Pack',
-    CasualSubscription = 'CasualSubscription',
-    PremiumSubscription = 'PremiumSubscription',
+    CreatorPass = 'CreatorPass',
 }
 
 export enum PriceIdToProductTypeEnum {
     // dev
-    'price_1QStaQLZGjrJKEOlBhU4C3BM' = ProductTypeEnum.CasualSubscription,
-    'price_1QlycXLZGjrJKEOlrQtfZv8H' = ProductTypeEnum.PremiumSubscription,
+    'price_1QztaJLZGjrJKEOl7NwyzbCz' = ProductTypeEnum.CreatorPass,
     // prod
-    'price_1Qnl8YLZGjrJKEOlz03SpdfU' = ProductTypeEnum.CasualSubscription,
-    'price_1QnlAkLZGjrJKEOl6ReGjaJ2' = ProductTypeEnum.PremiumSubscription,
+    'price_1QztXcLZGjrJKEOl6BgnrMNz' = ProductTypeEnum.CreatorPass,
 }
 
 export const subscriptionSet = new Set<ProductTypeEnum>([
-    ProductTypeEnum.CasualSubscription,
-    ProductTypeEnum.PremiumSubscription,
+    ProductTypeEnum.CreatorPass,
 ])
 
 export enum CreditCountEnum {
     Credits10Pack = 10,
     Credits20Pack = 20,
-    Credits50Pack = 50,
-    CasualSubscription = 10,
-    PremiumSubscription = 30,
+    CreatorPass = 25,
 }
 
 export const ZStripeMetadata = z.object({

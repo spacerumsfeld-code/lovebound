@@ -26,8 +26,7 @@ export const CreateStoryView = (props: {
     const defaultLength = props.items.lengths.find(
         (length) => length.name === StoryLengthEnum.Mini,
     )!
-    const userHasPremiumSubscription =
-        props.currentSubscriptionType === ProductTypeEnum.PremiumSubscription
+    const userHasPass = Boolean(props.currentSubscriptionType)
     const [storyData, setStoryData] = useState<TStoryInitialState>(
         createInitialStoryState(defaultLength),
     )
@@ -192,7 +191,7 @@ export const CreateStoryView = (props: {
                 handleInputChange={handleInputChange}
                 handleItemCardClick={handleItemCardClick}
                 handleSceneChange={handleSceneChange}
-                userHasPremiumSubscription={userHasPremiumSubscription}
+                userHasPass={userHasPass}
                 getSceneNumberForSelection={getSceneNumberForSelection}
                 removeSelectionFromScene={removeSelectionFromScene}
             />

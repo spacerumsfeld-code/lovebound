@@ -13,18 +13,10 @@ export const ProductIdEnum: Record<ProductTypeEnum, string> = {
         Resource.Environment.value === 'production'
             ? 'price_1Qnl8qLZGjrJKEOlqJv3ON88'
             : 'price_1QSthLLZGjrJKEOlrABFyIR7',
-    [ProductTypeEnum.Credits50Pack]:
+    [ProductTypeEnum.CreatorPass]:
         Resource.Environment.value === 'production'
-            ? 'price_1Qnl8sLZGjrJKEOl4FE2CCYX'
-            : 'price_1QStjoLZGjrJKEOlooXjFf8m',
-    [ProductTypeEnum.CasualSubscription]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl8YLZGjrJKEOlz03SpdfU'
-            : 'price_1QStaQLZGjrJKEOlBhU4C3BM',
-    [ProductTypeEnum.PremiumSubscription]:
-        Resource.Environment.value === 'production'
-            ? 'price_1Qnl9yLZGjrJKEOlwWg8pKdG'
-            : 'price_1QlycXLZGjrJKEOlrQtfZv8H',
+            ? 'price_1QztXcLZGjrJKEOl6BgnrMNz'
+            : 'price_1QztaJLZGjrJKEOl7NwyzbCz',
 }
 
 const stripe = new Stripe(Resource.StripeSecretKey.value, {

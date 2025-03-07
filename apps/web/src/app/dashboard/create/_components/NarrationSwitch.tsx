@@ -10,19 +10,18 @@ import { StoryLengthEnum } from '@client-types/item/item.model'
 export const NarrationSwitch = (props: {
     includeNarration: boolean
     storyLength: StoryLengthEnum
-    userHasPremiumSubscription: boolean
+    userHasPass: boolean
     handleInputChange: (field: string, value: string | boolean) => void
 }) => {
     // *State
     const isMiniStory = props.storyLength === StoryLengthEnum.Mini
-    const shouldRenderTooltip =
-        !isMiniStory || !props.userHasPremiumSubscription
+    const shouldRenderTooltip = !isMiniStory || !props.userHasPass
 
     // *Render
     const tooltipContent = !isMiniStory
         ? 'Audio narration only enabled for mini stories'
-        : !props.userHasPremiumSubscription
-          ? 'Narration only enabled for premium subscriptions'
+        : !props.userHasPass
+          ? 'Narration only enabled for Creator Pass'
           : ''
 
     return (
@@ -40,10 +39,7 @@ export const NarrationSwitch = (props: {
                                         checked,
                                     )
                                 }
-                                disabled={
-                                    !isMiniStory ||
-                                    !props.userHasPremiumSubscription
-                                }
+                                disabled={!isMiniStory || !props.userHasPass}
                             />
                             <Label htmlFor="narration">Enable narration</Label>
                         </div>
@@ -58,9 +54,7 @@ export const NarrationSwitch = (props: {
                         onCheckedChange={(checked) =>
                             props.handleInputChange('includeNarration', checked)
                         }
-                        disabled={
-                            !isMiniStory || !props.userHasPremiumSubscription
-                        }
+                        disabled={!isMiniStory || !props.userHasPass}
                     />
                     <Label htmlFor="narration">Enable narration</Label>
                 </div>

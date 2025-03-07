@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { getCurrentSubscriptionType } from '../../data'
-import { ProductTypeEnum } from '@client-types/payment/payment.model'
 import { SITE_MAP } from 'src/constants'
 import { Sparkles } from 'lucide-react'
 
@@ -12,14 +11,10 @@ export const SubscriptionCTAAsync = async () => {
     let ctaText
     switch (currentSubscriptionType) {
         case null:
-            ctaText = 'Upgrade to a subscription'
+            ctaText = 'Get a Creator Pass for more features'
             break
-        case ProductTypeEnum.CasualSubscription:
-            ctaText = 'Upgrade to Premium Subscription'
-            break
-        case ProductTypeEnum.PremiumSubscription:
-            ctaText = 'Current subscription: Premium'
-            break
+        default:
+            ctaText = 'Creator Pass active'
     }
 
     return (

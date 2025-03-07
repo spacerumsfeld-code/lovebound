@@ -29,33 +29,21 @@ const plans: Array<Plan> = [
         href: '/dashboard/create',
     },
     {
-        id: 'Plan.Casual',
-        name: 'Casual',
-        price: 6.95,
+        id: 'Plan.CreatorPass',
+        name: 'Creator Pass',
+        price: 7.95,
         subText: '/month',
         currency: '$',
         features: [
             'Fullfill your fantasies for the price of a Starbucks mocha/month',
-            '10 credits/month',
-            'Basic email and chat support',
-        ],
-        buttonText: 'Get Casual',
-        href: '/dashboard/create',
-    },
-    {
-        id: 'Plan.Premium',
-        name: 'Premium',
-        price: 19.95,
-        subText: '/month',
-        currency: '$',
-        features: [
-            '30 credits/month @maximum savings',
+            '25 credits/month',
             'Audio narration',
-            'Novella-length stories',
-            'Early access to new features',
-            'Personalized email and chat support',
+            'Custom story covers',
+            'Access to our longest story lengths (novels coming!)',
+            'Personalized customer support',
+            'Early access to new features and updates',
         ],
-        buttonText: 'Get Premium',
+        buttonText: 'Subscribe',
         href: '/dashboard/create',
     },
 ]
@@ -76,15 +64,15 @@ export const Pricing = () => {
                 </h2>
                 <p className="max-w-md mx-auto text-base text-center text-neutral-600 dark:text-neutral-300 mt-4">
                     Our pricing is designed to be flexible and simple. Pay as
-                    you go with no obligation or subscribe to a plan for a
-                    discounted rate. All plans can be cancelled at any time.
+                    you go with no obligation or get a pass to access all
+                    features. Cancel anytime.
                 </p>
             </>
 
             <div
                 className={cn(
-                    'mx-auto grid grid-cols-1 gap-4  mt-20 ',
-                    'max-w-7xl mx-auto  md:grid-cols-2 xl:grid-cols-3',
+                    'mx-auto grid grid-cols-1 gap-4 mt-20',
+                    'max-w-7xl mx-auto md:grid-cols-2',
                 )}
             >
                 {plans.map((tier) => {

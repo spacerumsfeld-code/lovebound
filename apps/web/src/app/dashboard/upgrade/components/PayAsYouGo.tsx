@@ -33,7 +33,7 @@ export const PayAsYouGo = () => {
                             <CardDescription>Mini Topup</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">$10</p>
+                            <p className="text-3xl font-bold">$9.95</p>
                             <ul className="mt-4 space-y-2">
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
@@ -60,7 +60,7 @@ export const PayAsYouGo = () => {
                             <CardDescription>Standard Topup</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">$20</p>
+                            <p className="text-3xl font-bold">$19.90</p>
                             <ul className="mt-4 space-y-2">
                                 <li className="flex items-center gap-2">
                                     <Check className="h-4 w-4 text-green-500" />
@@ -75,33 +75,6 @@ export const PayAsYouGo = () => {
                         <CardFooter>
                             <PurchaseButton
                                 product={ProductTypeEnum.Credits10Pack}
-                            />
-                        </CardFooter>
-                    </Card>
-
-                    <Card className="relative overflow-hidden border-2">
-                        <CardHeader>
-                            <CardTitle className="text-2xl font-bold">
-                                50 Credits
-                            </CardTitle>
-                            <CardDescription>Power Pack</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-3xl font-bold">$50</p>
-                            <ul className="mt-4 space-y-2">
-                                <li className="flex items-center gap-2">
-                                    <Check className="h-4 w-4 text-green-500" />
-                                    <span>Never expire</span>
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <Check className="h-4 w-4 text-green-500" />
-                                    <span>Infinite Rollover</span>
-                                </li>
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                            <PurchaseButton
-                                product={ProductTypeEnum.Credits50Pack}
                             />
                         </CardFooter>
                     </Card>

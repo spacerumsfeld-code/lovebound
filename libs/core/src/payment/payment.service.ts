@@ -56,7 +56,7 @@ class PaymentService {
          * We coalesce to '3' because the only occasion where we've made it this far
          * and there is no user is on initial sign up (the clerk webhook moves slow).
          */
-        return user?.[0]?.credits ?? 3
+        return user?.[0]?.credits ?? 10
     }
 
     public async checkIfUserExistsInStripe({ email }: { email: string }) {
